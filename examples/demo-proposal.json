@@ -1,0 +1,31 @@
+{
+  "title": "DEMO — Garage Exterior Side-Entry Door",
+  "revision": "REV 1 TEST",
+  "projectRef": "synthetic-garage-demo",
+  "scope": "Install budget exterior garage side door and adjacent light switch. Verify framing, electrical panel clearance, permits and site specifics.",
+  "terms": "Illustrative pricing only. Site measurements, materials, labor, construction approval and written cost-plus contract must be reviewed and signed before work.",
+  "location": "Prescott Valley, AZ",
+  "customerName": "Demo Customer",
+  "mode": "cost_plus",
+  "direct": 3005,
+  "contingency": 300.5,
+  "fee": 495.83,
+  "total": 3801.33,
+  "items": [
+    {
+      "label": "Door and building material allowance",
+      "amount": 1230
+    },
+    {
+      "label": "Installation labor",
+      "amount": 1200
+    },
+    {
+      "label": "Electrical and permit allowance",
+      "amount": 575
+    }
+  ],
+  "demo": true,
+  "expiresInDays": 7,
+  "photos": []
+}

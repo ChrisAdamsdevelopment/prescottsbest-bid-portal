@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: prescottsbest-bid-portal
+    runtime: node
+    branch: main
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    disk:
+      name: pbc-portal-storage
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /data/pbc-portal
+      - key: PORTAL_ADMIN_KEY
+        sync: false
