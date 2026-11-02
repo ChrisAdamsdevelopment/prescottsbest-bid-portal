@@ -43,6 +43,23 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const logo=await fetch(rootURL+'/site-assets/pbc-logo.webp');
   assert.equal(logo.status,200);
   assert.equal(logo.headers.get('content-type'),'image/webp');
+  const brandAssets=[
+   ['favicon.ico','image/x-icon'],['favicon-16x16.png','image/png'],
+   ['favicon-32x32.png','image/png'],['apple-touch-icon.png','image/png'],
+   ['icon-192.png','image/png'],['icon-512.png','image/png'],
+   ['pbc-social-card.jpg','image/jpeg'],['site.webmanifest','application/manifest+json; charset=utf-8']];
+  for(const [name,mime] of brandAssets){
+   const response=await fetch(rootURL+'/site-assets/'+name);
+   assert.equal(response.status,200,name+' is available');
+   assert.equal(response.headers.get('content-type'),mime,name);
+   assert.ok((await response.arrayBuffer()).byteLength>100,name+' has content');
+  }
+  assert.match(home.body,/site-assets\/favicon\.ico/);
+  assert.match(home.body,/site-assets\/apple-touch-icon\.png/);
+  assert.match(home.body,/property="og:image"/);
+  assert.match(home.body,/site-assets\/pbc-social-card\.jpg/);
+  assert.match(home.body,/class="mobile-menu"/);
+  assert.match(home.body,/class="desktop-nav"/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/RESEARCH DEMONSTRATION/i);

@@ -24,6 +24,8 @@ const consultLink=button('Request a consultation','/schedule','outline');
 const reviewLink='<a href="'+maps+'" target="_blank" rel="noopener noreferrer">Read customer reviews directly on Google Maps</a>';
 const logo='<img class="site-logo" src="/site-assets/pbc-logo.webp" alt="Prescott’s Best Construction badge — remodel and finish carpentry" width="120" height="85"/>';
 const trust='<div class="trust-line"><span>Prescott Valley & the greater Prescott area</span><span>Arizona ROC #343141</span><span>Direct, hands-on residential remodeling</span></div>';
+const navLinks=[['/bathroom-remodeling','Bathrooms'],['/kitchen-remodeling','Kitchens'],['/start-here','Plan a project'],['/estimate','Budget tool'],['/projects','Our work'],['/resources','Guides'],['/schedule','Contact']];
+const navEntries=navLinks.map(([href,label])=>'<a href="'+link(href)+'">'+label+'</a>').join('');
 function cards(rows,key='service'){
  return '<div class="site-card-grid">'+rows.map(s=>'<article class="site-card"><div class="site-card-icon">'+esc(key==='service'?s.icon:'GUIDE')+'</div><h3>'+esc(s.name)+'</h3><p>'+esc(s.desc)+'</p><a href="'+link(s.path)+'">Learn more <span aria-hidden="true">→</span></a></article>').join('')+'</div>';
 }
@@ -110,16 +112,34 @@ export function marketingPage(path,options={}){
  const {title,description,body}=page();
  const published=options.indexable===true&&typeof options.origin==='string'&&options.origin.startsWith('https://');
  const canonical=published?options.origin.replace(/\/$/,'')+(options.cleanPaths===true?(suffix==='/'?'/':suffix):link(suffix)):null;
+ const shareOrigin='https://prescottsbestremodeling.com';
+ const shareUrl=shareOrigin+(suffix==='/'?'/':suffix);
  const schema={"@context":"https://schema.org","@type":"GeneralContractor",name:"Prescotts Best Construction",
  telephone:"+1-928-350-0940",email:contact,areaServed:[{ "@type":"City",name:"Prescott Valley"},{ "@type":"City",name:"Prescott"}],
- url:canonical||'https://www.prescottsbestconstruction.com/',image:canonical?options.origin+'/site-assets/pbc-logo.webp':undefined,
+ url:options.cleanPaths===true?shareUrl:'https://www.prescottsbestconstruction.com/',image:shareOrigin+'/site-assets/pbc-logo.webp',
  hasCredential:{"@type":"EducationalOccupationalCredential",credentialCategory:"Arizona Registrar of Contractors License #343141"}};
  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><meta name="description" content="'+esc(description)+'">'+
  (published?'<link rel="canonical" href="'+esc(canonical)+'">':'<meta name="robots" content="noindex,nofollow">')+
- '<meta name="theme-color" content="#172f2c"><link rel="stylesheet" href="/marketing.css"><script defer src="/marketing.js"></script>'+
+ '<meta name="theme-color" content="#17231c"><meta name="color-scheme" content="light">'+
+ '<link rel="icon" href="/site-assets/favicon.ico" sizes="any">'+
+ '<link rel="icon" type="image/png" sizes="32x32" href="/site-assets/favicon-32x32.png">'+
+ '<link rel="icon" type="image/png" sizes="16x16" href="/site-assets/favicon-16x16.png">'+
+ '<link rel="apple-touch-icon" sizes="180x180" href="/site-assets/apple-touch-icon.png">'+
+ '<link rel="manifest" href="/site-assets/site.webmanifest">'+
+ '<meta property="og:type" content="website"><meta property="og:site_name" content="Prescott’s Best Construction">'+
+ '<meta property="og:title" content="'+esc(title)+'"><meta property="og:description" content="'+esc(description)+'">'+
+ '<meta property="og:url" content="'+esc(shareUrl)+'"><meta property="og:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
+ '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'+
+ '<meta property="og:image:alt" content="Prescott’s Best Construction official gold badge and remodeling message">'+
+ '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
+ '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
+ '<link rel="stylesheet" href="/marketing.css"><script defer src="/marketing.js"></script>'+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script></head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
- '<nav aria-label="Main navigation"><a href="'+link('/bathroom-remodeling')+'">Bathrooms</a><a href="'+link('/kitchen-remodeling')+'">Kitchens</a><a href="'+link('/start-here')+'">Plan a project</a><a href="'+link('/estimate')+'">Budget tool</a><a href="'+link('/projects')+'">Our work</a><a href="'+link('/resources')+'">Guides</a><a href="'+link('/schedule')+'">Contact</a></nav><a class="header-phone" href="tel:+19283500940">Call (928) 350-0940</a></header>'+
+ '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
+ '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+
+ '<a href="'+link('/about')+'">About us</a><a href="'+link('/concierge')+'">Project concierge</a></nav></details>'+
+ '<a class="header-phone" href="tel:+19283500940">Call (928) 350-0940</a></header>'+
  '<main id="site-main">'+body+'</main><div class="mobile-actions" aria-label="Quick actions"><a href="tel:+19283500940">Call us</a><a href="'+link('/estimate')+'">Budget example</a><a href="'+link('/schedule')+'">Contact</a></div><footer class="site-footer"><div class="footer-grid"><div>'+logo+'<h2>Prescott’s Best Construction</h2><p>Practical planning, thoughtful craftsmanship and clear communication.</p></div><div><h3>Homeowner tools</h3>'+linkText('Project budget explorer','/estimate')+linkText('Request a conversation','/schedule')+linkText('Remodeling guides','/resources')+linkText('Smaller projects','/concierge')+linkText('Privacy','/privacy')+linkText('Accessibility','/accessibility')+'</div><div><h3>Reach us</h3><a href="tel:+19283500940">(928) 350-0940</a><a href="mailto:'+contact+'">'+contact+'</a><span>Prescott Valley, Arizona</span><span>AZ ROC #343141</span><a href="'+maps+'" target="_blank" rel="noopener">Verified Google reviews</a></div></div><p class="footer-disclosure">Website preview. Preliminary calculator numbers are unapproved research illustrations, not company quotes. Project-specific pricing and work require site evaluation and an appropriate written agreement.</p></footer></body></html>';
 }
 export function sitemapPaths(){return routenames.filter(k=>k!=='/contact').map(k=>link(k))}

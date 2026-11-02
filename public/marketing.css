@@ -75,3 +75,52 @@
  .mobile-actions a{display:flex;align-items:center;justify-content:center;text-align:center;background:#1c3a32;color:#fff;min-height:52px;border-radius:6px;font-size:14px;font-weight:800;padding:6px;text-decoration:none}
  .mobile-actions a:nth-child(2){background:#ebede0;color:#1c3a32}
 }
+
+/* Brand identity refinement: authentic PBC gold/black badge and compact responsive navigation. */
+:root{--forest:#202e23;--gold:#e9a52f;--ink:#232e25;--soft:#435745;--muted:#57695d}
+.site-header{background:#fffdf6;border-bottom:2px solid #e4ddc9}
+.site-hero{background:linear-gradient(112deg,#f6f0e2 3%,#fffcf4 63%,#f0e3c5 100%)}
+.hero-mark{background:#1d271e;box-shadow:14px 16px 0 #e0b65739}
+.site-button.primary,.header-phone{background:#202e23}
+.site-button.primary:hover,.header-phone:hover{background:#101d14;filter:none}
+.site-logo{object-fit:contain}
+.site-header .desktop-nav{display:flex;gap:clamp(8px,1.5vw,20px);align-items:center;flex-wrap:nowrap}
+.site-header .desktop-nav a{white-space:nowrap}
+.site-header .mobile-menu{display:none}
+.site-header .mobile-menu summary{cursor:pointer;list-style:none;border:2px solid #233e2d;background:#fffaf0;border-radius:9px;padding:11px 18px;font-size:16px;font-weight:800;min-height:48px;display:flex;align-items:center;gap:12px}
+.site-header .mobile-menu summary::-webkit-details-marker{display:none}
+.site-header .mobile-menu summary:before{content:"☰";font-size:21px;line-height:1}
+.site-header .mobile-menu[open] summary:before{content:"×";font-size:24px}
+.site-header .mobile-menu summary:focus-visible{outline:3px solid #af801d;outline-offset:3px}
+@media(max-width:1100px){
+ .site-header{gap:14px}
+ .site-header .desktop-nav{display:none}
+ .site-header .mobile-menu{display:block;position:relative;margin-left:auto}
+ .site-header .mobile-menu nav{position:absolute;z-index:50;right:0;top:calc(100% + 8px);min-width:265px;max-width:calc(100vw - 24px);display:flex;flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:0;width:max-content;padding:9px;background:#fffdf7;border:1px solid #d4d7c6;box-shadow:0 16px 28px #152c1d2b;border-radius:10px;overflow:visible;order:initial}
+ .site-header .mobile-menu nav a{padding:13px 14px;min-height:48px;display:flex;align-items:center;border-bottom:1px solid #e6e8dc;font-size:16px}
+ .site-header .mobile-menu nav a:last-child{border-bottom:0}
+ .site-header .mobile-menu nav a:hover{background:#f4ecd9;text-decoration:none}
+}
+@media(max-width:720px){
+ .site-header{flex-wrap:nowrap;padding:8px 14px}
+ .site-brand{font-size:16px;min-width:0;max-width:calc(100% - 108px)}
+ .site-brand .site-logo{width:70px;height:54px}
+ .site-brand small{font-size:9px;letter-spacing:.1em}
+ .site-header .mobile-menu{order:initial;flex:none}
+ .site-header .mobile-menu nav{right:0;top:calc(100% + 8px)}
+}
+
+.budget-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:5px 0}
+.budget-tools .site-button{font-size:15px;min-height:48px}
+@media print{
+ body{background:#fff;color:#000;font-size:12pt}
+ .site-header,.mobile-actions,.site-footer,.site-cta,.budget-form,.budget-tools,.site-band{display:none!important}
+ .site-pagehead{background:#fff;padding:0 0 12pt}
+ .site-pagehead h1{font-size:24pt}
+ .site-section{padding:8pt 0;margin:0}
+ .estimator-wrap{display:block}
+ #budget-result{display:block;border:0;box-shadow:none;padding:0;background:#fff}
+ #budget-result .site-button{display:none}
+ .preview-warning{margin:12pt 0;max-width:none;page-break-inside:avoid}
+ a{color:#000;text-decoration:underline}
+}

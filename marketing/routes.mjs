@@ -27,7 +27,17 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  const staticPaths={
  '/marketing.css':['public/marketing.css','text/css; charset=utf-8'],
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
- '/site-assets/pbc-logo.webp':['public/site-assets/pbc-logo.webp','image/webp']
+ '/site-assets/pbc-logo.webp':['public/site-assets/pbc-logo.webp','image/webp'],
+ '/site-assets/pbc-social-card.jpg':['public/site-assets/pbc-social-card.jpg','image/jpeg'],
+ '/site-assets/favicon.ico':['public/site-assets/favicon.ico','image/x-icon'],
+ '/favicon.ico':['public/site-assets/favicon.ico','image/x-icon'],
+ '/site-assets/favicon-16x16.png':['public/site-assets/favicon-16x16.png','image/png'],
+ '/site-assets/favicon-32x32.png':['public/site-assets/favicon-32x32.png','image/png'],
+ '/site-assets/favicon-48x48.png':['public/site-assets/favicon-48x48.png','image/png'],
+ '/site-assets/apple-touch-icon.png':['public/site-assets/apple-touch-icon.png','image/png'],
+ '/site-assets/icon-192.png':['public/site-assets/icon-192.png','image/png'],
+ '/site-assets/icon-512.png':['public/site-assets/icon-512.png','image/png'],
+ '/site-assets/site.webmanifest':['public/site-assets/site.webmanifest','application/manifest+json; charset=utf-8']
  };
  if(staticPaths[path]){
   const [file,type]=staticPaths[path];

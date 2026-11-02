@@ -33,7 +33,18 @@ if(element){
    try{sessionStorage.setItem('pbc_budget_draft',JSON.stringify({project:data.project,range:money(data.costPlus.low)+' – '+money(data.costPlus.high),inputs:data.inputs,version:data.version}));}catch{}
    const next=document.createElement('a');next.className='site-button primary';next.href=siteBase+'/schedule';
    next.textContent='Discuss my project with a contractor';
-   target.replaceChildren(head,modes,expl,warning,next);
+   const tools=document.createElement('div');tools.className='budget-tools site-actions';
+   const printable=document.createElement('button');printable.className='site-button outline';printable.type='button';
+   printable.textContent='Print / save this example';
+   printable.addEventListener('click',()=>window.print());
+   const copy=document.createElement('button');copy.className='site-button outline';copy.type='button';copy.textContent='Copy budget summary';
+   copy.addEventListener('click',async()=>{
+    const summary=[data.project,'Direct-cost example: '+range.textContent,'Fixed-price example: '+money(data.fixed.low)+' – '+money(data.fixed.high),'Cost-plus example: '+money(data.costPlus.low)+' – '+money(data.costPlus.high),data.disclaimer].join('\n');
+    try{await navigator.clipboard.writeText(summary);copy.textContent='Copied';}
+    catch{copy.textContent='Use Print / save instead';}
+   });
+   tools.append(printable,copy);
+   target.replaceChildren(head,modes,expl,warning,tools,next);
   }catch(err){status.textContent='Could not calculate this example: '+err.message;}
  });
 }
