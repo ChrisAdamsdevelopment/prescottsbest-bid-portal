@@ -20,7 +20,7 @@ Image snapshots are supported via photos: [{kind: after, label, mimeType: image/
 Connect GitHub private repository ChrisAdamsdevelopment/prescottsbest-bid-portal as a Node Web Service, branch main.
 Build: npm ci. Start: npm start. Health: /healthz. Set NODE_ENV=production.
 Add a persistent disk mounted at /data, set DATA_DIR=/data/pbc-portal; store a 32+ character PORTAL_ADMIN_KEY as a Render secret.
-The included render.yaml is a NEW-SERVICE Blueprint; connecting it to an **existing** Render service does not necessarily apply the Blueprint disk/settings. Verify manually.
+The included render.yaml is a NEW-SERVICE Blueprint (GitHub CI checks must pass before automatic redeploy); connecting it to an **existing** Render service does not necessarily apply the Blueprint disk/settings. Verify manually.
 Never point the suspended/current SpectraCleanse service to this repository without a backup of its files, users, database, Stripe settings and environment.
 Once verified, optional customer portal address: bids.prescottsbestconstruction.com. Wix stays the public marketing site.
 

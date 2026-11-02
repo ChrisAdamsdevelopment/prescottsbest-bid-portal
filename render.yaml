@@ -3,11 +3,11 @@ services:
     name: prescottsbest-bid-portal
     runtime: node
     branch: main
-    plan: starter
+    plan: 0.5c-512mb
     buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /healthz
-    autoDeployTrigger: commit
+    autoDeployTrigger: checksPass
     disk:
       name: pbc-portal-storage
       mountPath: /data

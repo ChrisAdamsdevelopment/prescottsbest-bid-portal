@@ -66,6 +66,14 @@ test('private proposal deployment flow and isolation',async()=>{
   await launch();
   const persisted=await request('/api/current','GET',null,{Cookie:cookie});
   assert.equal(persisted.body.proposal.status,'customer_reviewed');
+  const nextRev=await request('/api/admin/publish','POST',{...demo,revision:'REV 2 TEST',photos:[]},auth);
+  assert.equal(nextRev.status,201);
+  const oldAfterRevision=await request('/api/current','GET',null,{Cookie:cookie});
+  assert.equal(oldAfterRevision.status,401);
+  const newInvite=await request('/api/open','POST',{token:nextRev.body.linkFragment.split('/').at(-1)});
+  assert.equal(newInvite.status,200);
+  const newPage=await request('/api/current','GET',null,{Cookie:newInvite.cookie.split(';')[0]});
+  assert.equal(newPage.body.proposal.revision,'REV 2 TEST');
   const revoked=await request('/api/admin/revoke','POST',{id:created.body.id},auth);
   assert.equal(revoked.status,200);
   const invalidated=await request('/api/current','GET',null,{Cookie:cookie});
