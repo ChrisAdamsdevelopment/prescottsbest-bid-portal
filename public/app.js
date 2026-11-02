@@ -43,7 +43,7 @@ function display(d){
  table.append(body);add(cost,table);
  const total=el('div','total');add(total,el('span','','Estimated total'),el('span','',money(p.total)));cost.append(total);
  if(p.mode==='cost_plus')cost.append(el('p','small','Actual cost-plus billing is governed by the signed agreement and documented costs. This is the current planning estimate.'));
- add(columns,scope,cost);root.append(columns);
+ add(columns,scope,cost);root.append(columns);const pilot=garagePilot(d);if(pilot)root.append(pilot);
  const response=section('Questions and approval'),badge=el('p','chip','Status: '+p.status.replaceAll('_',' '));
  add(response,badge,el('p','small','Ask questions or request a clarification. Any change to scope or price requires a new proposal revision.'));
  const question=el('textarea');question.maxLength=850;question.placeholder='Your question or requested change...';
@@ -80,3 +80,67 @@ async function start(){
  setInterval(async()=>{if(current)try{const updated=await api('current');if(updated.proposal.status!==current.proposal.status)display(updated)}catch{}},12000);
 }
 start();
+
+// Next pilot: interactive options for the original garage door REV 2 test.
+
+function garagePilot(d){
+ const p=d.proposal;
+ if(!p.demo||p.projectRef!=='synthetic-garage-rev2-interactive-pilot')return null;
+ const groups=[
+  {title:'Exterior door',choices:[['Original six-panel steel door',0],['Smooth insulated steel door — hypothetical upgrade',240]]},
+  {title:'Entry hardware',choices:[['Original keyed lockset and deadbolt',0],['Keypad entry lock — hypothetical upgrade',175]]}
+ ];
+ const panel=section('Compare your garage door options');
+ panel.classList.add('configurator');
+ panel.append(el('p','scope','This starts with the same 11-line REV 2 garage door and light-switch test proposal and its original finished-view concept.'));
+ panel.append(el('p','notice','REV 2 base estimate: $3,801.33. Alternative upgrade prices are NEW SYNTHETIC test assumptions, not approved product prices or the emailed proposal.'));
+ const columns=el('div','config-layout'),left=el('div','config-choices'),right=el('aside','config-summary');
+ const selected=[0,0];
+ for(let gi=0;gi<groups.length;gi++){
+  const g=groups[gi],field=el('fieldset','option-group');field.append(el('legend','',g.title));
+  g.choices.forEach(([name,cost],ci)=>{
+   const label=el('label','option-tile'),radio=el('input'),words=el('span','option-text');
+   radio.type='radio';radio.name='garage-'+gi;radio.checked=ci===0;
+   words.append(el('strong','',name),el('small','',cost?'Test direct-cost change: +'+money(cost):'Already included'));
+   label.append(radio,words);field.append(label);
+   radio.addEventListener('change',()=>{selected[gi]=ci;recompute()});
+  });left.append(field);
+ }
+ const summary=el('div','config-totals'),button=el('button','','Send my preferred choices for review'),status=el('p','status');
+ right.append(el('p','eyebrow','COST-PLUS COMPARISON'),summary,button,status);
+
+ function recompute(){
+  const direct=groups.reduce((sum,g,i)=>sum+g.choices[selected[i]][1],0);
+  const reserve=Math.round(direct*10)/100;
+  const fee=Math.round((direct+reserve)*15)/100;
+  const delta=Math.round((direct+reserve+fee)*100)/100;
+  const projected=Math.round((p.total+delta)*100)/100;
+  summary.replaceChildren();
+  for(const [label,value] of [
+   ['Original emailed REV 2',p.total],['Optional direct-cost change',direct],
+   ['10% additional planning reserve',reserve],['15% additional fee',fee],['Demo projected total',projected]]){
+   const line=el('div','config-row');line.append(el('span','',label),el('strong','',money(value)));summary.append(line);
+  }
+  summary.append(el('p','small','Illustrative forecast only—not a fixed bid, supplier quote, purchase authorization, or final cost-plus invoice.'));
+  return {direct,reserve,fee,delta,projected};
+ }
+ button.disabled=p.status!=='sent';
+ button.onclick=async()=>{
+  const values=recompute();
+  const selections=groups.map((g,i)=>g.title+': '+g.choices[selected[i]][0]).join('; ');
+  const message='REV 2 INTERACTIVE TEST — preferred choices: '+selections+
+   '. Demo direct-cost difference '+money(values.direct)+
+   ', reserve '+money(values.reserve)+', fee '+money(values.fee)+
+   ', projected total '+money(values.projected)+
+   '. Please review before issuing a new revision; original REV 2 remains unchanged.';
+  button.disabled=true;status.textContent='Recording selection request…';
+  try{
+   await api('question',{message},d.csrf);
+   status.textContent='Saved for contractor review. Your original REV 2 is unchanged.';
+  }catch(e){status.textContent='Could not save preferences: '+e.message}
+  finally{button.disabled=p.status!=='sent'}
+ };
+ recompute();
+ columns.append(left,right);panel.append(columns);
+ return panel;
+}

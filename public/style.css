@@ -38,3 +38,24 @@ label.check input{margin-top:5px}
 .small{font-size:12px;color:#71838a;line-height:1.6}
 footer{background:#e8eeec;padding:25px clamp(18px,5vw,68px);display:flex;justify-content:space-between;gap:20px;color:#658087;font-size:11px}
 @media(max-width:760px){.main{padding:26px 16px 70px}.hero,.two{grid-template-columns:1fr}.top{padding:13px 16px}.private{font-size:8px}.brand strong{font-size:10px}.brand small{font-size:7px}.card{padding:18px}footer{flex-direction:column}.photos{grid-template-columns:1fr}.photo img{height:auto;max-height:390px}}
+
+/* REV 2 interactive option cards, illustrative only. */
+.configurator{border:1px solid #d9c7a9;background:#fffdfa;margin-top:30px}
+.config-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(270px,.8fr);gap:24px;margin-top:22px}
+.config-choices{display:grid;gap:18px;align-content:start}
+.option-group{border:1px solid #d9e0d9;border-radius:14px;padding:14px 16px;min-width:0}
+.option-group legend{padding:0 10px;font-size:16px;font-weight:800;color:#254432}
+.option-tile{display:flex;align-items:flex-start;gap:12px;padding:16px 14px;margin:8px 0;border:1px solid #cbd5ce;border-radius:12px;background:#fff;cursor:pointer}
+.option-tile:has(input:checked){border-color:#bc8b3a;background:#fff9eb;box-shadow:0 0 0 1px #bc8b3a}
+.option-tile input{margin-top:4px;accent-color:#28543b}
+.option-text{display:grid;gap:8px;line-height:1.45}
+.option-text strong{color:#203d30;font-size:14px}
+.option-text small{font-size:12px;color:#5a6e60}
+.config-summary{background:#eaf1eb;border:1px solid #cfd9ce;border-radius:14px;padding:21px;align-self:start}
+.config-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #cdddcf;font-size:13px}
+.config-row strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+.config-row:last-of-type{font-size:17px;font-weight:800;border-top:2px solid #1c4830;margin-top:12px}
+.config-summary button{margin:16px 0;width:100%;background:#244c34}
+@media(max-width:780px){.config-layout{grid-template-columns:1fr}.configurator{padding:18px}}
+.portal-badge{width:66px;height:57px;object-fit:contain;flex:none}
+@media(max-width:760px){.portal-badge{width:46px;height:43px}}

@@ -1,0 +1,63 @@
+{
+  "title": "TEST \u2014 Garage Side-Entry Door & Light Switch (REV 2)",
+  "revision": "REV 2 \u2014 INTERACTIVE PILOT",
+  "projectRef": "synthetic-garage-rev2-interactive-pilot",
+  "customerName": "Demo Homeowner",
+  "location": "Prescott Valley, AZ",
+  "scope": "Assume one new side-entry exterior door in garage wall, right of electrical panel and clear of overhead garage door hardware. Protect site; verify wall type, panel working clearance, header and code; remove gypsum/exterior finish, frame structural opening, fit a 36x80 budget prehung steel door, install deadbolt/entry lock, flash and weatherseal, patch interior drywall and exterior cladding; cleanup; town permit review. Exact swing/hand, door route (outdoors vs house), dimensions, load-bearing status and window/wire obstructions are NOT confirmed.",
+  "terms": "COPIED FROM EMAILED TEST REV 2: The base figures are illustrative, not approved construction pricing. Verify site measurements, door handing, framing/header, garage door clearance, panel access, qualified electrician, permit requirements, tax, supplier costs and signed contract before real work. Optional upgrades on the demo interface are NEW hypothetical scenarios, not part of the emailed quote.",
+  "mode": "cost_plus",
+  "direct": 3005,
+  "contingency": 300.5,
+  "fee": 495.83,
+  "total": 3801.33,
+  "items": [
+    {
+      "label": "Basic prehung steel door, 36 x 80 allowance",
+      "amount": 325
+    },
+    {
+      "label": "Keyed entry lockset and deadbolt",
+      "amount": 90
+    },
+    {
+      "label": "Wall framing, rough header / blocking, fasteners",
+      "amount": 170
+    },
+    {
+      "label": "Flashing, sealant, weatherstrip, threshold, trim",
+      "amount": 190
+    },
+    {
+      "label": "Gypsum, compound, tape, texture, primer and paint",
+      "amount": 160
+    },
+    {
+      "label": "Exterior cladding / stucco repair allowance",
+      "amount": 220
+    },
+    {
+      "label": "Cleanup, protection and disposal",
+      "amount": 75
+    },
+    {
+      "label": "Permit / inspection allowance - verify with town",
+      "amount": 225
+    },
+    {
+      "label": "Two workers - 12 hours each (loaded illustrative cost)",
+      "amount": 1200
+    },
+    {
+      "label": "Wall light switch, electrical box, cable and cover allowance",
+      "amount": 75
+    },
+    {
+      "label": "Qualified electrical contractor: switch connection, testing and code review",
+      "amount": 275
+    }
+  ],
+  "photos": [],
+  "demo": true,
+  "expiresInDays": 14
+}
