@@ -82,8 +82,8 @@ async function route(req,res){
  security(res);const path=new URL(req.url,'http://localhost').pathname;
  if(path==='/healthz')return reply(res,200,{status:'ok',service:'pbc-private-portal'});
  if(await maybeServeMarketing(req,res,path,{root,readFile,bad}))return;
- if(req.method==='GET'&&['/','/app.js','/style.css'].includes(path)){
-  const fn=path==='/'?'index.html':path.slice(1),type=path==='/'?'text/html':path.endsWith('.js')?'application/javascript':'text/css';
+ if(req.method==='GET'&&['/','/proposal','/app.js','/style.css'].includes(path)){
+  const fn=path==='/'||path==='/proposal'?'index.html':path.slice(1),type=path==='/'||path==='/proposal'?'text/html':path.endsWith('.js')?'application/javascript':'text/css';
   res.writeHead(200,{'Content-Type':type+'; charset=utf-8','Cache-Control':'no-store'});return res.end(await readFile(join(root,'public',fn)));
  }
  if(!path.startsWith('/api/'))throw bad('Not found',404);

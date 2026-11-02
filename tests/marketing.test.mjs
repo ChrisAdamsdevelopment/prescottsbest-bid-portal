@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
+import {request as httpRequest} from 'node:http';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
@@ -21,6 +22,15 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const type=response.headers.get('content-type')||'';
   return {status:response.status,headers:response.headers,
     body:type.includes('application/json')?await response.json():await response.text()};
+ }
+ async function hostCall(path,host){
+  return await new Promise((resolve,reject)=>{
+   const req=httpRequest(rootURL+path,{headers:{Host:host}},res=>{
+    let data='';res.setEncoding('utf8');
+    res.on('data',s=>data+=s);
+    res.on('end',()=>resolve({status:res.statusCode,body:data,headers:res.headers}));
+   });req.on('error',reject);req.end();
+  });
  }
  try{
   for(let i=0;i<65;i++){try{if((await fetch(rootURL+'/healthz')).ok)break;}catch{}await pause(75);}
@@ -62,6 +72,24 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.equal(staff.body.leads[0].notification.status,'pending');
   assert.equal((await call('/')).status,200);
   assert.match((await call('/')).body,/Private Proposal/);
+  // Domain-aware routing: branded PBC site at the new hostname while legacy
+  // Render hostname continues to serve the original private proposal entry.
+  const custom=await hostCall('/','prescottsbestremodeling.com');
+  const customHtml=custom.body;
+  assert.equal(custom.status,200);
+  assert.match(customHtml,/Bring your remodeling ideas into focus/);
+  assert.match(customHtml,/href="\/estimate"/);
+  assert.match(customHtml,/href="\/"/);
+  assert.doesNotMatch(customHtml,/href="\/remodeling-preview/);
+  assert.match(custom.headers['x-robots-tag'],/noindex/);
+  const customEstimate=await hostCall('/estimate','www.prescottsbestremodeling.com');
+  assert.equal(customEstimate.status,200);
+  assert.match(customEstimate.body,/Research demonstration/i);
+  const customPrivate=await hostCall('/proposal','prescottsbestremodeling.com');
+  assert.equal(customPrivate.status,200);
+  assert.match(customPrivate.body,/Private Proposal/);
+  const customRobots=await hostCall('/robots.txt','prescottsbestremodeling.com');
+  assert.match(customRobots.body,/Disallow: \/\n/);
   assert.equal((await call('/robots.txt')).body,'User-agent: *\nDisallow: /\n');
   console.log('PASS: noindex marketing preview + logo, deterministic budget, fixed-vs-costplus, consent, dedupe, staff-only lead storage and Chris destination');
  }finally{proc.kill();await pause(130);await rm(tmp,{force:true,recursive:true});}
