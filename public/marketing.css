@@ -124,3 +124,45 @@
  .preview-warning{margin:12pt 0;max-width:none;page-break-inside:avoid}
  a{color:#000;text-decoration:underline}
 }
+
+/* Owner-provided concept imagery: visually explicit and never represented as completed projects. */
+.site-card{overflow:hidden}
+.site-card-body{display:flex;flex-direction:column;align-items:flex-start;min-height:180px}
+.site-card-body a{margin-top:auto}
+.concept-card-media{position:relative;margin:-26px -26px 24px;overflow:hidden;background:#e6e5db;aspect-ratio:4/3}
+.concept-card-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.concept-badge{position:absolute;left:12px;bottom:12px;z-index:1;background:rgba(21,38,30,.94);color:#fff;font-size:12px;letter-spacing:.02em;border-radius:5px;font-weight:750;padding:7px 10px}
+.concept-hero.site-hero{position:relative;isolation:isolate;min-height:575px;display:grid;grid-template-columns:minmax(0,690px) 1fr;overflow:hidden;background:#e5dfd2;padding:65px clamp(20px,5vw,80px)}
+.concept-hero .hero-visual{position:absolute;inset:0;z-index:-2;margin:0;overflow:hidden}
+.concept-hero .hero-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:60% center}
+.concept-hero:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(250,248,242,.99) 0%,rgba(250,248,242,.95) 30%,rgba(250,248,242,.70) 48%,rgba(250,248,242,.09) 77%,rgba(250,248,242,.0) 100%);pointer-events:none}
+.concept-hero .hero-copy{position:relative;z-index:1;max-width:690px}
+.concept-hero .hero-copy p{color:#304538}
+.concept-hero .hero-copy .micro{color:#405549!important}
+.concept-hero .hero-mark{display:none}
+.concept-hero .hero-visual figcaption{position:absolute;right:16px;bottom:16px;font-size:13px;color:#fff;background:rgba(22,36,28,.92);padding:8px 12px;border-radius:6px;max-width:260px}
+.service-pagehead{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);align-items:center;gap:clamp(26px,4vw,54px)}
+.service-pagehead-copy{max-width:780px}
+.service-concept{margin:0;min-width:0}
+.service-concept img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:14px;box-shadow:0 16px 40px #223b2b29}
+.service-concept figcaption{font-size:14px;color:#455948;margin-top:11px;line-height:1.5}
+@media(max-width:1050px){
+ .concept-hero.site-hero{min-height:540px}
+ .concept-hero:after{background:linear-gradient(90deg,rgba(250,248,242,.98),rgba(250,248,242,.92) 43%,rgba(250,248,242,.25) 90%)}
+ .service-pagehead{grid-template-columns:1fr}
+ .service-concept{max-width:850px}
+}
+@media(max-width:720px){
+ .concept-hero.site-hero{padding:0;display:flex;flex-direction:column;min-height:0;align-items:stretch;overflow:visible}
+ .concept-hero:after{display:none}
+ .concept-hero .hero-copy{order:1;padding:36px 20px 30px;background:linear-gradient(140deg,#fffaf0,#f1e8d5)}
+ .concept-hero .hero-visual{order:2;position:relative;inset:auto;z-index:0;width:100%;height:auto;aspect-ratio:4/3}
+ .concept-hero .hero-visual img{object-position:62% center}
+ .concept-hero .hero-visual figcaption{font-size:11px;right:10px;bottom:10px;max-width:220px}
+ .service-pagehead{padding:38px 20px;gap:26px}
+ .service-concept img{border-radius:10px}
+ .concept-card-media{margin:-26px -26px 20px}
+}
+@media print{
+ .hero-visual,.concept-card-media,.service-concept{display:none!important}
+}

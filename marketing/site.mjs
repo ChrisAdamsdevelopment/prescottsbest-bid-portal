@@ -1,4 +1,5 @@
 import {extraPages} from './extra-pages.mjs';
+import {conceptCardImage,conceptServiceImage,conceptHero} from './imagery.mjs';
 // Search-friendly server-rendered preview pages. All pages stay noindex until owner approves canonical domain.
 const base='/remodeling-preview';
 const root='Prescott’s Best Construction';
@@ -27,13 +28,13 @@ const trust='<div class="trust-line"><span>Prescott Valley & the greater Prescot
 const navLinks=[['/bathroom-remodeling','Bathrooms'],['/kitchen-remodeling','Kitchens'],['/start-here','Plan a project'],['/estimate','Budget tool'],['/projects','Our work'],['/resources','Guides'],['/schedule','Contact']];
 const navEntries=navLinks.map(([href,label])=>'<a href="'+link(href)+'">'+label+'</a>').join('');
 function cards(rows,key='service'){
- return '<div class="site-card-grid">'+rows.map(s=>'<article class="site-card"><div class="site-card-icon">'+esc(key==='service'?s.icon:'GUIDE')+'</div><h3>'+esc(s.name)+'</h3><p>'+esc(s.desc)+'</p><a href="'+link(s.path)+'">Learn more <span aria-hidden="true">→</span></a></article>').join('')+'</div>';
+ return '<div class="site-card-grid">'+rows.map(s=>'<article class="site-card">'+(key==='service'?conceptCardImage(s.path):'<div class="site-card-icon">GUIDE</div>')+'<div class="site-card-body"><h3>'+esc(s.name)+'</h3><p>'+esc(s.desc)+'</p><a href="'+link(s.path)+'">Learn more <span aria-hidden="true">→</span></a></div></article>').join('')+'</div>';
 }
 function faq(rows){return '<div class="faqs">'+rows.map(([q,a])=>'<details><summary>'+esc(q)+'</summary><p>'+esc(a)+'</p></details>').join('')+'</div>'}
 const call='<a href="tel:+19283500940" class="text-link">Call (928) 350-0940</a>';
 function home(){
  return {title:'Bathroom & Kitchen Remodeling | Prescott’s Best Construction',description:'Explore residential remodeling in Prescott and Prescott Valley. View services, understand preliminary budgets, and request a personal consultation.',body:
- '<section class="site-hero"><div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
+ '<section class="site-hero concept-hero">'+conceptHero()+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
  trust+
  '<section class="site-section site-quick-start" aria-label="Start your project"><div><span class="kicker">NOT SURE WHERE TO BEGIN?</span><h2>A clearer way to plan your remodel</h2><p>Answer four simple questions for a practical checklist. Nothing is sent unless you choose to contact us.</p></div><a class="site-button primary" href="'+link('/start-here')+'">Help me plan my project</a></section>'+
  '<section class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
@@ -45,7 +46,7 @@ function home(){
 }
 function service(s){
  return {title:s.title+' | Prescott’s Best Construction',description:s.desc+' Serving Prescott Valley and the greater Prescott area.',body:
- '<div class="site-pagehead"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p></div>'+
+ '<div class="site-pagehead service-pagehead"><div class="service-pagehead-copy"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p><p class="micro">Review a design concept for inspiration; the final project scope is confirmed on site.</p></div>'+conceptServiceImage(s.path)+'</div>'+
  '<section class="site-section site-detail"><div><h2>Start with the right plan</h2><p>'+esc(s.detail)+'</p><p>We focus on clearly defined homeowner priorities, practical project sequencing and communication about what is included. Final recommendations require evaluating the home itself.</p></div><aside class="site-callout"><h3>Useful first steps</h3><ol><li>Describe what needs to change.</li><li>List what needs to stay.</li><li>Choose a finish and budget preference.</li><li>Request a site conversation.</li></ol>'+priceLink+'</aside></section>'+
  '<section class="site-section"><h2>Questions homeowners often ask</h2>'+faq([
  ['Can I see a project budget before an appointment?','Yes. Our early budget explorer is a research demonstration, not a contractor quote. A site visit and approved pricebook are required for company pricing.'],

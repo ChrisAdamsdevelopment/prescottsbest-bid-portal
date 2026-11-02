@@ -60,6 +60,24 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/site-assets\/pbc-social-card\.jpg/);
   assert.match(home.body,/class="mobile-menu"/);
   assert.match(home.body,/class="desktop-nav"/);
+  assert.match(home.body,/class="site-hero concept-hero"/);
+  assert.match(home.body,/Design inspiration/);
+  assert.match(home.body,/kitchen-hero-detail.webp/);
+  for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry']){
+   for(const variant of ['card','detail']){
+    const name=slug+'-'+variant+'.webp';
+    const response=await fetch(rootURL+'/site-assets/concepts/'+name);
+    assert.equal(response.status,200,name);
+    assert.equal(response.headers.get('content-type'),'image/webp',name);
+    assert.ok((await response.arrayBuffer()).byteLength>15_000,name+' has real pixels');
+   }
+  }
+  for(const servicePath of ['/bathroom-remodeling','/kitchen-remodeling','/shower-conversions','/room-conversions','/finish-carpentry']){
+   const page=await call('/remodeling-preview'+servicePath);
+   assert.equal(page.status,200,servicePath);
+   assert.match(page.body,/class="service-concept"/,servicePath);
+   assert.match(page.body,/AI-generated concept, not a completed Prescott/,servicePath);
+  }
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/RESEARCH DEMONSTRATION/i);
