@@ -8,3 +8,7 @@ dist/
 coverage/
 .portal-browser-*
 PRIVATE_RENDER_ADMIN_KEY.txt
+
+.site-browser-*
+tests/*.log
+.render-*.png

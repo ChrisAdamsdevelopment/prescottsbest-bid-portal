@@ -3,6 +3,8 @@ import {readFile,writeFile,rename,mkdir} from 'node:fs/promises';
 import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {randomBytes,randomUUID,createHash,timingSafeEqual} from 'node:crypto';
+import {maybeServeMarketing} from './marketing/routes.mjs';
+import {publicApi} from './marketing/api.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 const dir=process.env.DATA_DIR||join(root,'.local-data');
 const key=process.env.PORTAL_ADMIN_KEY||'';
@@ -79,12 +81,14 @@ function security(res){
 async function route(req,res){
  security(res);const path=new URL(req.url,'http://localhost').pathname;
  if(path==='/healthz')return reply(res,200,{status:'ok',service:'pbc-private-portal'});
+ if(await maybeServeMarketing(req,res,path,{root,readFile,bad}))return;
  if(req.method==='GET'&&['/','/app.js','/style.css'].includes(path)){
   const fn=path==='/'?'index.html':path.slice(1),type=path==='/'?'text/html':path.endsWith('.js')?'application/javascript':'text/css';
   res.writeHead(200,{'Content-Type':type+'; charset=utf-8','Cache-Control':'no-store'});return res.end(await readFile(join(root,'public',fn)));
  }
  if(!path.startsWith('/api/'))throw bad('Not found',404);
  limit(req);if(req.method==='POST')checkPost(req);
+ if(path.startsWith('/api/public/')||path==='/api/admin/leads')return publicApi(req,res,path,{input,read,change,reply,bad,admin});
  if(req.method==='POST'&&path==='/api/admin/publish'){
   admin(req);const v=validate(await input(req));
   const id=randomUUID(),now=Date.now(),expires=now+v.expiresInDays*86400000,invite=rand();
