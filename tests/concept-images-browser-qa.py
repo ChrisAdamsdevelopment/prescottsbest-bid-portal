@@ -48,6 +48,22 @@ with TemporaryDirectory(prefix='pbc-concept-images-') as tmp:
    assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3')
    driver.save_screenshot(str(root/'.concept-bathroom-mobile.png'))
    results.append('390px mobile bathroom visual and disclosure OK')
+   for width in (390,1440):
+    driver.set_window_size(width,900)
+    for path in ['/remodeling-preview/about','/remodeling-preview/schedule']:
+     driver.get(base+path)
+     image=driver.find_element(By.CSS_SELECTOR,'.editorial-concept img')
+     driver.execute_script('arguments[0].scrollIntoView({block:"center"})',image)
+     WebDriverWait(driver,8).until(lambda v:v.execute_script('return arguments[0].complete && arguments[0].naturalWidth>200',image))
+     caption=driver.find_element(By.CSS_SELECTOR,'.editorial-concept figcaption')
+     assert caption.is_displayed() and 'AI-generated' in caption.text,path
+     assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3'),path
+     if width==390:
+      driver.save_screenshot(str(root/('.editorial-about-mobile.png' if path.endswith('about') else '.editorial-contact-mobile.png')))
+     results.append(str(width)+'px '+path+' concept image and honest labeling OK')
+   driver.get(base+'/remodeling-preview/process')
+   assert len(driver.find_elements(By.CSS_SELECTOR,'.site-card-icon'))>=4
+   results.append('process stage icons remain present')
   finally:driver.quit()
  finally:proc.terminate();proc.wait(timeout=8)
 (root/'tests'/'concept_browser_report.json').write_text(json.dumps({'status':'PASS','checks':results},indent=2),encoding='utf8')

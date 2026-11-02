@@ -40,7 +40,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/site-assets/site.webmanifest':['public/site-assets/site.webmanifest','application/manifest+json; charset=utf-8']
  };
  // Static concept assets use a strict known-name allowlist. No arbitrary path reads.
- for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry']){
+ for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry','consultation','local-home']){
   for(const variant of ['card','detail']){
    const key='/site-assets/concepts/'+slug+'-'+variant+'.webp';
    staticPaths[key]=['public/site-assets/concepts/'+slug+'-'+variant+'.webp','image/webp'];

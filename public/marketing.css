@@ -166,3 +166,22 @@
 @media print{
  .hero-visual,.concept-card-media,.service-concept{display:none!important}
 }
+
+/* Phase 5: local-home and consultation concepts. Fictional imagery is explicitly identified. */
+.editorial-split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:center}
+.editorial-split>div{max-width:560px}
+.editorial-split h2{margin:10px 0 20px}
+.editorial-split p{line-height:1.65}
+.editorial-concept{margin:0;min-width:0}
+.editorial-concept img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:12px;box-shadow:0 16px 36px rgba(25,44,33,.13)}
+.editorial-concept figcaption{margin-top:10px;font-size:13px;line-height:1.5;color:#364b3b;font-weight:650}
+.editorial-split .editorial-concept img{aspect-ratio:16/9}
+.consultation-aside{padding:18px 20px 25px}
+.consultation-aside .editorial-concept{margin:0 0 24px}
+.consultation-aside .editorial-concept img{aspect-ratio:4/3;border-radius:9px}
+.consultation-aside .editorial-concept figcaption{font-size:12px}
+@media(max-width:850px){
+ .editorial-split{grid-template-columns:1fr}
+ .editorial-split>div{max-width:700px}
+}
+@media print{.editorial-concept{display:none!important}}

@@ -63,7 +63,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/class="site-hero concept-hero"/);
   assert.match(home.body,/Design inspiration/);
   assert.match(home.body,/kitchen-hero-detail.webp/);
-  for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry']){
+  for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry','consultation','local-home']){
    for(const variant of ['card','detail']){
     const name=slug+'-'+variant+'.webp';
     const response=await fetch(rootURL+'/site-assets/concepts/'+name);
@@ -78,6 +78,18 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
    assert.match(page.body,/class="service-concept"/,servicePath);
    assert.match(page.body,/AI-generated concept, not a completed Prescott/,servicePath);
   }
+  const about=await call('/remodeling-preview/about');
+  assert.equal(about.status,200);
+  assert.match(about.body,/local-home-detail.webp/);
+  assert.match(about.body,/AI-generated home, not an actual project/);
+  const contactPage=await call('/remodeling-preview/schedule');
+  assert.equal(contactPage.status,200);
+  assert.match(contactPage.body,/consultation-detail.webp/);
+  assert.match(contactPage.body,/AI-generated people, not Prescott/);
+  const process=await call('/remodeling-preview/process');
+  assert.equal(process.status,200);
+  assert.match(process.body,/class="site-card-icon">01/);
+  assert.match(process.body,/class="site-card-icon">04/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/RESEARCH DEMONSTRATION/i);

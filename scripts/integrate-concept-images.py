@@ -13,7 +13,9 @@ mapping={
  "kitchen.png":("kitchen-remodel","Kitchen remodeling","Illustrative remodeled kitchen with cream cabinets, stone island and mountain views"),
  "bathroom_facing_shower.png":("shower-conversion","Shower conversions","Illustrative walk-in shower with warm tile, glass doors and a handheld fixture"),
  "room_with_desk_office.png":("room-conversion","Garage or room conversion","Illustrative home-office garage conversion with workbench and wood flooring"),
- "looking_through_doorway.png":("finish-carpentry","Finish carpentry","Illustrative clean white interior door casing, baseboard and wood flooring")
+ "looking_through_doorway.png":("finish-carpentry","Finish carpentry","Illustrative clean white interior door casing, baseboard and wood flooring"),
+ "two_people_talking.png":("consultation","Homeowner project planning and first conversation","Illustrative scene of two fictional people discussing remodeling plans and material samples at a table"),
+ "front_of_home.png":("local-home","About and local service-area introduction","Illustrative modest high-desert house exterior with natural rock landscaping at golden hour")
 }
 found={p.name for p in src.glob("*.png")}
 assert found==set(mapping),f"Unexpected files: {found.symmetric_difference(set(mapping))}"
