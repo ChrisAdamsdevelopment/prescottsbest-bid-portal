@@ -7,3 +7,4 @@ node_modules/
 dist/
 coverage/
 .portal-browser-*
+PRIVATE_RENDER_ADMIN_KEY.txt
