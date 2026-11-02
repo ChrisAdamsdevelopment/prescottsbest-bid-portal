@@ -5,11 +5,17 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // existing private proposal landing page, preserving current invite links.
  const hostname=(req.headers.host||'').split(':')[0].toLowerCase();
  const marketingHost=['prescottsbestremodeling.com','www.prescottsbestremodeling.com'].includes(hostname);
+ // Keep one clean canonical URL per marketing page on the custom domain.
+ if(marketingHost&&(path==='/remodeling-preview'||path.startsWith('/remodeling-preview/')||path==='/contact')){
+  const dest=path==='/contact'?'/schedule':path.slice('/remodeling-preview'.length)||'/';
+  res.writeHead(301,{'Location':'https://prescottsbestremodeling.com'+dest,'Cache-Control':'public,max-age=300'});
+  res.end();return true;
+ }
  const mappedPath=marketingHost&&path!='/remodeling-preview'&&!path.startsWith('/remodeling-preview/')
   ? '/remodeling-preview'+(path==='/'?'':path) : path;
  const origin=marketingHost?'https://prescottsbestremodeling.com':process.env.PUBLIC_SITE_ORIGIN;
  const indexed=marketingHost&&process.env.SITE_INDEXABLE==='true'&&!!origin?.startsWith('https://');
- const preview=marketingPage(mappedPath,{indexable:indexed,origin});
+ const preview=marketingPage(mappedPath,{indexable:indexed,origin,cleanPaths:marketingHost});
  if(preview){
   res.writeHead(200,{'Content-Type':'text/html; charset=utf-8',
    'X-Robots-Tag':indexed?'index,follow':'noindex,nofollow',

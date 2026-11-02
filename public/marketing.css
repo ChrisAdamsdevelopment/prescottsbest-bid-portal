@@ -43,3 +43,35 @@
 @media(max-width:1000px){.site-header{flex-wrap:wrap}.site-header nav{order:3;width:100%;justify-content:space-evenly;gap:12px}.hero-mark{transform:none}.site-card-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:720px){body{font-size:18px}.site-header{padding:10px 14px}.site-brand{font-size:18px;min-width:auto}.site-header nav{justify-content:start;overflow-x:auto;flex-wrap:nowrap;padding:10px 0}.site-header nav a{white-space:nowrap}.header-phone{font-size:14px}.site-hero,.site-detail,.proof,.estimator-wrap,.two-cards,.footer-grid{grid-template-columns:1fr}.site-hero{padding:48px 20px}.site-hero h1{font-size:43px}.site-card-grid{grid-template-columns:1fr}.site-section{padding:45px 20px}.site-band{flex-direction:column;align-items:flex-start}.hero-mark{max-width:400px}.site-pagehead{padding:52px 20px}.budget-form,.budget-result,.inquiry-form{padding:20px}.budget-modes{grid-template-columns:1fr}.site-actions .site-button{width:100%}.site-brand .site-logo{width:65px;height:53px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Phase 2: accessibility and practical conversion paths. */
+[hidden]{display:none!important}
+.site-quick-start{display:flex;align-items:center;justify-content:space-between;gap:26px;padding-top:40px;padding-bottom:40px}
+.site-quick-start>div{max-width:760px}.site-quick-start h2{margin:8px 0 10px}
+.site-quick-start p{margin:0}
+.check-list{list-style:none;padding:0;margin:24px 0;display:grid;gap:14px}
+.check-list li{position:relative;padding:8px 0 8px 38px;line-height:1.55}
+.check-list li:before{content:'✓';position:absolute;left:0;top:8px;width:27px;height:27px;border-radius:50%;background:#e1efe3;color:#204832;text-align:center;line-height:27px;font-size:16px;font-weight:900}
+.planner-layout{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+#planning-result .site-button{margin:7px 5px 7px 0}
+.site-footer .footer-grid div a{display:inline-block;min-height:24px}
+.mobile-actions{display:none}
+.site-consent a{font-weight:800}
+.site-brand .site-logo{object-position:center}
+.site-card a,.footer-grid a,.site-article a{overflow-wrap:anywhere}
+@media(max-width:1100px){.site-header nav{gap:12px}.site-header nav a{font-size:14px}}
+@media(max-width:720px){
+ .site-header nav{scrollbar-width:thin}
+ .site-quick-start{flex-direction:column;align-items:stretch}
+ .planner-layout{grid-template-columns:1fr}
+ .site-hero{padding:35px 20px}
+ .site-hero h1{font-size:clamp(35px,10vw,48px)}
+ .site-hero p{font-size:18px}
+ .site-actions{gap:10px}
+ .site-band{gap:18px}
+ .site-header .header-phone{display:none}
+ .site-footer{padding-bottom:115px}
+ .mobile-actions{position:fixed;bottom:0;left:0;right:0;z-index:18;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 9px max(8px,env(safe-area-inset-bottom));background:#fffdfa;box-shadow:0 -4px 20px #243e3324;border-top:1px solid #d9ded2}
+ .mobile-actions a{display:flex;align-items:center;justify-content:center;text-align:center;background:#1c3a32;color:#fff;min-height:52px;border-radius:6px;font-size:14px;font-weight:800;padding:6px;text-decoration:none}
+ .mobile-actions a:nth-child(2){background:#ebede0;color:#1c3a32}
+}

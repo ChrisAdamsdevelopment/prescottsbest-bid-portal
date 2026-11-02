@@ -84,7 +84,7 @@ async function route(req,res){
  if(await maybeServeMarketing(req,res,path,{root,readFile,bad}))return;
  if(req.method==='GET'&&['/','/proposal','/app.js','/style.css'].includes(path)){
   const fn=path==='/'||path==='/proposal'?'index.html':path.slice(1),type=path==='/'||path==='/proposal'?'text/html':path.endsWith('.js')?'application/javascript':'text/css';
-  res.writeHead(200,{'Content-Type':type+'; charset=utf-8','Cache-Control':'no-store'});return res.end(await readFile(join(root,'public',fn)));
+  res.writeHead(200,{'Content-Type':type+'; charset=utf-8','Cache-Control':'no-store',...(type==='text/html'?{'X-Robots-Tag':'noindex,nofollow'}:{})});return res.end(await readFile(join(root,'public',fn)));
  }
  if(!path.startsWith('/api/'))throw bad('Not found',404);
  limit(req);if(req.method==='POST')checkPost(req);

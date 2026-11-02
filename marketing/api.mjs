@@ -23,6 +23,7 @@ async function sendNotification(lead){
 }
 export async function publicApi(req,res,path,utils){
  const {input,read,change,reply,bad}=utils;
+ if(req.method==='GET'&&path==='/api/public/site-status')return reply(res,200,{inquiryEnabled:process.env.LEAD_FORM_ENABLED==='true',appointments:'request_only',budget:'research_demo'});
  if(req.method==='POST'&&path==='/api/public/budget'){
   const v=await input(req,2500);
   const b=budget(v);
