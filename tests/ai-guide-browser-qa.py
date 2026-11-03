@@ -41,6 +41,7 @@ with TemporaryDirectory(prefix='pbc-guide-') as tmp:
     WebDriverWait(driver,12).until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'.guide-turn'))==2)
     assert 'For your project' in driver.find_elements(By.CSS_SELECTOR,'.guide-turn')[-1].text
     assert driver.find_element(By.ID,'guide-read').is_enabled()
+    assert driver.find_element(By.ID,'guide-copy').is_enabled()
     assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3')
     checks.append(f'{width}px: consent, mock Gemini answer, read-aloud control and no overflow')
     if width==390:
@@ -50,6 +51,7 @@ with TemporaryDirectory(prefix='pbc-guide-') as tmp:
      driver.save_screenshot(str(root/'.guide-desktop.png'))
     driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'guide-clear'))
     assert len(driver.find_elements(By.CSS_SELECTOR,'.guide-turn'))==0
+    assert not driver.find_element(By.ID,'guide-copy').is_enabled()
     checks.append(f'{width}px: Start over clears conversation')
   finally:driver.quit()
  finally:proc.terminate();proc.wait(timeout=8)

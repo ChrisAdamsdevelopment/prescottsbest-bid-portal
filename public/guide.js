@@ -4,7 +4,7 @@
  const q=document.getElementById('guide-question'),consent=document.getElementById('guide-consent'),
   send=document.getElementById('guide-submit'),status=document.getElementById('guide-status'),
   log=document.getElementById('guide-transcript'),read=document.getElementById('guide-read'),
-  stop=document.getElementById('guide-stop'),clear=document.getElementById('guide-clear');
+  stop=document.getElementById('guide-stop'),clear=document.getElementById('guide-clear'),copy=document.getElementById('guide-copy');
  let available=false,busy=false,history=[],lastAnswer='';
  const refresh=()=>{send.disabled=!available||busy||!consent.checked||q.value.trim().length<4;};
  const message=(who,txt)=>{
@@ -46,7 +46,7 @@
    message('you',question);message('ai',data.answer);
    history.push({role:'user',text:question},{role:'model',text:data.answer.slice(0,650)});
    history=history.slice(-4);
-   lastAnswer=data.answer;read.disabled=!('speechSynthesis' in window);
+   lastAnswer=data.answer;read.disabled=!('speechSynthesis' in window);copy.disabled=false;
    q.value='';status.textContent='You can ask a follow-up question or use one of the homeowner tools. Answers are not sent to the contractor.';
   }catch(err){status.textContent=err.message+' Call (928) 350-0940 if you need personal help.';}
   finally{busy=false;refresh()}
@@ -58,8 +58,13 @@
   stop.hidden=false;window.speechSynthesis.speak(utterance);
  });
  stop.addEventListener('click',endSpeech);
+ copy.addEventListener('click',async()=>{
+  const notes=history.map(turn=>(turn.role==='user'?'My project question: ':'Project Guide suggestion: ')+turn.text).join('\\n\\n');
+  try{await navigator.clipboard.writeText(notes);status.textContent='Notes copied. You can paste them into an email to Prescott’s Best.';}
+  catch{status.textContent='Copy is unavailable in this browser. You can select the discussion above instead.';}
+ });
  clear.addEventListener('click',()=>{
-  endSpeech();history=[];lastAnswer='';read.disabled=true;q.value='';
+  endSpeech();history=[];lastAnswer='';read.disabled=true;copy.disabled=true;q.value='';
   log.replaceChildren();
   const greeting=document.createElement('p');greeting.className='guide-greeting';
   greeting.textContent='Starting over. What would you like to change in your home?';

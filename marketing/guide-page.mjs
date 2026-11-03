@@ -15,12 +15,12 @@ export function guidePage(link){
   '<div id="guide-transcript" class="guide-transcript" role="log" aria-live="polite" aria-relevant="additions text"><p class="guide-greeting">Welcome! Tell me what you want to improve in your home. If you are not sure where to begin, tap one of the questions above.</p></div>'+
   '<form id="guide-form" class="guide-form"><label for="guide-question">Your question or project description</label>'+
   '<textarea id="guide-question" name="question" maxlength="650" rows="4" placeholder="For example: I have a bathtub that is hard to step into. I would like something easier to use."></textarea>'+
-  '<p class="guide-privacy-note">Do not enter your name, street address, phone number, email, payment details or medical information.</p>'+
+  '<p class="guide-privacy-note">You can use the microphone key on your phone keyboard if typing is difficult. Do not enter your name, street address, phone number, email, payment details or medical information.</p>'+
   '<label class="guide-permission"><input type="checkbox" id="guide-consent"/><span>I understand that when I press Ask, my question and recent conversation will be sent to <strong>Google Gemini</strong> to generate an answer. This is optional. Google may use submitted content to improve its services on some API tiers. Please avoid private details. <a href="'+link('/privacy')+'">Read privacy details</a>.</span></label>'+
   '<div class="guide-controls"><button type="submit" id="guide-submit" class="site-button primary" disabled>Ask my question</button>'+
   '<button type="button" id="guide-read" class="site-button outline" disabled>Read last answer aloud</button>'+
   '<button type="button" id="guide-stop" class="site-button outline" hidden>Stop reading</button>'+
-  '<button type="button" id="guide-clear" class="site-button outline">Start over</button></div>'+
+  '<button type="button" id="guide-copy" class="site-button outline" disabled>Copy my project notes</button><button type="button" id="guide-clear" class="site-button outline">Start over</button></div>'+
   '<p id="guide-status" role="status" aria-live="polite">Checking AI guide availability…</p></form></div>'+
   '<aside class="guide-assistance"><h2>Prefer another way?</h2><p>You do not need AI to use these tools.</p>'+
   tool('/start-here','Four-question project planner','Make a checklist privately on your device.')+
