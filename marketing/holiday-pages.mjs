@@ -1,6 +1,30 @@
 // Holiday Lighting Concierge — concept experience, not approved seasonal pricebook.
+import {holidayImage} from './holiday-assets.mjs';
 // Photo preview is local Canvas only. Never send homeowner photos to the server automatically.
 const escapeHtml=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+function conceptPicture(id, extraClass=''){
+ const item=holidayImage(id);
+ if(!item)return '';
+ const src='/site-assets/holiday-concepts/'+item.file;
+ return '<figure class="holiday-concept-figure '+escapeHtml(extraClass)+'">'+
+  '<img src="'+src+'" alt="'+escapeHtml(item.alt)+'" width="'+item.width+'" height="'+item.height+'" loading="lazy" decoding="async">'+
+  '<figcaption>'+escapeHtml(item.caption)+'</figcaption></figure>';
+}
+const detailImageCards=[
+ {id:'beforeafter',label:'Compare a concept before and after'},
+ {id:'lighttypes',label:'Explore different lighting styles'},
+ {id:'addons',label:'Add trees, pathways and landscape accents'},
+ {id:'phone',label:'Imagine simple phone-based scenes'},
+ {id:'scenes',label:'Choose a smart-lighting scene'},
+ {id:'crew',label:'See how a design might become a crew plan'},
+ {id:'process',label:'Understand the service journey'}
+];
+const gallery='<section class="site-section holiday-concept-gallery" aria-label="Holiday lighting inspiration references">'+
+ '<div class="section-heading"><span class="kicker">DESIGN INSPIRATION</span><h2>See more ways to light up your home.</h2>'+
+ '<p>These generated illustrations show possibilities, not actual Prescott’s Best projects, current products, verified app features, or measured construction drawings.</p></div>'+
+ '<div class="holiday-reference-grid">'+detailImageCards.map(item=>
+  '<article class="holiday-reference-card holiday-reference-'+escapeHtml(item.id)+'"><h3>'+escapeHtml(item.label)+'</h3>'+conceptPicture(item.id)+'</article>').join('')+
+ '</div></section>';
 const packages=[
  {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color roofline with a clean finish.',features:['Commercial-grade C9-style LED concept','Front-facing roofline','Simple timer setup'],range:'Planning example from $699',tone:'warm'},
  {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'Roofline plus a welcoming porch, garage, or entry accent.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'Planning example from $999',tone:'candy'},
@@ -15,22 +39,22 @@ const sections=[
 ];
 const safeContact='<a href="tel:+19283500940">(928) 350-0940</a>';
 export function holidayPages(link){
- const card=(p)=>'<article class="site-card holiday-package"><span class="holiday-package-tag">'+escapeHtml(p.style)+'</span>'+
+ const card=(p)=>'<article class="site-card holiday-package">'+conceptPicture(p.id,'holiday-package-photo')+'<span class="holiday-package-tag">'+escapeHtml(p.style)+'</span>'+
   '<h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.copy)+'</p><ul>'+p.features.map(f=>'<li>'+escapeHtml(f)+'</li>').join('')+'</ul>'+
   '<strong class="holiday-starting">'+escapeHtml(p.range)+'</strong><a class="site-button outline" href="'+link('/holiday-lighting/design')+'?package='+p.id+'">Preview this look</a></article>';
  const page={
   title:'Holiday Lighting Concierge | Prescott & Prescott Valley | Prescott’s Best Construction',
   description:'Explore holiday lighting designs and outdoor light installation options in Prescott and Prescott Valley. Try a private photo-based preview and request a contractor review.',
-  body:'<section class="site-pagehead holiday-head"><span class="kicker">SEASONAL CONCIERGE · PRESCOTT AREA</span>'+
+  body:'<section class="site-pagehead holiday-head"><div class="holiday-head-copy"><span class="kicker">SEASONAL CONCIERGE · PRESCOTT AREA</span>'+
    '<h1>Holiday lights, thoughtfully designed. We handle the hard part.</h1>'+
    '<p class="lede">Explore your Christmas lighting style from the comfort of home. Start with a package or create your own design, then speak directly with Prescott’s Best about materials, installation and service.</p>'+
    '<p class="micro">Package descriptions and price examples are concepts being evaluated for launch, not current offers or contractor-approved bids. Availability is not yet confirmed.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Try the home lighting preview</a>'+
-   '<a class="site-button outline" href="'+link('/schedule')+'">Discuss your holiday project</a></div></section>'+
+   '<a class="site-button outline" href="'+link('/schedule')+'">Discuss your holiday project</a></div></div>'+conceptPicture('classic','holiday-head-media')+'</section>'+
    '<section class="site-section"><div class="section-heading"><span class="kicker">START WITH A LOOK</span><h2>Choose a style, then make it yours.</h2><p>Four starting points. Everything is adjustable after a site review.</p></div>'+
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
    '<section class="site-section holiday-why"><h2>A simpler way to plan seasonal decorating</h2>'+
-   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+'</div></section>'+
+   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+'</div></section>'+gallery+
    '<section class="site-section"><h2>Questions people ask</h2><div class="faqs">'+[
     ['Do I need to buy lights first?','No. Tell us which look you like. If this service launches, we can scope a package where you buy suitable outdoor-rated lights through us. Ownership, manufacturer warranties, storage and seasonal service terms must be agreed in writing.'],
     ['Can I see my actual home decorated?','Yes. The Design Studio lets you choose a house photo from your device, trace the roofline and preview light colors locally. It is an illustration, not a photorealistic AI promise or measured installation drawing.'],

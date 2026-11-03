@@ -89,8 +89,25 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     driver.get(base+'/remodeling-preview/holiday-lighting')
     assert 'Classic Roofline' in driver.page_source
     assert 'not current offers' in driver.page_source
-    checks.append(f'{width}px seasonal landing packages and non-binding disclosure')
+    package_images=driver.find_elements(By.CSS_SELECTOR,'.holiday-package img')
+    gallery_images=driver.find_elements(By.CSS_SELECTOR,'.holiday-reference-card img')
+    assert len(package_images)==4,('package images',len(package_images))
+    assert len(gallery_images)==7,('gallery images',len(gallery_images))
+    assert all(len(im.get_attribute('alt') or '')>35 for im in package_images+gallery_images)
+    assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3'),('landing overflow',width)
+    driver.execute_script('arguments[0].scrollIntoView({block:"center"})',package_images[0])
+    driver.save_screenshot(str(root/'tests'/('holiday-gallery-'+str(width)+'.png')))
+    checks.append(f'{width}px seasonal landing, 11 tagged concepts, alt text and responsive layout')
+
     (tmp/'prescottsbest-holiday-crew-concept.json').unlink()
+   imagefiles=list((root/'public'/'site-assets'/'holiday-concepts').glob('*.webp'))
+   assert len(imagefiles)==11,len(imagefiles)
+   for imagefile in imagefiles:
+    rr=requests.get(base+'/site-assets/holiday-concepts/'+imagefile.name,timeout=9)
+    assert rr.status_code==200,(imagefile.name,rr.status_code)
+    assert 'image/webp' in rr.headers.get('content-type',''),imagefile.name
+    assert rr.content[:4]==b'RIFF',imagefile.name
+   checks.append('11/11 generated WebP assets served from exact-name static allowlist')
    assert requests.get(base+'/proposal',timeout=5).status_code==200
    assert 'Disallow: /' in requests.get(base+'/robots.txt',timeout=5).text
    checks.append('existing private proposal and noindex remain intact')

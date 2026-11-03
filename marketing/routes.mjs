@@ -1,5 +1,6 @@
 import {marketingPage,sitemapPaths} from './site.mjs';
 import {articles} from './articles.mjs';
+import {holidayImages} from './holiday-assets.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(req.method!=='GET')return false;
  // The new PBC domain serves the marketing homepage; the Render host keeps the
@@ -48,6 +49,11 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    const key='/site-assets/concepts/'+slug+'-'+variant+'.webp';
    staticPaths[key]=['public/site-assets/concepts/'+slug+'-'+variant+'.webp','image/webp'];
   }
+ }
+ // Only the 11 approved generated holiday concepts are served; never expose arbitrary local uploads.
+ for(const asset of holidayImages){
+  const publicPath='/site-assets/holiday-concepts/'+asset.file;
+  staticPaths[publicPath]=['public/site-assets/holiday-concepts/'+asset.file,'image/webp'];
  }
  if(staticPaths[path]){
   const [file,type]=staticPaths[path];

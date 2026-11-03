@@ -1,0 +1,38 @@
+// Approved display metadata for the 11 user-provided generated Holiday Lighting assets.
+// All are conceptual renderings or diagrams — never claim actual PBC installations or tested vendor compatibility.
+export const holidayImages=Object.freeze([
+ {id:'classic',file:'01_classic_roofline_warm_white.webp',width:1520,height:1006,
+  title:'Classic roofline concept',alt:'Illustrative Prescott-style stucco home at dusk with a neat outline of warm white holiday roofline lights.',
+  caption:'AI concept: classic warm-white roofline. Not an actual installation.'},
+ {id:'welcome',file:'02_warm_welcome_red_and_white.webp',width:1520,height:1006,
+  title:'Warm welcome concept',alt:'Illustrative Southwestern home with alternating red and warm-white roofline lights and a welcoming illuminated garage.',
+  caption:'AI concept: red-and-white accents. Final materials subject to review.'},
+ {id:'showcase',file:'03_showcase_multicolor_landscape.webp',width:1520,height:1006,
+  title:'Neighborhood showcase concept',alt:'Illustrative one-story home with colorful roofline lighting and softly illuminated front landscaping.',
+  caption:'AI concept: colorful holiday lighting. Not a completed PBC project.'},
+ {id:'permanent',file:'04_permanent_smart_color_scenes.webp',width:1520,height:1006,
+  title:'Permanent smart lighting concept',alt:'Illustrative roof edges with multicolor permanent-style accent lighting on a Prescott-area home at twilight.',
+  caption:'AI concept: permanent-style lighting. Product capability depends on the installed system.'},
+ {id:'beforeafter',file:'05_photo_preview_before_after_reference.webp',width:1464,height:732,
+  title:'Photo preview illustration',alt:'Illustrative split view comparing a house before seasonal lighting with the same style of house decorated with glowing roofline lights.',
+  caption:'Illustration of a design preview, not a real before-and-after PBC project.'},
+ {id:'lighttypes',file:'06_lighting_types_reference.webp',width:1398,height:484,
+  title:'Lighting product styles',alt:'Concept board displaying examples of C9-style bulbs, LED rope lighting, icicle strands, multicolor LED strips, and roofline track lighting.',
+  caption:'Product-style illustrations only. Exact models, ratings and compatibility require approval.'},
+ {id:'phone',file:'07_smart_lighting_control_reference.webp',width:1164,height:888,
+  title:'Phone lighting scene mockup',alt:'Illustrative smartphone control screen beside a house displaying multicolor roofline lighting at night.',
+  caption:'Illustrative interface only — not an actual app or guarantee of Alexa, Google Home or Siri support.'},
+ {id:'crew',file:'08_crew_segment_map_example.webp',width:1470,height:1240,
+  title:'Crew route concept',alt:'Illustrative house roofline annotated with seven numbered lighting path segments labeled L1 to L7.',
+  caption:'Concept map only. Actual lengths, electrical safety, attachment and installation plans require site measurements and lead approval.'},
+ {id:'process',file:'09_holiday_concierge_process.webp',width:1536,height:710,
+  title:'Holiday lighting process concept',alt:'Five-step illustration: choose a package, preview on a home photo, review the site, install, and enjoy the lighting.',
+  caption:'Concept of a possible service process. Pricing and service availability require confirmation.'},
+ {id:'scenes',file:'10_smart_home_scene_control_illustration.webp',width:1536,height:900,
+  title:'Smart scene-control illustration',alt:'Conceptual smart-lighting control illustration with home roofline lights, scene presets, and a generic phone interface.',
+  caption:'Illustrative smart-control features. Features vary by device and manufacturer.'},
+ {id:'addons',file:'11_trees_pathways_addons_reference.webp',width:1434,height:705,
+  title:'Landscape lighting add-ons',alt:'Holiday landscape lighting concept with a wrapped tree, path lights, and a list of decorative outdoor add-on ideas.',
+  caption:'AI-generated add-on ideas; availability, outdoor equipment and scope are not confirmed.'}
+]);
+export const holidayImage=(id)=>holidayImages.find(x=>x.id===id)||null;
