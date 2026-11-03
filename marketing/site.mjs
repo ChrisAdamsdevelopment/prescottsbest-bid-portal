@@ -1,4 +1,5 @@
 import {extraPages} from './extra-pages.mjs';
+import {guidePage} from './guide-page.mjs';
 import {articlePages,articles} from './articles.mjs';
 import {conceptCardImage,conceptServiceImage,conceptHero,conceptEditorialImage} from './imagery.mjs';
 // Search-friendly server-rendered preview pages. All pages stay noindex until owner approves canonical domain.
@@ -23,10 +24,11 @@ const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll
 const button=(text,target,cls='primary')=>'<a class="site-button '+cls+'" href="'+link(target)+'">'+esc(text)+'</a>';
 const priceLink=button('Explore a budget range','/estimate');
 const consultLink=button('Request a consultation','/schedule','outline');
+const aiLink=button('Ask the optional AI Project Guide','/project-guide','outline');
 const reviewLink='<a href="'+maps+'" target="_blank" rel="noopener noreferrer">Read customer reviews directly on Google Maps</a>';
 const logo='<img class="site-logo" src="/site-assets/pbc-logo.webp" alt="Prescott’s Best Construction badge — remodel and finish carpentry" width="120" height="85"/>';
 const trust='<div class="trust-line"><span>Prescott Valley & the greater Prescott area</span><span>Arizona ROC #343141</span><span>Direct, hands-on residential remodeling</span></div>';
-const navLinks=[['/bathroom-remodeling','Bathrooms'],['/kitchen-remodeling','Kitchens'],['/start-here','Plan a project'],['/estimate','Budget tool'],['/projects','Our work'],['/blog','Blog'],['/resources','Guides'],['/schedule','Contact']];
+const navLinks=[['/bathroom-remodeling','Bathrooms'],['/kitchen-remodeling','Kitchens'],['/start-here','Plan a project'],['/project-guide','AI Guide'],['/estimate','Budget tool'],['/projects','Our work'],['/blog','Blog'],['/resources','Guides'],['/schedule','Contact']];
 const navEntries=navLinks.map(([href,label])=>'<a href="'+link(href)+'">'+label+'</a>').join('');
 function cards(rows,key='service'){
  return '<div class="site-card-grid">'+rows.map(s=>'<article class="site-card">'+(key==='service'?(conceptCardImage(s.path)||'<div class="site-card-icon">'+esc(s.icon||'STEP')+'</div>'):'<div class="site-card-icon">GUIDE</div>')+'<div class="site-card-body"><h3>'+esc(s.name)+'</h3><p>'+esc(s.desc)+'</p><a href="'+link(s.path)+'">Learn more <span aria-hidden="true">→</span></a></div></article>').join('')+'</div>';
@@ -35,7 +37,7 @@ function faq(rows){return '<div class="faqs">'+rows.map(([q,a])=>'<details><summ
 const call='<a href="tel:+19283500940" class="text-link">Call (928) 350-0940</a>';
 function home(){
  return {title:'Bathroom & Kitchen Remodeling | Prescott’s Best Construction',description:'Explore residential remodeling in Prescott and Prescott Valley. View services, understand preliminary budgets, and request a personal consultation.',body:
- '<section class="site-hero concept-hero">'+conceptHero()+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
+ '<section class="site-hero concept-hero">'+conceptHero()+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+aiLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
  trust+
  '<section class="site-section site-quick-start" aria-label="Start your project"><div><span class="kicker">NOT SURE WHERE TO BEGIN?</span><h2>A clearer way to plan your remodel</h2><p>Answer four simple questions for a practical checklist. Nothing is sent unless you choose to contact us.</p></div><a class="site-button primary" href="'+link('/start-here')+'">Help me plan my project</a></section>'+
  '<section class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
@@ -59,7 +61,7 @@ function guide(g){
  return {title:g.name+' | Prescott Remodeling Resource Center',description:g.desc,body:
  '<div class="site-pagehead"><span class="kicker">PRESCOTT REMODELING RESOURCE CENTER</span><h1>'+esc(g.name)+'</h1><p class="lede">'+esc(g.desc)+'</p><p class="micro">Last reviewed November 2026 · General information, not project-specific permit or pricing advice.</p></div>'+
  '<article class="site-section site-article"><h2>A practical starting point</h2><p>'+esc(g.body)+'</p><p>If you have questions about a particular property, start with the current official jurisdiction requirements and an on-site evaluation.</p><div class="resource-links"><a href="https://roc.az.gov/" target="_blank" rel="noopener">Arizona Registrar of Contractors</a><a href="https://www.prescott-az.gov/" target="_blank" rel="noopener">City of Prescott</a><a href="https://prescottvalley-az.gov/" target="_blank" rel="noopener">Town of Prescott Valley</a></div></article>'+
- '<section class="site-cta"><h2>Need help with your own project?</h2>'+priceLink+consultLink+'</section>'};
+ '<section class="site-cta"><h2>Need help with your own project?</h2>'+priceLink+aiLink+consultLink+'</section>'};
 }
 function estimator(){
  return {title:'Remodeling Budget Explorer | Prescott Valley & Prescott',description:'Explore illustrative remodeling budget ranges for kitchens, bathrooms and room conversions. No email required to see a research example. Not a contractor quote.',body:
@@ -101,7 +103,7 @@ function processPage(){
 }
 function resources(){return {title:'Remodeling Guides for Prescott Homeowners | PBC',description:'Plain-English guides to remodeling costs, permits, bathrooms and choosing a construction contract in Prescott and Prescott Valley.',body:
  '<div class="site-pagehead"><span class="kicker">LOCAL HOMEOWNER LEARNING CENTER</span><h1>Better questions lead to better remodels.</h1><p class="lede">Helpful guidance for planning projects, permits, materials and budgets. Articles are reviewed before publishing; recommendations are not substitutes for a site visit or the applicable permitting authority.</p></div><section class="site-section">'+cards(guides,'guide')+'</section>'};}
-const routes={'/':home,'/estimate':estimator,'/schedule':contactPage,'/contact':contactPage,'/process':processPage,'/resources':resources};
+const routes={'/':home,'/project-guide':()=>guidePage(link),'/estimate':estimator,'/schedule':contactPage,'/contact':contactPage,'/process':processPage,'/resources':resources};
 Object.assign(routes,extraPages(link),articlePages(link));
 for(const s of services)routes[s.path]=()=>service(s);
 for(const g of guides)routes[g.path]=()=>guide(g);
@@ -139,7 +141,7 @@ export function marketingPage(path,options={}){
  '<meta property="og:image:alt" content="Prescott’s Best Construction official gold badge and remodeling message">'+
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
  '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
- '<link rel="stylesheet" href="/marketing.css"><script defer src="/marketing.js"></script>'+
+ '<link rel="stylesheet" href="/marketing.css"><script defer src="/marketing.js"></script><script defer src="/guide.js"></script>'+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
  (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
@@ -147,7 +149,7 @@ export function marketingPage(path,options={}){
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+
  '<a href="'+link('/about')+'">About us</a><a href="'+link('/concierge')+'">Project concierge</a></nav></details>'+
  '<a class="header-phone" href="tel:+19283500940">Call (928) 350-0940</a></header>'+
- '<main id="site-main">'+body+'</main><div class="mobile-actions" aria-label="Quick actions"><a href="tel:+19283500940">Call us</a><a href="'+link('/estimate')+'">Budget example</a><a href="'+link('/schedule')+'">Contact</a></div><footer class="site-footer"><div class="footer-grid"><div>'+logo+'<h2>Prescott’s Best Construction</h2><p>Practical planning, thoughtful craftsmanship and clear communication.</p></div><div><h3>Homeowner tools</h3>'+linkText('Project budget explorer','/estimate')+linkText('Request a conversation','/schedule')+linkText('Remodeling guides','/resources')+linkText('Knowledge center','/blog')+linkText('Our process','/process')+linkText('About us','/about')+linkText('Smaller projects','/concierge')+linkText('Privacy','/privacy')+linkText('Accessibility','/accessibility')+'</div><div><h3>Reach us</h3><a href="tel:+19283500940">(928) 350-0940</a><a href="mailto:'+contact+'">'+contact+'</a><span>Prescott Valley, Arizona</span><span>AZ ROC #343141</span><a href="'+maps+'" target="_blank" rel="noopener">Verified Google reviews</a></div></div><p class="footer-disclosure">Website preview. Preliminary calculator numbers are unapproved research illustrations, not company quotes. Project-specific pricing and work require site evaluation and an appropriate written agreement.</p></footer></body></html>';
+ '<main id="site-main">'+body+'</main><div class="mobile-actions" aria-label="Quick actions"><a href="tel:+19283500940">Call us</a><a href="'+link('/estimate')+'">Budget example</a><a href="'+link('/schedule')+'">Contact</a></div><footer class="site-footer"><div class="footer-grid"><div>'+logo+'<h2>Prescott’s Best Construction</h2><p>Practical planning, thoughtful craftsmanship and clear communication.</p></div><div><h3>Homeowner tools</h3>'+linkText('Project budget explorer','/estimate')+linkText('AI Project Guide','/project-guide')+linkText('Request a conversation','/schedule')+linkText('Remodeling guides','/resources')+linkText('Knowledge center','/blog')+linkText('Our process','/process')+linkText('About us','/about')+linkText('Smaller projects','/concierge')+linkText('Privacy','/privacy')+linkText('Accessibility','/accessibility')+'</div><div><h3>Reach us</h3><a href="tel:+19283500940">(928) 350-0940</a><a href="mailto:'+contact+'">'+contact+'</a><span>Prescott Valley, Arizona</span><span>AZ ROC #343141</span><a href="'+maps+'" target="_blank" rel="noopener">Verified Google reviews</a></div></div><p class="footer-disclosure">Website preview. Preliminary calculator numbers are unapproved research illustrations, not company quotes. Project-specific pricing and work require site evaluation and an appropriate written agreement.</p></footer></body></html>';
 }
 export function sitemapPaths(){return routenames.filter(k=>k!=='/contact').map(k=>link(k))}
 export const publicSiteBase=base;

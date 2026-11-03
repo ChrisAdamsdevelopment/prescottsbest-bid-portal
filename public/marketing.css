@@ -202,3 +202,45 @@
 .blog-article .resource-links li{padding-block:6px}
 .resource-more{margin-top:24px}
 @media(max-width:720px){.blog-article{padding-inline:20px}.blog-card-grid{grid-template-columns:1fr}.blog-card{min-height:0}}
+
+/* Optional senior-friendly homeowner AI guide: large touch targets, clear consent and readable content. */
+.guide-heading h1{max-width:1050px}
+.guide-overview{padding-bottom:24px}
+.guide-overview h2{font-size:clamp(25px,3vw,38px)}
+.guide-quick-picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.guide-prompt{min-height:76px;padding:20px 22px;text-align:left;background:#fffefa;border:2px solid #b6c4b5;
+ border-radius:12px;font-size:19px;font-weight:800;color:#263e31;cursor:pointer;line-height:1.3}
+.guide-prompt:hover{background:#f1ecd9;border-color:#95743e}
+.guide-prompt:focus-visible,.guide-form button:focus-visible{outline:4px solid #b38131;outline-offset:3px}
+.guide-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(290px,.65fr);gap:30px;align-items:start;padding-top:14px}
+.guide-main,.guide-assistance{border:1px solid #d7dcd0;border-radius:18px;padding:clamp(20px,3vw,35px);background:#fffefb}
+.guide-main h2,.guide-assistance h2{margin-top:0}
+.guide-transcript{background:#f2f4eb;border:1px solid #d7dfd1;border-radius:14px;padding:18px;min-height:170px;
+ max-height:490px;overflow-y:auto;display:grid;align-content:start;gap:15px}
+.guide-greeting{margin:0;color:#2b493a;font-size:19px;line-height:1.6}
+.guide-turn{border-radius:12px;padding:14px 17px;background:white;border:1px solid #dae2d7}
+.guide-turn p{white-space:pre-wrap;margin:8px 0 0;color:#253f30;font-size:18px;line-height:1.7}
+.guide-turn strong{color:#284b37;font-size:15px}
+.guide-human{background:#fbf0d8;border-color:#e4d5b6}
+.guide-form{display:grid;gap:13px;margin-top:22px}
+.guide-form label{font-size:19px;font-weight:750;color:#264333}
+.guide-form textarea{font:inherit;font-size:19px;line-height:1.6;width:100%;border:2px solid #acbfad;border-radius:12px;
+ padding:15px;min-height:124px;color:#223d2b;resize:vertical;background:#fff}
+.guide-privacy-note{font-size:16px;color:#704825!important;margin:0;line-height:1.5}
+.guide-permission{display:flex;gap:13px;align-items:flex-start;border-radius:10px;background:#f2f2e8;padding:16px;
+ line-height:1.5;font-weight:500!important;font-size:16px!important}
+.guide-permission input{margin:4px 0 0;width:24px;height:24px;flex:none;accent-color:#234f37}
+.guide-permission span{display:block}
+.guide-controls{display:flex;flex-wrap:wrap;gap:10px}
+.guide-controls button{font-size:16px;min-height:52px}
+.guide-controls button:disabled{opacity:.5;cursor:not-allowed}
+.guide-assistance{background:#f7f4ea;display:grid;gap:11px}
+.guide-assistance p{margin:0}
+.guide-tool-link{display:grid;gap:5px;background:#fff;padding:15px;border:1px solid #d3dbce;border-radius:11px;text-decoration:none}
+.guide-tool-link strong{color:#203f2c;font-size:17px}
+.guide-tool-link span{color:#4c6552;font-size:15px;line-height:1.45}
+#guide-status{font-size:17px;line-height:1.5;color:#3c5748;margin:5px 0}
+@media(max-width:900px){.guide-layout{grid-template-columns:1fr}.guide-assistance{order:2}}
+@media(max-width:560px){.guide-quick-picks{grid-template-columns:1fr}.guide-prompt{min-height:69px;padding:15px;font-size:18px}
+ .guide-main,.guide-assistance{padding:19px}.guide-controls button{width:100%}.guide-transcript{max-height:410px}}
+@media print{.guide-form,.guide-quick-picks,.guide-assistance{display:none!important}.guide-transcript{max-height:none;overflow:visible}}

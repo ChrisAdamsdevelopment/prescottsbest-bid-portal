@@ -13,7 +13,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
  const rootURL='http://127.0.0.1:'+port;
  const key='demo-admin-secret-not-real-abcdef1234567890';
  const proc=spawn(process.execPath,['server.mjs'],{cwd:root,env:{...process.env,PORT:String(port),
-  NODE_ENV:'development',DATA_DIR:tmp,PORTAL_ADMIN_KEY:key,LEAD_FORM_ENABLED:'true',SITE_INDEXABLE:'false',
+  NODE_ENV:'development',DATA_DIR:tmp,PORTAL_ADMIN_KEY:key,LEAD_FORM_ENABLED:'true',SITE_INDEXABLE:'false',PUBLIC_AI_ENABLED:'false',
   RESEND_API_KEY:'',LEAD_FROM_EMAIL:''},stdio:'ignore'});
  async function call(url,method='GET',payload=null,auth=false){
   const response=await fetch(rootURL+url,{method,headers:{
@@ -40,6 +40,20 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/Bathroom remodeling/i);
   assert.match(home.body,/site-assets\/pbc-logo.webp/);
   assert.match(home.headers.get('x-robots-tag'),/noindex/);
+  const guide=await hostCall('/project-guide','prescottsbestremodeling.com');
+  assert.equal(guide.status,200);
+  assert.match(guide.body,/Ask the AI Project Guide/);
+  assert.match(guide.body,/Google Gemini/);
+  assert.match(guide.body,/guide-consent/);
+  assert.match(guide.body,/Read last answer aloud/);
+  const guideJs=await fetch(rootURL+'/guide.js');
+  assert.equal(guideJs.status,200);
+  assert.match(await guideJs.text(),/speechSynthesis/);
+  const guideStatus=await call('/api/public/ai-guide/status');
+  assert.equal(guideStatus.status,200);
+  assert.equal(guideStatus.body.available,false);
+  const disabledGuide=await call('/api/public/ai-guide','POST',{consent:true,question:'How do I plan a bathroom?',history:[]});
+  assert.equal(disabledGuide.status,503);
   const logo=await fetch(rootURL+'/site-assets/pbc-logo.webp');
   assert.equal(logo.status,200);
   assert.equal(logo.headers.get('content-type'),'image/webp');

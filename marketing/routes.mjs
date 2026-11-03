@@ -28,6 +28,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  const staticPaths={
  '/marketing.css':['public/marketing.css','text/css; charset=utf-8'],
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
+ '/guide.js':['public/guide.js','text/javascript; charset=utf-8'],
  '/site-assets/pbc-logo.webp':['public/site-assets/pbc-logo.webp','image/webp'],
  '/site-assets/pbc-social-card.jpg':['public/site-assets/pbc-social-card.jpg','image/jpeg'],
  '/site-assets/favicon.ico':['public/site-assets/favicon.ico','image/x-icon'],
@@ -64,6 +65,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [Services]('+site+'/bathroom-remodeling): Bathroom remodeling',
    '- [Kitchens]('+site+'/kitchen-remodeling): Kitchen remodeling',
    '- [Project planner]('+site+'/start-here): Browser-only preparation worksheet',
+   '- [Optional AI Project Guide]('+site+'/project-guide): Consent-based plain-language homeowner planning help using Google Gemini; no bidding or booking',
    '- [Budget explorer]('+site+'/estimate): Illustrative research budget, NOT a business quote',
    '- [Knowledge center]('+site+'/blog): Homeowner educational articles',
    '- [Contact]('+site+'/schedule): Phone and email contact',

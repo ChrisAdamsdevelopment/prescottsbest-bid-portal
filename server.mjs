@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {randomBytes,randomUUID,createHash,timingSafeEqual} from 'node:crypto';
 import {maybeServeMarketing} from './marketing/routes.mjs';
 import {publicApi} from './marketing/api.mjs';
+import {aiGuideApi} from './marketing/ai-guide.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 const dir=process.env.DATA_DIR||join(root,'.local-data');
 const key=process.env.PORTAL_ADMIN_KEY||'';
@@ -88,6 +89,7 @@ async function route(req,res){
  }
  if(!path.startsWith('/api/'))throw bad('Not found',404);
  limit(req);if(req.method==='POST')checkPost(req);
+ if(path==='/api/public/ai-guide'||path==='/api/public/ai-guide/status')return aiGuideApi(req,res,path,{input,reply,bad});
  if(path.startsWith('/api/public/')||path==='/api/admin/leads')return publicApi(req,res,path,{input,read,change,reply,bad,admin});
  if(req.method==='POST'&&path==='/api/admin/publish'){
   admin(req);const v=validate(await input(req));
