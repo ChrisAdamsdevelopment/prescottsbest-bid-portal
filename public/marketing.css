@@ -244,3 +244,56 @@
 @media(max-width:560px){.guide-quick-picks{grid-template-columns:1fr}.guide-prompt{min-height:69px;padding:15px;font-size:18px}
  .guide-main,.guide-assistance{padding:19px}.guide-controls button{width:100%}.guide-transcript{max-height:410px}}
 @media print{.guide-form,.guide-quick-picks,.guide-assistance{display:none!important}.guide-transcript{max-height:none;overflow:visible}}
+
+/* Holiday Lighting Concierge — seasonal campaign and local-only design studio. */
+.holiday-head{background:linear-gradient(120deg,#10251f,#284839 63%,#6a5934);color:#fff9e9}
+.holiday-head h1,.holiday-head .lede,.holiday-head .micro{color:#fff9e9}
+.holiday-head .kicker{color:#ffe3a8}
+.holiday-head .site-button.outline{background:#fff;color:#243e2c}
+.holiday-packages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.holiday-package{display:flex;flex-direction:column;gap:12px;min-width:0}
+.holiday-package h3{font-size:clamp(19px,2vw,25px);line-height:1.2;margin:0}
+.holiday-package p{margin:0}
+.holiday-package ul{padding-left:20px;flex:1;margin:0}
+.holiday-package li{margin:6px 0}
+.holiday-package .site-button{display:block;text-align:center}
+.holiday-package-tag{display:inline-block;font-size:13px;font-weight:900;letter-spacing:.08em;color:#3c4f37;text-transform:uppercase}
+.holiday-starting{font-size:16px;color:#244634}
+.holiday-why-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.holiday-why article{background:#f5f3ec;border:1px solid #e4e0d3;border-radius:15px;padding:21px}
+.holiday-why h3{margin-top:0}
+.holiday-workspace{display:grid;grid-template-columns:minmax(295px,.75fr) minmax(0,1.25fr);gap:24px;align-items:start}
+.holiday-controls,.holiday-preview{background:#fffefa;border:1px solid #d7dfce;border-radius:17px;padding:clamp(18px,2.7vw,30px);min-width:0}
+.holiday-controls{display:flex;flex-direction:column;gap:12px}
+.holiday-controls h2{font-size:clamp(20px,2.4vw,27px);margin:15px 0 2px}
+.holiday-controls h2:first-child{margin-top:0}
+.holiday-controls label{font-size:17px;font-weight:700;color:#284333}
+.holiday-controls select,.holiday-controls input[type=file],.holiday-controls input[type=number]{
+ width:100%;padding:13px;border-radius:10px;border:2px solid #a9b7a7;background:white;color:#24412f;font-size:18px}
+.holiday-controls input[type=file]{font-size:15px}
+.holiday-controls input[type=file]::file-selector-button{border:0;background:#24452f;color:white;border-radius:7px;padding:10px;cursor:pointer}
+.holiday-actions{display:flex;gap:9px;flex-wrap:wrap}
+.holiday-actions button{font-size:15px;min-height:48px}
+.holiday-actions button:disabled{opacity:.45;cursor:not-allowed}
+.holiday-addons{border:1px solid #a9b9a1;border-radius:12px;padding:12px;display:grid;gap:9px}
+.holiday-addons legend{font-weight:800;font-size:17px;padding:0 6px}
+.holiday-addons label{font-size:16px;font-weight:500;display:flex;align-items:center;gap:8px}
+.holiday-addons input{width:20px;height:20px;accent-color:#24553b}
+.holiday-preview h2{margin-top:0}
+.holiday-canvas-wrap{width:100%;border-radius:12px;overflow:hidden;background:#13231f;line-height:0;border:1px solid #a7b09e}
+#holiday-canvas{width:100%;height:auto;aspect-ratio:8/5;touch-action:manipulation;cursor:crosshair;display:block}
+#holiday-canvas:focus-visible{outline:4px solid #bb8d3d;outline-offset:3px}
+#holiday-preview-status{margin:12px 0;color:#3f5544;font-size:16px}
+.holiday-worksheet{margin-top:22px;padding:18px;border-radius:12px;background:#f2f5eb;line-height:1.6}
+.holiday-worksheet h3{margin-top:0}
+.holiday-worksheet li{margin:8px 0;font-size:16px}
+.holiday-design-heading .micro{max-width:90ch}
+@media(max-width:1130px){.holiday-packages{grid-template-columns:repeat(2,minmax(0,1fr))}.holiday-workspace{grid-template-columns:1fr}}
+@media(max-width:620px){.holiday-packages,.holiday-why-grid{grid-template-columns:1fr}.holiday-controls,.holiday-preview{padding:16px}
+ .holiday-actions button{flex:1 1 45%}.holiday-head{padding-block:32px}}
+@media print{
+ .holiday-controls,.site-header,.site-footer,.holiday-design-heading,.mobile-actions,.holiday-actions,.site-cta{display:none!important}
+ .holiday-workspace{display:block!important}.holiday-preview{border:0;padding:0!important}
+ .holiday-canvas-wrap{max-width:960px}#holiday-canvas{max-height:440px;object-fit:contain}
+ .holiday-worksheet{break-inside:avoid}
+}
