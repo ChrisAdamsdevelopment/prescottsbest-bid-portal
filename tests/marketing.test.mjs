@@ -135,6 +135,37 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const customPrivate=await hostCall('/proposal','prescottsbestremodeling.com');
   assert.equal(customPrivate.status,200);
   assert.match(customPrivate.body,/Private Proposal/);
+  const blog=await hostCall('/blog','prescottsbestremodeling.com');
+  assert.equal(blog.status,200);
+  assert.match(blog.body,/Know more before you remodel/);
+  const article=await hostCall('/blog/compare-fixed-price-and-cost-plus','prescottsbestremodeling.com');
+  assert.equal(article.status,200);
+  assert.match(article.body,/BlogPosting/);
+  assert.match(article.body,/datePublished/);
+  assert.match(article.body,/not an approved estimate|scope, not just the number/i);
+  assert.match(article.headers['x-robots-tag'],/noindex/);
+  for(const path of ['/blog/bathroom-remodel-planning-checklist','/blog/kitchen-budget-decisions','/blog/prescott-permit-questions-homeowners']){
+   const p=await hostCall(path,'prescottsbestremodeling.com');
+   assert.equal(p.status,200,path);
+   assert.match(p.body,/BlogPosting/,path);
+  }
+  const llms=await hostCall('/llms.txt','prescottsbestremodeling.com');
+  assert.equal(llms.status,200);
+  assert.match(llms.body,/Prescott.s Best Construction/);
+  assert.match(llms.body,/Knowledge center/);
+  assert.match(llms.body,/private proposal portal is access-controlled/);
+  assert.match(llms.headers['content-type'],/text\/plain/);
+  assert.match(llms.body,/\\n## Main pages\\n/);
+  const full=await hostCall('/llms-full.txt','prescottsbestremodeling.com');
+  assert.equal(full.status,200);
+  assert.match(full.body,/Bathroom Remodel Planning Checklist/);
+  const feed=await hostCall('/feed.xml','prescottsbestremodeling.com');
+  assert.equal(feed.status,200);
+  assert.match(feed.headers['content-type'],/rss\+xml/);
+  assert.match(feed.body,/<rss version="2.0">/);
+  assert.match(feed.body,/prescott-permit-questions-homeowners/);
+  const sitemap=await hostCall('/sitemap.xml','prescottsbestremodeling.com');
+  assert.equal(sitemap.status,404);
   const customRobots=await hostCall('/robots.txt','prescottsbestremodeling.com');
   assert.match(customRobots.body,/Disallow: \/\n/);
   assert.equal((await call('/robots.txt')).body,'User-agent: *\nDisallow: /\n');

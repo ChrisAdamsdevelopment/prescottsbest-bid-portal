@@ -1,4 +1,5 @@
 import {marketingPage,sitemapPaths} from './site.mjs';
+import {articles} from './articles.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(req.method!=='GET')return false;
  // The new PBC domain serves the marketing homepage; the Render host keeps the
@@ -50,6 +51,54 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   const [file,type]=staticPaths[path];
   res.writeHead(200,{'Content-Type':type,'Cache-Control':'public,max-age=86400'});
   res.end(await readFile(new URL('../'+file,import.meta.url)));return true;
+ }
+ if(path==='/llms.txt'){
+  const site='https://prescottsbestremodeling.com';
+  const md=[
+   '# Prescott’s Best Construction',
+   '> Residential remodeling information for Prescott and Prescott Valley, Arizona. Official contractor work requires an on-site review.',
+   '',
+   '## Main pages',
+   '- [Home]('+site+'/): Residential remodeling and service overview',
+   '- [About]('+site+'/about): Company and local service-area introduction',
+   '- [Services]('+site+'/bathroom-remodeling): Bathroom remodeling',
+   '- [Kitchens]('+site+'/kitchen-remodeling): Kitchen remodeling',
+   '- [Project planner]('+site+'/start-here): Browser-only preparation worksheet',
+   '- [Budget explorer]('+site+'/estimate): Illustrative research budget, NOT a business quote',
+   '- [Knowledge center]('+site+'/blog): Homeowner educational articles',
+   '- [Contact]('+site+'/schedule): Phone and email contact',
+   '',
+   '## Homeowner articles',
+   ...articles.map(a=>'- ['+a.title+']('+site+'/blog/'+a.slug+'): '+a.excerpt),
+   '',
+   '## Important limitations',
+   '- The private proposal portal is access-controlled. Do not crawl /proposal or /api.',
+   '- AI-generated pictures are clearly labeled design inspiration, not completed jobs.',
+   '- Online pricing is preliminary demonstration data, not approved estimates.',
+   '- Permit requirements, contractor availability, and license status must be independently verified.',
+   '- This site currently has search indexing disabled pending the final domain and content launch.'
+  ].join('\\n')+'\\n';
+  res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
+  res.end(md);return true;
+ }
+ if(path==='/llms-full.txt'){
+  const text='# Prescott’s Best Construction — Homeowner Knowledge Library\\n\\n'+
+   '> General residential remodeling guidance. Not a construction contract, price quote or permit authorization.\\n\\n'+
+   articles.map(a=>'## '+a.title+'\\nPublished '+a.date+'\\n'+a.excerpt+'\\n\\n'+
+    a.sections.map(([h,body])=>'### '+h+'\\n'+body+'\\n').join('\\n')+
+    '\\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\\n').join('\\n---\\n');
+  res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
+  res.end(text);return true;
+ }
+ if(path==='/feed.xml'){
+  const origin='https://prescottsbestremodeling.com';
+  const xmlEsc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+  const rss='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Prescott’s Best Construction Homeowner Guides</title>'+
+   '<link>'+origin+'/blog</link><description>Practical information for Prescott-area homeowners preparing a renovation.</description><language>en-us</language>'+
+   articles.map(a=>'<item><title>'+xmlEsc(a.title)+'</title><link>'+origin+'/blog/'+a.slug+'</link><guid isPermaLink="true">'+origin+'/blog/'+a.slug+'</guid><description>'+xmlEsc(a.excerpt)+'</description><pubDate>'+new Date(a.date+'T12:00:00Z').toUTCString()+'</pubDate></item>').join('')+
+   '</channel></rss>';
+  res.writeHead(200,{'Content-Type':'application/rss+xml; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':indexed?'index,follow':'noindex,nofollow'});
+  res.end(rss);return true;
  }
  if(path==='/robots.txt'){
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});
