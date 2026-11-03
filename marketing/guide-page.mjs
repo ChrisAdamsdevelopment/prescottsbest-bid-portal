@@ -16,7 +16,7 @@ export function guidePage(link){
   '<form id="guide-form" class="guide-form"><label for="guide-question">Your question or project description</label>'+
   '<textarea id="guide-question" name="question" maxlength="650" rows="4" placeholder="For example: I have a bathtub that is hard to step into. I would like something easier to use."></textarea>'+
   '<p class="guide-privacy-note">Do not enter your name, street address, phone number, email, payment details or medical information.</p>'+
-  '<label class="guide-permission"><input type="checkbox" id="guide-consent"/><span>I understand that when I press Ask, my question and recent conversation will be sent to <strong>Google Gemini</strong> to generate an answer. This is optional. <a href="'+link('/privacy')+'">Read privacy details</a>.</span></label>'+
+  '<label class="guide-permission"><input type="checkbox" id="guide-consent"/><span>I understand that when I press Ask, my question and recent conversation will be sent to <strong>Google Gemini</strong> to generate an answer. This is optional. Google may use submitted content to improve its services on some API tiers. Please avoid private details. <a href="'+link('/privacy')+'">Read privacy details</a>.</span></label>'+
   '<div class="guide-controls"><button type="submit" id="guide-submit" class="site-button primary" disabled>Ask my question</button>'+
   '<button type="button" id="guide-read" class="site-button outline" disabled>Read last answer aloud</button>'+
   '<button type="button" id="guide-stop" class="site-button outline" hidden>Stop reading</button>'+
