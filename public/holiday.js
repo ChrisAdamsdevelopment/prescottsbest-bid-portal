@@ -4,10 +4,10 @@
  const canvas=document.getElementById('holiday-canvas');
  if(!canvas)return;
  const $=id=>document.getElementById(id),ctx=canvas.getContext('2d',{alpha:false});
- const packageSelect=$('holiday-package'),toneSelect=$('holiday-tone'),photo=$('holiday-photo'),
+ const packageSelect=$('holiday-package'),toneSelect=$('holiday-tone'),productSelect=$('holiday-product'),photo=$('holiday-photo'),
   feet=$('holiday-feet'),access=$('holiday-access'),status=$('holiday-preview-status'),
   worksheet=$('holiday-worksheet'),save=$('holiday-download'),json=$('holiday-json'),
-  print=$('holiday-print'),email=$('holiday-email');
+  print=$('holiday-print'),email=$('holiday-email'),aiConsent=$('holiday-ai-consent'),aiAsk=$('holiday-ai-ask'),aiStatus=$('holiday-ai-status'),aiAnswer=$('holiday-ai-answer');
  const packages={
   classic:{name:'Classic Roofline',tone:'warm',base:699,rate:7.5},
   welcome:{name:'Warm Welcome',tone:'candy',base:999,rate:9.5},
@@ -45,6 +45,19 @@
  const projectPoint=p=>{
   const b=fit();return {x:b.x+b.w*p[0],y:b.y+b.h*p[1]};
  };
+ function segmentNotes(totalFeet){
+  const xy=points.map(projectPoint),parts=[];
+  for(let i=1;i<xy.length;i++){
+   const pixels=Math.hypot(xy[i].x-xy[i-1].x,xy[i].y-xy[i-1].y);
+   if(pixels<1)continue;
+   parts.push({id:'L'+i,pixelDistance:pixels,start:points[i-1].slice(),end:points[i].slice()});
+  }
+  const pixels=parts.reduce((sum,x)=>sum+x.pixelDistance,0);
+  return parts.map(p=>({id:p.id,from:p.start,to:p.end,
+    imageFraction:Math.round(p.pixelDistance/pixels*1000)/1000,
+    provisionalFeet:totalFeet?Math.round(p.pixelDistance/pixels*totalFeet*10)/10:null,
+    caveat:'Visual proportional allocation only. Perspective distorts length; measure on site.'}));
+ }
  function lights(){
   if(!image||points.length===0)return;
   const xy=points.map(projectPoint),palette=colorSets[toneSelect.value]||colorSets.warm;
@@ -81,6 +94,7 @@
   const selected=[...document.querySelectorAll('.holiday-addons input:checked')].map(x=>x.value);
   add('Package concept: '+pkg.name);
   add('Light colors: '+toneSelect.selectedOptions[0].textContent);
+  add('Preferred light type: '+productSelect.selectedOptions[0].textContent);
   add('Roofline guide points: '+points.length+' (not measured)');
   if(selected.length)add('Optional accents: '+selected.map(s=>accentLabels[s]).join(', '));
   const length=Number(feet.value),valid=Number.isFinite(length)&&length>=10&&length<=1200;
@@ -89,18 +103,24 @@
    const core=Math.max(pkg.base,pkg.rate*length);
    const extras=selected.reduce((sum,k)=>sum+(accentExamples[k]||0),0);
    const total=core+extras;
-   add('Illustrative planning range only: '+USD(total*.85)+'–'+USD(total*1.3));
+   if((productSelect.value==='c9'&&pkg.id!=='permanent')||(productSelect.value==='permanent'&&pkg.id==='permanent'))
+    add('Illustrative planning range only: '+USD(total*.85)+'–'+USD(total*1.3));
+   else add('No price example for this specialty light type. Ask for a product-specific contractor review.');
    const extraLength=length*1.1;
    add('Provisional ordering worksheet: '+Math.ceil(extraLength)+' feet of appropriate product including 10% allowance; site measurement required');
-   if(pkg.id!=='permanent')add('Provisional C9-style spacing reference: about '+Math.ceil(extraLength)+' attachment points at approximately 12 inches (verify supplier installation guide)');
-   else add('Permanent system requires manufacturer-specific power/controller/track layout from qualified installer');
+   if(productSelect.value==='c9')add('Provisional C9-style spacing reference: about '+Math.ceil(extraLength)+' attachment points at approximately 12 inches (verify supplier installation guide)');
+   else add('Specialty lights require manufacturer-approved segment lengths, controllers, connectors and attachment methods. This is not a product order.');
   }else add('Add estimated light-run length for a research-only cost illustration and preliminary material length.');
+  const routeSegments=segmentNotes(valid?length:null);
+  if(valid&&routeSegments.length)add('Visual segment allocation (NOT measured): '+routeSegments.slice(0,7).map(s=>s.id+' ~'+s.provisionalFeet+' ft').join('; ')+(routeSegments.length>7?' and '+(routeSegments.length-7)+' more':'')+'.');
   add('Never treat this preview as an installation/safety plan. Lead must confirm attachment method, heights, ladders, outlets/GFCI, power budget, weather, scope and licensing.');
   worksheet.append(list);
   const note=document.createElement('p');note.className='micro';note.textContent='Only the saved image and worksheet you choose to download leave this page. No contact details or photos are submitted automatically.';
   worksheet.append(note);
   generated={package:packageSelect.value,packageName:pkg.name,tone:toneSelect.value,
+   preferredProduct:productSelect.value,preferredProductName:productSelect.selectedOptions[0].textContent,
    selectedAccents:selected,approximateRunFt:valid?length:null,points:points.map(p=>p.slice()),
+   annotatedSegments:routeSegments,
    access:access.value,customerPhotoIncluded:false,previewType:'local annotated concept, not AI render',
    materialOrderStatus:'NOT APPROVED: confirm measurement, attachment, outdoor rating, breaker capacity and labor on site',
    seasonalTakedownIncluded:false,contractPrice:null,hasPhoto:!!image,
@@ -142,8 +162,8 @@
  });
  $('holiday-undo').addEventListener('click',()=>{points.pop();render();setStatus('Last guide point removed.')});
  $('holiday-reset').addEventListener('click',()=>{points=[];render();setStatus('Light path cleared. Tap new points on the image.')});
- packageSelect.addEventListener('change',()=>{toneSelect.value=packages[packageSelect.value].tone;render()});
- [toneSelect,feet,access].forEach(el=>el.addEventListener('change',render));
+ packageSelect.addEventListener('change',()=>{toneSelect.value=packages[packageSelect.value].tone;productSelect.value=packageSelect.value==='permanent'?'permanent':'c9';render()});
+ [toneSelect,productSelect,feet,access].forEach(el=>el.addEventListener('change',render));
  document.querySelectorAll('.holiday-addons input').forEach(el=>el.addEventListener('change',render));
  function download(blob,name){
   const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;
@@ -161,6 +181,7 @@
    'Hello Prescott’s Best, I would like to discuss a holiday lighting project.',
    'Selected package: '+generated.packageName,
    'Color style: '+toneSelect.selectedOptions[0].textContent,
+   'Preferred light type: '+generated.preferredProductName,
    'Approximate run: '+(generated.approximateRunFt?generated.approximateRunFt+' feet':'not measured'),
    'Accent options: '+(generated.selectedAccents.map(k=>accentLabels[k]).join(', ')||'none selected'),
    'Access: '+access.selectedOptions[0].textContent,
@@ -169,11 +190,36 @@
   ].join('\n');
   location.href='mailto:chris@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(summary);
  });
+ aiConsent.addEventListener('change',()=>{aiAsk.disabled=!aiConsent.checked});
+ aiAsk.addEventListener('click',async()=>{
+  if(!aiConsent.checked||aiAsk.disabled)return;
+  aiAsk.disabled=true;aiStatus.textContent='Generating a few ideas based on your choices…';aiAnswer.textContent='';
+  const selected=[...document.querySelectorAll('.holiday-addons input:checked')].map(x=>accentLabels[x.value]);
+  const info=['I am exploring outdoor holiday lighting for a home in the Prescott area.',
+   'Selected package: '+packages[packageSelect.value].name+'.',
+   'Colors: '+toneSelect.selectedOptions[0].textContent+'.',
+   'Product preference: '+productSelect.selectedOptions[0].textContent+'.',
+   'Additional accents: '+(selected.join(', ')||'none')+'.',
+   'Estimated roofline length: '+(feet.value.trim()||'unknown')+' feet.',
+   'Please suggest three simple decorative improvements and two questions for the contractor.',
+   'No prices, no electrical instructions, no claims that specific smart products are compatible.'].join(' ').slice(0,640);
+  try{
+   const r=await fetch('/api/public/ai-guide',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({consent:true,question:info,history:[]}),cache:'no-store'});
+   const data=await r.json();
+   if(!r.ok)throw Error(data.error||'AI ideas unavailable.');
+   aiAnswer.textContent=data.answer||'No ideas were returned.';
+   aiStatus.textContent='Suggestions are for inspiration only. Andrew must approve the real design and materials.';
+  }catch(e){
+   aiStatus.textContent='AI ideas are unavailable right now. You can still save your design and call us.';
+  }finally{aiAsk.disabled=!aiConsent.checked}
+ });
  print.addEventListener('click',()=>window.print());
  // URL selects package only, never accepts arbitrary executable markup.
  const selected=new URLSearchParams(location.search).get('package');
  if(selected&&Object.hasOwn(packages,selected))packageSelect.value=selected;
  toneSelect.value=packages[packageSelect.value].tone;
+ productSelect.value=packageSelect.value==='permanent'?'permanent':'c9';
  render();
  load('/site-assets/concepts/local-home-detail.webp',true).catch(()=>render());
 })();

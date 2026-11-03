@@ -99,3 +99,12 @@ No fake project claims. Keep generated and customer-owned photos separate. Add d
 [ ] Actual loaded labor rates and price floor/target gross margin signed off.
 [ ] Time-limited page campaign / lead intake and privacy policies approved.
 [ ] AI/real house photo consent + private storage policy if future image generation enabled.
+
+## November 3 follow-on implementation: product types + consented Gemini
+The prototype now distinguishes C9-style temporary lights, outdoor-rated rope lighting, icicle strands, smart RGBIC/neon-flex, and permanent track/puck systems. It does not project a price from C9 assumptions for specialty products; those display "No price example" pending an actual supplier/model-specific quote.
+
+Each two-point-plus traced roofline produces numbered L1/L2/etc route segments with an optional proportional length allocation when a homeowner gives an approximate overall run length. These allocated lengths are visual ratios only and are emphatically NOT installer measurements, manufacturer cut lengths or safe power calculations.
+
+An opt-in "Ask AI for design ideas" control sends only selected package, palette, product preference, approximate footage and accents (no photo or contact information) to the existing protected server-side Gemini API. It generates style and planning ideas, not prices, purchase orders, installation/electrical steps, or automatic design changes. Human staff must approve everything.
+
+Mobile/desktop real-browser test repeated after this second iteration with mocked Gemini: 9/9 pass; automated Node suite includes holiday routes, privacy/noindex and existing private proposal security. Separate production check needed after push.

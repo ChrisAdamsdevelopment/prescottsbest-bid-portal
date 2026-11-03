@@ -19,8 +19,8 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
  drawer.rectangle((720,455,920,690),fill=(85,99,104))
  imagefile=tmp/'test-house.jpg';img.save(imagefile)
  env={**os.environ,'PORT':'18976','DATA_DIR':str(tmp/'localstore'),
-  'NODE_ENV':'development','SITE_INDEXABLE':'false','PUBLIC_AI_ENABLED':'false','LEAD_FORM_ENABLED':'false'}
- process=Popen(['node','server.mjs'],cwd=root,env=env,stdout=DEVNULL,stderr=DEVNULL)
+  'NODE_ENV':'development','SITE_INDEXABLE':'false','PUBLIC_AI_ENABLED':'true','GEMINI_API_KEY':'synthetic-browser-only-key','LEAD_FORM_ENABLED':'false'}
+ process=Popen(['node','--import','./tests/fake-gemini-fetch.mjs','server.mjs'],cwd=root,env=env,stdout=DEVNULL,stderr=DEVNULL)
  try:
   base='http://127.0.0.1:18976'
   for _ in range(60):
@@ -39,6 +39,15 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     WebDriverWait(driver,15).until(lambda x:'Sample concept home loaded' in x.find_element(By.ID,'holiday-preview-status').text)
     assert driver.find_element(By.ID,'holiday-package').get_attribute('value')=='welcome'
     assert driver.find_element(By.ID,'holiday-download').is_enabled()
+    assert driver.find_element(By.ID,'holiday-product').get_attribute('value')=='c9'
+    driver.execute_script('arguments[0].value="rope";arguments[0].dispatchEvent(new Event("change",{bubbles:true}))',driver.find_element(By.ID,'holiday-product'))
+    assert 'rope lighting' in driver.find_element(By.ID,'holiday-worksheet').text.lower()
+    assert not driver.find_element(By.ID,'holiday-ai-ask').is_enabled()
+    driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'holiday-ai-consent'))
+    assert driver.find_element(By.ID,'holiday-ai-ask').is_enabled()
+    driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'holiday-ai-ask'))
+    WebDriverWait(driver,8).until(lambda x:'Suggestions are for inspiration' in x.find_element(By.ID,'holiday-ai-status').text)
+    assert 'For your project' in driver.find_element(By.ID,'holiday-ai-answer').text
     assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3'),('overflow',width)
     before=driver.execute_script('return document.getElementById("holiday-canvas").toDataURL()')
     sel=driver.find_element(By.ID,'holiday-tone')
@@ -48,7 +57,7 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     driver.find_element(By.ID,'holiday-feet').send_keys('125')
     driver.execute_script('arguments[0].click()',driver.find_element(By.CSS_SELECTOR,'.holiday-addons input[value="garage"]'))
     assert 'Garage outline' in driver.find_element(By.ID,'holiday-worksheet').text
-    assert 'planning range' in driver.find_element(By.ID,'holiday-worksheet').text.lower()
+    assert 'no price example for this specialty light type' in driver.find_element(By.ID,'holiday-worksheet').text.lower()
     checks.append(f'{width}px demo-home preset, style preview, package and research cost')
     photo=driver.find_element(By.ID,'holiday-photo');photo.send_keys(str(imagefile))
     WebDriverWait(driver,8).until(lambda x:'Photo loaded only on this device' in x.find_element(By.ID,'holiday-preview-status').text)
@@ -70,6 +79,9 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     assert record['hasPhoto'] is True
     assert len(record['points'])==3
     assert record['approximateRunFt']==125
+    assert record['preferredProduct']=='rope'
+    assert len(record['annotatedSegments'])==2
+    assert record['annotatedSegments'][0]['provisionalFeet']>0
     checks.append(f'{width}px photo stays local; user trace and non-binding crew worksheet downloadable')
     driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'holiday-reset'))
     assert driver.find_element(By.ID,'holiday-download').get_attribute('disabled') is not None

@@ -52,6 +52,7 @@ export function holidayPages(link){
    '<h2>1. Choose your starting package</h2><label for="holiday-package">Lighting package</label><select id="holiday-package">'+
    packages.map(p=>'<option value="'+p.id+'">'+escapeHtml(p.name)+'</option>').join('')+'</select>'+
    '<label for="holiday-tone">Lighting colors</label><select id="holiday-tone"><option value="warm">Warm white</option><option value="cool">Bright white</option><option value="candy">Red & white</option><option value="festive">Multicolor</option><option value="smart">Color-changing smart style</option></select>'+
+   '<label for="holiday-product">Preferred light product</label><select id="holiday-product"><option value="c9">C9-style outdoor LED roofline lights</option><option value="rope">Outdoor-rated LED rope lighting</option><option value="icicle">Outdoor-rated icicle strands</option><option value="rgbic">Smart RGBIC / neon-flex (compatible controller required)</option><option value="permanent">Permanent track / puck lighting</option></select><p class="micro">Light type is a design preference; exact outdoor product, connection lengths and electrical requirements must be reviewed.</p>'+
    '<h2>2. Add a photo</h2><label for="holiday-photo">Photo of the front of your home (JPG, PNG, or WebP; 10 MB max)</label>'+
    '<input id="holiday-photo" type="file" accept="image/jpeg,image/png,image/webp"/>'+
    '<p class="micro">Do not upload photos showing people, license plates, security codes or house-number details. Photos are handled only in this browser; no server upload takes place.</p>'+
@@ -71,7 +72,11 @@ export function holidayPages(link){
    '<div class="holiday-actions"><button type="button" id="holiday-download" class="site-button outline" disabled>Save preview image</button>'+
    '<button type="button" id="holiday-print" class="site-button outline" disabled>Print crew concept</button>'+
    '<button type="button" id="holiday-json" class="site-button outline" disabled>Save material worksheet</button><button type="button" id="holiday-email" class="site-button outline" disabled>Email my plan summary</button></div>'+
-   '<div class="holiday-worksheet" id="holiday-worksheet" aria-live="polite"><h3>Your design summary</h3><p>Choose a package and add points to begin. Exact materials, power and ladder access require an on-site check.</p></div></div></section>'+
+   '<div class="holiday-worksheet" id="holiday-worksheet" aria-live="polite"><h3>Your design summary</h3><p>Choose a package and add points to begin. Exact materials, power and ladder access require an on-site check.</p></div>'+
+   '<div class="holiday-ai-helper"><h3>Want ideas from our AI design assistant?</h3><p>Gemini can suggest color themes, accent locations, and questions to discuss with Andrew. It will receive only your package selections and optional approximate feet, <strong>not your house photo</strong>. Suggestions are not prices or installation instructions.</p>'+
+   '<label class="holiday-ai-consent"><input type="checkbox" id="holiday-ai-consent"/> I agree to send these design choices (no image) to Google Gemini. <a href="'+link('/privacy')+'">Privacy details</a></label>'+
+   '<button type="button" id="holiday-ai-ask" class="site-button outline" disabled>Ask AI for design ideas</button>'+
+   '<p id="holiday-ai-status" role="status" class="micro">Optional — you can use every other tool without AI.</p><div id="holiday-ai-answer" role="region" aria-label="AI design suggestions" aria-live="polite"></div></div></div></section>'+
    '<section class="site-cta"><h2>Like what you designed?</h2><p>Save your preview and bring it to a conversation with Andrew. The website does not send your house photo or automatically schedule a job.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/schedule')+'">Contact Prescott’s Best</a>'+
    '<a class="site-button outline" href="'+link('/holiday-lighting')+'">See package descriptions</a></div></section>'

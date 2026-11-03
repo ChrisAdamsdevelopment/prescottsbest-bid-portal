@@ -24,6 +24,10 @@ test('holiday lighting and design studio render in protected preview without pro
  const studio=marketingPage('/remodeling-preview/holiday-lighting/design');
  assert.match(studio,/holiday-canvas/);
  assert.match(studio,/holiday-photo/);
+ assert.match(studio,/holiday-product/);
+ assert.match(studio,/LED rope lighting/);
+ assert.match(studio,/holiday-ai-consent/);
+ assert.match(studio,/holiday-ai-ask/);
  assert.match(studio,/holiday-email/);
  assert.match(studio,/photos? stay.*device|photo stays on your device/i);
  assert.match(studio,/not.*quote/i);

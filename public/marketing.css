@@ -297,3 +297,15 @@
  .holiday-canvas-wrap{max-width:960px}#holiday-canvas{max-height:440px;object-fit:contain}
  .holiday-worksheet{break-inside:avoid}
 }
+
+/* Opt-in holiday Gemini ideas — always secondary to the private Canvas design. */
+.holiday-ai-helper{margin-top:23px;background:#f7f1df;border:1px solid #d8ceb0;border-radius:12px;padding:18px;display:grid;gap:12px}
+.holiday-ai-helper h3{margin:0;font-size:23px}
+.holiday-ai-helper p{margin:0;line-height:1.6}
+.holiday-ai-consent{display:flex;align-items:flex-start;gap:12px;font-size:16px;color:#263c2c}
+.holiday-ai-consent input{width:22px;height:22px;flex:none;margin-top:3px;accent-color:#2e623f}
+#holiday-ai-ask{justify-self:start;font-size:17px;min-height:50px}
+#holiday-ai-ask:disabled{opacity:.45;cursor:not-allowed}
+#holiday-ai-answer{font-size:18px;line-height:1.7;color:#27432f;white-space:pre-wrap}
+@media(max-width:620px){#holiday-ai-ask{width:100%}}
+@media print{.holiday-ai-helper{break-inside:avoid}}
