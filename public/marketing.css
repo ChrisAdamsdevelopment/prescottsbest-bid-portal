@@ -385,3 +385,56 @@
 .process-home-preview img{display:block;width:100%;height:auto;aspect-ratio:1672/941;object-fit:cover;border-radius:14px;box-shadow:0 12px 32px #1e34231e}
 .process-home-preview figcaption{font-size:13px;color:#586b5b;margin-top:8px}
 @media(max-width:800px){.process-home-teaser{grid-template-columns:1fr}}
+
+/* November 2026 Prescott flood recovery: calm, clear, homeowner-first presentation. */
+.storm-home-banner{display:flex;align-items:center;justify-content:space-between;gap:36px;padding:31px max(5vw,24px);background:#e8eee7;border-block:1px solid #c7d6cc}
+.storm-home-banner>div{max-width:820px}.storm-home-banner h2{font-size:clamp(24px,2.7vw,36px);margin:7px 0;color:var(--forest);line-height:1.18}
+.storm-home-banner p{margin:0;color:#385348}.storm-home-banner .site-button{flex:none}
+.storm-recovery-head{background:linear-gradient(125deg,#f2f1e8,#e5ece7)}.storm-recovery-head h1{max-width:1000px}
+.storm-update-band{padding:36px max(5vw,24px);background:#f5f1e7;border-bottom:1px solid #e1dfd5}
+.storm-update-band>div{max-width:1190px;margin:auto}.storm-update-band h2{font-size:clamp(23px,3vw,36px);margin:9px 0}
+.storm-update-band p{max-width:1000px;line-height:1.7;color:#415950}
+.storm-safety{padding-top:49px;padding-bottom:50px}.storm-safety h2{max-width:970px}
+.storm-safety>p{max-width:1000px}.storm-alert-links{display:flex;gap:14px;flex-wrap:wrap;margin:23px 0}
+.storm-alert-links a{font-size:16px;font-weight:750;padding:12px 15px;border:1px solid #cbd7cd;background:#f0f5ef;border-radius:7px}
+.storm-steps{padding-top:35px}.storm-numbered{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:23px;padding:0;list-style:none;counter-reset:storm-step}
+.storm-numbered>li{counter-increment:storm-step;position:relative;border:1px solid #e0e4da;border-radius:13px;padding:26px 25px 24px 75px;background:#fffefa;min-height:210px}
+.storm-numbered>li:before{content:counter(storm-step,decimal-leading-zero);position:absolute;top:26px;left:21px;font-size:22px;font-weight:850;color:#946e39}
+.storm-numbered h3{font-size:22px;margin:0 0 8px;line-height:1.25;color:#233e30}
+.storm-numbered p{margin:0;font-size:16px;line-height:1.65}
+.storm-coverage-grid,.storm-help-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin:23px 0}
+.storm-coverage-grid .site-card,.storm-help-grid .site-card{padding:25px;min-height:unset}
+.storm-coverage-grid h3,.storm-help-grid h3{font-size:21px}
+.storm-photos .check-list{max-width:1050px}
+.storm-privacy-note{margin-top:22px;padding:24px;background:#f0f4ed;border-left:4px solid #567c64;border-radius:7px}
+.storm-privacy-note h3{font-size:21px;margin:0 0 6px}
+.storm-planner-section{background:#f5f6f0;border:1px solid #e5e9df;border-radius:13px;margin:32px auto 64px}
+.storm-planner{display:grid;gap:17px;background:#fffefa;border:1px solid #dbe4dc;padding:27px;border-radius:13px}
+.storm-planner-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.storm-planner label{font-size:16px;font-weight:750;color:#2c4639;display:grid;gap:9px}
+.storm-planner select,.storm-planner textarea{width:100%;border:2px solid #b8cbbb;border-radius:7px;min-height:54px;padding:13px;font:inherit;font-size:17px;color:#203b2e;background:white}
+.storm-planner textarea{min-height:118px;resize:vertical}
+.storm-planner>.site-button{justify-self:start}
+.storm-plan-result{padding:26px;background:#edf3ed;margin-top:20px;border-radius:12px}
+.storm-plan-result h3{font-size:25px;margin:0 0 10px}.storm-result-list{padding-left:25px}.storm-result-list li{margin:9px 0;line-height:1.65}
+.storm-resources-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.storm-resources-grid .site-callout ul{padding-left:24px;margin-bottom:0}
+.storm-resources-grid li{margin:8px 0}
+.storm-blog-feature{margin-bottom:0;max-width:1000px}
+.storm-blog-feature h2{font-size:27px;margin:7px 0}.storm-blog-feature a{font-weight:800}
+.storm-contact-cta .site-actions{justify-content:center}
+@media(max-width:960px){.storm-coverage-grid,.storm-help-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){
+ .storm-home-banner{flex-direction:column;align-items:stretch;padding:26px 20px}.storm-home-banner .site-button{align-self:stretch}
+ .storm-coverage-grid,.storm-help-grid,.storm-numbered,.storm-planner-fields,.storm-resources-grid{grid-template-columns:1fr}
+ .storm-numbered>li{min-height:0;padding:21px 19px 20px 65px}
+ .storm-numbered>li:before{left:17px;top:20px}
+ .storm-planner-section{border-radius:0;border-inline:none}.storm-planner{padding:18px}
+ .storm-planner>.site-button{width:100%}.storm-plan-result{padding:20px}
+ .storm-alert-links{flex-direction:column;align-items:stretch}
+}
+@media print{
+ .storm-planner,.storm-home-banner,.storm-contact-cta,.storm-alert-links{display:none!important}
+ .storm-plan-result{break-inside:avoid;border:1px solid #777;background:#fff}
+ .storm-steps .storm-numbered{grid-template-columns:1fr 1fr}
+}

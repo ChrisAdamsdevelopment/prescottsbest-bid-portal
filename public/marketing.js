@@ -68,6 +68,13 @@ if(lead){
   const saved=JSON.parse(sessionStorage.getItem('pbc_budget_draft')||'null');
   const plan=JSON.parse(sessionStorage.getItem('pbc_planning_draft')||'null');
   const note=lead.querySelector('#lead-notes');
+  const storm=JSON.parse(sessionStorage.getItem('pbc_storm_draft')||'null');
+  if(storm){
+   const category=lead.querySelector('#lead-project');
+   if(category)category.value='Storm or flood damage reconstruction';
+   note.value='Storm recovery worksheet — area: '+storm.location+'; affected: '+storm.affected+'; water entry: '+storm.source+'; insurance status: '+storm.claim+'; safe entry: '+storm.safe+'.\n'+(storm.notes?'Notes: '+storm.notes:'');
+   note.value=note.value.slice(0,1600);
+  }
   if(saved)note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
   if(plan)note.value+=(note.value?'\n':'')+'My planning worksheet: '+plan.project+'; priority: '+plan.priority+'; timing: '+plan.timing+'; conditions: '+plan.condition+'.\n';
  }catch{}

@@ -19,7 +19,7 @@ export async function publicApi(req,res,path,utils){
   const name=clean(v.name,120),email=clean(v.email,180),phone=clean(v.phone||'',35);
   const project=clean(v.project,100),notes=clean(v.notes||'',1600);
   if(!name||!validEmail(email)||!project||v.consent!==true||notes===null||phone===null)throw bad('Name, valid email, project and contact consent are required.');
-  if(!['Bathroom remodeling','Kitchen remodeling','Shower or bath conversion','Room or garage conversion','Finish carpentry','Other residential remodeling'].includes(project))throw bad('Invalid project category');
+  if(!['Bathroom remodeling','Kitchen remodeling','Shower or bath conversion','Room or garage conversion','Finish carpentry','Other residential remodeling','Storm or flood damage reconstruction'].includes(project))throw bad('Invalid project category');
   const reqId=typeof v.requestId==='string'&&/^[\w-]{20,80}$/.test(v.requestId)?v.requestId:randomUUID();
   const row=await change(s=>{
    s.leads??=[];
