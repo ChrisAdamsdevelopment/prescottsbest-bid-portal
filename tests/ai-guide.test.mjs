@@ -60,3 +60,23 @@ test('provider errors do not reveal internal provider response',async()=>{
   if(oldFlag===undefined)delete process.env.PUBLIC_AI_ENABLED;else process.env.PUBLIC_AI_ENABLED=oldFlag;
  }
 });
+
+test('Gemini price text safety filter removes numbers and markdown backticks',async()=>{
+ const oldKeyHere=process.env.GEMINI_API_KEY,oldFlagHere=process.env.PUBLIC_AI_ENABLED,previousFetch=globalThis.fetch;
+ process.env.GEMINI_API_KEY='synthetic-test-key';
+ process.env.PUBLIC_AI_ENABLED='true';
+ const c=context({consent:true,question:'What factors affect a shower conversion budget?',history:[]});
+ globalThis.fetch=async()=>({ok:true,json:async()=>({candidates:[{content:{parts:[{text:'A shower might cost $5,000; check '+String.fromCharCode(96)+'the fixture'+String.fromCharCode(96)+' and use /estimate.'}]}}]})});
+ try{
+  const result=await aiGuideApi(c.req,{},'/api/public/ai-guide',c.utils);
+  assert.equal(result.status,200);
+  assert.doesNotMatch(result.data.answer,/\\$5,000/);
+  assert.equal(result.data.answer.includes(String.fromCharCode(96)),false);
+  assert.match(result.data.answer,/an unverified price/);
+  assert.match(result.data.answer,/Budget Explorer/);
+ }finally{
+  globalThis.fetch=previousFetch;
+  if(oldKeyHere===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=oldKeyHere;
+  if(oldFlagHere===undefined)delete process.env.PUBLIC_AI_ENABLED;else process.env.PUBLIC_AI_ENABLED=oldFlagHere;
+ }
+});

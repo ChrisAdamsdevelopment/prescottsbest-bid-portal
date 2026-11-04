@@ -57,7 +57,7 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     driver.find_element(By.ID,'holiday-feet').send_keys('125')
     driver.execute_script('arguments[0].click()',driver.find_element(By.CSS_SELECTOR,'.holiday-addons input[value="garage"]'))
     assert 'Garage outline' in driver.find_element(By.ID,'holiday-worksheet').text
-    assert 'no price example for this specialty light type' in driver.find_element(By.ID,'holiday-worksheet').text.lower()
+    assert 'illustrative project budget' in driver.find_element(By.ID,'holiday-worksheet').text.lower()
     checks.append(f'{width}px demo-home preset, style preview, package and research cost')
     photo=driver.find_element(By.ID,'holiday-photo');photo.send_keys(str(imagefile))
     WebDriverWait(driver,8).until(lambda x:'Photo loaded only on this device' in x.find_element(By.ID,'holiday-preview-status').text)
@@ -88,7 +88,7 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     checks.append(f'{width}px clearing trace disables download')
     driver.get(base+'/remodeling-preview/holiday-lighting')
     assert 'Classic Roofline' in driver.page_source
-    assert 'not current offers' in driver.page_source
+    assert 'not a confirmed quote' in driver.page_source
     package_images=driver.find_elements(By.CSS_SELECTOR,'.holiday-package img')
     gallery_images=driver.find_elements(By.CSS_SELECTOR,'.holiday-reference-card img')
     assert len(package_images)==4,('package images',len(package_images))

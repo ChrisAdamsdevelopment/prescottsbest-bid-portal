@@ -6,8 +6,7 @@ const siteBase=['prescottsbestremodeling.com','www.prescottsbestremodeling.com']
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
 const element=document.querySelector('#budget-form');
 if(element){
- element.addEventListener('submit',async ev=>{
-  ev.preventDefault();
+ const calculate=async()=>{
   const values=Object.fromEntries(new FormData(element).entries());
   const target=document.getElementById('budget-result');
   target.replaceChildren();
@@ -18,19 +17,21 @@ if(element){
    if(!response.ok)throw Error(data.error||'Please check the project selections.');
    const head=document.createElement('div');head.className='budget-results';
    const title=document.createElement('h2');title.textContent=data.project;
-   const range=document.createElement('strong');range.textContent=money(data.planningDirectCosts.low)+' – '+money(data.planningDirectCosts.high);
-   const caption=document.createElement('p');caption.textContent='Illustrative base project-cost range, before the hypothetical pricing provisions below.';
+   const range=document.createElement('strong');range.textContent=money(data.homeownerRange.low)+' – '+money(data.homeownerRange.high);
+   const caption=document.createElement('p');caption.textContent='Initial ballpark for the entire project, not an approved quote. Your choices adjust the example.';
    head.append(title,range,caption);
-   const modes=document.createElement('div');modes.className='budget-modes';
+   const modes=document.createElement('details');modes.className='budget-breakdown';
+   const summary=document.createElement('summary');summary.textContent='See how fixed-price and cost-plus examples compare';modes.append(summary);
+   const modeWrap=document.createElement('div');modeWrap.className='budget-modes';modes.append(modeWrap);
    for(const [key,label] of [['fixed','Fixed price example'],['costPlus','Cost-plus example']]){
     const card=document.createElement('div');card.className='budget-mode';
     const h=document.createElement('h3');h.textContent=label;
     const amount=document.createElement('span');amount.textContent=money(data[key].low)+' – '+money(data[key].high);
-    card.append(h,amount);modes.append(card);
+    card.append(h,amount);modeWrap.append(card);
    }
    const expl=document.createElement('p');expl.textContent=data.explanation;
    const warning=document.createElement('p');warning.className='preview-warning';warning.textContent=data.disclaimer;
-   try{sessionStorage.setItem('pbc_budget_draft',JSON.stringify({project:data.project,range:money(data.costPlus.low)+' – '+money(data.costPlus.high),inputs:data.inputs,version:data.version}));}catch{}
+   try{sessionStorage.setItem('pbc_budget_draft',JSON.stringify({project:data.project,range:money(data.homeownerRange.low)+' – '+money(data.homeownerRange.high),inputs:data.inputs,version:data.version}));}catch{}
    const next=document.createElement('a');next.className='site-button primary';next.href=siteBase+'/schedule';
    next.textContent='Discuss my project with a contractor';
    const tools=document.createElement('div');tools.className='budget-tools site-actions';
@@ -46,15 +47,22 @@ if(element){
    tools.append(printable,copy);
    target.replaceChildren(head,modes,expl,warning,tools,next);
   }catch(err){status.textContent='Could not calculate this example: '+err.message;}
- });
+ };
+ element.addEventListener('submit',event=>{event.preventDefault();calculate();});
+ element.querySelectorAll('select').forEach(select=>select.addEventListener('change',calculate));
+ calculate(); // A real example appears without the visitor completing a form.
 }
 const lead=document.querySelector('#inquiry-form');
 if(lead){
  const fallback=document.querySelector('#lead-unavailable');
- // An unavailable form must never look operational or silently collect user data.
+ let liveDelivery=false;
+ const sendButton=lead.querySelector('button[type=submit]');
+ // The form remains usable in email-draft mode until verified server delivery is enabled.
  fetch('/api/public/site-status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Unavailable');return r.json()}).then(config=>{
-  if(config.inquiryEnabled===true){lead.hidden=false;if(fallback)fallback.hidden=true;}
- }).catch(()=>{lead.hidden=true;if(fallback)fallback.hidden=false;});
+  liveDelivery=config.inquiryEnabled===true;
+  sendButton.textContent=liveDelivery?'Send project request':'Open email draft to Chris';
+  if(fallback)fallback.hidden=liveDelivery;
+ }).catch(()=>{liveDelivery=false;if(fallback)fallback.hidden=false;sendButton.textContent='Open email draft to Chris';});
  let requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
  try{
   const saved=JSON.parse(sessionStorage.getItem('pbc_budget_draft')||'null');
@@ -63,10 +71,29 @@ if(lead){
   if(saved)note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
   if(plan)note.value+=(note.value?'\n':'')+'My planning worksheet: '+plan.project+'; priority: '+plan.priority+'; timing: '+plan.timing+'; conditions: '+plan.condition+'.\n';
  }catch{}
+ const draft=()=>{
+  const data=Object.fromEntries(new FormData(lead).entries());
+  return ['Hello Chris, I would like to discuss a project with Prescott’s Best Construction.',
+   'Name: '+(data.name||''),'Email: '+(data.email||''),'Phone: '+(data.phone||''),
+   'Project: '+(data.project||''),'Details: '+(data.notes||''),
+   'Please contact me about the next step.'].join('\n');
+ };
+ document.getElementById('lead-copy')?.addEventListener('click',async()=>{
+  const info=document.getElementById('lead-message');
+  try{await navigator.clipboard.writeText(draft());info.textContent='Project details copied. Paste them into an email to chris@prescottsbestconstruction.com.';}
+  catch{info.textContent='Copy was not available. You can select your form details or call us.';}
+ });
  lead.addEventListener('submit',async ev=>{
   ev.preventDefault();
   const submit=lead.querySelector('button[type=submit]'),info=document.getElementById('lead-message');
   if(!lead.reportValidity())return;
+  if(!liveDelivery){
+   const p=Object.fromEntries(new FormData(lead).entries());
+   const subject='Prescott’s Best website request — '+(p.project||'remodeling');
+   info.textContent='Opening your email app. Please press Send there; this website has not yet submitted your request.';
+   window.location.href='mailto:chris@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(draft());
+   return;
+  }
   submit.disabled=true;info.textContent='Submitting your request…';
   const data=Object.fromEntries(new FormData(lead).entries());
   data.consent=document.getElementById('lead-consent').checked;

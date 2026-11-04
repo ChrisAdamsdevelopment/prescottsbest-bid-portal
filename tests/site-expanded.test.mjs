@@ -23,8 +23,9 @@ test('homeowner routes have complete pages, real owner scope and safe drafts',()
  assert.match(marketingPage('/remodeling-preview/projects'),/original project videos/i);
  assert.match(marketingPage('/remodeling-preview/start-here'),/planning-form/);
  assert.match(marketingPage('/remodeling-preview/contact'),/lead-unavailable/);
- assert.match(marketingPage('/remodeling-preview/contact'),/<form id="inquiry-form" class="inquiry-form" hidden>/);
- assert.match(marketingPage('/remodeling-preview/estimate'),/RESEARCH DEMONSTRATION/i);
+ assert.match(marketingPage('/remodeling-preview/contact'),/<form id="inquiry-form" class="inquiry-form">/);
+ assert.match(marketingPage('/remodeling-preview/contact'),/Open email draft to Chris/);
+ assert.match(marketingPage('/remodeling-preview/estimate'),/Useful starting numbers/i);
 });
 
 test('indexable canonical for custom domain uses clean path, never preview prefix',()=>{

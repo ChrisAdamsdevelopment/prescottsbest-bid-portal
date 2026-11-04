@@ -1,5 +1,5 @@
 // Publicly safe research illustration. NOT Andrew's approved labor rates or a company quote.
-export const PRICEBOOK_VERSION='research-demo-2026-11-02';
+export const PRICEBOOK_VERSION='research-baseline-2026-11-04-v1';
 export const types={
   'bath-refresh':{label:'Bathroom refresh',low:4000,high:12000,detail:'Surface finishes and fixtures; existing layout stays.'},
   'bath-full':{label:'Full bathroom remodel',low:14000,high:35000,detail:'Removal, replacement finishes and trade allowances.'},
@@ -22,8 +22,10 @@ export function budget(v){
  version:PRICEBOOK_VERSION,project:row.label,
  inputs:{project:v.project,size:v.size,finish:v.finish,condition:v.condition},
  planningDirectCosts:{low,high},
+ homeownerRange:{low:round(low*1.15),high:round(high*1.25),midpoint:round((low*1.15+high*1.25)/2)},
+ calibrationStatus:'Baseline model — compare against contractor-approved quotes to improve accuracy',
  costPlus:{low:round(low*1.15),high:round(high*1.15)},
  fixed:{low:round(low*1.15),high:round(high*1.25)},
- disclaimer:"RESEARCH DEMONSTRATION — NOT PRESCOTT'S BEST PRICING OR A QUOTE. Ranges are illustrative broad-scope priors, not locally verified bids. Sample cost-plus fee (15%) and fixed-price provision (15–25%) are hypothetical, NOT Andrew's approved rates. Site conditions, permits, materials, taxes and scope may change costs.",
+ disclaimer:"Ballpark planning estimate, not a binding quote. Based on an initial research model with example pricing assumptions; we'll improve it by comparing with actual contractor bids. Final scope, material selection, labor, access and site conditions affect the written price.",
  explanation:'Fixed pricing covers a defined scope and its priced risks; cost-plus uses documented actual allowable costs plus an agreed fee and need not be capped. This model is solely to demonstrate how the comparison works.'};
 }

@@ -9,7 +9,7 @@ test('holiday lighting provides 4 distinct priced-as-concepts packages',()=>{
  assert.equal(holidayPackages.some(p=>p.id==='permanent'),true);
  for(const p of holidayPackages){
   assert.ok(p.features.length>=3);
-  assert.ok(p.range.includes('Planning example')||p.range.includes('Research scenario'));
+  assert.ok(p.range.includes('Starting planning price')||p.range.includes('Research scenario'));
  }
 });
 test('holiday lighting and design studio render in protected preview without promises',()=>{
@@ -19,7 +19,7 @@ test('holiday lighting and design studio render in protected preview without pro
   assert.match(html,/<meta name="robots" content="noindex,nofollow">/);
   assert.match(html,/Holiday Lighting/);
   assert.match(html,/\/holiday.js/);
-  assert.match(html,/not (?:current offers|AI image generation)|not actual installation/i);
+  assert.match(html,/not (?:a confirmed quote|AI image generation)|not actual installation/i);
   assert.ok(sitemapPaths().includes('/remodeling-preview'+slug));
  }
  const studio=marketingPage('/remodeling-preview/holiday-lighting/design');
@@ -36,6 +36,7 @@ test('holiday lighting and design studio render in protected preview without pro
 test('all 11 generated images have descriptive alt text and appear in the concept gallery',()=>{
  const page=marketingPage('/remodeling-preview/holiday-lighting');
  assert.equal(holidayImages.length,11);
+ assert.match(page,/Starting example: \$149 for a small/);
  assert.equal(new Set(holidayImages.map(x=>x.file)).size,11);
  for(const img of holidayImages){
   assert.ok(img.file.endsWith('.webp'));
@@ -55,5 +56,5 @@ test('holiday plan separates product purchase and future crew review',()=>{
  assert.match(page,/takedown/i);
  assert.match(page,/site review/i);
  assert.match(page,/Alexa/);
- assert.match(page,/not current offers/);
+ assert.match(page,/not a confirmed quote/);
 });

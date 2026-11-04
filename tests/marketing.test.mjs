@@ -106,7 +106,8 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(process.body,/class="site-card-icon">04/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
-  assert.match(pricePage.body,/RESEARCH DEMONSTRATION/i);
+  assert.match(pricePage.body,/Useful starting numbers/i);
+  assert.match(pricePage.body,/\$16,100/);
   const sample={project:'bath-full',size:'medium',finish:'standard',condition:'straightforward'};
   const one=await call('/api/public/budget','POST',sample);
   const two=await call('/api/public/budget','POST',sample);
@@ -114,7 +115,9 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.equal(one.body.planningDirectCosts.low,14000);
   assert.equal(one.body.costPlus.low,16100);
   assert.equal(one.body.fixed.high,43800);
-  assert.match(one.body.disclaimer,/NOT PRESCOTT/);
+  assert.equal(one.body.homeownerRange.low,16100);
+  assert.equal(one.body.homeownerRange.high,43800);
+  assert.match(one.body.disclaimer,/Ballpark planning estimate/);
   const invalid=await call('/api/public/budget','POST',{project:'unknown'});
   assert.equal(invalid.status,400);
   const noConsent=await call('/api/public/inquiry','POST',{name:'Test User',email:'test@example.org',project:'Bathroom remodeling',consent:false});
@@ -145,7 +148,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(custom.headers['x-robots-tag'],/noindex/);
   const customEstimate=await hostCall('/estimate','www.prescottsbestremodeling.com');
   assert.equal(customEstimate.status,200);
-  assert.match(customEstimate.body,/Research demonstration/i);
+  assert.match(customEstimate.body,/Useful starting numbers/i);
   const customPrivate=await hostCall('/proposal','prescottsbestremodeling.com');
   assert.equal(customPrivate.status,200);
   assert.match(customPrivate.body,/Private Proposal/);
@@ -169,7 +172,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(llms.body,/Knowledge center/);
   assert.match(llms.body,/private proposal portal is access-controlled/);
   assert.match(llms.headers['content-type'],/text\/plain/);
-  assert.match(llms.body,/\\n## Main pages\\n/);
+  assert.match(llms.body,/\n## Main pages\n/);
   const full=await hostCall('/llms-full.txt','prescottsbestremodeling.com');
   assert.equal(full.status,200);
   assert.match(full.body,/Bathroom Remodel Planning Checklist/);

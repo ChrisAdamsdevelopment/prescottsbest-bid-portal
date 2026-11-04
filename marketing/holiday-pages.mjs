@@ -26,9 +26,9 @@ const gallery='<section class="site-section holiday-concept-gallery" aria-label=
   '<article class="holiday-reference-card holiday-reference-'+escapeHtml(item.id)+'"><h3>'+escapeHtml(item.label)+'</h3>'+conceptPicture(item.id)+'</article>').join('')+
  '</div></section>';
 const packages=[
- {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color roofline with a clean finish.',features:['Commercial-grade C9-style LED concept','Front-facing roofline','Simple timer setup'],range:'Planning example from $699',tone:'warm'},
- {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'Roofline plus a welcoming porch, garage, or entry accent.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'Planning example from $999',tone:'candy'},
- {id:'showcase',name:'Neighborhood Showcase',style:'Classic multicolor',copy:'A richer design with roofline, landscape accents and more zones.',features:['Roofline plus two accents','Tree or shrub lighting concept','Custom color choice'],range:'Planning example from $1,499',tone:'festive'},
+ {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color roofline with a clean finish.',features:['Commercial-grade C9-style LED concept','Front-facing roofline','Simple timer setup'],range:'Starting planning price $599',tone:'warm'},
+ {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'Roofline plus a welcoming porch, garage, or entry accent.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'Starting planning price $899',tone:'candy'},
+ {id:'showcase',name:'Neighborhood Showcase',style:'Classic multicolor',copy:'A richer design with roofline, landscape accents and more zones.',features:['Roofline plus two accents','Tree or shrub lighting concept','Custom color choice'],range:'Starting planning price $1,399',tone:'festive'},
  {id:'permanent',name:'Year-Round Smart Lights',style:'Color-changing',copy:'Permanent outdoor-rated lighting with app scenes for more than just Christmas.',features:['Product-specific app setup','Schedule and scene presets','Smart-home compatibility review'],range:'Research scenario $22–$32 per foot',tone:'smart'}
 ];
 const sections=[
@@ -48,11 +48,12 @@ export function holidayPages(link){
   body:'<section class="site-pagehead holiday-head"><div class="holiday-head-copy"><span class="kicker">SEASONAL CONCIERGE · PRESCOTT AREA</span>'+
    '<h1>Holiday lights, thoughtfully designed. We handle the hard part.</h1>'+
    '<p class="lede">Explore your Christmas lighting style from the comfort of home. Start with a package or create your own design, then speak directly with Prescott’s Best about materials, installation and service.</p>'+
-   '<p class="micro">Package descriptions and price examples are concepts being evaluated for launch, not current offers or contractor-approved bids. Availability is not yet confirmed.</p>'+
+   '<p class="micro">Our modeled entry price is $599 for a small, accessible, one-story front roofline. It is a starting estimate, not a confirmed quote. Extra footage, materials, access, removal and storage can change the price. Please request a scope review before booking.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Try the home lighting preview</a>'+
    '<a class="site-button outline" href="'+link('/schedule')+'">Discuss your holiday project</a></div></div>'+conceptPicture('classic','holiday-head-media')+'</section>'+
    '<section class="site-section"><div class="section-heading"><span class="kicker">START WITH A LOOK</span><h2>Choose a style, then make it yours.</h2><p>Four starting points. Everything is adjustable after a site review.</p></div>'+
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
+   '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Starting example: $149 for a small, accessible ornamental tree.</strong> Larger trees, extra strands, a lift, material selection and removal change the cost. Prices are an initial research baseline; a written scope confirms the work.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
    '<section class="site-section holiday-why"><h2>A simpler way to plan seasonal decorating</h2>'+
    '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+'</div></section>'+gallery+
    '<section class="site-section"><h2>Questions people ask</h2><div class="faqs">'+[
@@ -60,7 +61,7 @@ export function holidayPages(link){
     ['Can I see my actual home decorated?','Yes. The Design Studio lets you choose a house photo from your device, trace the roofline and preview light colors locally. It is an illustration, not a photorealistic AI promise or measured installation drawing.'],
     ['Can the lights work with Alexa, Google or Apple Home?','Some lights and controllers work with compatible assistants and Matter hubs. This depends on the exact manufacturer and model. Product setup, permissions and networking are verified before quoting.'],
     ['What about takedown after Christmas?','Optional takedown, maintenance and storage can be discussed during an estimate. The online examples do not guarantee these services are included.'],
-    ['Can you provide a firm price on the website?','Not yet. Roofline length, access height, power availability, product selection and schedule must be checked. The online numbers are planning examples only, not offers to contract.']
+    ['Can you provide a firm price on the website?','The site shows a starting price and adjusts a ballpark range when you enter a rough length. For the Classic example, $599 models up to 60 feet on an easily accessible one-story front roofline. Final installed cost depends on selected lights, access, power, removal and storage. Andrew confirms a written quote after review.']
    ].map(([q,a])=>'<details><summary>'+escapeHtml(q)+'</summary><p>'+escapeHtml(a)+'</p></details>').join('')+'</div></section>'+
    '<section class="site-cta"><h2>Want a holiday display that fits your home?</h2><p>See a concept first, then discuss what is feasible. Call '+safeContact+'.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Create my preview</a>'+

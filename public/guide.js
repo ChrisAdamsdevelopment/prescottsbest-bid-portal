@@ -59,7 +59,7 @@
  });
  stop.addEventListener('click',endSpeech);
  copy.addEventListener('click',async()=>{
-  const notes=history.map(turn=>(turn.role==='user'?'My project question: ':'Project Guide suggestion: ')+turn.text).join('\\n\\n');
+  const notes=history.map(turn=>(turn.role==='user'?'My project question: ':'Project Guide suggestion: ')+turn.text).join('\n\n');
   try{await navigator.clipboard.writeText(notes);status.textContent='Notes copied. You can paste them into an email to Prescott’s Best.';}
   catch{status.textContent='Copy is unavailable in this browser. You can select the discussion above instead.';}
  });

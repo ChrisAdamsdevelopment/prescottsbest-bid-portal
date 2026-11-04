@@ -9,13 +9,14 @@
   worksheet=$('holiday-worksheet'),save=$('holiday-download'),json=$('holiday-json'),
   print=$('holiday-print'),email=$('holiday-email'),aiConsent=$('holiday-ai-consent'),aiAsk=$('holiday-ai-ask'),aiStatus=$('holiday-ai-status'),aiAnswer=$('holiday-ai-answer');
  const packages={
-  classic:{name:'Classic Roofline',tone:'warm',base:699,rate:7.5},
-  welcome:{name:'Warm Welcome',tone:'candy',base:999,rate:9.5},
-  showcase:{name:'Neighborhood Showcase',tone:'festive',base:1499,rate:11.5},
+  classic:{name:'Classic Roofline',tone:'warm',base:599,rate:7.5},
+  welcome:{name:'Warm Welcome',tone:'candy',base:899,rate:9.5},
+  showcase:{name:'Neighborhood Showcase',tone:'festive',base:1399,rate:11.5},
   permanent:{name:'Year-Round Smart Lights',tone:'smart',base:0,rate:27}
  };
  const accentLabels={entry:'Doorway or porch accent',garage:'Garage outline',bush:'Shrub or small tree lights',path:'Walkway lighting',smart:'App scene / timer setup'};
- const accentExamples={entry:125,garage:150,bush:175,path:175,smart:150}; // Not approved retail prices.
+ const accentExamples={entry:125,garage:150,bush:149,path:175,smart:150}; // Planning assumptions, not supplier quotes.
+ const productFactors={c9:1,rope:1.1,icicle:1.2,rgbic:1.65,permanent:1};
  const colorSets={
   warm:['#ffe4a3'],cool:['#f4f9ff'],candy:['#f2f7ff','#ff354e'],
   festive:['#f22849','#14ca8c','#f6dc60','#4378ff'],smart:['#3ff1dd','#ca7afd','#ffbf6a','#4cb4fb']
@@ -93,6 +94,10 @@
   const pkg=packages[packageSelect.value]||packages.classic;
   const selected=[...document.querySelectorAll('.holiday-addons input:checked')].map(x=>x.value);
   add('Package concept: '+pkg.name);
+  const isPermanent=pkg.id==='permanent'||productSelect.value==='permanent';
+  const productFactor=productFactors[productSelect.value]||1;
+  const sampleBase=isPermanent?120*27:pkg.base*productFactor;
+  add('Starting design example: '+USD(sampleBase)+' for '+(isPermanent?'120 feet of permanent lighting (assumed $27/ft)':'an accessible one-story front roofline up to 60 feet')+'. Selected accents and verified materials can change it.');
   add('Light colors: '+toneSelect.selectedOptions[0].textContent);
   add('Preferred light type: '+productSelect.selectedOptions[0].textContent);
   add('Roofline guide points: '+points.length+' (not measured)');
@@ -100,17 +105,15 @@
   const length=Number(feet.value),valid=Number.isFinite(length)&&length>=10&&length<=1200;
   if(valid){
    // Budget ranges are research examples derived from a tentative model and never submitted as bids.
-   const core=Math.max(pkg.base,pkg.rate*length);
+   const core=(isPermanent?27*length:(pkg.base+Math.max(0,length-60)*pkg.rate)*productFactor);
    const extras=selected.reduce((sum,k)=>sum+(accentExamples[k]||0),0);
    const total=core+extras;
-   if((productSelect.value==='c9'&&pkg.id!=='permanent')||(productSelect.value==='permanent'&&pkg.id==='permanent'))
-    add('Illustrative planning range only: '+USD(total*.85)+'–'+USD(total*1.3));
-   else add('No price example for this specialty light type. Ask for a product-specific contractor review.');
+   add('Illustrative project budget: '+USD(Math.max(sampleBase,total*.9))+'–'+USD(total*1.3)+' (includes model-based adjustments for your chosen light type, not an approved retail quote).');
    const extraLength=length*1.1;
    add('Provisional ordering worksheet: '+Math.ceil(extraLength)+' feet of appropriate product including 10% allowance; site measurement required');
    if(productSelect.value==='c9')add('Provisional C9-style spacing reference: about '+Math.ceil(extraLength)+' attachment points at approximately 12 inches (verify supplier installation guide)');
    else add('Specialty lights require manufacturer-approved segment lengths, controllers, connectors and attachment methods. This is not a product order.');
-  }else add('Add estimated light-run length for a research-only cost illustration and preliminary material length.');
+  }else add('Add an approximate roofline length to adjust the visible starting-price example. A site measurement is still required.');
   const routeSegments=segmentNotes(valid?length:null);
   if(valid&&routeSegments.length)add('Visual segment allocation (NOT measured): '+routeSegments.slice(0,7).map(s=>s.id+' ~'+s.provisionalFeet+' ft').join('; ')+(routeSegments.length>7?' and '+(routeSegments.length-7)+' more':'')+'.');
   add('Never treat this preview as an installation/safety plan. Lead must confirm attachment method, heights, ladders, outlets/GFCI, power budget, weather, scope and licensing.');
@@ -125,7 +128,7 @@
    materialOrderStatus:'NOT APPROVED: confirm measurement, attachment, outdoor rating, breaker capacity and labor on site',
    seasonalTakedownIncluded:false,contractPrice:null,hasPhoto:!!image,
    notes:'No live price quote; owner must approve product selection, worker instructions and service agreement.'};
-  json.disabled=points.length<2;print.disabled=points.length<2;email.disabled=points.length<2;
+  json.disabled=points.length<2;print.disabled=points.length<2;email.disabled=false;
  }
  const USD=x=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Math.round(x));
  async function load(src,sample=false){

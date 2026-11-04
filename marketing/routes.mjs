@@ -88,16 +88,16 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- Online pricing is preliminary demonstration data, not approved estimates.',
    '- Permit requirements, contractor availability, and license status must be independently verified.',
    '- This site currently has search indexing disabled pending the final domain and content launch.'
-  ].join('\\n')+'\\n';
+  ].join('\n')+'\n';
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
   res.end(md);return true;
  }
  if(path==='/llms-full.txt'){
-  const text='# Prescott’s Best Construction — Homeowner Knowledge Library\\n\\n'+
-   '> General residential remodeling guidance. Not a construction contract, price quote or permit authorization.\\n\\n'+
-   articles.map(a=>'## '+a.title+'\\nPublished '+a.date+'\\n'+a.excerpt+'\\n\\n'+
-    a.sections.map(([h,body])=>'### '+h+'\\n'+body+'\\n').join('\\n')+
-    '\\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\\n').join('\\n---\\n');
+  const text='# Prescott’s Best Construction — Homeowner Knowledge Library\n\n'+
+   '> General residential remodeling guidance. Not a construction contract, price quote or permit authorization.\n\n'+
+   articles.map(a=>'## '+a.title+'\nPublished '+a.date+'\n'+a.excerpt+'\n\n'+
+    a.sections.map(([h,body])=>'### '+h+'\n'+body+'\n').join('\n')+
+    '\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\n').join('\n---\n');
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
   res.end(text);return true;
  }
