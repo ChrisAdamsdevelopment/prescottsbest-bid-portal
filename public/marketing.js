@@ -102,7 +102,9 @@ if(lead){
    const result=await fetch('/api/public/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
    const json=await result.json();
    if(!result.ok)throw Error(json.error||'Request could not be sent.');
-   info.textContent='Your project request was recorded. Reference: '+json.reference+'. This is not a confirmed appointment. If urgent, call (928) 350-0940.';
+   info.textContent=json.notificationStatus==='sent'?
+    'Request received and notification accepted for Chris. Reference: '+json.reference+'. We will follow up; this is not a confirmed appointment.':
+    'Your request was saved as '+json.reference+', but an email notification has not been confirmed. To make sure Chris knows right away, please call (928) 350-0940. Your details are still saved for staff review.';
    lead.reset();requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
   }catch(err){info.textContent=err.message+' Please email chris@prescottsbestconstruction.com or call (928) 350-0940.';}
   finally{submit.disabled=false;}

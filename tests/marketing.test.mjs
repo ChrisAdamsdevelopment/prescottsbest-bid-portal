@@ -126,6 +126,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
    notes:'SYNTHETIC QA ONLY',consent:true,requestId:'synthetic-unique-request-00000001'};
   const added=await call('/api/public/inquiry','POST',lead);
   assert.equal(added.status,202);
+  assert.equal(added.body.recorded,true);
   assert.match(added.body.reference,/^PBC-/);
   const repeated=await call('/api/public/inquiry','POST',lead);
   assert.equal(repeated.body.reference,added.body.reference);
@@ -133,7 +134,9 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const staff=await call('/api/admin/leads','GET',null,true);
   assert.equal(staff.body.leads.length,1);
   assert.equal(staff.body.notificationTo,'chris@prescottsbestconstruction.com');
-  assert.equal(staff.body.leads[0].notification.status,'pending');
+  assert.equal(staff.body.leads[0].notification.status,'failed');
+  assert.equal(added.body.notificationStatus,'failed');
+  assert.equal(staff.body.leads[0].notification.attempts,1);
   assert.equal((await call('/')).status,200);
   assert.match((await call('/')).body,/Private Proposal/);
   // Domain-aware routing: branded PBC site at the new hostname while legacy

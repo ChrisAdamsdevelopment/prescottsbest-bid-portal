@@ -1,29 +1,12 @@
 import {randomUUID} from 'node:crypto';
 import {budget} from './budget.mjs';
+import {sendLeadEmail,emailConfigured} from './email.mjs';
 const contact='chris@prescottsbestconstruction.com';
 const validEmail=s=>typeof s==='string'&&s.length<=180&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 const clean=(s,n)=>typeof s==='string'&&s.length<=n?s.trim():null;
-async function sendNotification(lead){
- const apiKey=process.env.RESEND_API_KEY,from=process.env.LEAD_FROM_EMAIL;
- if(!apiKey||!from)return {sent:false,reason:'Mail provider not configured'};
- const subject='PBC website remodeling request — '+lead.project;
- const body=['New remodeling website request','Reference: '+lead.id,'Name: '+lead.name,
-  'Reply email: '+lead.email,'Phone: '+(lead.phone||'not supplied'),
-  'Project: '+lead.project,'Notes: '+lead.notes,'Created: '+lead.createdAt,
-  'Source: preview remodeling site','Please review the request in the protected PBC staff system.'].join('\n');
- try{
-  const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{
-    Authorization:'Bearer '+apiKey,'Content-Type':'application/json'},
-   body:JSON.stringify({from,to:[contact],reply_to:lead.email,subject,text:body}),
-   signal:AbortSignal.timeout(15000)});
-  if(!r.ok)return {sent:false,reason:'Email provider rejected notification (HTTP '+r.status+')'};
-  const j=await r.json();
-  return {sent:true,providerId:j.id||null};
- }catch{return {sent:false,reason:'Email delivery unavailable'};}
-}
 export async function publicApi(req,res,path,utils){
  const {input,read,change,reply,bad}=utils;
- if(req.method==='GET'&&path==='/api/public/site-status')return reply(res,200,{inquiryEnabled:process.env.LEAD_FORM_ENABLED==='true',appointments:'request_only',budget:'research_demo'});
+ if(req.method==='GET'&&path==='/api/public/site-status')return reply(res,200,{inquiryEnabled:process.env.LEAD_FORM_ENABLED==='true',notificationConfigured:emailConfigured(),appointments:'request_only',budget:'research_demo'});
  if(req.method==='POST'&&path==='/api/public/budget'){
   const v=await input(req,2500);
   const b=budget(v);
@@ -51,16 +34,18 @@ export async function publicApi(req,res,path,utils){
    return {id,already:false,record};
   });
   if(!row.already){
-   const outcome=await sendNotification(row.record);
+   const outcome=await sendLeadEmail(row.record);
    await change(s=>{
     const saved=s.leads.find(l=>l.id===row.id);
     if(saved&&saved.notification.status==='pending'){
-     saved.notification={status:outcome.sent?'sent':'pending',to:contact,
+     saved.notification={status:outcome.sent?'sent':'failed',to:contact,attempts:1,
       ...(outcome.sent?{providerId:outcome.providerId,sentAt:new Date().toISOString()}:{reason:outcome.reason})};
     }
    });
   }
-  return reply(res,202,{reference:row.id,recorded:true,
+  const latest=await read();
+  const notificationStatus=latest.leads.find(x=>x.id===row.id)?.notification?.status||'pending';
+  return reply(res,202,{reference:row.id,recorded:true,notificationStatus,
    note:'A human must review the request; this does not constitute a confirmed appointment.'});
  }
  if(req.method==='GET'&&path==='/api/admin/leads'){
