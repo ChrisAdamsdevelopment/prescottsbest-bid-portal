@@ -5,6 +5,7 @@ import {join} from 'node:path';
 const types=new Set(['page_view','scroll','engagement','cta_click','form_start','form_submit','form_error','budget_complete','storm_checklist','photo_select','ai_question']);
 const sessionPattern=/^[a-f0-9-]{36}$/i;
 const clean=(value,max=90)=>typeof value==='string'?value.slice(0,max).replace(/[^a-zA-Z0-9._:/-]/g,''):'';
+const label=(value,max=90)=>typeof value==='string'?value.slice(0,max).replace(/[<>\r\n]/g,'').trim():'';
 const pathValue=value=>typeof value==='string'&&value.startsWith('/')&&!value.startsWith('//')?clean(value.split(/[?#]/)[0],160):'/';
 const base=()=>join(process.env.DATA_DIR||join(process.cwd(),'.local-data'),'analytics');
 let pending=Promise.resolve();
@@ -92,20 +93,23 @@ export async function analyticsSummary({days=7,leads=[]}={}){
   if(e.type==='cta_click'&&(e.action==='contact'||e.action==='phone'||e.action==='email'))page.contactClicks++;
   byPage.set(e.path,page);
  }
- const lastLeads=leads.filter(l=>Date.parse(l.createdAt||'')>=cutoff);
+ // Prior synthetic QA inquiries verified in the production staff inbox; do not count them as customer opportunities.
+ const knownTestLeadIds=new Set(['PBC-5689C544','PBC-33DADD91','PBC-5EC92476']);
+ const allRecentLeads=leads.filter(l=>Date.parse(l.createdAt||'')>=cutoff);
+ const lastLeads=allRecentLeads.filter(l=>!knownTestLeadIds.has(l.id));
  const leadsBySource=new Map(),leadsByProject=new Map(),leadsByArea=new Map();
  for(const lead of lastLeads){
   inc(leadsBySource,clean(lead.referral?.source,60).toLowerCase()||'direct / unknown');
-  inc(leadsByProject,clean(lead.project,90)||'other');inc(leadsByArea,clean(lead.area,70)||'not supplied');
+  inc(leadsByProject,label(lead.project,90)||'other');inc(leadsByArea,label(lead.area,70)||'not supplied');
  }
  const top=(map,limit)=>[...map.entries()].sort((a,b)=>b[1]-a[1]).slice(0,limit).map(([name,count])=>({name,count}));
  return {
   generatedAt:new Date(now).toISOString(),days,
-  scope:'Consent-based first-party browser events; lead counts include all recorded contact inquiries.',
+  scope:'Consent-based first-party browser events; lead counts include customer inquiries but exclude three verified synthetic QA records.',
   privacy:{exactLocationTracked:false,anonymousEmailTracking:false,anonymousIPStored:false,consentRequired:true},
   totals:{pageViews:viewCount,observedSessions:sessions.size,activeSessions5m:active.size,
    engagedSeconds:Math.round(activeSeconds),avgEngagedSecondsPerView:viewCount?Math.round(activeSeconds/viewCount):0,
-   leadRequests:lastLeads.length,formStarts:byEvent.get('form_start')||0,formSubmits:byEvent.get('form_submit')||0,
+   leadRequests:lastLeads.length,testRequestsExcluded:allRecentLeads.length-lastLeads.length,formStarts:byEvent.get('form_start')||0,formSubmits:byEvent.get('form_submit')||0,
    budgetCompletions:byEvent.get('budget_complete')||0,stormChecklists:byEvent.get('storm_checklist')||0,
    contactClicks:[...byPage.values()].reduce((s,x)=>s+x.contactClicks,0)},
   pages:[...byPage.values()].sort((a,b)=>b.views-a.views).slice(0,30).map(p=>({...p,engagedSeconds:Math.round(p.engagedSeconds),avgEngagedSeconds:p.views?Math.round(p.engagedSeconds/p.views):0})),

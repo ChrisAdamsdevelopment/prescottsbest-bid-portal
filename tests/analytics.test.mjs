@@ -36,3 +36,16 @@ test('analytics require permission, strip personal details and aggregate page en
   await rm(directory,{recursive:true,force:true});
  }
 });
+
+test('customer opportunity metrics exclude known synthetic production QA submissions',async()=>{
+ const rows=[
+  {id:'PBC-5689C544',createdAt:new Date().toISOString(),project:'Storm or flood damage reconstruction'},
+  {id:'PBC-33DADD91',createdAt:new Date().toISOString(),project:'Storm or flood damage reconstruction'},
+  {id:'PBC-5EC92476',createdAt:new Date().toISOString(),project:'Storm or flood damage reconstruction'},
+  {id:'PBC-88888888',createdAt:new Date().toISOString(),project:'Bathroom remodeling',area:'Prescott Valley'}
+ ];
+ const report=await analyticsSummary({days:1,leads:rows});
+ assert.equal(report.totals.leadRequests,1);
+ assert.equal(report.totals.testRequestsExcluded,3);
+ assert.deepEqual(report.leadAreas,[{name:'Prescott Valley',count:1}]);
+});
