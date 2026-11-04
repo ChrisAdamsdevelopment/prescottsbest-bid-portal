@@ -118,7 +118,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(path==='/sitemap.xml'){
   if(!indexed)throw bad('Sitemap not published yet',404);
   const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+
-   sitemapPaths().map(p=>'<url><loc>'+origin.replace(/\/$/,'')+(marketingHost?p.replace('/remodeling-preview',''):p)+'</loc></url>').join('')+'</urlset>';
+   sitemapPaths().map(p=>'<url><loc>'+origin.replace(/\/$/,'')+((marketingHost?p.replace('/remodeling-preview',''):p)||'/')+'</loc></url>').join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;
  }
