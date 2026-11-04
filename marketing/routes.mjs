@@ -87,7 +87,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- AI-generated pictures are clearly labeled design inspiration, not completed jobs.',
    '- Online pricing is preliminary demonstration data, not approved estimates.',
    '- Permit requirements, contractor availability, and license status must be independently verified.',
-   '- This site currently has search indexing disabled pending the final domain and content launch.'
+   '- Public homeowner pages are available for search discovery; project details, prices and availability can change after contractor review.'
   ].join('\n')+'\n';
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
   res.end(md);return true;
