@@ -21,6 +21,8 @@ test('homeowner routes have complete pages, real owner scope and safe drafts',()
  assert.match(marketingPage('/remodeling-preview/concierge'),/minimum job size/i);
  assert.match(marketingPage('/remodeling-preview/privacy'),/retention schedule/i);
  assert.match(marketingPage('/remodeling-preview/projects'),/original project videos/i);
+ assert.match(marketingPage('/remodeling-preview/projects'),/Crystal Creek accessible bathroom project/);
+ assert.match(marketingPage('/remodeling-preview/projects'),/instagram.com\/p\/DV162KsgUxP/);
  assert.match(marketingPage('/remodeling-preview/start-here'),/planning-form/);
  assert.match(marketingPage('/remodeling-preview/contact'),/lead-unavailable/);
  assert.match(marketingPage('/remodeling-preview/contact'),/<form id="inquiry-form" class="inquiry-form">/);
