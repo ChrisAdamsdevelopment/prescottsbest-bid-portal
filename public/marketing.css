@@ -452,3 +452,16 @@
 .lead-photo-list span{display:block;overflow-wrap:anywhere;font-size:12px;line-height:1.4;padding:6px}
 .lead-photo-section button[hidden]{display:none!important}
 @media(max-width:560px){.lead-photo-section{padding:15px}.lead-photo-list{grid-template-columns:repeat(2,minmax(0,1fr))}.lead-photo-section input[type=file]::file-selector-button{margin-bottom:7px}}
+
+/* Explicit consent for optional first-party usage analytics. */
+.analytics-consent{position:fixed;z-index:10000;bottom:15px;left:50%;transform:translateX(-50%);width:min(900px,calc(100% - 28px));box-sizing:border-box;background:#f7f8f3;border:2px solid #225039;border-radius:13px;box-shadow:0 12px 40px #142b2680;padding:18px 20px;display:flex;gap:22px;align-items:center;color:#1b382b}
+.analytics-consent>div:first-child{flex:1}
+.analytics-consent strong{font-size:19px}
+.analytics-consent p{font-size:14px;line-height:1.5;margin:6px 0}
+.analytics-consent a{font-size:14px;color:#245b40;text-decoration:underline;font-weight:700}
+.analytics-consent-actions{display:flex;flex-direction:column;gap:8px;min-width:156px}
+.analytics-consent-actions button{min-height:44px;cursor:pointer;border-radius:8px;padding:9px 16px;font:inherit;font-weight:700}
+.analytics-consent-actions button:first-child{background:#193c2b;border:1px solid #193c2b;color:white}
+.analytics-consent-actions button:last-child{background:transparent;border:1px solid #879e8c;color:#193c2b}
+.footer-analytics-settings{display:block;background:transparent;border:none;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;margin-top:9px}
+@media(max-width:670px){.analytics-consent{bottom:74px;flex-direction:column;align-items:stretch;padding:15px}.analytics-consent-actions{flex-direction:row}.analytics-consent-actions button{flex:1}}

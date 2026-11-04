@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check server.mjs && node --check public/app.js && node --check marketing/site.mjs && node --check marketing/storm-page.mjs && node --check marketing/wildfire-page.mjs && node --check public/storm.js && node --check marketing/budget.mjs && node --check marketing/lead-images.mjs && node --check public/photo-upload.js && node --check marketing/api.mjs && node --check marketing/email.mjs && node --check marketing/routes.mjs && node --check public/marketing.js && node --check marketing/ai-guide.mjs && node --check marketing/guide-page.mjs && node --check public/guide.js && node --check marketing/holiday-pages.mjs && node --check marketing/holiday-assets.mjs && node --check public/holiday.js"
+    "check": "node --check server.mjs && node --check public/app.js && node --check marketing/site.mjs && node --check marketing/storm-page.mjs && node --check marketing/wildfire-page.mjs && node --check public/storm.js && node --check marketing/budget.mjs && node --check marketing/lead-images.mjs && node --check public/photo-upload.js && node --check marketing/analytics.mjs && node --check public/analytics-client.js && node --check marketing/api.mjs && node --check marketing/email.mjs && node --check marketing/routes.mjs && node --check public/marketing.js && node --check marketing/ai-guide.mjs && node --check marketing/guide-page.mjs && node --check public/guide.js && node --check marketing/holiday-pages.mjs && node --check marketing/holiday-assets.mjs && node --check public/holiday.js"
   },
   "dependencies": {
     "nodemailer": "7.0.13",

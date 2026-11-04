@@ -16,6 +16,7 @@ const text=(lead)=>[
  'Reply email: '+lead.email,
  'Phone: '+(lead.phone||'Not provided'),
  'Project: '+lead.project,
+ 'Project area (voluntary): '+(lead.area||'Not provided'),
  'Details: '+lead.notes,
  'Created: '+lead.createdAt,
  'Source: Prescott’s Best Remodeling website',

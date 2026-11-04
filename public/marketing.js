@@ -46,6 +46,7 @@ if(element){
    });
    tools.append(printable,copy);
    target.replaceChildren(head,modes,expl,warning,tools,next);
+   window.pbcAnalytics?.track('budget_complete');
   }catch(err){status.textContent='Could not calculate this example: '+err.message;}
  };
  element.addEventListener('submit',event=>{event.preventDefault();calculate();});
@@ -127,7 +128,8 @@ if(lead){
    data.photos=window.pbcPreparePhotos?await window.pbcPreparePhotos():[];
    const result=await fetch('/api/public/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
    const json=await result.json();
-   if(!result.ok)throw Error(json.error||'Request could not be sent.');
+   if(!result.ok){window.pbcAnalytics?.track('form_error');throw Error(json.error||'Request could not be sent.');}
+   window.pbcAnalytics?.track('form_submit');
    info.textContent=json.notificationStatus==='sent'?
     'Request received and notification accepted for Chris. Reference: '+json.reference+'. '+(json.photosReceived?'Photos attached: '+json.photosReceived+'. ':'')+'We will follow up; this is not a confirmed appointment.':
     'Your request was saved as '+json.reference+', but an email notification has not been confirmed. To make sure Chris knows right away, please call (928) 350-0940. Your details are still saved for staff review.';

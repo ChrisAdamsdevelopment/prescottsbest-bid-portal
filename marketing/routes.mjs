@@ -30,6 +30,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/marketing.css':['public/marketing.css','text/css; charset=utf-8'],
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
  '/photo-upload.js':['public/photo-upload.js','text/javascript; charset=utf-8'],
+ '/analytics-client.js':['public/analytics-client.js','text/javascript; charset=utf-8'],
  '/guide.js':['public/guide.js','text/javascript; charset=utf-8'],
  '/holiday.js':['public/holiday.js','text/javascript; charset=utf-8'],
  '/storm.js':['public/storm.js','text/javascript; charset=utf-8'],

@@ -1,5 +1,6 @@
 import {randomUUID} from 'node:crypto';
 import {budget} from './budget.mjs';
+import {recordAnalytics,analyticsSummary} from './analytics.mjs';
 import {prepareLeadPhotos,saveLeadPhotos,readLeadPhoto,photoUploadReady} from './lead-images.mjs';
 import {sendLeadEmail,emailConfigured} from './email.mjs';
 const contact='chris@prescottsbestconstruction.com';
@@ -8,6 +9,19 @@ const clean=(s,n)=>typeof s==='string'&&s.length<=n?s.trim():null;
 export async function publicApi(req,res,path,utils){
  const {input,read,change,reply,bad}=utils;
  if(req.method==='GET'&&path==='/api/public/site-status')return reply(res,200,{inquiryEnabled:process.env.LEAD_FORM_ENABLED==='true',notificationConfigured:emailConfigured(),appointments:'request_only',budget:'research_demo',photoUploadEnabled:photoUploadReady()});
+ if(req.method==='POST'&&path==='/api/public/analytics'){
+  if(req.headers['sec-gpc']==='1'||req.headers.dnt==='1')return reply(res,202,{accepted:0});
+  const body=await input(req,12000);
+  const result=await recordAnalytics(body);
+  return reply(res,202,result);
+ }
+ if(req.method==='GET'&&path==='/api/admin/analytics'){
+  utils.admin(req);
+  const u=new URL(req.url,'http://localhost');
+  const days=Math.max(1,Math.min(30,Number(u.searchParams.get('days'))||7));
+  const data=await read();
+  return reply(res,200,await analyticsSummary({days,leads:data.leads||[]}));
+ }
  if(req.method==='POST'&&path==='/api/public/budget'){
   const v=await input(req,2500);
   const b=budget(v);
@@ -29,8 +43,8 @@ export async function publicApi(req,res,path,utils){
   const v=await input(req,6_500_000);
   if(typeof v.website==='string'&&v.website.trim())return reply(res,200,{reference:'FILTERED',recorded:false});
   const name=clean(v.name,120),email=clean(v.email,180),phone=clean(v.phone||'',35);
-  const project=clean(v.project,100),notes=clean(v.notes||'',1600);
-  if(!name||!validEmail(email)||!project||v.consent!==true||notes===null||phone===null)throw bad('Name, valid email, project and contact consent are required.');
+  const project=clean(v.project,100),notes=clean(v.notes||'',1600),area=clean(v.area||'',80);
+  if(!name||!validEmail(email)||!project||v.consent!==true||notes===null||phone===null||area===null)throw bad('Name, valid email, project and contact consent are required.');
   if(!['Bathroom remodeling','Kitchen remodeling','Shower or bath conversion','Room or garage conversion','Finish carpentry','Other residential remodeling','Storm or flood damage reconstruction'].includes(project))throw bad('Invalid project category');
   const photos=await prepareLeadPhotos(v.photos);
   const entrySource=clean(v.utmSource||'',80)||'';
@@ -43,7 +57,7 @@ export async function publicApi(req,res,path,utils){
    if(s.leads.length>2500)throw bad('Request system temporarily at capacity',503);
    const id='PBC-'+randomUUID().slice(0,8).toUpperCase();
    const imageRecords=await saveLeadPhotos(id,photos);
-   const record={id,requestId:reqId,name,email,phone,project,notes,photos:imageRecords,
+   const record={id,requestId:reqId,name,email,phone,project,notes,area,photos:imageRecords,
     referral:{source:entrySource,path:entryPath},
     createdAt:new Date().toISOString(),consent:true,source:'remodeling-preview',
     notification:{status:'pending',to:contact}};

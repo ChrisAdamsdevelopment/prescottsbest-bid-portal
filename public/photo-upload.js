@@ -27,6 +27,7 @@ if(photoInput){
   }
   photoStatus.textContent=files.length+' photo'+(files.length===1?'':'s')+' selected. We will shrink them and remove photo location metadata before sending.';
   if(photoClear)photoClear.hidden=false;
+  window.pbcAnalytics?.track('photo_select');
  });
  photoClear?.addEventListener('click',()=>{photoInput.value='';resetPreviews();photoStatus.textContent='Selected photos removed.';});
  window.pbcResetPhotoSelection=()=>{photoInput.value='';resetPreviews();photoStatus.textContent='You can add up to three photos (optional).';};

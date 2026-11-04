@@ -51,6 +51,7 @@ if(form){
   const legal=make('p','If you continue, the separate contact form asks for your name and email and requires consent. This worksheet does not attach or transmit photos.','micro');
   actions.append(copy,print,next,clear);
   result.replaceChildren(title,intro,list,caption,actions,legal);
+  window.pbcAnalytics?.track('storm_checklist');
   try{sessionStorage.setItem('pbc_storm_draft',JSON.stringify({location:input.location,affected:input.affected,source:input.source,claim:input.claim,safe:input.safe,notes:(input.notes||'').slice(0,600)}));}catch{}
   result.scrollIntoView({behavior:'smooth',block:'start'});
  });
