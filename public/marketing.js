@@ -52,14 +52,27 @@ if(element){
  element.querySelectorAll('select').forEach(select=>select.addEventListener('change',calculate));
  calculate(); // A real example appears without the visitor completing a form.
 }
+// Only explicit campaign tags and a landing path are retained in this browser session.
+try{
+ const key='pbc_entry';
+ const query=new URLSearchParams(location.search);
+ const campaign=(query.get('utm_source')||'').slice(0,80).replace(/[^a-zA-Z0-9._-]/g,'');
+ if(!sessionStorage.getItem(key))sessionStorage.setItem(key,JSON.stringify({path:location.pathname.slice(0,180),source:campaign}));
+ else if(campaign){const x=JSON.parse(sessionStorage.getItem(key));x.source=campaign;sessionStorage.setItem(key,JSON.stringify(x));}
+}catch{}
 const lead=document.querySelector('#inquiry-form');
 if(lead){
  const fallback=document.querySelector('#lead-unavailable');
  let liveDelivery=false;
  const sendButton=lead.querySelector('button[type=submit]');
+ const photoSection=lead.querySelector('#lead-photo-section');
+ const photoInput=lead.querySelector('#lead-photos');
  // The form remains usable in email-draft mode until verified server delivery is enabled.
  fetch('/api/public/site-status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Unavailable');return r.json()}).then(config=>{
   liveDelivery=config.inquiryEnabled===true;
+  const photoReady=liveDelivery&&config.photoUploadEnabled===true;
+  if(photoSection)photoSection.hidden=!photoReady;
+  if(photoInput)photoInput.disabled=!photoReady;
   sendButton.textContent=liveDelivery?'Send project request':'Open email draft to Chris';
   if(fallback)fallback.hidden=liveDelivery;
  }).catch(()=>{liveDelivery=false;if(fallback)fallback.hidden=false;sendButton.textContent='Open email draft to Chris';});
@@ -75,7 +88,7 @@ if(lead){
    note.value='Storm recovery worksheet — area: '+storm.location+'; affected: '+storm.affected+'; water entry: '+storm.source+'; insurance status: '+storm.claim+'; safe entry: '+storm.safe+'.\n'+(storm.notes?'Notes: '+storm.notes:'');
    note.value=note.value.slice(0,1600);
   }
-  if(saved)note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
+  if(saved&&!storm)note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
   if(plan)note.value+=(note.value?'\n':'')+'My planning worksheet: '+plan.project+'; priority: '+plan.priority+'; timing: '+plan.timing+'; conditions: '+plan.condition+'.\n';
  }catch{}
  const draft=()=>{
@@ -106,13 +119,19 @@ if(lead){
   data.consent=document.getElementById('lead-consent').checked;
   data.requestId=requestId;
   try{
+   const referral=JSON.parse(sessionStorage.getItem('pbc_entry')||'null');
+   data.utmSource=referral?.source||'';
+   data.entryPath=referral?.path||'';
+   const files=photoInput?.files?.length||0;
+   if(files)info.textContent='Preparing '+files+' photo'+(files===1?'':'s')+' securely before sending…';
+   data.photos=window.pbcPreparePhotos?await window.pbcPreparePhotos():[];
    const result=await fetch('/api/public/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
    const json=await result.json();
    if(!result.ok)throw Error(json.error||'Request could not be sent.');
    info.textContent=json.notificationStatus==='sent'?
-    'Request received and notification accepted for Chris. Reference: '+json.reference+'. We will follow up; this is not a confirmed appointment.':
+    'Request received and notification accepted for Chris. Reference: '+json.reference+'. '+(json.photosReceived?'Photos attached: '+json.photosReceived+'. ':'')+'We will follow up; this is not a confirmed appointment.':
     'Your request was saved as '+json.reference+', but an email notification has not been confirmed. To make sure Chris knows right away, please call (928) 350-0940. Your details are still saved for staff review.';
-   lead.reset();requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
+   lead.reset();window.pbcResetPhotoSelection?.();requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
   }catch(err){info.textContent=err.message+' Please email chris@prescottsbestconstruction.com or call (928) 350-0940.';}
   finally{submit.disabled=false;}
  });

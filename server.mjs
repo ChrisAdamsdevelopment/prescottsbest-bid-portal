@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {randomBytes,randomUUID,createHash,timingSafeEqual} from 'node:crypto';
 import {maybeServeMarketing} from './marketing/routes.mjs';
 import {publicApi} from './marketing/api.mjs';
+import {pruneOldLeadPhotos} from './marketing/lead-images.mjs';
 import {aiGuideApi} from './marketing/ai-guide.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 const dir=process.env.DATA_DIR||join(root,'.local-data');
@@ -77,7 +78,7 @@ function validate(v){
 function security(res){
  res.setHeader('X-Frame-Options','DENY');res.setHeader('X-Content-Type-Options','nosniff');
  res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
- res.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'");
+ res.setHeader('Content-Security-Policy',"default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'");
 }
 async function route(req,res){
  security(res);const path=new URL(req.url,'http://localhost').pathname;
@@ -90,7 +91,7 @@ async function route(req,res){
  if(!path.startsWith('/api/'))throw bad('Not found',404);
  limit(req);if(req.method==='POST')checkPost(req);
  if(path==='/api/public/ai-guide'||path==='/api/public/ai-guide/status')return aiGuideApi(req,res,path,{input,reply,bad});
- if(path.startsWith('/api/public/')||path==='/api/admin/leads')return publicApi(req,res,path,{input,read,change,reply,bad,admin});
+ if(path.startsWith('/api/public/')||path==='/api/admin/leads'||path.startsWith('/api/admin/lead-photo/'))return publicApi(req,res,path,{input,read,change,reply,bad,admin});
  if(req.method==='POST'&&path==='/api/admin/publish'){
   admin(req);const v=validate(await input(req));
   const id=randomUUID(),now=Date.now(),expires=now+v.expiresInDays*86400000,invite=rand();
@@ -173,6 +174,9 @@ async function route(req,res){
  }
  throw bad('Not found',404);
 }
+const photoCleanup=setInterval(()=>pruneOldLeadPhotos().catch(()=>{}),6*60*60*1000);
+photoCleanup.unref();
+pruneOldLeadPhotos().catch(()=>{});
 const server=http.createServer((req,res)=>route(req,res).catch(e=>{
  if(!res.headersSent)reply(res,e.status||500,{error:e.status?e.message:'Server error'});
  else res.end();

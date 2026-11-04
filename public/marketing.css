@@ -438,3 +438,17 @@
  .storm-plan-result{break-inside:avoid;border:1px solid #777;background:#fff}
  .storm-steps .storm-numbered{grid-template-columns:1fr 1fr}
 }
+
+/* Optional, private photo intake — touch targets and readable feedback. */
+.lead-photo-section[hidden]{display:none!important}
+.lead-photo-section{margin:20px 0;padding:20px;border:1px solid #c8d5c9;border-radius:12px;background:#f3f7f1}
+.lead-photo-section>label{display:block;font-size:19px;font-weight:750;margin-bottom:7px;color:#203f30}
+.lead-photo-section input[type=file]{display:block;box-sizing:border-box;width:100%;padding:16px;border:2px dashed #8bad93;border-radius:10px;background:#fff;min-height:64px;font:inherit;color:#274c39}
+.lead-photo-section input[type=file]::file-selector-button{padding:11px 15px;border:0;border-radius:7px;margin-right:12px;background:#24543c;color:white;font:inherit;font-weight:700;cursor:pointer}
+.lead-photo-section .micro{line-height:1.55;margin:10px 0}
+.lead-photo-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0 0;padding:0;list-style:none}
+.lead-photo-list li{min-width:0;background:#fff;border:1px solid #d7e2d9;border-radius:9px;overflow:hidden}
+.lead-photo-list img{display:block;object-fit:cover;width:100%;aspect-ratio:4/3}
+.lead-photo-list span{display:block;overflow-wrap:anywhere;font-size:12px;line-height:1.4;padding:6px}
+.lead-photo-section button[hidden]{display:none!important}
+@media(max-width:560px){.lead-photo-section{padding:15px}.lead-photo-list{grid-template-columns:repeat(2,minmax(0,1fr))}.lead-photo-section input[type=file]::file-selector-button{margin-bottom:7px}}

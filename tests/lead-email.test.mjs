@@ -73,3 +73,20 @@ test('SMTP fallback requires an accepted Chris recipient',async()=>{
   assert.equal(rejected.sent,false);
  }finally{restore();}
 });
+
+test('approved site photos reach the email-notification attachment list',async()=>{
+ clear();process.env.RESEND_API_KEY='re_fake_test_not_valid';
+ process.env.LEAD_FROM_EMAIL='website@updates.prescottsbestremodeling.com';
+ let received;
+ try{
+  const photo={filename:'project-photo-1.jpg',content:Buffer.from('synthetic')};
+  const result=await sendLeadEmail({...LEAD,photos:[{filename:photo.filename}],referral:{source:'sms',path:'/storm-flood-damage-prescott'}},{
+   attachments:[photo],sendWithResend:async message=>{received=message;return{id:'fake-photo-message'};}
+  });
+  assert.equal(result.sent,true);
+  assert.equal(received.attachments.length,1);
+  assert.equal(received.attachments[0].filename,photo.filename);
+  assert.match(received.text,/Customer site photos: 1 JPEG attachments/);
+  assert.match(received.text,/Campaign source: sms/);
+ }finally{restore();}
+});

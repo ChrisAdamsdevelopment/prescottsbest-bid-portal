@@ -19,11 +19,15 @@ const text=(lead)=>[
  'Details: '+lead.notes,
  'Created: '+lead.createdAt,
  'Source: Prescott’s Best Remodeling website',
+ 'Landing path: '+(lead.referral?.path||'Not recorded'),
+ 'Campaign source: '+(lead.referral?.source||'Direct / unknown'),
+ 'Customer site photos: '+((lead.photos||[]).length)+' JPEG attachments',
  'Please follow up with the customer using the contact information supplied.'
 ].join('\n');
 
-export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend}={}){
- const message={to:destination,replyTo:lead.email,subject:subject(lead),text:text(lead)};
+export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend,attachments=[]}={}){
+ const message={to:destination,replyTo:lead.email,subject:subject(lead),text:text(lead),
+  attachments:attachments.map(p=>({filename:p.filename,content:p.content,contentType:'image/jpeg'}))};
  if(process.env.RESEND_API_KEY&&process.env.LEAD_FROM_EMAIL){
   try{
    let result;
@@ -31,7 +35,8 @@ export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend}={}){
    else{
     const response=await fetch('https://api.resend.com/emails',{
      method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},
-     body:JSON.stringify({from:process.env.LEAD_FROM_EMAIL,to:[message.to],reply_to:message.replyTo,subject:message.subject,text:message.text}),
+     body:JSON.stringify({from:process.env.LEAD_FROM_EMAIL,to:[message.to],reply_to:message.replyTo,subject:message.subject,text:message.text,
+      ...(message.attachments.length?{attachments:message.attachments.map(p=>({filename:p.filename,content:p.content.toString('base64')}))}:{})}),
      signal:AbortSignal.timeout(16000)
     });
     if(!response.ok)return {sent:false,reason:'Resend provider returned HTTP '+response.status,category:'provider'};
@@ -53,7 +58,7 @@ export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend}={}){
    const password=/^(?:smtp|smtp-relay)\.gmail\.com$/i.test(process.env.SMTP_HOST)?
     process.env.SMTP_PASS.replace(/\s/g,''):process.env.SMTP_PASS;
    const payload={from:{name:'Prescott’s Best Construction',address:process.env.SMTP_FROM},
-    to:message.to,replyTo:message.replyTo,subject:message.subject,text:message.text};
+    to:message.to,replyTo:message.replyTo,subject:message.subject,text:message.text,attachments:message.attachments};
    let result;
    if(sendWithSmtp)result=await sendWithSmtp(payload);
    else{

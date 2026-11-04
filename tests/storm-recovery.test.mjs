@@ -18,7 +18,7 @@ test('storm recovery guide contains local incident facts, actionable resources a
   'Separate flood insurance',
   'SB 1206',
   'cannot negotiate an insurance claim',
-  'does not yet upload photos',
+  'attach up to three photos directly',
   'storm-planner',
   'storm-plan-result'
  ])assert.ok(html.includes(phrase),phrase);
