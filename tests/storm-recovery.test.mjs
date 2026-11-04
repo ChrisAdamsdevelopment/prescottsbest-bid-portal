@@ -26,6 +26,9 @@ test('storm recovery guide contains local incident facts, actionable resources a
  assert.match(html,/rel="canonical" href="https:\/\/prescottsbestremodeling.com\/storm-flood-damage-prescott"/);
  assert.match(html,/\"@type\":\"BlogPosting\"/);
  assert.ok(sitemapPaths().some(p=>p.endsWith('/storm-flood-damage-prescott')));
+ assert.match(html,/href="#storm-planner"/);
+ assert.ok(html.indexOf('storm-planner-section')<html.indexOf('storm-steps'), 'guided worksheet should be near the top');
+ assert.match(html,/id="storm-photos"/);
 });
 test('homepage, blog and contact path link to storm assistance without automatic file uploads',async()=>{
  const home=marketingPage('/remodeling-preview/',options);
