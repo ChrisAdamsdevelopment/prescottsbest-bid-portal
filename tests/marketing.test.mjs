@@ -102,8 +102,11 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(contactPage.body,/AI-generated people, not Prescott/);
   const process=await call('/remodeling-preview/process');
   assert.equal(process.status,200);
-  assert.match(process.body,/class="site-card-icon">01/);
-  assert.match(process.body,/class="site-card-icon">04/);
+  assert.match(process.body,/STEP 01/);
+  assert.match(process.body,/STEP 05/);
+  assert.match(process.body,/cost-plus proposal/);
+  assert.match(process.body,/consultation-measurements.webp/);
+  assert.match(process.body,/AI-generated planning illustration/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/Useful starting numbers/i);

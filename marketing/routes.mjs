@@ -50,6 +50,12 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    staticPaths[key]=['public/site-assets/concepts/'+slug+'-'+variant+'.webp','image/webp'];
   }
  }
+ // Process narrative illustrations: four specifically reviewed AI concepts, never direct user uploads.
+ for(const basename of ['consultation-measurements','design-review-materials','finished-sewing-hidden-office','protected-custom-installation']){
+  const name=basename+'.webp';
+  staticPaths['/site-assets/process/'+name]=['public/site-assets/process/'+name,'image/webp'];
+ }
+ staticPaths['/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp']=['public/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp','image/webp'];
  // Only the 11 approved generated holiday concepts are served; never expose arbitrary local uploads.
  for(const asset of holidayImages){
   const publicPath='/site-assets/holiday-concepts/'+asset.file;
