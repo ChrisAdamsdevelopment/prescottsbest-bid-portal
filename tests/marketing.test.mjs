@@ -42,7 +42,9 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.headers.get('x-robots-tag'),/noindex/);
   const guide=await hostCall('/project-guide','prescottsbestremodeling.com');
   assert.equal(guide.status,200);
-  assert.match(guide.body,/Ask the AI Project Guide/);
+  assert.match(guide.body,/Chat with Scotty/);
+  assert.match(guide.body,/scotty-widget/);
+  assert.match(guide.body,/scotty-consent/);
   assert.match(guide.body,/Google Gemini/);
   assert.match(guide.body,/guide-consent/);
   assert.match(guide.body,/Read last answer aloud/);

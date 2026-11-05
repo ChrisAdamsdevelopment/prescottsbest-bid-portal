@@ -91,6 +91,18 @@ if(lead){
   }
   if(saved&&!storm)note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
   if(plan)note.value+=(note.value?'\n':'')+'My planning worksheet: '+plan.project+'; priority: '+plan.priority+'; timing: '+plan.timing+'; conditions: '+plan.condition+'.\n';
+  const holiday=new URLSearchParams(location.search).get('from')==='holiday'?
+   JSON.parse(sessionStorage.getItem('pbc_holiday_draft')||'null'):null;
+  if(holiday){
+   const category=lead.querySelector('#lead-project');if(category)category.value='Holiday lighting design and installation';
+   note.value=('Holiday lighting design preferences — package: '+String(holiday.package||'not sure')+
+    '; colors: '+String(holiday.colors||'unsure')+'; light type: '+String(holiday.product||'unsure')+
+    '; approximate length: '+(holiday.feet?holiday.feet+' feet':'not measured')+
+    '; access: '+String(holiday.access||'unknown')+
+    '; accents: '+(Array.isArray(holiday.accents)?holiday.accents.join(', '):'none')+
+    '. Please contact me about a site-reviewed quote. My preview photo stays on my device; I can choose to upload a separate photo.').slice(0,1600);
+   sessionStorage.removeItem('pbc_holiday_draft');
+  }
  }catch{}
  const draft=()=>{
   const data=Object.fromEntries(new FormData(lead).entries());

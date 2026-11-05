@@ -22,6 +22,17 @@
   festive:['#f22849','#14ca8c','#f6dc60','#4378ff'],smart:['#3ff1dd','#ca7afd','#ffbf6a','#4cb4fb']
  };
  let image=null,points=[],generated=null;
+ const realConsent=$('holiday-image-consent'),realButton=$('holiday-realistic'),realStatus=$('holiday-image-status');
+ const realArea=$('holiday-real-result'),realBefore=$('holiday-real-before'),realAfter=$('holiday-real-after'),realSave=$('holiday-real-save');
+ let realReady=false,realBusy=false,realData='',realUrls=[];
+ const updateReal=()=>{realButton.disabled=!realReady||!image||!realConsent.checked||realBusy;realSave.disabled=!realData;};
+ function imageObjectURL(data){
+  const binary=atob(data.slice(data.indexOf(',')+1)),bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+  const url=URL.createObjectURL(new Blob([bytes],{type:'image/jpeg'}));
+  realUrls.push(url);return url;
+ }
+ const clearReal=()=>{for(const url of realUrls)URL.revokeObjectURL(url);realUrls=[];realData='';realArea.hidden=true;realBefore.removeAttribute('src');realAfter.removeAttribute('src');updateReal();};
  const setStatus=s=>{status.textContent=s};
  const fit=()=>{
   if(!image)return {x:0,y:0,w:canvas.width,h:canvas.height};
@@ -94,7 +105,7 @@
   const pkg=packages[packageSelect.value]||packages.classic;
   const selected=[...document.querySelectorAll('.holiday-addons input:checked')].map(x=>x.value);
   add('Selected package: '+pkg.name);
-  const isPermanent=pkg.id==='permanent'||productSelect.value==='permanent';
+  const isPermanent=packageSelect.value==='permanent'||productSelect.value==='permanent';
   const productFactor=productFactors[productSelect.value]||1;
   const sampleBase=isPermanent?120*27:pkg.base*productFactor;
   add(isPermanent?'Year-round smart lighting: request a custom quote based on your home, selected system and installation requirements.':'Package starting price: '+USD(pkg.base)+' for an accessible, one-story front roofline up to 60 feet.');
@@ -108,7 +119,7 @@
    const core=(isPermanent?27*length:(pkg.base+Math.max(0,length-60)*pkg.rate)*productFactor);
    const extras=selected.reduce((sum,k)=>sum+(accentExamples[k]||0),0);
    const total=core+extras;
-   if(!isPermanent)add('Estimated price range for your selections: '+USD(Math.max(sampleBase,total*.9))+'–'+USD(total*1.3)+'. We will confirm your final quote after reviewing the measurements, access and lighting products.');
+   if(!isPermanent)add('Optional styles and roofline lengths may change the starting price. Ask for a written, site-reviewed quote before making decisions.');
    const extraLength=length*1.1;
    add('Materials planning guide: approximately '+Math.ceil(extraLength)+' feet including a 10% allowance. Our crew will confirm measurements and product requirements.');
    if(productSelect.value==='c9')add('C9-style attachment guide: approximately '+Math.ceil(extraLength)+' points at typical 12-inch spacing, subject to the selected product and final measurements.');
@@ -118,7 +129,7 @@
   if(valid&&routeSegments.length)add('Visual segment allocation (NOT measured): '+routeSegments.slice(0,7).map(s=>s.id+' ~'+s.provisionalFeet+' ft').join('; ')+(routeSegments.length>7?' and '+(routeSegments.length-7)+' more':'')+'.');
   add('Our installation team will review mounting locations, access, outdoor power and suitable products before scheduling the work.');
   worksheet.append(list);
-  const note=document.createElement('p');note.className='micro';note.textContent='Only the saved image and worksheet you choose to download leave this page. No contact details or photos are submitted automatically.';
+  const note=document.createElement('p');note.className='micro';note.textContent='Instant design stays in your browser. A resized photo is shared only if you separately choose realistic AI rendering or submit a photo with your quote request.';
   worksheet.append(note);
   generated={package:packageSelect.value,packageName:pkg.name,tone:toneSelect.value,
    preferredProduct:productSelect.value,preferredProductName:productSelect.selectedOptions[0].textContent,
@@ -132,6 +143,7 @@
  }
  const USD=x=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Math.round(x));
  async function load(src,sample=false){
+  clearReal();
   if(src instanceof File){
    if(src.size>10*1024*1024||!['image/jpeg','image/png','image/webp'].includes(src.type))throw Error('Choose JPG, PNG or WebP under 10 MB.');
    const bmp=await createImageBitmap(src);
@@ -165,9 +177,23 @@
  });
  $('holiday-undo').addEventListener('click',()=>{points.pop();render();setStatus('Last guide point removed.')});
  $('holiday-reset').addEventListener('click',()=>{points=[];render();setStatus('Light path cleared. Tap new points on the image.')});
- packageSelect.addEventListener('change',()=>{toneSelect.value=packages[packageSelect.value].tone;productSelect.value=packageSelect.value==='permanent'?'permanent':'c9';render()});
- [toneSelect,productSelect,feet,access].forEach(el=>el.addEventListener('change',render));
- document.querySelectorAll('.holiday-addons input').forEach(el=>el.addEventListener('change',render));
+ function choosePackage(){
+  clearReal();
+  toneSelect.value=packages[packageSelect.value].tone;
+  productSelect.value=packageSelect.value==='permanent'?'permanent':'c9';
+  document.querySelectorAll('.holiday-style-pick').forEach(button=>{
+   button.setAttribute('aria-pressed',String(button.dataset.package===packageSelect.value));
+  });
+  render();
+ }
+ packageSelect.addEventListener('change',choosePackage);
+ document.querySelectorAll('.holiday-style-pick').forEach(button=>button.addEventListener('click',()=>{
+  if(!Object.hasOwn(packages,button.dataset.package))return;
+  packageSelect.value=button.dataset.package;choosePackage();
+  setStatus(packages[packageSelect.value].name+' selected. Look at your preview, or choose a photo of your home.');
+ }));
+ [toneSelect,productSelect,feet,access].forEach(el=>el.addEventListener('change',()=>{clearReal();render()}));
+ document.querySelectorAll('.holiday-addons input').forEach(el=>el.addEventListener('change',()=>{clearReal();render()}));
  function download(blob,name){
   const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=name;
   link.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
@@ -217,12 +243,73 @@
    aiStatus.textContent='AI ideas are unavailable right now. You can still save your design and call us.';
   }finally{aiAsk.disabled=!aiConsent.checked}
  });
+ $('holiday-build').addEventListener('click',()=>{
+  render();
+  $('holiday-preview').scrollIntoView({behavior:'smooth',block:'start'});
+  setStatus('Your lighting concept is ready. Save it if you like, or request a quote. You do not need to measure the roofline.');
+ });
+ $('holiday-contact').addEventListener('click',()=>{
+  const pkg=packages[packageSelect.value]||packages.classic;
+  const extras=[...document.querySelectorAll('.holiday-addons input:checked')].map(el=>accentLabels[el.value]);
+  const feetValue=Number(feet.value);
+  const summary={
+   package:pkg.name,colors:toneSelect.selectedOptions[0].textContent,
+   product:productSelect.selectedOptions[0].textContent,
+   feet:Number.isFinite(feetValue)&&feetValue>=10&&feetValue<=1200?feetValue:null,
+   access:access.selectedOptions[0].textContent,accents:extras,
+   hasLocalPreview:!!image,hasDrawnLights:points.length>=2
+  };
+  try{sessionStorage.setItem('pbc_holiday_draft',JSON.stringify(summary));}
+  catch{setStatus('Saved choices are unavailable in this browser. You can still explain your design on the contact page.');}
+  location.href='/schedule?from=holiday';
+ });
+ realConsent.addEventListener('change',updateReal);
+ fetch('/api/public/holiday-image/status',{cache:'no-store'}).then(async response=>{
+  if(!response.ok)throw Error('unavailable');
+  const data=await response.json();realReady=data.available===true;
+  document.querySelector('.holiday-photoreal').hidden=!realReady;
+  realStatus.textContent=realReady?'Realistic AI photo editing is available. Nothing is sent until you agree and press Generate.':'Photorealistic image editing is unavailable right now. The instant design and quote tools still work.';
+  updateReal();
+ }).catch(()=>{realReady=false;document.querySelector('.holiday-photoreal').hidden=true;realStatus.textContent='AI image editing is temporarily unavailable. Continue with the instant local preview.';updateReal();});
+ async function createPhotoForEdit(){
+  const inputCanvas=document.createElement('canvas');
+  const ratio=Math.min(1,1600/image.width,1100/image.height);
+  inputCanvas.width=Math.round(image.width*ratio);inputCanvas.height=Math.round(image.height*ratio);
+  const cx=inputCanvas.getContext('2d');
+  if(!cx)throw Error('Photo conversion unavailable on this device.');
+  cx.drawImage(image,0,0,inputCanvas.width,inputCanvas.height);
+  return inputCanvas.toDataURL('image/jpeg',.86);
+ }
+ async function generateRealistic(){
+  if(!realReady||realBusy||!realConsent.checked||!image)return;
+  realBusy=true;updateReal();realStatus.textContent='Editing the photo with Gemini. Please keep this tab open…';
+  clearReal();
+  let original;
+  try{
+   original=await createPhotoForEdit();
+   const selected=[...document.querySelectorAll('.holiday-addons input:checked')].map(e=>e.value);
+   const req={consent:true,image:original,package:packageSelect.value,tone:toneSelect.value,
+    product:productSelect.value,accents:selected};
+   const response=await fetch('/api/public/holiday-image/preview',{method:'POST',
+    headers:{'Content-Type':'application/json'},body:JSON.stringify(req),cache:'no-store',
+    signal:AbortSignal.timeout(95000)});
+   const result=await response.json();
+   if(!response.ok)throw Error(result.error||'Image editing did not complete.');
+   if(typeof result.image!=='string'||!result.image.startsWith('data:image/jpeg;base64,'))throw Error('Unexpected image format from provider.');
+   realData=result.image;realBefore.src=imageObjectURL(original);realAfter.src=imageObjectURL(realData);realArea.hidden=false;
+   realStatus.textContent='Your AI-edited lighting concept is ready. Compare it to the original, then save the image. Exact roofline geometry and materials still require an on-site review.';
+   realArea.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }catch(err){realStatus.textContent=(err instanceof Error?err.message:'AI editing unavailable')+' Your instant local design is still usable.';}
+  finally{realBusy=false;updateReal();}
+ }
+ realButton.addEventListener('click',()=>void generateRealistic());
+ realSave.addEventListener('click',()=>{if(!realData)return;const a=document.createElement('a');a.href=realAfter.src;a.download='prescottsbest-holiday-ai-concept.jpg';a.click();});
  print.addEventListener('click',()=>window.print());
  // URL selects package only, never accepts arbitrary executable markup.
  const selected=new URLSearchParams(location.search).get('package');
  if(selected&&Object.hasOwn(packages,selected))packageSelect.value=selected;
  toneSelect.value=packages[packageSelect.value].tone;
  productSelect.value=packageSelect.value==='permanent'?'permanent':'c9';
- render();
+ choosePackage();
  load('/site-assets/concepts/local-home-detail.webp',true).catch(()=>render());
 })();

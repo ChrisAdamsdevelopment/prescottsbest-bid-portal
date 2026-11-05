@@ -8,6 +8,7 @@ import {publicApi} from './marketing/api.mjs';
 import {pruneOldLeadPhotos} from './marketing/lead-images.mjs';
 import {aiGuideApi} from './marketing/ai-guide.mjs';
 import {aiGuideUsage} from './marketing/ai-usage.mjs';
+import {holidayImageApi} from './marketing/holiday-image.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 const dir=process.env.DATA_DIR||join(root,'.local-data');
 const key=process.env.PORTAL_ADMIN_KEY||'';
@@ -92,6 +93,7 @@ async function route(req,res){
  if(!path.startsWith('/api/'))throw bad('Not found',404);
  limit(req);if(req.method==='POST')checkPost(req);
  if(path==='/api/public/ai-guide'||path==='/api/public/ai-guide/status')return aiGuideApi(req,res,path,{input,reply,bad});
+ if(path==='/api/public/holiday-image/status'||path==='/api/public/holiday-image/preview')return holidayImageApi(req,res,path,{input,reply,bad});
  if(req.method==='GET'&&path==='/api/admin/ai-guide-usage'){
   admin(req);
   return reply(res,200,await aiGuideUsage(Number(new URL(req.url,'http://localhost').searchParams.get('days'))||30));

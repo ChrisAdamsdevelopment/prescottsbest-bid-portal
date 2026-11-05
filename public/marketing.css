@@ -489,3 +489,84 @@
 .holiday-starting{font-size:22px;letter-spacing:-.02em;color:#1e4b33;line-height:1.2;margin:7px 0}
 @media(min-width:1000px){.holiday-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.holiday-reference-card img{max-block-size:420px}}
+
+/* Scotty: entirely optional AI help, never blocks the regular site or telephone. */
+.guide-next-steps,.scotty-answer-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.guide-next-link,.scotty-answer-links a{display:inline-block;background:#e7f1e6;border:1px solid #93b39b;color:#154632!important;border-radius:9px;padding:9px 12px;text-decoration:none;font-size:15px;font-weight:700}
+.scotty-widget{position:fixed;z-index:65;right:18px;bottom:18px;font-family:inherit;color:#1e3d2c;pointer-events:none}
+.scotty-widget>*{pointer-events:auto}
+.scotty-launch{background:#233e31;color:#fff;border:2px solid #d0aa5e;border-radius:40px;min-width:150px;min-height:57px;padding:8px 20px;font:800 18px system-ui;box-shadow:0 8px 24px #152c2347;cursor:pointer}
+.scotty-launch span{color:#fce3aa}.scotty-launch small{display:block;font-size:11px;font-weight:500;letter-spacing:.03em}
+.scotty-panel[hidden]{display:none!important}
+.scotty-panel{position:absolute;right:0;bottom:calc(100% + 10px);width:min(375px,calc(100vw - 28px));max-height:min(645px,calc(100dvh - 105px));overflow:auto;border:2px solid #d3c096;border-radius:16px;box-shadow:0 18px 45px #1220194d;background:#fffdf8}
+.scotty-head{position:sticky;top:0;z-index:1;background:#23432f;color:white;display:flex;justify-content:space-between;align-items:center;padding:14px 16px}
+.scotty-head div{display:grid;gap:3px}.scotty-head span{font-size:12px}.scotty-head button{font-size:28px;line-height:1;border:0;color:white;background:transparent;cursor:pointer;min-width:42px;min-height:42px}
+.scotty-chat-log{padding:16px;display:grid;gap:10px;max-height:210px;overflow:auto;line-height:1.5;font-size:16px}
+.scotty-chat-log p{margin:0;padding:11px;border-radius:10px;background:#f1f3eb;white-space:pre-wrap}
+.scotty-chat-log .scotty-user{background:#f8eacf}.scotty-chat-log .scotty-reply{background:#e9f1e8}
+.scotty-chat-log strong,.scotty-chat-log span{display:block}.scotty-chat-log strong{margin-bottom:5px;font-size:13px}
+.scotty-shortcuts{display:flex;flex-wrap:wrap;gap:7px;padding:0 14px 10px}
+.scotty-shortcuts a{background:#f6f2e5;border:1px solid #c5bd9f;border-radius:9px;padding:8px;font-size:13px;font-weight:700;color:#204b33}
+#scotty-form{border-top:1px solid #d4ddcf;padding:12px 16px 16px;display:grid;gap:9px}
+#scotty-form>label:first-child{font-size:16px;font-weight:750}
+#scotty-question{width:100%;min-height:70px;max-height:130px;resize:vertical;font:16px system-ui;border-radius:10px;border:2px solid #a9bba9;padding:9px}
+.scotty-permission{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.35}
+.scotty-permission input{width:19px;height:19px;flex:none}
+#scotty-send{background:#245135;color:white;border:0;border-radius:10px;padding:12px;font:750 16px system-ui;min-height:46px}
+#scotty-send:disabled{opacity:.5}
+#scotty-status{margin:0;color:#3a5d44;font-size:13px;line-height:1.35}
+.scotty-widget :focus-visible{outline:3px solid #c6902a;outline-offset:3px}
+@media(max-width:690px){.scotty-widget{right:12px;bottom:78px}.scotty-launch{padding:7px 14px;min-height:50px;font-size:16px}.scotty-panel{max-height:calc(100dvh - 160px)}}
+@media print{.scotty-widget{display:none!important}}
+
+/* Holiday preview quick-start: recognizable styles first, specialist details optional. */
+.holiday-simple-steps{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.holiday-simple-steps span{display:flex;align-items:center;gap:6px;border:1px solid #c7d5c2;background:#ecf3e7;border-radius:999px;padding:8px 11px;font-size:14px;font-weight:750}
+.holiday-simple-steps b{display:grid;place-items:center;background:#315c3b;color:white;width:24px;height:24px;border-radius:50%}
+.holiday-style-picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.holiday-style-pick{display:grid;gap:6px;align-content:center;text-align:left;min-height:77px;padding:12px;background:#f7f5eb;border:2px solid #b8c7b2;border-radius:12px;color:#233d2d;font:750 17px system-ui;cursor:pointer}
+.holiday-style-pick small{font-size:13px;font-weight:600;color:#526b50}
+.holiday-style-pick[aria-pressed="true"]{background:#edf4df;border-color:#31643d;box-shadow:inset 0 0 0 1px #31643d}
+.holiday-style-pick:focus-visible,.holiday-advanced summary:focus-visible{outline:4px solid #b38131;outline-offset:3px}
+.holiday-advanced{border:1px solid #b4c6ac;border-radius:12px;margin-block:7px;padding:0;background:#f7f9f2}
+.holiday-advanced summary{font-size:16px;font-weight:800;cursor:pointer;padding:15px 16px;color:#254734}
+.holiday-advanced-fields{padding:0 16px 18px;display:grid;gap:12px}
+.holiday-advanced-fields fieldset{min-width:0}
+.holiday-request-quote{width:100%;text-align:center;margin-top:17px;min-height:55px;font-size:18px!important}
+.holiday-preview{scroll-margin-top:20px}
+.holiday-preview-status{font-size:16px;line-height:1.5}
+@media(max-width:620px){
+ .holiday-simple-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .holiday-simple-steps span{display:grid;justify-items:center;text-align:center;font-size:12px;border-radius:10px;padding:7px 4px}
+ .holiday-style-picks{gap:8px}
+ .holiday-style-pick{font-size:15px;min-height:74px;padding:9px}
+ .holiday-style-pick small{font-size:12px}
+}
+@media print{.holiday-simple-steps,.holiday-style-picks,.holiday-advanced,.holiday-request-quote{display:none!important}}
+
+/* Keep the independent analytics-choice banner actionable without hiding Scotty on phones. */
+@media(max-width:690px){
+ body:has(#pbc-analytics-consent) .scotty-widget{top:95px;bottom:auto}
+ body:has(#pbc-analytics-consent) .scotty-panel{top:calc(100% + 8px);bottom:auto;max-height:min(430px,calc(100dvh - 245px))}
+}
+
+/* Optional real homeowner-photo AI editing. The local design always remains functional. */
+.holiday-photoreal{margin-top:25px;border:2px solid #a0b69b;border-radius:15px;background:#f4f8ef;padding:clamp(16px,2.7vw,25px);display:grid;gap:14px}
+.holiday-feature-head .kicker{color:#33563c}
+.holiday-feature-head h3{font-size:clamp(21px,2.6vw,28px);line-height:1.25;margin:7px 0 0;color:#203e2c}
+.holiday-photoreal p{line-height:1.6;margin:0}
+.holiday-image-consent{display:flex;align-items:flex-start;gap:11px;background:#fffefa;border:1px solid #d7e0cd;padding:13px;border-radius:10px;font-size:15px;line-height:1.5;color:#284b35}
+.holiday-image-consent input{width:23px;height:23px;flex:none;accent-color:#2e633b;margin-top:2px}
+#holiday-realistic{min-height:54px;font-size:17px;justify-self:start}
+#holiday-realistic:disabled,#holiday-real-save:disabled{opacity:.55;cursor:not-allowed}
+#holiday-image-status{font-size:15px;color:#3e6148}
+.holiday-real-result[hidden]{display:none!important}
+.holiday-real-result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.holiday-real-result figure{margin:0;min-width:0;border:1px solid #c6d6bf;border-radius:12px;overflow:hidden;background:#fff}
+.holiday-real-result img{width:100%;height:auto;aspect-ratio:8/5;object-fit:contain;display:block}
+.holiday-real-result figcaption{padding:8px 10px;font-size:14px;font-weight:750;color:#254532}
+#holiday-real-save{justify-self:start}
+@media(max-width:640px){.holiday-real-result{grid-template-columns:1fr}#holiday-realistic,#holiday-real-save{width:100%}}
+@media print{.holiday-photoreal{display:none!important}}
+
+.holiday-photoreal[hidden]{display:none!important}

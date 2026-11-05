@@ -9,7 +9,7 @@
  const refresh=()=>{send.disabled=!available||busy||!consent.checked||q.value.trim().length<4;};
  const message=(who,txt)=>{
   const row=document.createElement('div');row.className='guide-turn '+(who==='you'?'guide-human':'guide-ai');
-  const heading=document.createElement('strong');heading.textContent=who==='you'?'You asked':'AI Project Guide';
+  const heading=document.createElement('strong');heading.textContent=who==='you'?'You asked':'Scotty · AI assistant';
   const body=document.createElement('p');body.textContent=txt;row.append(heading,body);log.append(row);
   row.scrollIntoView({block:'nearest',behavior:'instant'});return row;
  };
@@ -43,7 +43,16 @@
     cache:'no-store'});
    const data=await r.json();
    if(!r.ok)throw Error(data.error||'AI assistance unavailable.');
-   message('you',question);message('ai',data.answer);
+   message('you',question);
+   const answerRow=message('ai',data.answer);
+   const choices=Array.isArray(data.actions)?data.actions.filter(a=>a&&typeof a.label==='string'&&typeof a.href==='string'&&['/start-here','/estimate','/blog','/schedule'].includes(a.href)):[];
+   if(choices.length){
+    const nextSteps=document.createElement('nav');nextSteps.className='guide-next-steps';nextSteps.setAttribute('aria-label','Scotty suggested next steps');
+    for(const action of choices){
+     const anchor=document.createElement('a');anchor.className='guide-next-link';anchor.href=action.href;anchor.textContent=action.label;nextSteps.append(anchor);
+    }
+    answerRow.append(nextSteps);
+   }
    history.push({role:'user',text:question},{role:'model',text:data.answer.slice(0,650)});
    history=history.slice(-4);
    lastAnswer=data.answer;read.disabled=!('speechSynthesis' in window);copy.disabled=false;
