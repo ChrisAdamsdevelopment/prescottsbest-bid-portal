@@ -17,16 +17,16 @@ export function conceptCardImage(path){
 export function conceptServiceImage(path){
  const scene=scenes[path];if(!scene)return '';
  const detail=base+scene.slug+'-detail.webp',small=base+scene.slug+'-card.webp';
- return '<figure class="service-concept"><img loading="eager" decoding="async" src="'+detail+'" srcset="'+small+' 680w, '+detail+' 1440w" sizes="(max-width: 850px) 100vw, 48vw" width="1440" height="1080" alt="'+esc(scene.alt)+'"><figcaption>Design inspiration · AI-generated concept, not a completed Prescott’s Best project</figcaption></figure>';
+ return '<figure class="service-concept"><img loading="eager" decoding="async" src="'+detail+'" srcset="'+small+' 680w, '+detail+' 1440w" sizes="(max-width: 850px) 100vw, 48vw" width="1440" height="1080" alt="'+esc(scene.alt)+'"><figcaption>Design inspiration • Remodeling visualization</figcaption></figure>';
 }
 export function conceptHero(){
- return '<figure class="hero-visual"><img src="'+base+'kitchen-hero-detail.webp" srcset="'+base+'kitchen-hero-card.webp 680w, '+base+'kitchen-hero-detail.webp 1440w" sizes="100vw" width="1440" height="810" fetchpriority="high" decoding="async" alt="Design inspiration: light remodeled kitchen with white cabinets, wood island, natural daylight and distant mountain views"><figcaption>Design inspiration · AI-generated concept</figcaption></figure>';
+ return '<figure class="hero-visual"><img src="'+base+'kitchen-hero-detail.webp" srcset="'+base+'kitchen-hero-card.webp 680w, '+base+'kitchen-hero-detail.webp 1440w" sizes="100vw" width="1440" height="810" fetchpriority="high" decoding="async" alt="Design inspiration: light remodeled kitchen with white cabinets, wood island, natural daylight and distant mountain views"><figcaption>Kitchen remodeling design inspiration</figcaption></figure>';
 }
 export const conceptPaths=Object.freeze(Object.keys(scenes));
 
 const editorial={
- 'consultation':{alt:'Illustrative scene: two fictional people discussing remodeling sketches and material samples at a kitchen table',caption:'Illustrative consultation · AI-generated people, not Prescott’s Best staff or customers'},
- 'local-home':{alt:'Generic design illustration of a modest high-desert home with trees, granite boulders and a warm sunset',caption:'Regional design inspiration · AI-generated home, not an actual project'}
+ 'consultation':{alt:'Illustrative scene: two fictional people discussing remodeling sketches and material samples at a kitchen table',caption:'Design illustration • Planning the details together'},
+ 'local-home':{alt:'Generic design illustration of a modest high-desert home with trees, granite boulders and a warm sunset',caption:'Regional home design inspiration • Prescott-area style'}
 };
 export function conceptEditorialImage(slug){
  const scene=editorial[slug];if(!scene)return '';

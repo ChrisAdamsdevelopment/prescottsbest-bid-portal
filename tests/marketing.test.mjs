@@ -90,16 +90,16 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
    const page=await call('/remodeling-preview'+servicePath);
    assert.equal(page.status,200,servicePath);
    assert.match(page.body,/class="service-concept"/,servicePath);
-   assert.match(page.body,/AI-generated concept, not a completed Prescott/,servicePath);
+   assert.match(page.body,/Design inspiration.*Remodeling visualization/,servicePath);
   }
   const about=await call('/remodeling-preview/about');
   assert.equal(about.status,200);
   assert.match(about.body,/local-home-detail.webp/);
-  assert.match(about.body,/AI-generated home, not an actual project/);
+  assert.match(about.body,/Regional home design inspiration/);
   const contactPage=await call('/remodeling-preview/schedule');
   assert.equal(contactPage.status,200);
   assert.match(contactPage.body,/consultation-detail.webp/);
-  assert.match(contactPage.body,/AI-generated people, not Prescott/);
+  assert.match(contactPage.body,/Design illustration.*Planning the details together/);
   const process=await call('/remodeling-preview/process');
   assert.equal(process.status,200);
   assert.match(process.body,/STEP 01/);
