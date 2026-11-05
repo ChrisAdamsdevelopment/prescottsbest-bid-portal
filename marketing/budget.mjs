@@ -23,9 +23,9 @@ export function budget(v){
  inputs:{project:v.project,size:v.size,finish:v.finish,condition:v.condition},
  planningDirectCosts:{low,high},
  homeownerRange:{low:round(low*1.15),high:round(high*1.25),midpoint:round((low*1.15+high*1.25)/2)},
- calibrationStatus:'Baseline model — compare against contractor-approved quotes to improve accuracy',
+ calibrationStatus:'Budget guidance; final pricing follows a project review',
  costPlus:{low:round(low*1.15),high:round(high*1.15)},
  fixed:{low:round(low*1.15),high:round(high*1.25)},
- disclaimer:"Ballpark planning estimate, not a binding quote. Based on an initial research model with example pricing assumptions; we'll improve it by comparing with actual contractor bids. Final scope, material selection, labor, access and site conditions affect the written price.",
- explanation:'Fixed pricing covers a defined scope and its priced risks; cost-plus uses documented actual allowable costs plus an agreed fee and need not be capped. This model is solely to demonstrate how the comparison works.'};
+ disclaimer:"This is an initial budget range, not a project quote. We’ll provide a written price after reviewing measurements, materials, access and the work involved.",
+ explanation:'Fixed-price work is based on an agreed scope. Cost-plus pricing shows documented project costs and an agreed contractor fee. We’ll explain the terms and options in your written proposal.'};
 }

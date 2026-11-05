@@ -10,7 +10,7 @@ if(element){
   const values=Object.fromEntries(new FormData(element).entries());
   const target=document.getElementById('budget-result');
   target.replaceChildren();
-  const status=document.createElement('p');status.textContent='Calculating an illustrative range…';target.append(status);
+  const status=document.createElement('p');status.textContent='Calculating your budget range…';target.append(status);
   try{
    const response=await fetch('/api/public/budget',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(values)});
    const data=await response.json();
@@ -18,7 +18,7 @@ if(element){
    const head=document.createElement('div');head.className='budget-results';
    const title=document.createElement('h2');title.textContent=data.project;
    const range=document.createElement('strong');range.textContent=money(data.homeownerRange.low)+' – '+money(data.homeownerRange.high);
-   const caption=document.createElement('p');caption.textContent='Initial ballpark for the entire project, not an approved quote. Your choices adjust the example.';
+   const caption=document.createElement('p');caption.textContent='A starting budget range for your whole project. Adjust the options to see what changes the estimate.';
    head.append(title,range,caption);
    const modes=document.createElement('details');modes.className='budget-breakdown';
    const summary=document.createElement('summary');summary.textContent='See how fixed-price and cost-plus examples compare';modes.append(summary);

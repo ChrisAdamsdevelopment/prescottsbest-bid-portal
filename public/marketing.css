@@ -465,3 +465,27 @@
 .analytics-consent-actions button:last-child{background:transparent;border:1px solid #879e8c;color:#193c2b}
 .footer-analytics-settings{display:block;background:transparent;border:none;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;margin-top:9px}
 @media(max-width:670px){.analytics-consent{bottom:74px;flex-direction:column;align-items:stretch;padding:15px}.analytics-consent-actions{flex-direction:row}.analytics-consent-actions button{flex:1}}
+
+/* November 2026: constrain large editorial and holiday media at every desktop size.
+   Preserve natural image proportions; never allow image intrinsic width to size a grid track. */
+.site-pagehead,.site-section,.site-band,.site-cta{min-width:0}
+.site-section img,.site-pagehead img,.site-band img,.site-detail img,
+.site-card img,.site-article img,.site-hero img,
+.site-section video,.site-section iframe{max-inline-size:100%}
+.site-section figure,.site-pagehead figure,.site-card figure,
+.holiday-concept-figure,.holiday-reference-card,.holiday-head-media,
+.service-concept,.process-visual,.wildfire-crew-figure,.editorial-concept{min-inline-size:0;max-inline-size:100%}
+.holiday-reference-grid,.holiday-packages,.holiday-workspace,.process-step,.editorial-split{max-inline-size:100%}
+.holiday-reference-card img,.holiday-package-photo img{
+ display:block;max-inline-size:100%;max-block-size:min(480px,65vh);
+ object-fit:contain;object-position:center
+}
+.holiday-reference-card,.holiday-package,.holiday-head-media{overflow-wrap:anywhere}
+.holiday-head-media{overflow:hidden;border-radius:12px}
+.holiday-canvas-wrap,#holiday-canvas{max-inline-size:100%}
+.proof-panel{background:linear-gradient(135deg,#243c30,#14291f);border:1px solid #3f6147;color:#fff9ec;
+  box-shadow:0 15px 36px #1a382a23;border-radius:14px;text-align:left;font-size:19px;line-height:1.65}
+.proof-panel a{color:#ffe0a6;font-weight:800}
+.holiday-starting{font-size:22px;letter-spacing:-.02em;color:#1e4b33;line-height:1.2;margin:7px 0}
+@media(min-width:1000px){.holiday-reference-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.holiday-reference-card img{max-block-size:420px}}

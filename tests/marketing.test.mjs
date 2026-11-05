@@ -120,7 +120,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.equal(one.body.fixed.high,43800);
   assert.equal(one.body.homeownerRange.low,16100);
   assert.equal(one.body.homeownerRange.high,43800);
-  assert.match(one.body.disclaimer,/Ballpark planning estimate/);
+  assert.match(one.body.disclaimer,/initial budget range/i);
   const invalid=await call('/api/public/budget','POST',{project:'unknown'});
   assert.equal(invalid.status,400);
   const noConsent=await call('/api/public/inquiry','POST',{name:'Test User',email:'test@example.org',project:'Bathroom remodeling',consent:false});
