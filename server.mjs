@@ -92,6 +92,10 @@ async function route(req,res){
  if(!path.startsWith('/api/'))throw bad('Not found',404);
  limit(req);if(req.method==='POST')checkPost(req);
  if(path==='/api/public/ai-guide'||path==='/api/public/ai-guide/status')return aiGuideApi(req,res,path,{input,reply,bad});
+ if(req.method==='GET'&&path==='/api/admin/ai-guide-usage'){
+  admin(req);
+  return reply(res,200,await aiGuideUsage(Number(new URL(req.url,'http://localhost').searchParams.get('days'))||30));
+ }
  if(path.startsWith('/api/public/')||path==='/api/admin/leads'||path==='/api/admin/analytics'||path.startsWith('/api/admin/lead-photo/'))return publicApi(req,res,path,{input,read,change,reply,bad,admin});
  if(req.method==='POST'&&path==='/api/admin/publish'){
   admin(req);const v=validate(await input(req));
