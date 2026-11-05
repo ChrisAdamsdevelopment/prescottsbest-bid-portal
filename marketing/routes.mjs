@@ -83,7 +83,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [Kitchens]('+site+'/kitchen-remodeling): Kitchen remodeling',
    '- [Project planner]('+site+'/start-here): Browser-only preparation worksheet',
    '- [Optional AI Project Guide]('+site+'/project-guide): Consent-based plain-language homeowner planning help using Google Gemini; no bidding or booking',
-   '- [Budget explorer]('+site+'/estimate): Illustrative research budget, NOT a business quote',
+   '- [Budget explorer]('+site+'/estimate): Starting remodeling budget range; written quote follows project review',
    '- [Knowledge center]('+site+'/blog): Homeowner educational articles',
    '- [Holiday lighting concierge]('+site+'/holiday-lighting): Seasonal concept packages and service scope',
    '- [Holiday lighting design studio]('+site+'/holiday-lighting/design): Local-only house photo preview and a crew worksheet concept',
@@ -95,7 +95,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Important limitations',
    '- The private proposal portal is access-controlled. Do not crawl /proposal or /api.',
    '- AI-generated pictures are clearly labeled design inspiration, not completed jobs.',
-   '- Online pricing is preliminary demonstration data, not approved estimates.',
+   '- Online ranges and starting package prices are subject to a written scope review; see individual service details.',
    '- Permit requirements, contractor availability, and license status must be independently verified.',
    '- Public homeowner pages are available for search discovery; project details, prices and availability can change after contractor review.'
   ].join('\n')+'\n';

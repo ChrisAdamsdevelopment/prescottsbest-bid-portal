@@ -8,7 +8,7 @@ const validEmail=s=>typeof s==='string'&&s.length<=180&&/^[^\s@]+@[^\s@]+\.[^\s@
 const clean=(s,n)=>typeof s==='string'&&s.length<=n?s.trim():null;
 export async function publicApi(req,res,path,utils){
  const {input,read,change,reply,bad}=utils;
- if(req.method==='GET'&&path==='/api/public/site-status')return reply(res,200,{inquiryEnabled:process.env.LEAD_FORM_ENABLED==='true',notificationConfigured:emailConfigured(),appointments:'request_only',budget:'research_demo',photoUploadEnabled:photoUploadReady()});
+ if(req.method==='GET'&&path==='/api/public/site-status')return reply(res,200,{inquiryEnabled:process.env.LEAD_FORM_ENABLED==='true',notificationConfigured:emailConfigured(),appointments:'consultation_request',budget:'planning_estimate',photoUploadEnabled:photoUploadReady()});
  if(req.method==='POST'&&path==='/api/public/analytics'){
   if(req.headers['sec-gpc']==='1'||req.headers.dnt==='1')return reply(res,202,{accepted:0});
   const body=await input(req,12000);
