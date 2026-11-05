@@ -7,6 +7,7 @@ import {maybeServeMarketing} from './marketing/routes.mjs';
 import {publicApi} from './marketing/api.mjs';
 import {pruneOldLeadPhotos} from './marketing/lead-images.mjs';
 import {aiGuideApi} from './marketing/ai-guide.mjs';
+import {aiGuideUsage} from './marketing/ai-usage.mjs';
 const root=dirname(fileURLToPath(import.meta.url));
 const dir=process.env.DATA_DIR||join(root,'.local-data');
 const key=process.env.PORTAL_ADMIN_KEY||'';

@@ -1,3 +1,4 @@
+import {recordAiGuideUsage} from './ai-usage.mjs';
 // Optional consumer-facing project guide. No visitor PII, customer photos or quote data sent to Gemini.
 // With an intentionally configured Gemini key, the opt-in consumer interface is available; PUBLIC_AI_ENABLED=false disables it.
 const key=()=>process.env.GEMINI_API_KEY||process.env.GOOGLE_GEMINI_API_KEY||'';
@@ -60,7 +61,8 @@ export async function aiGuideApi(req,res,path,{input,reply,bad}){
  const history=body.history.map(t=>({role:t.role,parts:[{text:redacted(t.text)}]}));
  // Reject accidental contact details instead of silently treating them as a lead.
  if(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(question))throw bad('Please remove email addresses. The AI guide does not need contact information.');
- quota(req,bad);
+ try{quota(req,bad);}catch(e){await recordAiGuideUsage('localLimit').catch(()=>{});throw e;}
+ await recordAiGuideUsage('request').catch(()=>{});
  const model=process.env.GEMINI_PUBLIC_MODEL||'gemini-3.5-flash-lite';
  if(!/^gemini-[a-z0-9.-]{4,45}$/.test(model))throw bad('Guide temporarily unavailable',503);
  let response;
@@ -73,8 +75,9 @@ export async function aiGuideApi(req,res,path,{input,reply,bad}){
     generationConfig:{maxOutputTokens:650,temperature:0.35}}),
    signal:AbortSignal.timeout(18000)
   });
- }catch{throw bad('The guide cannot answer right now. Please use the project checklist or call our team.',503)}
+ }catch{await recordAiGuideUsage('networkError').catch(()=>{});throw bad('The guide cannot answer right now. Please use the project checklist or call our team.',503)}
  if(!response.ok){
+  await recordAiGuideUsage(response.status===429?'upstream429':'upstreamError').catch(()=>{});
   // Never include API responses or credentials in visitor-facing or server logs.
   if(response.status===429)return reply(res,503,{error:'The AI guide is busy. Please try again later or use the project planner.'});
   throw bad('AI guidance is temporarily unavailable. Please use our project tools or call us.',503);
