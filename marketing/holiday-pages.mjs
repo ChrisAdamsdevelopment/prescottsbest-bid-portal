@@ -1,5 +1,6 @@
 // Holiday Lighting Concierge — concept experience, not approved seasonal pricebook.
 import {holidayImage,holidayCloseups} from './holiday-assets.mjs';
+import {previewCopy} from './visual-preview-copy.mjs';
 // Photo preview is local Canvas only. Never send homeowner photos to the server automatically.
 const escapeHtml=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 function conceptPicture(id, extraClass=''){
@@ -64,7 +65,8 @@ export function holidayPages(link){
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
    '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Small ornamental tree lighting starts at $149.</strong> Larger trees, specialty lighting and additional access or equipment are quoted according to your property and the design.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
    '<section class="site-section holiday-why"><h2>A simpler way to plan seasonal decorating</h2>'+
-   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+'</div></section>'+gallery+closeupGallery+
+   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+ '</div></section>'+gallery+closeupGallery+
+ '<section class="site-section visual-preview-promo"><div><span class="kicker">SEE THE LIGHTS ON YOUR HOME</span><h2>'+previewCopy.holidayHeading+'</h2><p>'+previewCopy.holidayBody+'</p><div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Preview lighting on a house photo</a><a class="site-button outline" href="'+link('/visual-design-preview')+'">Our visual planning approach</a></div><p class="micro">'+previewCopy.disclaimer+'</p></div></section>'+
    '<section class="site-section"><h2>Questions people ask</h2><div class="faqs">'+[
     ['Do I need to buy lights first?','No need to shop for lights first. Tell us the look you want and we’ll help select outdoor-rated products. Your written quote will specify the materials, ownership and any seasonal service options.'],
     ['Can I see my actual home decorated?','Absolutely. Upload a photo, outline the areas you’d like decorated and explore colors in our interactive Design Studio. We then confirm the actual layout and measurements for your installation.'],
@@ -81,7 +83,7 @@ export function holidayPages(link){
   description:'Preview holiday lighting on your home with private on-device drawing or optional consent-based photorealistic AI editing, then request a contractor-reviewed quote.',
   body:'<div class="site-pagehead holiday-design-heading"><span class="kicker">PRIVATE DESIGN STUDIO · NO ACCOUNT NEEDED</span><h1>See the holiday lights on your own home.</h1>'+
    '<p class="lede">Start with a sample home or choose a photo of your own. Compare lighting styles instantly, or optionally generate a photorealistic AI preview. Your photo stays on your device unless you separately agree to send a resized copy for AI rendering or submit it with a quote request.</p>'+
-   '<p class="micro">Explore the look you love, then send us your ideas. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p></div>'+
+   '<p class="micro">Explore the look you love, then send us your ideas. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p><p class="micro">'+previewCopy.disclaimer+'</p></div>'+
    '<section class="site-section holiday-workspace"><div class="holiday-controls">'+
    '<div class="holiday-simple-steps" aria-label="Three simple steps"><span><b>1</b> Pick your lights</span><span><b>2</b> Preview your home</span><span><b>3</b> Request a quote</span></div>'+
    '<h2>Step 1 · Pick the look you like</h2><p class="micro">You can change colors anytime. Start with one of our popular styles—there is no commitment.</p>'+

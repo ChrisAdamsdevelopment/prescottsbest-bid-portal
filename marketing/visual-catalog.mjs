@@ -89,7 +89,7 @@ export function visualExplorerSection(config,link){
   '<fieldset class="visual-axis"><legend>'+escaped(axis.title)+'</legend><div class="visual-option-row">'+axis.options.map((option,i)=>
    '<button type="button" data-visual-axis="'+escaped(axis.id)+'" data-visual-value="'+escaped(option.value)+'" aria-pressed="'+(i===0?'true':'false')+'">'+escaped(option.label)+'</button>').join('')+'</div></fieldset>').join('')+
  '<p class="visual-selection-text" aria-live="polite" data-visual-selection>'+escaped(first.name)+'</p>'+
- '<div class="visual-actions"><button type="button" data-visual-save>Save this look</button><button type="button" data-visual-copy>Copy design details</button><a class="site-button outline" href="'+link('/schedule')+'">Ask about this design</a></div>'+
+ '<div class="visual-actions"><button type="button" data-visual-save>Save this look</button><button type="button" data-visual-copy>Copy design details</button><a class="site-button outline" data-visual-request href="'+link('/schedule')+'?preview=1">Ask about this design</a></div>'+
  '<p class="visual-feedback" data-visual-feedback role="status" aria-live="polite"></p>'+
  '<p class="visual-disclosure">'+escaped(config.note)+'</p></div></div>'+
  '<script type="application/json" data-visual-catalog>'+data+'</script>'+

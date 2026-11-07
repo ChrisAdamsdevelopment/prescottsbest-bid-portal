@@ -68,6 +68,7 @@ if(lead){
  const sendButton=lead.querySelector('button[type=submit]');
  const photoSection=lead.querySelector('#lead-photo-section');
  const photoInput=lead.querySelector('#lead-photos');
+  const previewBox=lead.querySelector('#lead-visual-preview');
  // The form remains usable in email-draft mode until verified server delivery is enabled.
  fetch('/api/public/site-status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Unavailable');return r.json()}).then(config=>{
   liveDelivery=config.inquiryEnabled===true;
@@ -83,13 +84,22 @@ if(lead){
   const plan=JSON.parse(sessionStorage.getItem('pbc_planning_draft')||'null');
   const note=lead.querySelector('#lead-notes');
   const storm=JSON.parse(sessionStorage.getItem('pbc_storm_draft')||'null');
+  const qs=new URLSearchParams(location.search);
+  if(qs.get('preview')==='1'&&previewBox)previewBox.checked=true;
+  const requestedProject=qs.get('project');
+  if(requestedProject&&qs.get('preview')==='1'){
+   const select=lead.querySelector('#lead-project');
+   if(select&&[...select.options].some(o=>o.value===requestedProject))select.value=requestedProject;
+  }
+  const savedVisual=qs.get('preview')==='1'?sessionStorage.getItem('pbc_visual_preview_draft'):null;
+  if(savedVisual){note.value=('Visual style preferences: '+savedVisual+'\n').slice(0,1600);}
   if(storm){
    const category=lead.querySelector('#lead-project');
    if(category)category.value='Storm or flood damage reconstruction';
    note.value='Storm recovery worksheet — area: '+storm.location+'; affected: '+storm.affected+'; water entry: '+storm.source+'; insurance status: '+storm.claim+'; safe entry: '+storm.safe+'.\n'+(storm.notes?'Notes: '+storm.notes:'');
    note.value=note.value.slice(0,1600);
   }
-  if(saved&&!storm)note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
+  if(saved&&!storm&&!savedVisual&&qs.get('preview')!=='1')note.value='I explored a RESEARCH-ONLY budget for '+saved.project+' ('+saved.range+'). Please discuss actual project conditions and pricing.\n';
   if(plan)note.value+=(note.value?'\n':'')+'My planning worksheet: '+plan.project+'; priority: '+plan.priority+'; timing: '+plan.timing+'; conditions: '+plan.condition+'.\n';
   const holiday=new URLSearchParams(location.search).get('from')==='holiday'?
    JSON.parse(sessionStorage.getItem('pbc_holiday_draft')||'null'):null;
@@ -108,7 +118,8 @@ if(lead){
   const data=Object.fromEntries(new FormData(lead).entries());
   return ['Hello Chris, I would like to discuss a project with Prescott’s Best Construction.',
    'Name: '+(data.name||''),'Email: '+(data.email||''),'Phone: '+(data.phone||''),
-   'Project: '+(data.project||''),'Details: '+(data.notes||''),
+   'Project: '+(data.project||''),'Visual design preview requested: '+(previewBox?.checked?'Yes — please confirm availability and scope':'No'),
+   'Details: '+(data.notes||''),
    'Please contact me about the next step.'].join('\n');
  };
  document.getElementById('lead-copy')?.addEventListener('click',async()=>{
@@ -130,6 +141,7 @@ if(lead){
   submit.disabled=true;info.textContent='Submitting your request…';
   const data=Object.fromEntries(new FormData(lead).entries());
   data.consent=document.getElementById('lead-consent').checked;
+  data.visualPreview=previewBox?.checked?'requested':'';
   data.requestId=requestId;
   try{
    const referral=JSON.parse(sessionStorage.getItem('pbc_entry')||'null');

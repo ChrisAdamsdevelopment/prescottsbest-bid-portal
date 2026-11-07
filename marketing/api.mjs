@@ -44,8 +44,9 @@ export async function publicApi(req,res,path,utils){
   if(typeof v.website==='string'&&v.website.trim())return reply(res,200,{reference:'FILTERED',recorded:false});
   const name=clean(v.name,120),email=clean(v.email,180),phone=clean(v.phone||'',35);
   const project=clean(v.project,100),notes=clean(v.notes||'',1600),area=clean(v.area||'',80);
+  const visualPreviewRequested=v.visualPreview==='requested';
   if(!name||!validEmail(email)||!project||v.consent!==true||notes===null||phone===null||area===null)throw bad('Name, valid email, project and contact consent are required.');
-  if(!['Bathroom remodeling','Kitchen remodeling','Shower or bath conversion','Room or garage conversion','Finish carpentry','Other residential remodeling','Holiday lighting design and installation','Storm or flood damage reconstruction'].includes(project))throw bad('Invalid project category');
+  if(!['Bathroom remodeling','Kitchen remodeling','Shower or bath conversion','Room or garage conversion','Finish carpentry','Custom cabinetry and built-ins','Deck or outdoor carpentry','Other residential remodeling','Holiday lighting design and installation','Storm or flood damage reconstruction'].includes(project))throw bad('Invalid project category');
   const photos=await prepareLeadPhotos(v.photos);
   const entrySource=clean(v.utmSource||'',80)||'';
   const entryPath=clean(v.entryPath||'',180)||'';
@@ -57,7 +58,7 @@ export async function publicApi(req,res,path,utils){
    if(s.leads.length>2500)throw bad('Request system temporarily at capacity',503);
    const id='PBC-'+randomUUID().slice(0,8).toUpperCase();
    const imageRecords=await saveLeadPhotos(id,photos);
-   const record={id,requestId:reqId,name,email,phone,project,notes,area,photos:imageRecords,
+   const record={id,requestId:reqId,name,email,phone,project,notes,area,visualPreviewRequested,photos:imageRecords,
     referral:{source:entrySource,path:entryPath},
     createdAt:new Date().toISOString(),consent:true,source:'remodeling-preview',
     notification:{status:'pending',to:contact}};

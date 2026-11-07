@@ -16,6 +16,7 @@ const text=(lead)=>[
  'Reply email: '+lead.email,
  'Phone: '+(lead.phone||'Not provided'),
  'Project: '+lead.project,
+ 'Ask about visual design preview: '+(lead.visualPreviewRequested?'Yes — team to confirm fit and scope':'Not requested'),
  'Project area (voluntary): '+(lead.area||'Not provided'),
  'Details: '+lead.notes,
  'Created: '+lead.createdAt,

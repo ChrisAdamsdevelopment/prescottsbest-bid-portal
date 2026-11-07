@@ -89,6 +89,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Main pages',
    '- [November 2026 storm recovery]('+site+'/storm-flood-damage-prescott): Free Prescott-area flood, insurance and reconstruction guide',
    '- [Home]('+site+'/): Residential remodeling and service overview',
+   '- [Visual design previews]('+site+'/visual-design-preview): See-it-before-we-build-it exploration, design examples, and optional home-specific concept requests',
    '- [About]('+site+'/about): Company and local service-area introduction',
    '- [Services]('+site+'/bathroom-remodeling): Bathroom remodeling',
    '- [Kitchens]('+site+'/kitchen-remodeling): Kitchen remodeling',

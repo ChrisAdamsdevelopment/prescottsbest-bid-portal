@@ -43,6 +43,11 @@
    feedback.textContent='';
   };
   root.addEventListener('click',async e=>{
+   const request=e.target.closest('[data-visual-request]');
+   if(request&&root.contains(request)){
+    try{sessionStorage.setItem('pbc_visual_preview_draft',describe().slice(0,500))}catch{}
+    return;
+   }
    const b=e.target.closest('button');if(!b||!root.contains(b))return;
    if(b.hasAttribute('data-visual-axis')){
     const axis=b.dataset.visualAxis;
