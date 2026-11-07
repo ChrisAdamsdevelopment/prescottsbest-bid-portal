@@ -748,3 +748,55 @@
  aspect-ratio:4/3;object-fit:contain;background:#faf9f6}
 @media(max-width:640px){.visual-quicklinks{padding:12px;gap:7px}
  .visual-quicklinks strong{width:100%}.visual-quicklinks a{font-size:13px;padding:7px 9px}}
+
+/* Cross-page inspiration collection — one visual shortlist and explicit lead handoff. */
+.visual-actions [data-inspiration-tag]{background:#214d37;color:#fff;border:2px solid #214d37}
+.visual-actions [data-inspiration-tag]:hover{background:#133724}
+.visual-actions [data-inspiration-tag][aria-pressed=true]{background:#e5efdc;border-color:#3d6748;color:#23482f}
+.visual-list-link{display:inline-flex;align-items:center;justify-content:center;min-height:46px;
+ padding:10px 13px;border:1px solid #a2bea8;border-radius:10px;background:#f4faf0;color:#1c5736;
+ font-weight:750;text-decoration:none;line-height:1.35}
+.visual-list-link:hover{background:#e0efda}
+.inspiration-list-panel{max-width:1170px;margin:36px auto 50px;padding:clamp(18px,3vw,32px);
+ background:#f3f6f1;border:1px solid #c8d7c7;border-radius:18px;scroll-margin-top:95px}
+.inspiration-list-panel .section-heading{text-align:left}
+.inspiration-status{font-size:15px;color:#2c573b;font-weight:700;margin:12px 0}
+.inspiration-empty{padding:16px 0;line-height:1.6}
+.inspiration-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;
+ list-style:none;padding:0;margin:18px 0 24px}
+.inspiration-item{min-width:0;display:grid;grid-template-columns:145px minmax(0,1fr);gap:13px;
+ background:white;border:1px solid #d3dfd1;border-radius:12px;padding:12px}
+.inspiration-thumb{width:145px;height:110px;object-fit:contain;background:#f2f3ef;border-radius:9px}
+.inspiration-item-body{display:flex;flex-direction:column;min-width:0;gap:5px}
+.inspiration-item-body strong{font-size:15px;color:#1f4530;line-height:1.3}
+.inspiration-category{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:750;
+ color:#6c806f;margin:0}
+.inspiration-caption{font-size:13px;color:#37563d;line-height:1.4;margin:0}
+.inspiration-note-label{font-size:12px;font-weight:700;display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.inspiration-note{min-height:38px;width:100%;padding:7px 9px;font-size:13px;
+ border:1px solid #a2bba3;border-radius:7px}
+.inspiration-remove{align-self:flex-start;min-height:36px;border:1px solid #8ca995;
+ border-radius:8px;color:#2b4a37;background:#fff;padding:6px 10px;cursor:pointer;font-weight:650}
+.inspiration-remove:hover{background:#f5eae7}
+.inspiration-form-summary{padding:17px;margin:16px 0;border:1px solid #c8dac6;border-radius:12px;background:#f9fcf7}
+.inspiration-form-summary h3{margin:2px 0 8px}
+.inspiration-form-summary .inspiration-items{grid-template-columns:1fr;gap:11px}
+.inspiration-form-summary .inspiration-item{grid-template-columns:105px minmax(0,1fr);padding:10px}
+.inspiration-form-summary .inspiration-thumb{width:105px;height:87px}
+.inspiration-floating{position:fixed;right:18px;bottom:92px;z-index:70;background:#1e4d36;color:white;
+ padding:10px 15px;border-radius:999px;box-shadow:0 8px 26px #142b20a0;
+ text-decoration:none;font-size:14px;font-weight:800}
+.inspiration-floating:hover{background:#0e3422}
+.inspiration-floating[hidden]{display:none}
+@media(max-width:920px){.inspiration-items{grid-template-columns:1fr}}
+@media(max-width:640px){
+ .inspiration-list-panel{padding:16px;margin:18px auto 36px}
+ .inspiration-item{grid-template-columns:92px minmax(0,1fr);gap:9px;padding:9px}
+ .inspiration-thumb,.inspiration-form-summary .inspiration-thumb{width:92px;height:86px}
+ .inspiration-form-summary{padding:12px}
+ .inspiration-form-summary .inspiration-item{grid-template-columns:85px minmax(0,1fr)}
+ .inspiration-form-summary .inspiration-thumb{width:85px;height:79px}
+ .inspiration-floating{right:12px;bottom:85px;padding:9px 12px}
+ .visual-actions [data-inspiration-tag]{grid-column:1/-1}
+ .visual-list-link{grid-column:1/-1}
+}

@@ -63,7 +63,7 @@ test('inquiry request remains a choice not automatic; email notification flags i
  assert.match(js,/data.visualPreview=previewBox\?\.checked/);
  const backend=await readFile(new URL('../marketing/api.mjs',import.meta.url),'utf8');
  assert.match(backend,/visualPreviewRequested=v.visualPreview==='requested'/);
- assert.match(backend,/visualPreviewRequested,photos:imageRecords/);
+ assert.match(backend,/visualPreviewRequested,inspirations,photos:imageRecords/);
  const saved={RESEND_API_KEY:process.env.RESEND_API_KEY,LEAD_FROM_EMAIL:process.env.LEAD_FROM_EMAIL};
  process.env.RESEND_API_KEY='test-prompt-scoped';
  process.env.LEAD_FROM_EMAIL='synthetic@example.invalid';

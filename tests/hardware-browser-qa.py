@@ -33,7 +33,7 @@ with TemporaryDirectory(prefix="pbc-hardware-qa-") as temp:
     if width==390:driver.execute_cdp_cmd("Emulation.setDeviceMetricsOverride",{"width":390,"height":844,"deviceScaleFactor":2,"mobile":True})
     else:driver.execute_cdp_cmd("Emulation.clearDeviceMetricsOverride",{})
     driver.get(host+"/remodeling-preview/kitchen-remodeling")
-    wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==4)
+    wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==6)
     assert driver.find_element(By.CSS_SELECTOR,'a[href="#hardware-exterior"]').is_displayed()
     assert driver.find_element(By.CSS_SELECTOR,'a[href="#hardware-hinges"]').is_displayed()
     exterior=driver.find_element(By.CSS_SELECTOR,'[data-visual-explorer="hardware-exterior"]')
@@ -68,7 +68,7 @@ with TemporaryDirectory(prefix="pbc-hardware-qa-") as temp:
     assert 'Decorative surface-mount hinge' in notes and 'Oil-rubbed bronze' in notes,notes
     for path in ['/kitchen-remodeling','/custom-cabinetry']:
      driver.get(host+'/remodeling-preview'+path)
-     wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==4)
+     wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==(6 if path=='/kitchen-remodeling' else 4))
      assert len(driver.find_elements(By.CSS_SELECTOR,'[data-visual-explorer="hardware-exterior"]'))==1
      assert len(driver.find_elements(By.CSS_SELECTOR,'[data-visual-explorer="hardware-hinges"]'))==1
      sizes=driver.execute_script('return {viewport:window.innerWidth,document:document.documentElement.scrollWidth}')

@@ -19,6 +19,13 @@ const text=(lead)=>[
  'Ask about visual design preview: '+(lead.visualPreviewRequested?'Yes — team to confirm fit and scope':'Not requested'),
  'Project area (voluntary): '+(lead.area||'Not provided'),
  'Details: '+lead.notes,
+ 'Inspiration list: '+(lead.inspirations?.length||0)+' chosen designs',
+ ...(lead.inspirations||[]).flatMap((idea,i)=>[
+  (i+1)+'. '+idea.category+' — '+idea.name,
+  '   '+idea.caption,
+  ...(idea.note?['   Homeowner note: '+idea.note]:[]),
+  '   View reference: '+idea.url
+ ]),
  'Created: '+lead.createdAt,
  'Source: Prescott’s Best Remodeling website',
  'Landing path: '+(lead.referral?.path||'Not recorded'),

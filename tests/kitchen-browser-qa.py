@@ -33,7 +33,7 @@ with TemporaryDirectory(prefix="pbc-kitchen-qa-") as scratch:
     else:chrome.execute_cdp_cmd("Emulation.clearDeviceMetricsOverride",{})
     chrome.get(host+"/remodeling-preview/kitchen-remodeling")
     wait=WebDriverWait(chrome,15)
-    wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,"[data-visual-explorer]"))==4)
+    wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,"[data-visual-explorer]"))==6)
     kitchen=chrome.find_element(By.CSS_SELECTOR,'[data-visual-explorer="kitchen-inspiration"]')
     wood=chrome.find_element(By.CSS_SELECTOR,'[data-visual-explorer="wood-stain-boards"]')
     medium=kitchen.find_element(By.CSS_SELECTOR,'[data-visual-axis="tone"][data-visual-value="medium"]')
@@ -58,7 +58,7 @@ with TemporaryDirectory(prefix="pbc-kitchen-qa-") as scratch:
     notes=chrome.find_element(By.ID,"lead-notes").get_attribute("value")
     assert "Warm medium wood" in notes and "Finish close-up" in notes,notes
     chrome.get(host+"/remodeling-preview/kitchen-remodeling")
-    wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,"[data-visual-explorer]"))==4)
+    wait.until(lambda d:len(d.find_elements(By.CSS_SELECTOR,"[data-visual-explorer]"))==6)
     widths=chrome.execute_script("return {viewport:window.innerWidth,document:document.documentElement.scrollWidth}")
     assert widths["document"]<=widths["viewport"]+3,widths
     report.append({"viewportWidth":width,"kitchenFinishSwitch":True,"closeupSwitch":True,"woodSpeciesSwitch":True,

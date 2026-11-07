@@ -3,6 +3,7 @@ import {budget} from './budget.mjs';
 import {recordAnalytics,analyticsSummary} from './analytics.mjs';
 import {prepareLeadPhotos,saveLeadPhotos,readLeadPhoto,photoUploadReady} from './lead-images.mjs';
 import {sendLeadEmail,emailConfigured} from './email.mjs';
+import {validateInspirationSelections} from './inspiration-selections.mjs';
 const contact='chris@prescottsbestconstruction.com';
 const validEmail=s=>typeof s==='string'&&s.length<=180&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 const clean=(s,n)=>typeof s==='string'&&s.length<=n?s.trim():null;
@@ -45,6 +46,9 @@ export async function publicApi(req,res,path,utils){
   const name=clean(v.name,120),email=clean(v.email,180),phone=clean(v.phone||'',35);
   const project=clean(v.project,100),notes=clean(v.notes||'',1600),area=clean(v.area||'',80);
   const visualPreviewRequested=v.visualPreview==='requested';
+  let inspirations;
+  try{inspirations=validateInspirationSelections(v.inspirations)}
+  catch(error){throw bad(error.message||'Invalid inspiration list',400)}
   if(!name||!validEmail(email)||!project||v.consent!==true||notes===null||phone===null||area===null)throw bad('Name, valid email, project and contact consent are required.');
   if(!['Bathroom remodeling','Kitchen remodeling','Shower or bath conversion','Room or garage conversion','Finish carpentry','Custom cabinetry and built-ins','Deck or outdoor carpentry','Other residential remodeling','Holiday lighting design and installation','Storm or flood damage reconstruction'].includes(project))throw bad('Invalid project category');
   const photos=await prepareLeadPhotos(v.photos);
@@ -58,7 +62,7 @@ export async function publicApi(req,res,path,utils){
    if(s.leads.length>2500)throw bad('Request system temporarily at capacity',503);
    const id='PBC-'+randomUUID().slice(0,8).toUpperCase();
    const imageRecords=await saveLeadPhotos(id,photos);
-   const record={id,requestId:reqId,name,email,phone,project,notes,area,visualPreviewRequested,photos:imageRecords,
+   const record={id,requestId:reqId,name,email,phone,project,notes,area,visualPreviewRequested,inspirations,photos:imageRecords,
     referral:{source:entrySource,path:entryPath},
     createdAt:new Date().toISOString(),consent:true,source:'remodeling-preview',
     notification:{status:'pending',to:contact}};
@@ -79,6 +83,7 @@ export async function publicApi(req,res,path,utils){
   const notificationStatus=latest.leads.find(x=>x.id===row.id)?.notification?.status||'pending';
   return reply(res,202,{reference:row.id,recorded:true,notificationStatus,
    photosReceived:(latest.leads.find(x=>x.id===row.id)?.photos||[]).length,
+   inspirationCount:(latest.leads.find(x=>x.id===row.id)?.inspirations||[]).length,
    note:'A human must review the request; this does not constitute a confirmed appointment.'});
  }
  if(req.method==='GET'&&path==='/api/admin/leads'){

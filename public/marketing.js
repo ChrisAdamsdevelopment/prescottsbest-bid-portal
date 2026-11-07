@@ -120,6 +120,7 @@ if(lead){
    'Name: '+(data.name||''),'Email: '+(data.email||''),'Phone: '+(data.phone||''),
    'Project: '+(data.project||''),'Visual design preview requested: '+(previewBox?.checked?'Yes — please confirm availability and scope':'No'),
    'Details: '+(data.notes||''),
+   window.pbcInspirationList?.plainText()||'No design inspiration selections attached.',
    'Please contact me about the next step.'].join('\n');
  };
  document.getElementById('lead-copy')?.addEventListener('click',async()=>{
@@ -142,6 +143,7 @@ if(lead){
   const data=Object.fromEntries(new FormData(lead).entries());
   data.consent=document.getElementById('lead-consent').checked;
   data.visualPreview=previewBox?.checked?'requested':'';
+  data.inspirations=window.pbcInspirationList?.payload()||[];
   data.requestId=requestId;
   try{
    const referral=JSON.parse(sessionStorage.getItem('pbc_entry')||'null');

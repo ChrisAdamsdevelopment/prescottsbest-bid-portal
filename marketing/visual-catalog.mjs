@@ -1,5 +1,6 @@
 import {kitchenVisualConfigs} from './kitchen-visual-config.mjs';
 import {hardwareVisualConfigs} from './hardware-visual-config.mjs';
+import {matchedKitchenVisuals} from './kitchen-matched-config.mjs';
 // Approved visual-inspiration comparisons sourced from the project's local generated-concepts inbox.
 // Files here are optimized published derivatives; source originals remain private on the project drive.
 // These are concept examples, not documented completed construction jobs or product-specific finish samples.
@@ -10,6 +11,7 @@ const mk=(folder,slug,name,alt,caption,choice)=>({
 });
 export const visualExplorers={
  ...kitchenVisualConfigs,
+ ...matchedKitchenVisuals,
  ...hardwareVisualConfigs,
  'cabinet-finishes':{
   id:'cabinet-finishes',
@@ -80,7 +82,7 @@ const catalogPath=(id)=>visualExplorers[id]||null;
 export function visualExplorersForService(path){
  return path==='/custom-cabinetry'?[visualExplorers['cabinet-finishes'],visualExplorers['sewing-storage'],visualExplorers['hardware-exterior'],visualExplorers['hardware-hinges']]:
  path==='/deck-building-outdoor-carpentry'?[visualExplorers['deck-inspiration']]:
- path==='/kitchen-remodeling'?[visualExplorers['kitchen-inspiration'],visualExplorers['wood-stain-boards'],visualExplorers['hardware-exterior'],visualExplorers['hardware-hinges']]:[];
+ path==='/kitchen-remodeling'?[visualExplorers['kitchen-finish-comparison'],visualExplorers['kitchen-inspiration'],visualExplorers['wood-stain-boards'],visualExplorers['kitchen-material-boards'],visualExplorers['hardware-exterior'],visualExplorers['hardware-hinges']]:[];
 }
 export function visualQuickLinks(path){
  const configs=visualExplorersForService(path);
@@ -101,7 +103,7 @@ export function visualExplorerSection(config,link){
   '<fieldset class="visual-axis"><legend>'+escaped(axis.title)+'</legend><div class="visual-option-row">'+axis.options.map((option,i)=>
    '<button type="button" data-visual-axis="'+escaped(axis.id)+'" data-visual-value="'+escaped(option.value)+'" aria-pressed="'+(i===0?'true':'false')+'">'+escaped(option.label)+'</button>').join('')+'</div></fieldset>').join('')+
  '<p class="visual-selection-text" aria-live="polite" data-visual-selection>'+escaped(first.name)+'</p>'+
- '<div class="visual-actions"><button type="button" data-visual-save>Save this look</button><button type="button" data-visual-copy>Copy design details</button><a class="site-button outline" data-visual-request href="'+link('/schedule')+'?preview=1">Ask about this design</a></div>'+
+ '<div class="visual-actions"><button type="button" data-inspiration-tag aria-pressed="false">Add to My Inspiration List</button><button type="button" data-visual-save>Save this look</button><button type="button" data-visual-copy>Copy design details</button><a class="site-button outline" data-visual-request href="'+link('/schedule')+'?preview=1">Ask about this design</a><a class="visual-list-link" data-inspiration-link href="'+link('/visual-design-preview')+'#my-inspiration-list">View My List (<span data-inspiration-count>0</span>)</a></div>'+
  '<p class="visual-feedback" data-visual-feedback role="status" aria-live="polite"></p>'+
  '<p class="visual-disclosure">'+escaped(config.note)+'</p></div></div>'+
  '<script type="application/json" data-visual-catalog>'+data+'</script>'+
