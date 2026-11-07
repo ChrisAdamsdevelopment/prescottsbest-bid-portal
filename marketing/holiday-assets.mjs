@@ -51,7 +51,27 @@ export const holidayImages=Object.freeze([
   caption:'Permanent-style soffit lighting • Discreet roof-edge accents with multiple colors.'},
  {id:'window-outline-closeup',closeup:true,file:'17-warm-white-window-outline-closeup.webp',thumbFile:'17-warm-white-window-outline-closeup-thumb.webp',width:1200,height:900,
   title:'Warm white window outline lights',alt:'Close-up design inspiration showing small warm-white lights neatly outlining a large house window beside exterior porch trim.',
-  caption:'Window outline lighting • Neat warm-white detail around a window frame.'}
+  caption:'Window outline lighting • Neat warm-white detail around a window frame.'},
+
+ {id:'backyard-patio-lounge',backyard:true,view:'close',file:'18-backyard-patio-lounge-closeup.webp',thumbFile:'18-backyard-patio-lounge-closeup-thumb.webp',width:1200,height:900,
+  title:'Patio lounge lighting up close',alt:'Close view of a covered Arizona backyard patio with warm white string lights around wood beams, lighted greenery and softly illuminated outdoor seating at dusk.',
+  caption:'Patio lounge detail • Warm string lights and greenery make the outdoor seating area welcoming.'},
+ {id:'backyard-patio-garland',backyard:true,view:'close',file:'19-backyard-covered-patio-garland-closeup.webp',thumbFile:'19-backyard-covered-patio-garland-closeup-thumb.webp',width:1200,height:900,
+  title:'Covered patio with illuminated garland',alt:'Close view of a Prescott-style covered backyard patio decorated with warm roofline bulbs, lighted garland on patio posts and softly glowing dining and lounge areas.',
+  caption:'Covered patio detail • Garland, roofline bulbs and seating lights create a festive backyard gathering space.'},
+ {id:'backyard-patio-medium',backyard:true,view:'medium',file:'20-backyard-patio-roofline-medium-view.webp',thumbFile:'20-backyard-patio-roofline-medium-view-thumb.webp',width:1200,height:900,
+  title:'Backyard roofline from the garden',alt:'Medium-distance view of an Arizona home from the backyard showing warm white roofline holiday bulbs, a lit wreath over the patio, decorative covered patio lights and a low stone garden wall.',
+  caption:'Medium-distance view • See how warm-white roofline and covered-patio lights work together.'},
+ {id:'backyard-landscape-medium',backyard:true,view:'medium',file:'21-backyard-landscape-medium-view.webp',thumbFile:'21-backyard-landscape-medium-view-thumb.webp',width:1200,height:900,
+  title:'Backyard lighting across the landscape',alt:'Medium-wide view of a Southwest home from beyond a low backyard wall with warm white roofline holiday lights, a glowing patio and illuminated ornamental trees.',
+  caption:'Whole-yard look • Roofline lights and small illuminated trees make the design visible beyond the patio.'},
+ {id:'backyard-roofline-wide',backyard:true,view:'distant',file:'22-backyard-warm-roofline-long-view.webp',thumbFile:'22-backyard-warm-roofline-long-view-thumb.webp',width:1200,height:900,
+  title:'Warm white lights from across the property',alt:'Wide distant view across desert landscaping toward a Prescott-style home rear elevation with warm white lights along multiple rooflines and subtle backyard landscape lighting at twilight.',
+  caption:'Long-distance view • A continuous warm-white roofline remains visible from across the property.'},
+ {id:'backyard-color-wide',backyard:true,view:'distant',file:'23-backyard-multicolor-roofline-long-view.webp',thumbFile:'23-backyard-multicolor-roofline-long-view-thumb.webp',width:1200,height:900,
+  title:'Multicolor holiday lights from a distance',alt:'Wide distant view across an Arizona backyard showing colorful holiday lights along a long house roofline, glowing patio windows, lit trees and a desert mountain skyline at sunset.',
+  caption:'Long-distance view • A multicolor roofline creates a brighter festive outline across a large backyard.'}
 ]);
+export const holidayBackyards=Object.freeze(holidayImages.filter(image=>image.backyard===true));
 export const holidayCloseups=Object.freeze(holidayImages.filter(image=>image.closeup===true));
 export const holidayImage=(id)=>holidayImages.find(x=>x.id===id)||null;

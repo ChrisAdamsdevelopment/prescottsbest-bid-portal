@@ -1,5 +1,5 @@
 // Holiday Lighting Concierge — concept experience, not approved seasonal pricebook.
-import {holidayImage,holidayCloseups} from './holiday-assets.mjs';
+import {holidayImage,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {previewCopy} from './visual-preview-copy.mjs';
 // Photo preview is local Canvas only. Never send homeowner photos to the server automatically.
 const escapeHtml=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
@@ -35,6 +35,19 @@ const closeupGallery='<section class="site-section holiday-closeup-gallery" aria
   '<article class="holiday-closeup-card"><h3>'+escapeHtml(item.title)+'</h3>'+conceptPicture(item.id,'holiday-closeup-picture')+'</article>').join('')+
  '</div><p class="micro">Lighting style inspiration only. Outdoor-rated products, access and installation details are determined after a site review.</p></section>';
 
+
+const backyardGallery=(link)=>'<section class="site-section holiday-backyard-gallery" id="backyard-holiday-lighting" aria-labelledby="backyard-holiday-heading">'+
+ '<div class="section-heading"><span class="kicker">THE WHOLE HOME, FRONT AND BACK</span><h2 id="backyard-holiday-heading">Backyard holiday lighting, up close and from a distance</h2>'+
+ '<p>Don’t stop at the front entrance. Picture warm patio lighting while you entertain, garland on covered outdoor spaces, and roofline lights you can enjoy from across the yard. Explore six Arizona-style backyard concepts at three different viewing distances.</p></div>'+
+ '<div class="holiday-backyard-grid">'+holidayBackyards.map((item)=>
+  '<article class="holiday-backyard-card" data-backyard-view="'+escapeHtml(item.view)+'">'+
+  '<div class="holiday-backyard-card-head"><span class="holiday-backyard-view">'+(item.view==='close'?'PATIO VIEW':item.view==='medium'?'WHOLE-YARD VIEW':'DISTANCE VIEW')+'</span><h3>'+escapeHtml(item.title)+'</h3></div>'+
+  '<a href="/site-assets/holiday-concepts/'+item.file+'" class="holiday-backyard-enlarge" aria-label="View full-size design example: '+escapeHtml(item.title)+'">'+
+  conceptPicture(item.id,'holiday-backyard-picture')+'</a></article>').join('')+
+ '</div><p class="micro">Examples show different sample homes, not a before-and-after sequence or completed Prescott’s Best installations. Lighting equipment, mounting locations and power requirements are confirmed for the actual property.</p>'+
+ '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Try a preview on my own backyard</a>'+
+ '<a class="site-button outline" href="'+link('/schedule')+'">Discuss a backyard lighting design</a></div></section>';
+
 const packages=[
  {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color roofline with a clean finish.',features:['C9-style outdoor LED lighting','Front-facing roofline','Simple timer setup'],range:'From $599',tone:'warm'},
  {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'Roofline plus a welcoming porch, garage, or entry accent.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'From $899',tone:'candy'},
@@ -65,11 +78,12 @@ export function holidayPages(link){
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
    '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Small ornamental tree lighting starts at $149.</strong> Larger trees, specialty lighting and additional access or equipment are quoted according to your property and the design.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
    '<section class="site-section holiday-why"><h2>A simpler way to plan seasonal decorating</h2>'+
-   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+ '</div></section>'+gallery+closeupGallery+
+   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+ '</div></section>'+gallery+closeupGallery+backyardGallery(link)+
  '<section class="site-section visual-preview-promo"><div><span class="kicker">SEE THE LIGHTS ON YOUR HOME</span><h2>'+previewCopy.holidayHeading+'</h2><p>'+previewCopy.holidayBody+'</p><div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Preview lighting on a house photo</a><a class="site-button outline" href="'+link('/visual-design-preview')+'">Our visual planning approach</a></div><p class="micro">'+previewCopy.disclaimer+'</p></div></section>'+
    '<section class="site-section"><h2>Questions people ask</h2><div class="faqs">'+[
     ['Do I need to buy lights first?','No need to shop for lights first. Tell us the look you want and we’ll help select outdoor-rated products. Your written quote will specify the materials, ownership and any seasonal service options.'],
-    ['Can I see my actual home decorated?','Absolutely. Upload a photo, outline the areas you’d like decorated and explore colors in our interactive Design Studio. We then confirm the actual layout and measurements for your installation.'],
+    ['Can I see my actual home decorated?','Yes. You can upload a front, backyard or patio photo, outline the areas you’d like decorated and explore colors in our interactive Design Studio. We then confirm the actual layout and measurements for your installation.'],
+    ['Do you design lighting for the backyard too?','Yes. The examples on this page include covered patios, rear rooflines and the whole backyard as seen from a distance. Share a photo of the area you want to light, and we can discuss suitable outdoor products, power and installation access for that space.'],
     ['Can the lights work with Alexa, Google or Apple Home?','Some lights and controllers work with compatible assistants and Matter hubs. This depends on the exact manufacturer and model. Product setup, permissions and networking are verified before quoting.'],
     ['What about takedown after Christmas?','We can discuss takedown, maintenance and storage when planning your display. Your quote will clearly list which seasonal services are included.'],
     ['Can you provide a firm price on the website?','Our Classic Roofline package starts at $599 for up to 60 feet of accessible, single-story front roofline. We confirm final pricing after reviewing the length, lighting selection, mounting access and any optional services.']
@@ -83,7 +97,7 @@ export function holidayPages(link){
   description:'Preview holiday lighting on your home with private on-device drawing or optional consent-based photorealistic AI editing, then request a contractor-reviewed quote.',
   body:'<div class="site-pagehead holiday-design-heading"><span class="kicker">PRIVATE DESIGN STUDIO · NO ACCOUNT NEEDED</span><h1>See the holiday lights on your own home.</h1>'+
    '<p class="lede">Start with a sample home or choose a photo of your own. Compare lighting styles instantly, or optionally generate a photorealistic AI preview. Your photo stays on your device unless you separately agree to send a resized copy for AI rendering or submit it with a quote request.</p>'+
-   '<p class="micro">Explore the look you love, then send us your ideas. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p><p class="micro">'+previewCopy.disclaimer+'</p></div>'+
+   '<p class="micro">Explore the look you love, then send us your ideas. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p><p class="micro">'+previewCopy.disclaimer+'</p><p class="micro">Planning the back of your house? Use a photo of your rear elevation or covered patio, and <a href="'+link('/holiday-lighting')+'#backyard-holiday-lighting">explore backyard lighting examples</a>.</p></div>'+
    '<section class="site-section holiday-workspace"><div class="holiday-controls">'+
    '<div class="holiday-simple-steps" aria-label="Three simple steps"><span><b>1</b> Pick your lights</span><span><b>2</b> Preview your home</span><span><b>3</b> Request a quote</span></div>'+
    '<h2>Step 1 · Pick the look you like</h2><p class="micro">You can change colors anytime. Start with one of our popular styles—there is no commitment.</p>'+
@@ -92,12 +106,12 @@ export function holidayPages(link){
    packages.map(p=>'<option value="'+p.id+'">'+escapeHtml(p.name)+'</option>').join('')+'</select>'+
    '<label for="holiday-tone">Lighting colors</label><select id="holiday-tone"><option value="warm">Warm white</option><option value="cool">Bright white</option><option value="candy">Red & white</option><option value="festive">Multicolor</option><option value="smart">Color-changing smart style</option></select>'+
    '<details class="holiday-advanced"><summary>Optional · Choose a different light type</summary><div class="holiday-advanced-fields"><label for="holiday-product">Preferred light product</label><select id="holiday-product"><option value="c9">C9-style outdoor LED roofline lights</option><option value="rope">Outdoor-rated LED rope lighting</option><option value="icicle">Outdoor-rated icicle strands</option><option value="rgbic">Smart RGBIC / neon-flex (compatible controller required)</option><option value="permanent">Permanent track / puck lighting</option></select><p class="micro">Light type is a design preference; exact outdoor product, connection lengths and electrical requirements must be reviewed.</p></div></details>'+
-   '<h2>Step 2 · Preview on a home</h2><p class="micro">The sample home is ready below. Or choose your own house photo for a personal preview.</p>'+
-   '<label for="holiday-photo">Optional: photo of your home (JPG, PNG, or WebP; 10 MB max)</label>'+
+   '<h2>Step 2 · Preview on a home</h2><p class="micro">The sample home is ready below. Or choose your own front-of-house, backyard or patio photo for a personal preview.</p>'+
+   '<label for="holiday-photo">Optional: front, backyard or patio photo of your home (JPG, PNG, or WebP; 10 MB max)</label>'+
    '<input id="holiday-photo" type="file" accept="image/jpeg,image/png,image/webp"/>'+
    '<p class="micro">For privacy, choose a photo without visible house numbers, license plates or people. Your original image stays in your browser.</p>'+
    '<button type="button" id="holiday-demo" class="site-button outline">Use a sample home instead</button>'+
-   '<h2>Try your own roofline (optional)</h2><p>Tap two or more points on the preview to customize the lights. You can skip drawing and still request a quote for your chosen style.</p>'+
+   '<h2>Try your own roofline or patio edge (optional)</h2><p>Tap two or more points on the preview to customize the lights. You can skip drawing and still request a quote for your chosen style.</p>'+
    '<div class="holiday-actions"><button type="button" class="site-button outline" id="holiday-undo">Undo point</button>'+
    '<button type="button" class="site-button outline" id="holiday-reset">Clear lights</button></div>'+
    '<details class="holiday-advanced" id="holiday-options"><summary>Optional · Add length, access and accents</summary><div class="holiday-advanced-fields"><label for="holiday-feet">Approximate light-run length, in feet (optional)</label>'+

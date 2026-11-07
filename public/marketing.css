@@ -702,3 +702,18 @@
 .visual-preview-request span{flex:1}
 @media(max-width:920px){.visual-preview-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.visual-preview-steps ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.visual-preview-cards,.visual-preview-steps ol{grid-template-columns:1fr}.visual-preview-promo,.visual-preview-inline{margin:20px auto;padding:17px}.visual-preview-card>div{padding:14px}}
+
+/* Backyard lighting gallery: room to appreciate the full design from different distances. */
+.holiday-backyard-gallery .section-heading{max-width:880px}
+.holiday-backyard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.holiday-backyard-card{min-width:0;background:#fff;border:1px solid #d9e3d7;border-radius:16px;overflow:hidden;box-shadow:0 6px 22px #17311d0b}
+.holiday-backyard-card-head{padding:17px 19px 9px}
+.holiday-backyard-view{font-size:12px;letter-spacing:.12em;color:#547153;font-weight:850}
+.holiday-backyard-card h3{font-size:clamp(17px,1.8vw,23px);line-height:1.25;margin:6px 0 0;color:#214a34}
+.holiday-backyard-enlarge{display:block;color:inherit;text-decoration:none}
+.holiday-backyard-enlarge:hover figcaption{text-decoration:underline}
+.holiday-backyard-picture{margin:0}
+.holiday-backyard-picture img{aspect-ratio:4/3;object-fit:cover;width:100%;height:auto;display:block;border-radius:0}
+.holiday-backyard-picture figcaption{display:block;padding:12px 19px 16px;margin:0;font-size:14px;line-height:1.55;color:#385744}
+.holiday-backyard-gallery>.site-actions{margin-top:20px}
+@media(max-width:680px){.holiday-backyard-grid{grid-template-columns:1fr;gap:16px}.holiday-backyard-card-head{padding:13px 15px 8px}.holiday-backyard-picture figcaption{padding:10px 15px 14px}}

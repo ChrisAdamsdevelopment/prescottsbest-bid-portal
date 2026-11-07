@@ -9,9 +9,9 @@ const sampleScenes=[
  {title:'Outdoor spaces that feel like home',url:'/deck-building-outdoor-carpentry',src:'/site-assets/visual-explorer/B06-deck-inspiration/deck-pine-home-wood-stairs.webp',
   alt:'Illustrative wooden deck with stairs and seating beside a pine-country home.',
   copy:'Explore deck styles for different house settings and outdoor activities.'},
- {title:'Holiday lighting on your own house',url:'/holiday-lighting/design',src:'/site-assets/holiday-concepts/12-warm-white-c9-roofline-closeup.webp',
-  alt:'Warm-white holiday roofline lighting style on a house at dusk.',
-  copy:'Choose lights, add a house photo if you wish, and preview the effect before discussing installation.'}
+ {title:'Holiday lighting, front and backyard',url:'/holiday-lighting/design',src:'/site-assets/holiday-concepts/22-backyard-warm-roofline-long-view.webp',
+  alt:'Distant backyard view of an Arizona-style home with warm-white holiday lights tracing the roofline and glowing outdoor landscaping.',
+  copy:'See a full backyard from across the property, then try a photo of your own front, patio or rear elevation.'}
 ];
 export const previewCopy={
  homeHeading:'See it before we build it.',

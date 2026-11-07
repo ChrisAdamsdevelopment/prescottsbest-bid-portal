@@ -1,6 +1,6 @@
 import {marketingPage,sitemapPaths} from './site.mjs';
 import {articles} from './articles.mjs';
-import {holidayImages,holidayCloseups} from './holiday-assets.mjs';
+import {holidayImages,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(req.method!=='GET')return false;
@@ -106,6 +106,9 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Holiday lighting close-up style references',
    ...holidayCloseups.map(a=>'- ['+a.title+']('+site+'/site-assets/holiday-concepts/'+a.file+'): '+a.caption),
    '',
+   '## Backyard holiday lighting inspiration',
+   ...holidayBackyards.map(a=>'- ['+a.title+']('+site+'/site-assets/holiday-concepts/'+a.file+'): '+a.caption),
+   '',
    '## Remodeling visual design examples',
    '- [Compare built-in cabinetry finishes]('+site+'/custom-cabinetry): Select wood-tone families and hardware styles; illustrative options only.',
    '- [Explore hidden sewing-station storage]('+site+'/custom-cabinetry): Compare closed cabinets and ready-to-use worktops.',
@@ -132,6 +135,8 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
     '\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\n').join('\n---\n')+
    '\n\n## Holiday Lighting Design References\nThese illustrative examples are not photographs of completed work.\n'+
    holidayCloseups.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file+'\n').join('\n')+
+   '\n\n## Backyard Holiday Lighting Concepts: Near, Medium and Distant Views\n'+
+   holidayBackyards.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file).join('\n')+
    '\n\n## Cabinetry and Deck Visual Choices\nThese are design examples, not photographs of installed projects.\n'+
    allVisualImages().map(v=>'### '+v.name+'\n'+v.caption+'\nhttps://prescottsbestremodeling.com'+v.file).join('\n');
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
@@ -155,7 +160,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   if(!indexed)throw bad('Sitemap not published yet',404);
   const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'+
    sitemapPaths().map(p=>{const clean=(marketingHost?p.replace('/remodeling-preview',''):p)||'/';
-     const holiday=clean==='/holiday-lighting'?holidayCloseups.map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
+     const holiday=clean==='/holiday-lighting'?[...holidayCloseups,...holidayBackyards].map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
      const designs=visualImageObjectsForPage(clean,origin).map(a=>'<image:image><image:loc>'+a.contentUrl+'</image:loc></image:image>').join('');
      const images=holiday+designs;
     return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+'</url>';}).join('')+'</urlset>';

@@ -100,17 +100,21 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     closeup_images=driver.find_elements(By.CSS_SELECTOR,'.holiday-closeup-card img')
     assert len(closeup_images)==6,('close-up images',len(closeup_images))
     assert all(len(im.get_attribute('alt') or '')>60 for im in closeup_images)
-    checks.append(f'{width}px seasonal landing, 17 style concepts, 6 close-ups, alt text and responsive layout')
+    backyard_images=driver.find_elements(By.CSS_SELECTOR,'.holiday-backyard-card img')
+    assert len(backyard_images)==6,('backyard design images',len(backyard_images))
+    assert all(len(im.get_attribute('alt') or '')>70 for im in backyard_images)
+    assert len(driver.find_elements(By.CSS_SELECTOR,'.holiday-backyard-card[data-backyard-view="distant"]'))==2
+    checks.append(f'{width}px seasonal landing, 23 style concepts, 6 close-ups, 6 backyard views, alt text and responsive layout')
 
     (tmp/'prescottsbest-holiday-crew-concept.json').unlink()
    imagefiles=list((root/'public'/'site-assets'/'holiday-concepts').glob('*.webp'))
-   assert len(imagefiles)==23,len(imagefiles)
+   assert len(imagefiles)==35,len(imagefiles)
    for imagefile in imagefiles:
     rr=requests.get(base+'/site-assets/holiday-concepts/'+imagefile.name,timeout=9)
     assert rr.status_code==200,(imagefile.name,rr.status_code)
     assert 'image/webp' in rr.headers.get('content-type',''),imagefile.name
     assert rr.content[:4]==b'RIFF',imagefile.name
-   checks.append('23 approved WebP assets including close-up thumbnails served from exact-name static allowlist')
+   checks.append('35 approved WebP assets including close-up and backyard thumbnails served from exact-name static allowlist')
    assert requests.get(base+'/proposal',timeout=5).status_code==200
    assert 'Disallow: /' in requests.get(base+'/robots.txt',timeout=5).text
    checks.append('existing private proposal and noindex remain intact')

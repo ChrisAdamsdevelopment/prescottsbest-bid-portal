@@ -191,8 +191,8 @@ export function marketingPage(path,options={}){
  hasCredential:{"@type":"EducationalOccupationalCredential",credentialCategory:"Arizona Registrar of Contractors License #343141"}};
  const gallerySchema=suffix==='/holiday-lighting'?{
   "@context":"https://schema.org","@type":"ImageGallery","@id":shareUrl+"#lighting-gallery",
-  name:"Holiday Lighting Styles and Close-Up Design Inspiration",
-  description:"Illustrative holiday-lighting styles for rooflines, house windows, doorways and exterior soffits; not photographs of completed installations.",
+  name:"Holiday Lighting, Patio and Backyard Design Inspiration",
+  description:"Illustrative holiday-lighting styles for front and backyard rooflines, covered patios, outdoor gatherings, windows and soffits; not photographs of completed installations.",
   url:shareUrl,
   image:holidayImages.map(image=>({
    "@type":"ImageObject",

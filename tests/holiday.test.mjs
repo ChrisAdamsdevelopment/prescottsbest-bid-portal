@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {marketingPage,sitemapPaths} from '../marketing/site.mjs';
 import {holidayPackages} from '../marketing/holiday-pages.mjs';
-import {holidayImages,holidayCloseups} from '../marketing/holiday-assets.mjs';
+import {holidayImages,holidayCloseups,holidayBackyards} from '../marketing/holiday-assets.mjs';
 test('holiday lighting publishes three agreed starting prices plus a custom smart-light quote',()=>{
  assert.equal(holidayPackages.length,4);
  assert.equal(new Set(holidayPackages.map(p=>p.id)).size,4);
@@ -33,11 +33,11 @@ test('holiday lighting and design studio render in protected preview without pro
  assert.match(studio,/photos? stay.*device|photo stays on your device/i);
  assert.match(studio,/not.*quote/i);
 });
-test('all 17 holiday design images have descriptive alt text and appear in the concept gallery',()=>{
+test('all 23 holiday design images have descriptive alt text and appear in the concept gallery',()=>{
  const page=marketingPage('/remodeling-preview/holiday-lighting');
- assert.equal(holidayImages.length,17);
+ assert.equal(holidayImages.length,23);
  assert.match(page,/small ornamental tree lighting starts at \$149/i);
- assert.equal(new Set(holidayImages.map(x=>x.file)).size,17);
+ assert.equal(new Set(holidayImages.map(x=>x.file)).size,23);
  for(const img of holidayImages){
   assert.ok(img.file.endsWith('.webp'));
   assert.ok(img.alt.length>45);
@@ -75,4 +75,32 @@ test('six holiday close-ups have honest descriptions and valid image gallery str
   assert.ok(page.includes(img.alt));
   assert.ok(page.includes('"contentUrl":"https://prescottsbestremodeling.com/site-assets/holiday-concepts/'+img.file+'"'));
  }
+});
+
+test('six approved backyard views span close, medium and long-distance, with structured data',()=>{
+ const html=marketingPage('/remodeling-preview/holiday-lighting',
+  {indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+ assert.equal(holidayBackyards.length,6);
+ assert.deepEqual(holidayBackyards.reduce((m,v)=>({...m,[v.view]:(m[v.view]||0)+1}),{}),
+  {close:2,medium:2,distant:2});
+ assert.match(html,/id="backyard-holiday-lighting"/);
+ assert.match(html,/Backyard holiday lighting, up close and from a distance/);
+ assert.equal((html.match(/class="holiday-backyard-card"/g)||[]).length,6);
+ assert.match(html,/Try a preview on my own backyard/);
+ assert.match(html,/different sample homes, not a before-and-after sequence/);
+ assert.match(html,/Do you design lighting for the backyard too/);
+ const schema=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+  .map(m=>JSON.parse(m[1])).find(x=>x['@type']==='ImageGallery');
+ assert.equal(schema.image.length,23);
+ for(const asset of holidayBackyards){
+  assert.equal(asset.width,1200);assert.equal(asset.height,900);
+  assert.ok(asset.alt.length>75);assert.ok(asset.caption.length>50);
+  assert.ok(html.includes(asset.file));
+  assert.ok(html.includes(asset.thumbFile));
+  assert.ok(html.includes(asset.alt));
+  assert.ok(schema.image.some(i=>i.contentUrl.endsWith('/'+asset.file)&&i.description===asset.alt));
+ }
+ const studio=marketingPage('/remodeling-preview/holiday-lighting/design');
+ assert.match(studio,/front, backyard or patio photo of your home/);
+ assert.match(studio,/holiday-image-consent/);
 });
