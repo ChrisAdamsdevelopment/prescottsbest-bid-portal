@@ -717,3 +717,20 @@
 .holiday-backyard-picture figcaption{display:block;padding:12px 19px 16px;margin:0;font-size:14px;line-height:1.55;color:#385744}
 .holiday-backyard-gallery>.site-actions{margin-top:20px}
 @media(max-width:680px){.holiday-backyard-grid{grid-template-columns:1fr;gap:16px}.holiday-backyard-card-head{padding:13px 15px 8px}.holiday-backyard-picture figcaption{padding:10px 15px 14px}}
+
+/* Kitchen finish studio: landscape design concepts and portrait wood-species reference boards. */
+.visual-explorer[data-visual-explorer="kitchen-inspiration"] .visual-main-figure img{
+ aspect-ratio:43/29;object-fit:contain;background:#ecebe4;
+}
+.visual-explorer[data-visual-explorer="wood-stain-boards"] .visual-main-figure img{
+ aspect-ratio:4/5;object-fit:contain;background:#fff;max-height:740px;
+}
+.visual-explorer[data-visual-explorer="wood-stain-boards"] .visual-main-figure{
+ max-width:650px;margin-inline:auto;
+}
+.visual-explorer[data-visual-explorer="wood-stain-boards"] .visual-workspace{
+ grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
+}
+@media(max-width:920px){
+ .visual-explorer[data-visual-explorer="wood-stain-boards"] .visual-workspace{grid-template-columns:1fr}
+}

@@ -32,8 +32,9 @@
   const repaint=()=>{
    const v=current();
    image.src=v.file;
-   const srcset=v.thumb+' 480w, '+v.file+' 1280w';
+   const srcset=v.thumb+' '+(v.thumbWidth||480)+'w, '+v.file+' '+(v.width||1280)+'w';
    image.srcset=srcset;
+   image.width=v.width||1280;image.height=v.height||960;
    image.alt=v.alt;
    caption.textContent=v.caption;
    summary.textContent=v.name;

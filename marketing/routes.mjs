@@ -111,6 +111,8 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '',
    '## Remodeling visual design examples',
    '- [Compare built-in cabinetry finishes]('+site+'/custom-cabinetry): Select wood-tone families and hardware styles; illustrative options only.',
+   '- [Kitchen design inspiration]('+site+'/kitchen-remodeling): Light, medium and dark kitchen styles with room views and finish details.',
+   '- [Wood grain and stain reference gallery]('+site+'/kitchen-remodeling): Six wood-type boards showing six illustrative stain appearances each; real samples are required.',
    '- [Explore hidden sewing-station storage]('+site+'/custom-cabinetry): Compare closed cabinets and ready-to-use worktops.',
    '- [Outdoor deck design ideas]('+site+'/deck-building-outdoor-carpentry): Explore six Arizona-inspired outdoor spaces.',
    '',

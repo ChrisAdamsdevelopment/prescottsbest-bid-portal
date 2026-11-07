@@ -1,3 +1,4 @@
+import {kitchenVisualConfigs} from './kitchen-visual-config.mjs';
 // Approved visual-inspiration comparisons sourced from the project's local generated-concepts inbox.
 // Files here are optimized published derivatives; source originals remain private on the project drive.
 // These are concept examples, not documented completed construction jobs or product-specific finish samples.
@@ -7,6 +8,7 @@ const mk=(folder,slug,name,alt,caption,choice)=>({
   name,alt,caption,choice
 });
 export const visualExplorers={
+ ...kitchenVisualConfigs,
  'cabinet-finishes':{
   id:'cabinet-finishes',
   heading:'See the same cabinetry in six different finishes',
@@ -75,15 +77,17 @@ const escaped=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replac
 const catalogPath=(id)=>visualExplorers[id]||null;
 export function visualExplorersForService(path){
  return path==='/custom-cabinetry'?[visualExplorers['cabinet-finishes'],visualExplorers['sewing-storage']]:
- path==='/deck-building-outdoor-carpentry'?[visualExplorers['deck-inspiration']]:[];
+ path==='/deck-building-outdoor-carpentry'?[visualExplorers['deck-inspiration']]:
+ path==='/kitchen-remodeling'?[visualExplorers['kitchen-inspiration'],visualExplorers['wood-stain-boards']]:[];
 }
 export function visualExplorerSection(config,link){
  if(!config)return '';
  const first=config.variants[0];
+ const iw=first.width||1280,ih=first.height||960,tw=first.thumbWidth||480;
  const data=JSON.stringify({id:config.id,axes:config.axes,variants:config.variants}).replace(/</g,'\\u003c');
  return '<section class="site-section visual-explorer" data-visual-explorer="'+escaped(config.id)+'" aria-labelledby="'+escaped(config.id)+'-title">'+
  '<div class="section-heading"><span class="kicker">'+escaped(config.kicker)+'</span><h2 id="'+escaped(config.id)+'-title">'+escaped(config.heading)+'</h2><p>'+escaped(config.description)+'</p></div>'+
- '<div class="visual-workspace"><figure class="visual-main-figure"><img data-visual-main src="'+first.file+'" srcset="'+first.thumb+' 480w, '+first.file+' 1280w" sizes="(max-width:700px) 100vw, 800px" width="1280" height="960" loading="lazy" decoding="async" alt="'+escaped(first.alt)+'">'+
+ '<div class="visual-workspace"><figure class="visual-main-figure"><img data-visual-main src="'+first.file+'" srcset="'+first.thumb+' '+tw+'w, '+first.file+' '+iw+'w" sizes="(max-width:700px) 100vw, 800px" width="'+iw+'" height="'+ih+'" loading="lazy" decoding="async" alt="'+escaped(first.alt)+'">'+
  '<figcaption data-visual-caption>'+escaped(first.caption)+'</figcaption></figure>'+
  '<div class="visual-control-panel">'+config.axes.map(axis=>
   '<fieldset class="visual-axis"><legend>'+escaped(axis.title)+'</legend><div class="visual-option-row">'+axis.options.map((option,i)=>
@@ -98,7 +102,7 @@ export function visualExplorerSection(config,link){
 export function visualImageObjectsForPage(path,origin){
  return visualExplorersForService(path).flatMap(config=>config.variants.map(v=>({
   '@type':'ImageObject',name:v.name,contentUrl:origin+v.file,url:origin+v.file,
-  description:v.alt,caption:v.caption,width:1280,height:960
+  description:v.alt,caption:v.caption,width:v.width||1280,height:v.height||960
  })));
 }
 export function allVisualImages(){
