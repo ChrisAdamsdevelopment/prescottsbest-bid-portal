@@ -34,7 +34,7 @@ with TemporaryDirectory(prefix='pbc-visual-qa-') as temp:
     browser.get(base+'/remodeling-preview/custom-cabinetry')
     browser.execute_script('localStorage.removeItem("pbc-visual-look:cabinet-finishes");localStorage.removeItem("pbc-visual-look:sewing-storage")')
     browser.refresh()
-    WebDriverWait(browser,12).until(lambda b:len(b.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==2)
+    WebDriverWait(browser,12).until(lambda b:len(b.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==4)
     home=browser.find_element(By.CSS_SELECTOR,'[data-visual-explorer="cabinet-finishes"]')
     craft=browser.find_element(By.CSS_SELECTOR,'[data-visual-explorer="sewing-storage"]')
     assert '/cabinet-light-black.webp' in home.find_element(By.CSS_SELECTOR,'[data-visual-main]').get_attribute('src')
@@ -52,7 +52,7 @@ with TemporaryDirectory(prefix='pbc-visual-qa-') as temp:
     browser.execute_script('arguments[0].click()',open_control)
     assert '/sewing-warm-open.webp' in craft.find_element(By.CSS_SELECTOR,'[data-visual-main]').get_attribute('src')
     browser.refresh()
-    WebDriverWait(browser,12).until(lambda b:len(b.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==2)
+    WebDriverWait(browser,12).until(lambda b:len(b.find_elements(By.CSS_SELECTOR,'[data-visual-explorer]'))==4)
     home=browser.find_element(By.CSS_SELECTOR,'[data-visual-explorer="cabinet-finishes"]')
     assert '/cabinet-dark-brass.webp' in home.find_element(By.CSS_SELECTOR,'[data-visual-main]').get_attribute('src'),'saved look persists'
     browser.get(base+'/remodeling-preview/deck-building-outdoor-carpentry')

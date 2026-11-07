@@ -1,4 +1,5 @@
 import {kitchenVisualConfigs} from './kitchen-visual-config.mjs';
+import {hardwareVisualConfigs} from './hardware-visual-config.mjs';
 // Approved visual-inspiration comparisons sourced from the project's local generated-concepts inbox.
 // Files here are optimized published derivatives; source originals remain private on the project drive.
 // These are concept examples, not documented completed construction jobs or product-specific finish samples.
@@ -9,6 +10,7 @@ const mk=(folder,slug,name,alt,caption,choice)=>({
 });
 export const visualExplorers={
  ...kitchenVisualConfigs,
+ ...hardwareVisualConfigs,
  'cabinet-finishes':{
   id:'cabinet-finishes',
   heading:'See the same cabinetry in six different finishes',
@@ -76,16 +78,22 @@ export const visualExplorers={
 const escaped=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const catalogPath=(id)=>visualExplorers[id]||null;
 export function visualExplorersForService(path){
- return path==='/custom-cabinetry'?[visualExplorers['cabinet-finishes'],visualExplorers['sewing-storage']]:
+ return path==='/custom-cabinetry'?[visualExplorers['cabinet-finishes'],visualExplorers['sewing-storage'],visualExplorers['hardware-exterior'],visualExplorers['hardware-hinges']]:
  path==='/deck-building-outdoor-carpentry'?[visualExplorers['deck-inspiration']]:
- path==='/kitchen-remodeling'?[visualExplorers['kitchen-inspiration'],visualExplorers['wood-stain-boards']]:[];
+ path==='/kitchen-remodeling'?[visualExplorers['kitchen-inspiration'],visualExplorers['wood-stain-boards'],visualExplorers['hardware-exterior'],visualExplorers['hardware-hinges']]:[];
+}
+export function visualQuickLinks(path){
+ const configs=visualExplorersForService(path);
+ if(configs.length<3)return '';
+ return '<nav class="visual-quicklinks" aria-label="Jump to a design selector"><strong>Explore your options</strong>'+
+ configs.map(c=>'<a href="#'+escaped(c.id)+'">'+escaped(c.kicker==='INSIDE THE CABINET DOOR'?'Hinges':c.kicker==='KNOBS • CUP PULLS • BAR HANDLES'?'Knobs & pulls':c.heading)+'</a>').join('')+'</nav>';
 }
 export function visualExplorerSection(config,link){
  if(!config)return '';
  const first=config.variants[0];
  const iw=first.width||1280,ih=first.height||960,tw=first.thumbWidth||480;
  const data=JSON.stringify({id:config.id,axes:config.axes,variants:config.variants}).replace(/</g,'\\u003c');
- return '<section class="site-section visual-explorer" data-visual-explorer="'+escaped(config.id)+'" aria-labelledby="'+escaped(config.id)+'-title">'+
+ return '<section class="site-section visual-explorer" id="'+escaped(config.id)+'" data-visual-explorer="'+escaped(config.id)+'" aria-labelledby="'+escaped(config.id)+'-title">'+
  '<div class="section-heading"><span class="kicker">'+escaped(config.kicker)+'</span><h2 id="'+escaped(config.id)+'-title">'+escaped(config.heading)+'</h2><p>'+escaped(config.description)+'</p></div>'+
  '<div class="visual-workspace"><figure class="visual-main-figure"><img data-visual-main src="'+first.file+'" srcset="'+first.thumb+' '+tw+'w, '+first.file+' '+iw+'w" sizes="(max-width:700px) 100vw, 800px" width="'+iw+'" height="'+ih+'" loading="lazy" decoding="async" alt="'+escaped(first.alt)+'">'+
  '<figcaption data-visual-caption>'+escaped(first.caption)+'</figcaption></figure>'+

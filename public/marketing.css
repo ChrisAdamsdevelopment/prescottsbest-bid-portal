@@ -734,3 +734,17 @@
 @media(max-width:920px){
  .visual-explorer[data-visual-explorer="wood-stain-boards"] .visual-workspace{grid-template-columns:1fr}
 }
+
+/* Hardware design options: photographs separated into inside hinges and outside handles. */
+.visual-quicklinks{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:15px 19px;margin:20px auto;
+ max-width:1140px;background:#eef3e9;border:1px solid #c4d5c6;border-radius:14px}
+.visual-quicklinks strong{margin-right:8px;color:#244b34}
+.visual-quicklinks a{padding:8px 11px;border:1px solid #abc7b1;border-radius:999px;color:#1e5635;
+ background:#fff;text-decoration:none;font-weight:700;line-height:1.4}
+.visual-quicklinks a:focus-visible,.visual-quicklinks a:hover{outline:2px solid #347c4b;outline-offset:2px}
+.visual-explorer[id]{scroll-margin-top:90px}
+.visual-explorer[data-visual-explorer="hardware-exterior"] .visual-main-figure img,
+.visual-explorer[data-visual-explorer="hardware-hinges"] .visual-main-figure img{
+ aspect-ratio:4/3;object-fit:contain;background:#faf9f6}
+@media(max-width:640px){.visual-quicklinks{padding:12px;gap:7px}
+ .visual-quicklinks strong{width:100%}.visual-quicklinks a{font-size:13px;padding:7px 9px}}
