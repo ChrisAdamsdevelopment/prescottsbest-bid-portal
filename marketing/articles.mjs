@@ -1,7 +1,9 @@
 // Homeowner education library: factual, carefully scoped planning guidance, not bids or permit decisions.
 // Content is first-party editorial and must be reviewed whenever local requirements change.
+import {additionalArticles} from './new-homeowner-articles.mjs';
 const escapeHtml=value=>String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 export const articles=[
+ ...additionalArticles,
  {slug:'compare-fixed-price-and-cost-plus',title:'Fixed Price vs. Cost-Plus Remodeling: What Homeowners Should Compare',
  excerpt:'Learn how scope, allowances, allowable costs, contractor fees and changes affect a remodeling agreement.',
  category:'Budgeting and contracts',date:'2026-11-03',sections:[
@@ -44,6 +46,23 @@ export const articles=[
  ['Arizona Registrar of Contractors','https://roc.az.gov/']
  ]},
 ];
+function relatedService(a,link){
+ const slug=a.slug;
+ const entry=slug.includes('deck')||slug.includes('exterior')?
+  ['/deck-building-outdoor-carpentry','Deck and outdoor carpentry planning']:
+ slug.includes('cabinet')||slug.includes('home-office')?
+  ['/custom-cabinetry','Custom cabinetry and built-in storage']:
+ slug.includes('kitchen')?
+  ['/kitchen-remodeling','Kitchen remodeling services']:
+ slug.includes('shower')||slug.includes('bathroom')?
+  ['/bathroom-remodeling','Bathroom remodeling services']:
+ slug.includes('garage')?
+  ['/room-conversions','Room and garage conversions']:
+ slug.includes('door')||slug.includes('trim')?
+  ['/finish-carpentry','Finish carpentry services']:
+  ['/process','How our remodeling process works'];
+ return '<nav class="article-next" aria-label="Related service"><strong>Related local service:</strong> <a href="'+link(entry[0])+'">'+escapeHtml(entry[1])+'</a></nav>';
+}
 const cta=link=>'<section class="site-cta"><h2>Have a project in mind?</h2><p>Use the planning worksheet or talk with us before committing to a scope.</p><div class="site-actions"><a class="site-button primary" href="'+link('/start-here')+'">Plan my project</a><a class="site-button outline" href="'+link('/schedule')+'">Contact Prescott’s Best</a></div></section>';
 export function articlePages(link){
  const entries=Object.fromEntries(articles.map(a=>{
@@ -52,7 +71,7 @@ export function articlePages(link){
    kind:'blog',published:a.date,modified:a.date,headline:a.title,
    body:'<header class="site-pagehead article-header"><span class="kicker">'+escapeHtml(a.category)+'</span><h1>'+escapeHtml(a.title)+'</h1><p class="lede">'+escapeHtml(a.excerpt)+'</p><p class="micro">Published '+a.date+' · Homeowner information only. Check current local requirements and obtain a property-specific assessment.</p></header>'+
    '<article class="site-section site-article blog-article">'+a.sections.map(([h,text])=>'<section><h2>'+escapeHtml(h)+'</h2><p>'+escapeHtml(text)+'</p></section>').join('')+
-   '<section class="resource-links"><h2>Sources and places to check</h2><ul>'+a.links.map(([label,url])=>'<li><a rel="noopener noreferrer" target="_blank" href="'+escapeHtml(url)+'">'+escapeHtml(label)+'</a></li>').join('')+'</ul></section></article>'+cta(link)});
+   '<section class="resource-links"><h2>Sources and places to check</h2><ul>'+a.links.map(([label,url])=>'<li><a rel="noopener noreferrer" target="_blank" href="'+escapeHtml(url)+'">'+escapeHtml(label)+'</a></li>').join('')+'</ul></section></article>'+relatedService(a,link)+cta(link)});
   return [path,page];
  }));
  entries['/blog']=()=>({title:'Remodeling Knowledge Center | Prescott’s Best Construction',

@@ -82,6 +82,8 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [About]('+site+'/about): Company and local service-area introduction',
    '- [Services]('+site+'/bathroom-remodeling): Bathroom remodeling',
    '- [Kitchens]('+site+'/kitchen-remodeling): Kitchen remodeling',
+   '- [Custom cabinetry]('+site+'/custom-cabinetry): Built-ins and custom storage planning',
+   '- [Decks and outdoor carpentry]('+site+'/deck-building-outdoor-carpentry): Site, deck and exterior carpentry planning',
    '- [Project planner]('+site+'/start-here): Browser-only preparation worksheet',
    '- [Optional AI Project Guide]('+site+'/project-guide): Consent-based plain-language homeowner planning help using Google Gemini; no bidding or booking',
    '- [Budget explorer]('+site+'/estimate): Starting remodeling budget range; written quote follows project review',
