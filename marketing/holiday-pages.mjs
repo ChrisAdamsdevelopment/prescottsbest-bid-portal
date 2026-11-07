@@ -1,13 +1,14 @@
 // Holiday Lighting Concierge — concept experience, not approved seasonal pricebook.
-import {holidayImage} from './holiday-assets.mjs';
+import {holidayImage,holidayCloseups} from './holiday-assets.mjs';
 // Photo preview is local Canvas only. Never send homeowner photos to the server automatically.
 const escapeHtml=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 function conceptPicture(id, extraClass=''){
  const item=holidayImage(id);
  if(!item)return '';
  const src='/site-assets/holiday-concepts/'+item.file;
+ const responsive=item.thumbFile?' srcset="/site-assets/holiday-concepts/'+item.thumbFile+' 600w, '+src+' 1200w" sizes="(max-width: 760px) 100vw, 44vw"':'';
  return '<figure class="holiday-concept-figure '+escapeHtml(extraClass)+'">'+
-  '<img src="'+src+'" alt="'+escapeHtml(item.alt)+'" width="'+item.width+'" height="'+item.height+'" loading="lazy" decoding="async">'+
+  '<img src="'+src+'"'+responsive+' alt="'+escapeHtml(item.alt)+'" width="'+item.width+'" height="'+item.height+'" loading="lazy" decoding="async">'+
   '<figcaption>'+escapeHtml(item.caption)+'</figcaption></figure>';
 }
 const detailImageCards=[
@@ -25,6 +26,14 @@ const gallery='<section class="site-section holiday-concept-gallery" aria-label=
  '<div class="holiday-reference-grid">'+detailImageCards.map(item=>
   '<article class="holiday-reference-card holiday-reference-'+escapeHtml(item.id)+'"><h3>'+escapeHtml(item.label)+'</h3>'+conceptPicture(item.id)+'</article>').join('')+
  '</div></section>';
+
+const closeupGallery='<section class="site-section holiday-closeup-gallery" aria-labelledby="holiday-closeup-title">'+
+ '<div class="section-heading"><span class="kicker">GET A CLOSER LOOK</span><h2 id="holiday-closeup-title">What different holiday lights look like on a house</h2>'+
+ '<p>Compare six close-up lighting styles on sample homes: roofline bulbs, white icicles, entry garland, color accents and window outlines. These are design examples, not photographs of completed Prescott’s Best installations. Actual products, spacing, colors and mounting details are confirmed for your home.</p></div>'+
+ '<div class="holiday-closeup-grid">'+holidayCloseups.map(item=>
+  '<article class="holiday-closeup-card"><h3>'+escapeHtml(item.title)+'</h3>'+conceptPicture(item.id,'holiday-closeup-picture')+'</article>').join('')+
+ '</div><p class="micro">Lighting style inspiration only. Outdoor-rated products, access and installation details are determined after a site review.</p></section>';
+
 const packages=[
  {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color roofline with a clean finish.',features:['C9-style outdoor LED lighting','Front-facing roofline','Simple timer setup'],range:'From $599',tone:'warm'},
  {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'Roofline plus a welcoming porch, garage, or entry accent.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'From $899',tone:'candy'},
@@ -55,7 +64,7 @@ export function holidayPages(link){
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
    '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Small ornamental tree lighting starts at $149.</strong> Larger trees, specialty lighting and additional access or equipment are quoted according to your property and the design.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
    '<section class="site-section holiday-why"><h2>A simpler way to plan seasonal decorating</h2>'+
-   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+'</div></section>'+gallery+
+   '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+'</div></section>'+gallery+closeupGallery+
    '<section class="site-section"><h2>Questions people ask</h2><div class="faqs">'+[
     ['Do I need to buy lights first?','No need to shop for lights first. Tell us the look you want and we’ll help select outdoor-rated products. Your written quote will specify the materials, ownership and any seasonal service options.'],
     ['Can I see my actual home decorated?','Absolutely. Upload a photo, outline the areas you’d like decorated and explore colors in our interactive Design Studio. We then confirm the actual layout and measurements for your installation.'],
@@ -110,7 +119,7 @@ export function holidayPages(link){
    '<button type="button" id="holiday-realistic" class="site-button primary" disabled>Generate realistic lighting design</button>'+
    '<p class="micro" id="holiday-image-status" role="status">Checking image editing availability. Your instant preview and quote form work without this feature.</p>'+
    '<div class="holiday-real-result" id="holiday-real-result" hidden><figure><img id="holiday-real-before" alt="Original home photo selected for the lighting design"/><figcaption>Original house</figcaption></figure>'+
-   '<figure><img id="holiday-real-after" alt="AI-generated holiday lighting concept on the uploaded house photo"/><figcaption>AI-edited design concept — not a quoted installation</figcaption></figure></div>'+
+   '<figure><img id="holiday-real-after" alt="Illustrative holiday lighting concept on the uploaded house photo"/><figcaption>Lighting design preview — not a quoted installation</figcaption></figure></div>'+
    '<button type="button" id="holiday-real-save" class="site-button outline" disabled>Save realistic concept image</button></section>'+
    '<div class="holiday-ai-helper"><h3>Want help choosing a lighting style?</h3><p>Our optional design assistant can suggest colors, accent ideas and questions to discuss with our team. It uses your selected options and approximate length, <strong>not your house photo</strong>.</p>'+
    '<label class="holiday-ai-consent"><input type="checkbox" id="holiday-ai-consent"/> I agree to send these design choices (no image) to Google Gemini. <a href="'+link('/privacy')+'">Privacy details</a></label>'+

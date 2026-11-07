@@ -108,7 +108,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(process.body,/STEP 05/);
   assert.match(process.body,/cost-plus proposal/);
   assert.match(process.body,/consultation-measurements.webp/);
-  assert.match(process.body,/AI-generated planning illustration/);
+  assert.match(process.body,/Design illustration/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/Useful starting numbers/i);

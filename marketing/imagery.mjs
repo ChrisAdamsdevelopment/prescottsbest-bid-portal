@@ -1,4 +1,4 @@
-// Each visual is AI-generated design inspiration; none is evidence of contractor work.
+// Each visual is illustrative design inspiration; none is evidence of contractor work.
 // Provenance: D:/PrescottsBestConstruction/ASSETS/APPROVED_WEBSITE_IMAGES/CONCEPT_IMAGE_PROVENANCE_2026-11-02.json
 const base='/site-assets/concepts/';
 const scenes={

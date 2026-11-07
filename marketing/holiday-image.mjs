@@ -82,7 +82,7 @@ async function normalizeOutput(raw,bad){
   const markWidth=Math.max(250,Math.min(610,info.width-22));
   const markHeight=Math.min(74,Math.max(45,Math.round(markWidth*.125)));
   const fontSize=Math.max(12,Math.floor(markWidth*.044));
-  const mark=Buffer.from('<svg width="'+markWidth+'" height="'+markHeight+'"><rect width="'+markWidth+'" height="'+markHeight+'" rx="9" fill="#142a21" opacity=".83"/><text x="12" y="'+Math.round(markHeight*.68)+'" fill="#fff" font-size="'+fontSize+'" font-weight="700" font-family="Arial,sans-serif">AI DESIGN CONCEPT · NOT A QUOTE</text></svg>');
+  const mark=Buffer.from('<svg width="'+markWidth+'" height="'+markHeight+'"><rect width="'+markWidth+'" height="'+markHeight+'" rx="9" fill="#142a21" opacity=".83"/><text x="12" y="'+Math.round(markHeight*.68)+'" fill="#fff" font-size="'+fontSize+'" font-weight="700" font-family="Arial,sans-serif">DESIGN PREVIEW · NOT A QUOTE</text></svg>');
   return sharp(resized).composite([{input:mark,left:Math.max(0,info.width-markWidth-12),top:Math.max(0,info.height-markHeight-12)}]).jpeg({quality:88,mozjpeg:true}).toBuffer();
  }catch{throw bad('The image provider did not return a usable photo preview. Try another image.',503)}
 }
@@ -124,7 +124,7 @@ export async function holidayImageApi(req,res,path,{input,reply,bad,fetchImpl=fe
  const output=await normalizeOutput(buffer,bad);
  return reply(res,200,{
   image:'data:image/jpeg;base64,'+output.toString('base64'),selected,
-  generatedBy:model(),type:'AI-edited homeowner design concept',
+  generatedBy:model(),type:'Photo-based lighting design concept',
   disclaimer:'Design inspiration only. Renderings may differ from installed products. Contractor must confirm materials, measurements, access and written price. The website does not store this photo.'
  });
 }

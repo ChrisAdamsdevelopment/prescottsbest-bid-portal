@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {marketingPage,sitemapPaths} from '../marketing/site.mjs';
 import {holidayPackages} from '../marketing/holiday-pages.mjs';
-import {holidayImages} from '../marketing/holiday-assets.mjs';
+import {holidayImages,holidayCloseups} from '../marketing/holiday-assets.mjs';
 test('holiday lighting publishes three agreed starting prices plus a custom smart-light quote',()=>{
  assert.equal(holidayPackages.length,4);
  assert.equal(new Set(holidayPackages.map(p=>p.id)).size,4);
@@ -33,11 +33,11 @@ test('holiday lighting and design studio render in protected preview without pro
  assert.match(studio,/photos? stay.*device|photo stays on your device/i);
  assert.match(studio,/not.*quote/i);
 });
-test('all 11 generated images have descriptive alt text and appear in the concept gallery',()=>{
+test('all 17 holiday design images have descriptive alt text and appear in the concept gallery',()=>{
  const page=marketingPage('/remodeling-preview/holiday-lighting');
- assert.equal(holidayImages.length,11);
+ assert.equal(holidayImages.length,17);
  assert.match(page,/small ornamental tree lighting starts at \$149/i);
- assert.equal(new Set(holidayImages.map(x=>x.file)).size,11);
+ assert.equal(new Set(holidayImages.map(x=>x.file)).size,17);
  for(const img of holidayImages){
   assert.ok(img.file.endsWith('.webp'));
   assert.ok(img.alt.length>45);
@@ -57,4 +57,22 @@ test('holiday plan separates product purchase and future crew review',()=>{
  assert.match(page,/site review/i);
  assert.match(page,/Alexa/);
  assert.match(page,/written quote|confirm final pricing/i);
+});
+
+test('six holiday close-ups have honest descriptions and valid image gallery structured data',()=>{
+ const page=marketingPage('/remodeling-preview/holiday-lighting',{indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+ assert.equal(holidayCloseups.length,6);
+ assert.match(page,/"@type":"ImageGallery"/);
+ assert.match(page,/What different holiday lights look like on a house/);
+ assert.match(page,/not photographs of completed Prescott/);
+ for(const img of holidayCloseups){
+  assert.ok(img.alt.length>=75);
+  assert.ok(img.caption.length>=45);
+  assert.equal(img.width,1200);
+  assert.equal(img.height,900);
+  assert.ok(page.includes(img.file));
+  assert.ok(page.includes(img.thumbFile));
+  assert.ok(page.includes(img.alt));
+  assert.ok(page.includes('"contentUrl":"https://prescottsbestremodeling.com/site-assets/holiday-concepts/'+img.file+'"'));
+ }
 });

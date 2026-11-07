@@ -23,7 +23,7 @@ function display(d){
     el('div','stat',money(p.total)),el('small','','Proposal valid until '+new Date(p.expiresAt).toLocaleDateString()));
  add(intro,left,right);root.append(intro);
  const photoCard=section('Your space. Your proposed transformation.');
- add(photoCard,el('p','small','Realistic AI design concepts based on site conditions. Product details, measurements, engineering and code compliance must be confirmed.'));
+ add(photoCard,el('p','small','Design concepts informed by site conditions. Product details, measurements, engineering and code compliance must be confirmed.'));
  const photos=el('div','photos');
  for(const photo of p.photos||[]){
   const fig=el('figure','photo'),image=el('img'),caption=el('figcaption');
@@ -31,7 +31,7 @@ function display(d){
   image.alt=photo.label;
   image.loading='lazy';
   add(caption,document.createTextNode((photo.kind==='after'?'PROPOSED · ':'SITE · ')+photo.label),
-     el('div','captionnote',photo.kind==='after'?'AI-generated illustration • not built yet':'Reference condition'));
+     el('div','captionnote',photo.kind==='after'?'Design illustration • not built yet':'Reference condition'));
   add(fig,image,caption);photos.append(fig);
  }
  if(!p.photos?.length)photos.append(el('p','muted','Site visuals will appear in this project revision.'));

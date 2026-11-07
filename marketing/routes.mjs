@@ -1,6 +1,6 @@
 import {marketingPage,sitemapPaths} from './site.mjs';
 import {articles} from './articles.mjs';
-import {holidayImages} from './holiday-assets.mjs';
+import {holidayImages,holidayCloseups} from './holiday-assets.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(req.method!=='GET')return false;
  // The new PBC domain serves the marketing homepage; the Render host keeps the
@@ -60,10 +60,11 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   staticPaths['/site-assets/process/'+name]=['public/site-assets/process/'+name,'image/webp'];
  }
  staticPaths['/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp']=['public/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp','image/webp'];
- // Only the 11 approved generated holiday concepts are served; never expose arbitrary local uploads.
+ // Serve only approved, explicitly named lighting concept images; never expose arbitrary local uploads.
  for(const asset of holidayImages){
   const publicPath='/site-assets/holiday-concepts/'+asset.file;
   staticPaths[publicPath]=['public/site-assets/holiday-concepts/'+asset.file,'image/webp'];
+  if(asset.thumbFile)staticPaths['/site-assets/holiday-concepts/'+asset.thumbFile]=['public/site-assets/holiday-concepts/'+asset.thumbFile,'image/webp'];
  }
  if(staticPaths[path]){
   const [file,type]=staticPaths[path];
@@ -92,12 +93,15 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [Holiday lighting design studio]('+site+'/holiday-lighting/design): Private on-device preview, optional consent-based AI image editing, and a contractor-reviewed concept worksheet',
    '- [Contact]('+site+'/schedule): Phone and email contact',
    '',
+   '## Holiday lighting close-up style references',
+   ...holidayCloseups.map(a=>'- ['+a.title+']('+site+'/site-assets/holiday-concepts/'+a.file+'): '+a.caption),
+   '',
    '## Homeowner articles',
    ...articles.map(a=>'- ['+a.title+']('+site+'/blog/'+a.slug+'): '+a.excerpt),
    '',
    '## Important limitations',
    '- The private proposal portal is access-controlled. Do not crawl /proposal or /api.',
-   '- AI-generated pictures are clearly labeled design inspiration, not completed jobs.',
+   '- Example visuals are labeled as design inspiration, not photographs of completed contractor installations.',
    '- Online ranges and starting package prices are subject to a written scope review; see individual service details.',
    '- Permit requirements, contractor availability, and license status must be independently verified.',
    '- Public homeowner pages are available for search discovery; project details, prices and availability can change after contractor review.'
@@ -110,7 +114,9 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '> General residential remodeling guidance. Not a construction contract, price quote or permit authorization.\n\n'+
    articles.map(a=>'## '+a.title+'\nPublished '+a.date+'\n'+a.excerpt+'\n\n'+
     a.sections.map(([h,body])=>'### '+h+'\n'+body+'\n').join('\n')+
-    '\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\n').join('\n---\n');
+    '\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\n').join('\n---\n')+
+   '\n\n## Holiday Lighting Design References\nThese illustrative examples are not photographs of completed work.\n'+
+   holidayCloseups.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file+'\n').join('\n');
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
   res.end(text);return true;
  }
@@ -126,12 +132,14 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  }
  if(path==='/robots.txt'){
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});
-  res.end(indexed?'User-agent: *\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
+  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
  }
  if(path==='/sitemap.xml'){
   if(!indexed)throw bad('Sitemap not published yet',404);
-  const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+
-   sitemapPaths().map(p=>'<url><loc>'+origin.replace(/\/$/,'')+((marketingHost?p.replace('/remodeling-preview',''):p)||'/')+'</loc></url>').join('')+'</urlset>';
+  const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'+
+   sitemapPaths().map(p=>{const clean=(marketingHost?p.replace('/remodeling-preview',''):p)||'/';
+    const images=clean==='/holiday-lighting'?holidayCloseups.map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
+    return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;
  }

@@ -33,6 +33,25 @@ export const holidayImages=Object.freeze([
   caption:'Smart-lighting scenes • Colors and controls depend on the chosen system.'},
  {id:'addons',file:'11_trees_pathways_addons_reference.webp',width:1434,height:705,
   title:'Landscape lighting add-ons',alt:'Holiday landscape lighting concept with a wrapped tree, path lights, and a list of decorative outdoor add-on ideas.',
-  caption:'Landscape lighting inspiration • Dress up trees, shrubs, pathways and entryways.'}
+  caption:'Landscape lighting inspiration • Dress up trees, shrubs, pathways and entryways.'},
+ {id:'white-c9-closeup',closeup:true,file:'12-warm-white-c9-roofline-closeup.webp',thumbFile:'12-warm-white-c9-roofline-closeup-thumb.webp',width:1200,height:900,
+  title:'Warm white C9 roofline bulbs',alt:'Close-up design concept showing warm-white C9-style holiday bulbs evenly spaced along a home fascia and gabled roofline at dusk.',
+  caption:'Warm white C9 roofline • Traditional roof-edge bulbs with a soft welcoming glow.'},
+ {id:'multicolor-c9-closeup',closeup:true,file:'13-multicolor-c9-roofline-closeup.webp',thumbFile:'13-multicolor-c9-roofline-closeup-thumb.webp',width:1200,height:900,
+  title:'Multicolor C9 roofline bulbs',alt:'Close-up design example of red, green, blue and yellow C9-style holiday light bulbs outlining a house gable and roof edge at dusk.',
+  caption:'Multicolor C9 roofline • A bright classic Christmas-light look.'},
+ {id:'garland-entry-closeup',closeup:true,file:'14-warm-white-garland-entry-closeup.webp',thumbFile:'14-warm-white-garland-entry-closeup-thumb.webp',width:1200,height:900,
+  title:'Warm white entry garland lights',alt:'Close-up lighting inspiration showing warm-white mini lights woven through evergreen garland around a stone front entryway.',
+  caption:'Illuminated entry garland • A warm, layered welcome around the doorway.'},
+ {id:'icicle-eaves-closeup',closeup:true,file:'15-white-icicle-eaves-closeup.webp',thumbFile:'15-white-icicle-eaves-closeup-thumb.webp',width:1200,height:900,
+  title:'White icicle lights under eaves',alt:'Close-up design example of bright white hanging icicle strands arranged along house eaves above dark framed windows.',
+  caption:'White icicle eave lights • Short hanging light strands beneath the roof edge.'},
+ {id:'soffit-color-closeup',closeup:true,file:'16-color-changing-soffit-closeup.webp',thumbFile:'16-color-changing-soffit-closeup-thumb.webp',width:1200,height:900,
+  title:'Color-changing soffit accent lighting',alt:'Close-up design concept of red, green and warm-white color-changing accent lights tucked beneath residential roof soffits at twilight.',
+  caption:'Permanent-style soffit lighting • Discreet roof-edge accents with multiple colors.'},
+ {id:'window-outline-closeup',closeup:true,file:'17-warm-white-window-outline-closeup.webp',thumbFile:'17-warm-white-window-outline-closeup-thumb.webp',width:1200,height:900,
+  title:'Warm white window outline lights',alt:'Close-up design inspiration showing small warm-white lights neatly outlining a large house window beside exterior porch trim.',
+  caption:'Window outline lighting • Neat warm-white detail around a window frame.'}
 ]);
+export const holidayCloseups=Object.freeze(holidayImages.filter(image=>image.closeup===true));
 export const holidayImage=(id)=>holidayImages.find(x=>x.id===id)||null;

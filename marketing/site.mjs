@@ -2,6 +2,7 @@ import {extraPages} from './extra-pages.mjs';
 import {guidePage} from './guide-page.mjs';
 import {articlePages,articles} from './articles.mjs';
 import {holidayPages} from './holiday-pages.mjs';
+import {holidayImages} from './holiday-assets.mjs';
 import {wildfirePages} from './wildfire-page.mjs';
 import {stormPages} from './storm-page.mjs';
 import {conceptCardImage,conceptServiceImage,conceptHero,conceptEditorialImage} from './imagery.mjs';
@@ -48,7 +49,7 @@ function home(){
  '<section class="site-hero concept-hero">'+conceptHero()+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+aiLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
  trust+
  '<section class="storm-home-banner" aria-label="November 2026 flood recovery help"><div><span class="kicker">TO OUR NEIGHBORS AFFECTED BY THE STORMS</span><h2>Flood and storm damage? Start with a clear plan.</h2><p>We are thinking of everyone navigating the November flooding. Our free guide covers safety, insurance questions, damage photos and how to begin a repair plan—without pressure to hire anyone.</p></div><a class="site-button outline" href="'+link('/storm-flood-damage-prescott')+'">Read the recovery guide</a></section><section class="site-section site-quick-start" aria-label="Start your project"><div><span class="kicker">NOT SURE WHERE TO BEGIN?</span><h2>A clearer way to plan your remodel</h2><p>Answer four simple questions for a practical checklist. Nothing is sent unless you choose to contact us.</p></div><a class="site-button primary" href="'+link('/start-here')+'">Help me plan my project</a></section>'+
- '<section class="site-section process-home-teaser"><div><span class="kicker">WHAT HAPPENS AT AN ESTIMATE?</span><h2>We measure, listen, design and explain the numbers.</h2><p>See how an in-home consultation becomes a practical plan: room dimensions, clearances, material samples, supplier quotes, transparent cost-plus proposals and protection for your home during construction.</p><a class="site-button outline" href="'+link('/process')+'">See our full remodeling process</a></div><figure class="process-home-preview"><img src="/site-assets/process/consultation-measurements.webp" width="1672" height="941" loading="lazy" alt="AI-generated illustration of a contractor measuring a custom sewing room while homeowners discuss the design"><figcaption>Design illustration • A closer look at the consultation process.</figcaption></figure></section>'+
+ '<section class="site-section process-home-teaser"><div><span class="kicker">WHAT HAPPENS AT AN ESTIMATE?</span><h2>We measure, listen, design and explain the numbers.</h2><p>See how an in-home consultation becomes a practical plan: room dimensions, clearances, material samples, supplier quotes, transparent cost-plus proposals and protection for your home during construction.</p><a class="site-button outline" href="'+link('/process')+'">See our full remodeling process</a></div><figure class="process-home-preview"><img src="/site-assets/process/consultation-measurements.webp" width="1672" height="941" loading="lazy" alt="Design illustration of a contractor measuring a custom sewing room while homeowners discuss the design"><figcaption>Design illustration • A closer look at the consultation process.</figcaption></figure></section>'+
  '<section class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
  '<section class="site-band"><div><span class="kicker">PLAN WITH CONFIDENCE</span><h2>Have a project in mind but no idea what it could cost?</h2><p>Explore a practical budget range and see how fixed-price and cost-plus projects differ. We’ll refine your numbers after discussing the space, materials and scope.</p></div>'+priceLink+'</section>'+
  '<section class="site-section"><div class="section-heading"><span class="kicker">LEARN BEFORE YOU START</span><h2>Helpful answers for local homeowners</h2><p>Useful preparation is more important than pushing for a quick commitment.</p></div>'+cards(guides,'guide')+'<p class="resource-more"><a class="site-button outline" href="'+link('/blog')+'">Browse the Knowledge Center</a></p></section>'+
@@ -126,10 +127,10 @@ function processPage(){
   ['finished-sewing-hidden-office.webp','Illustrative built-in sewing desk and concealable computer workspace with cabinets and storage'],
   ['protected-custom-installation.webp','Two workers install cabinetry over floor coverings with protected furnishings and organized tools']
  ];
- const photo=i=>'<figure class="process-visual"><img src="/site-assets/process/'+processImages[i][0]+'" width="1672" height="941" loading="lazy" decoding="async" alt="'+esc(processImages[i][1])+'"><figcaption>AI-generated planning illustration. Not a photograph of a customer project or a guaranteed final design.</figcaption></figure>';
+ const photo=i=>'<figure class="process-visual"><img src="/site-assets/process/'+processImages[i][0]+'" width="1672" height="941" loading="lazy" decoding="async" alt="'+esc(processImages[i][1])+'"><figcaption>Design illustration, not a photograph of a completed customer project or a guaranteed final design.</figcaption></figure>';
  const step=(n,title,body,image,reverse=false)=>'<section class="process-step'+(reverse?' process-step-reverse':'')+'"><div class="process-step-copy"><span class="kicker">STEP '+n+'</span><h2>'+title+'</h2>'+body+'</div>'+photo(image)+'</section>';
  return {title:'Our In-Home Remodeling Process | Prescott’s Best Construction',description:'How Prescott’s Best assesses your home, measures usable space, develops material options, explains cost-plus proposals and protects your home during installation.',body:
- '<div class="site-pagehead"><span class="kicker">BUILT AROUND THE WAY YOU ACTUALLY LIVE</span><h1>From your ideas to a plan that fits your home.</h1><p class="lede">An estimate is more than a quick look and a number. We listen, measure the space, work through practical options and help you understand what goes into the proposal before work begins.</p><p class="micro">The sewing-room scenario below illustrates the process. Images are AI-generated concepts, not photographs or approved plans for a customer’s home.</p></div>'+
+ '<div class="site-pagehead"><span class="kicker">BUILT AROUND THE WAY YOU ACTUALLY LIVE</span><h1>From your ideas to a plan that fits your home.</h1><p class="lede">An estimate is more than a quick look and a number. We listen, measure the space, work through practical options and help you understand what goes into the proposal before work begins.</p><p class="micro">The sewing-room scenario below illustrates the process. Images are design concepts, not photographs or approved plans for a customer’s home.</p></div>'+
  '<div class="site-section process-story">'+
  step('01','We listen, walk the space, and measure what is possible.',
  '<p>We start with your goals and how you will actually use the room. During an on-site visit we look at the conditions, take measurements, note door swings and clearances, and discuss storage, accessibility and existing furniture or equipment you want to keep.</p><p>For example, a built-in sewing desk needs to work with the owner’s actual machine, comfortable working height and reachable upper cabinets. A second computer desk might need to fit into a concealed workstation without blocking access or interfering with another door. We consider the real dimensions, relevant code and permit questions, and the work required to turn the idea into something buildable.</p>',0)+
@@ -178,6 +179,21 @@ export function marketingPage(path,options={}){
  telephone:"+1-928-350-0940",email:contact,areaServed:[{ "@type":"City",name:"Prescott Valley"},{ "@type":"City",name:"Prescott"}],
  url:options.cleanPaths===true?shareUrl:'https://www.prescottsbestconstruction.com/',image:shareOrigin+'/site-assets/pbc-logo.webp',
  hasCredential:{"@type":"EducationalOccupationalCredential",credentialCategory:"Arizona Registrar of Contractors License #343141"}};
+ const gallerySchema=suffix==='/holiday-lighting'?{
+  "@context":"https://schema.org","@type":"ImageGallery","@id":shareUrl+"#lighting-gallery",
+  name:"Holiday Lighting Styles and Close-Up Design Inspiration",
+  description:"Illustrative holiday-lighting styles for rooflines, house windows, doorways and exterior soffits; not photographs of completed installations.",
+  url:shareUrl,
+  image:holidayImages.map(image=>({
+   "@type":"ImageObject",
+   name:image.title,
+   contentUrl:shareOrigin+'/site-assets/holiday-concepts/'+image.file,
+   url:shareOrigin+'/site-assets/holiday-concepts/'+image.file,
+   description:image.alt,
+   caption:image.caption,
+   width:image.width,height:image.height
+  }))
+ }:null;
  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><meta name="description" content="'+esc(description)+'">'+
  (published?'<link rel="canonical" href="'+esc(canonical)+'">':'<meta name="robots" content="noindex,nofollow">')+
  '<meta name="theme-color" content="#17231c"><meta name="color-scheme" content="light">'+
@@ -195,7 +211,8 @@ export function marketingPage(path,options={}){
  '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
  '<link rel="stylesheet" href="/marketing.css"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script>'+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
- (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
+ (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+
+ (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
  '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+

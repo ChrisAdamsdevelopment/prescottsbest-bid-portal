@@ -504,7 +504,7 @@ export const additionalArticles=[
       ],
       [
         "Check references and real evidence",
-        "Look for project photographs or videos clearly identified as completed work, and read third-party reviews at the source. An AI design concept can help visualize an idea, but it is not evidence of an installed project. Ask for references when appropriate and verify details independently."
+        "Look for project photographs or videos clearly identified as completed work, and read third-party reviews at the source. A design concept can help visualize an idea, but it is not evidence of an installed project. Ask for references when appropriate and verify details independently."
       ],
       [
         "Avoid rushed commitments",

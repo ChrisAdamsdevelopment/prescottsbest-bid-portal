@@ -88,5 +88,5 @@ export async function aiGuideApi(req,res,path,{input,reply,bad}){
  const answer=raw?.replaceAll('**','').replaceAll('\u0060','').replace(/\$\s*[0-9][0-9,.]*/g,'an unverified price').replaceAll('/estimate','the Budget Explorer').replaceAll('/schedule','the Contact page');
  if(!answer)throw bad('The AI guide did not return an answer. Please try again later.',503);
  return reply(res,200,{answer:answer.slice(0,1800),actions,
-  disclosure:'AI-generated planning information only. No price, permit decision or appointment is confirmed. Speak with a real contractor for a proposal.'});
+  disclosure:'Scotty’s automated planning information is general guidance only. No price, permit decision or appointment is confirmed. Speak with a real contractor for a proposal.'});
 }

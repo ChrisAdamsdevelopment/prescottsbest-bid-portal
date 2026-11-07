@@ -297,7 +297,7 @@
    if(!response.ok)throw Error(result.error||'Image editing did not complete.');
    if(typeof result.image!=='string'||!result.image.startsWith('data:image/jpeg;base64,'))throw Error('Unexpected image format from provider.');
    realData=result.image;realBefore.src=imageObjectURL(original);realAfter.src=imageObjectURL(realData);realArea.hidden=false;
-   realStatus.textContent='Your AI-edited lighting concept is ready. Compare it to the original, then save the image. Exact roofline geometry and materials still require an on-site review.';
+   realStatus.textContent='Your lighting design preview is ready. Compare it to the original, then save the image. Exact roofline geometry and materials still require an on-site review.';
    realArea.scrollIntoView({behavior:'smooth',block:'nearest'});
   }catch(err){realStatus.textContent=(err instanceof Error?err.message:'AI editing unavailable')+' Your instant local design is still usable.';}
   finally{realBusy=false;updateReal();}
