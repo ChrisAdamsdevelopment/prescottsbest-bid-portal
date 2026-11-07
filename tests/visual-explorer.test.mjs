@@ -1,0 +1,51 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile,stat} from 'node:fs/promises';
+import {marketingPage,sitemapPaths} from '../marketing/site.mjs';
+import {allVisualImages,visualExplorersForService,visualGroups} from '../marketing/visual-catalog.mjs';
+
+test('visual design studio has 18 unique image variants and matching thumbnails',async()=>{
+ const all=allVisualImages();
+ assert.equal(all.length,18);
+ assert.equal(visualGroups().length,3);
+ assert.equal(new Set(all.map(v=>v.file)).size,18);
+ for(const v of all){
+  assert.ok(v.alt.length>55,v.file);
+  assert.ok(v.caption.length>30,v.file);
+  for(const p of [v.file,v.thumb]){
+   const file=new URL('../public'+p,import.meta.url);
+   assert.ok((await stat(file)).size>10000,p);
+   const data=await readFile(file);
+   assert.equal(data.toString('ascii',0,4),'RIFF',p);
+  }
+ }
+});
+test('cabinetry and decks have interactive visual choices, no customer-data upload, and JSON-LD images',()=>{
+ const cases=[['/custom-cabinetry',2,12],['/deck-building-outdoor-carpentry',1,6]];
+ for(const [path,modules,count] of cases){
+  const page=marketingPage('/remodeling-preview'+path,{indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+  assert.ok(page,'page rendered '+path);
+  assert.equal((page.match(/class="site-section visual-explorer"/g)||[]).length,modules,path);
+  assert.equal((page.match(/data-visual-catalog/g)||[]).length,modules,path);
+  assert.match(page,/visual-explorer\.js/);
+  assert.match(page,/aria-pressed="true"/);
+  assert.match(page,/Save this look/);
+  assert.match(page,/Copy design details/);
+  const gallery=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+   .map(x=>JSON.parse(x[1])).find(x=>x['@type']==='ImageGallery');
+  assert.ok(gallery,path+' ImageGallery');
+  assert.equal(gallery.image.length,count);
+  assert.ok(gallery.image.every(x=>x['@type']==='ImageObject'&&x.contentUrl.includes('/site-assets/visual-explorer/')&&x.description.length>40));
+  assert.ok(sitemapPaths().includes('/remodeling-preview'+path));
+ }
+ assert.equal(visualExplorersForService('/bathroom-remodeling').length,0);
+});
+test('visual studio JavaScript has scoped local look state and never autosends customer data',async()=>{
+ const code=await readFile(new URL('../public/visual-explorer.js',import.meta.url),'utf8');
+ assert.match(code,/data-visual-explorer/);
+ assert.match(code,/aria-pressed/);
+ assert.match(code,/localStorage/);
+ assert.match(code,/navigator.clipboard/);
+ assert.doesNotMatch(code,/fetch\(/);
+ assert.doesNotMatch(code,/XMLHttpRequest/);
+});

@@ -649,3 +649,33 @@
 .holiday-closeup-picture figcaption{font-size:14px;line-height:1.55;color:#395a43}
 @media(max-width:1050px){.holiday-closeup-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:660px){.holiday-closeup-grid{grid-template-columns:1fr;gap:14px}.holiday-closeup-card{padding:13px}}
+
+/* Visual Design Studio — uncluttered, touch-friendly comparisons on service pages. */
+.visual-explorer{max-width:1200px;margin:30px auto 58px;background:#f2f6f0;border:1px solid #d2dfd0;border-radius:24px;padding:clamp(18px,3vw,32px)}
+.visual-explorer .section-heading{margin:0 0 22px;text-align:left}
+.visual-explorer .section-heading h2{font-size:clamp(26px,3vw,39px);line-height:1.2;margin:7px 0 11px}
+.visual-explorer .section-heading p{max-width:75ch;line-height:1.65}
+.visual-workspace{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:clamp(17px,3vw,35px);align-items:start}
+.visual-main-figure{margin:0;min-width:0;border:1px solid #cbd9c8;border-radius:16px;overflow:hidden;background:white;box-shadow:0 12px 24px #18331e11}
+.visual-main-figure img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:#e4e1d9}
+.visual-main-figure figcaption{padding:12px 15px;color:#30543c;line-height:1.5;font-weight:600;font-size:15px}
+.visual-control-panel{padding-top:2px;display:flex;flex-direction:column;gap:15px}
+.visual-axis{border:0;padding:0;margin:0;min-width:0}
+.visual-axis legend{font-size:15px;font-weight:800;color:#1e3e2c;margin-bottom:9px}
+.visual-option-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:8px}
+.visual-option-row button{min-height:48px;background:#fff;border:2px solid #b7c9b8;color:#233f30;border-radius:10px;padding:9px 11px;font-size:14px;line-height:1.35;font-weight:700;cursor:pointer}
+.visual-option-row button:hover{border-color:#527c5c;background:#edf3e8}
+.visual-option-row button[aria-pressed=true]{border-color:#244b32;box-shadow:inset 0 0 0 1px #244b32;background:#dcead9}
+.visual-selection-text{margin:3px 0 0;padding:12px 13px;background:#fff;border-left:4px solid #396e49;border-radius:6px;font-weight:700;font-size:16px}
+.visual-actions{display:flex;flex-wrap:wrap;gap:9px}
+.visual-actions button{border:2px solid #345b40;border-radius:10px;background:#fff;color:#234a33;min-height:46px;padding:10px 12px;font-size:14px;font-weight:750;cursor:pointer}
+.visual-actions button:hover{background:#e0eedf}
+.visual-actions a.site-button{min-height:46px;display:inline-flex;align-items:center;justify-content:center}
+.visual-disclosure{font-size:14px;line-height:1.55;color:#42594a;margin:0}
+.visual-feedback{font-weight:700;color:#21553c;font-size:14px;min-height:20px;margin:0}
+.visual-copy-fallback{display:block;width:100%;max-width:100%;height:90px;padding:10px;font-size:13px}
+.visual-nojs{padding:14px}
+.visual-nojs ul{columns:2}
+@media(max-width:920px){.visual-workspace{grid-template-columns:1fr}.visual-control-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.visual-selection-text,.visual-actions,.visual-disclosure,.visual-feedback{grid-column:1 / -1}}
+@media(max-width:600px){.visual-explorer{margin:20px auto 42px;padding:14px;border-radius:14px}.visual-explorer .section-heading h2{font-size:26px}.visual-option-row{grid-template-columns:repeat(2,minmax(0,1fr))}.visual-control-panel{display:flex;gap:12px}.visual-actions{display:grid;grid-template-columns:1fr 1fr}.visual-actions a.site-button{grid-column:1/-1}.visual-nojs ul{columns:1}}
+@media(prefers-reduced-motion:reduce){.visual-explorer *{scroll-behavior:auto}}

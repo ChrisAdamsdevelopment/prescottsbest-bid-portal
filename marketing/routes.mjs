@@ -1,6 +1,7 @@
 import {marketingPage,sitemapPaths} from './site.mjs';
 import {articles} from './articles.mjs';
 import {holidayImages,holidayCloseups} from './holiday-assets.mjs';
+import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(req.method!=='GET')return false;
  // The new PBC domain serves the marketing homepage; the Render host keeps the
@@ -35,6 +36,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/scotty.js':['public/scotty.js','text/javascript; charset=utf-8'],
  '/holiday.js':['public/holiday.js','text/javascript; charset=utf-8'],
  '/storm.js':['public/storm.js','text/javascript; charset=utf-8'],
+ '/visual-explorer.js':['public/visual-explorer.js','text/javascript; charset=utf-8'],
  '/site-assets/pbc-logo.webp':['public/site-assets/pbc-logo.webp','image/webp'],
  '/site-assets/pbc-social-card.jpg':['public/site-assets/pbc-social-card.jpg','image/jpeg'],
  '/site-assets/favicon.ico':['public/site-assets/favicon.ico','image/x-icon'],
@@ -60,6 +62,13 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   staticPaths['/site-assets/process/'+name]=['public/site-assets/process/'+name,'image/webp'];
  }
  staticPaths['/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp']=['public/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp','image/webp'];
+ // Explicit allowlist of selected home-design visual examples; never serve arbitrary project uploads.
+ for(const asset of allVisualImages()){
+  for(const file of [asset.file,asset.thumb]){
+   const relative=file.replace(/^\//,'');
+   staticPaths[file]=['public/'+relative,'image/webp'];
+  }
+ }
  // Serve only approved, explicitly named lighting concept images; never expose arbitrary local uploads.
  for(const asset of holidayImages){
   const publicPath='/site-assets/holiday-concepts/'+asset.file;
@@ -96,12 +105,17 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Holiday lighting close-up style references',
    ...holidayCloseups.map(a=>'- ['+a.title+']('+site+'/site-assets/holiday-concepts/'+a.file+'): '+a.caption),
    '',
+   '## Remodeling visual design examples',
+   '- [Compare built-in cabinetry finishes]('+site+'/custom-cabinetry): Select wood-tone families and hardware styles; illustrative options only.',
+   '- [Explore hidden sewing-station storage]('+site+'/custom-cabinetry): Compare closed cabinets and ready-to-use worktops.',
+   '- [Outdoor deck design ideas]('+site+'/deck-building-outdoor-carpentry): Explore six Arizona-inspired outdoor spaces.',
+   '',
    '## Homeowner articles',
    ...articles.map(a=>'- ['+a.title+']('+site+'/blog/'+a.slug+'): '+a.excerpt),
    '',
    '## Important limitations',
    '- The private proposal portal is access-controlled. Do not crawl /proposal or /api.',
-   '- Example visuals are labeled as design inspiration, not photographs of completed contractor installations.',
+   '- Example visuals are design inspiration, not photographs of completed contractor installations.',
    '- Online ranges and starting package prices are subject to a written scope review; see individual service details.',
    '- Permit requirements, contractor availability, and license status must be independently verified.',
    '- Public homeowner pages are available for search discovery; project details, prices and availability can change after contractor review.'
@@ -116,7 +130,9 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
     a.sections.map(([h,body])=>'### '+h+'\n'+body+'\n').join('\n')+
     '\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\n').join('\n---\n')+
    '\n\n## Holiday Lighting Design References\nThese illustrative examples are not photographs of completed work.\n'+
-   holidayCloseups.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file+'\n').join('\n');
+   holidayCloseups.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file+'\n').join('\n')+
+   '\n\n## Cabinetry and Deck Visual Choices\nThese are design examples, not photographs of installed projects.\n'+
+   allVisualImages().map(v=>'### '+v.name+'\n'+v.caption+'\nhttps://prescottsbestremodeling.com'+v.file).join('\n');
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
   res.end(text);return true;
  }
@@ -132,13 +148,15 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  }
  if(path==='/robots.txt'){
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});
-  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
+  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nAllow: /site-assets/visual-explorer/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
  }
  if(path==='/sitemap.xml'){
   if(!indexed)throw bad('Sitemap not published yet',404);
   const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'+
    sitemapPaths().map(p=>{const clean=(marketingHost?p.replace('/remodeling-preview',''):p)||'/';
-    const images=clean==='/holiday-lighting'?holidayCloseups.map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
+     const holiday=clean==='/holiday-lighting'?holidayCloseups.map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
+     const designs=visualImageObjectsForPage(clean,origin).map(a=>'<image:image><image:loc>'+a.contentUrl+'</image:loc></image:image>').join('');
+     const images=holiday+designs;
     return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;

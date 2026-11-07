@@ -3,6 +3,7 @@ import {guidePage} from './guide-page.mjs';
 import {articlePages,articles} from './articles.mjs';
 import {holidayPages} from './holiday-pages.mjs';
 import {holidayImages} from './holiday-assets.mjs';
+import {visualExplorerSection,visualExplorersForService,visualImageObjectsForPage} from './visual-catalog.mjs';
 import {wildfirePages} from './wildfire-page.mjs';
 import {stormPages} from './storm-page.mjs';
 import {conceptCardImage,conceptServiceImage,conceptHero,conceptEditorialImage} from './imagery.mjs';
@@ -77,6 +78,7 @@ function service(s){
  return {title:s.title+' | Prescott’s Best Construction',description:s.desc+' Serving Prescott Valley and the greater Prescott area.',body:
  '<div class="site-pagehead service-pagehead"><div class="service-pagehead-copy"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p><p class="micro">Review a design concept for inspiration; the final project scope is confirmed on site.</p></div>'+heroImage+'</div>'+
  '<section class="site-section site-detail"><div><h2>Start with the right plan</h2><p>'+esc(s.detail)+'</p><p>We focus on clearly defined homeowner priorities, practical project sequencing and communication about what is included. Final recommendations require evaluating the home itself.</p></div><aside class="site-callout"><h3>Useful first steps</h3><ol><li>Describe what needs to change.</li><li>List what needs to stay.</li><li>Choose a finish and budget preference.</li><li>Request a site conversation.</li></ol>'+priceLink+'</aside></section>'+
+ visualExplorersForService(s.path).map(config=>visualExplorerSection(config,link)).join('')+
  serviceGuideList(s.path)+'<section class="site-section"><h2>Questions homeowners often ask</h2>'+faq([
  ['Can I see a project budget before an appointment?','Yes. Our budget explorer offers a useful starting range. After reviewing your space, materials and preferences, we prepare a written proposal tailored to your project.'],
  ['Can we keep the existing layout?','Often a practical starting point, but actual plumbing, structure, electrical and permit conditions must be checked on site.'],
@@ -194,6 +196,13 @@ export function marketingPage(path,options={}){
    width:image.width,height:image.height
   }))
  }:null;
+ const visualImages=visualImageObjectsForPage(suffix,shareOrigin);
+ const visualGallerySchema=visualImages.length?{
+  '@context':'https://schema.org','@type':'ImageGallery',
+  '@id':shareUrl+'#visual-explorer',name:'Remodeling Design Inspiration',
+  description:'Illustrative cabinetry and outdoor living design choices; not documented completed projects.',
+  url:shareUrl,image:visualImages
+ }:null;
  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(title)+'</title><meta name="description" content="'+esc(description)+'">'+
  (published?'<link rel="canonical" href="'+esc(canonical)+'">':'<meta name="robots" content="noindex,nofollow">')+
  '<meta name="theme-color" content="#17231c"><meta name="color-scheme" content="light">'+
@@ -209,10 +218,11 @@ export function marketingPage(path,options={}){
  '<meta property="og:image:alt" content="Prescott’s Best Construction official gold badge and remodeling message">'+
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
  '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
- '<link rel="stylesheet" href="/marketing.css"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script>'+
+ '<link rel="stylesheet" href="/marketing.css"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/visual-explorer.js"></script>'+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
  (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+
- (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
+ (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
+ (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
  '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+
