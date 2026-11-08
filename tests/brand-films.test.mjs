@@ -46,7 +46,7 @@ test('each commercial is on its correct page with poster, controls, a text descr
   assert.ok(page.includes(slug+'-poster.webp'));
  }
  assert.ok(render('/').includes('commercial-hero'));
- assert.ok(render('/holiday-lighting').includes('Beautiful holiday lighting for Prescott homes'));
+ assert.ok(render('/holiday-lighting').includes('A brighter home for the holidays.'));
  assert.ok(render('/visual-design-preview').includes('visual-preview-hero-copy'));
  assert.ok(!render('/bathroom-remodeling').includes('data-brand-film='));
  assert.equal(brandFilmJsonLd('/bathroom-remodeling'),null);

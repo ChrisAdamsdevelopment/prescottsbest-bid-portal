@@ -24,11 +24,20 @@
   let chosenPause=false;
   let userPlayed=false;
   let autoplayStarted=false;
+  const icons={
+   play:'<path d="m8 5 11 7-11 7V5"/>',
+   pause:'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>',
+   muted:'<path d="m11 5-6 5H2v4h3l6 5V5Z"/><path d="m17 9 5 6m0-6-5 6"/>',
+   sound:'<path d="m11 5-6 5H2v4h3l6 5V5Z"/><path d="M15 9a4 4 0 0 1 0 6"/><path d="M18 6a8 8 0 0 1 0 12"/>'
+  };
+  const svgIcon=body=>'<svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+body+'</svg>';
   const refresh=()=>{
-   play.textContent=video.paused?'Play video':'Pause video';
+   if(holidayHero)play.innerHTML=svgIcon(video.paused?icons.play:icons.pause);
+   else play.textContent=video.paused?'Play video':'Pause video';
    play.setAttribute('aria-pressed',String(!video.paused));
    play.setAttribute('aria-label',(video.paused?'Play ':'Pause ')+video.getAttribute('aria-label'));
-   sound.textContent=video.muted?'Sound on':'Sound off';
+   if(holidayHero)sound.innerHTML=svgIcon(video.muted?icons.muted:icons.sound);
+   else sound.textContent=video.muted?'Sound on':'Sound off';
    sound.setAttribute('aria-pressed',String(!video.muted));
    sound.setAttribute('aria-label',(video.muted?'Turn on':'Turn off')+' sound for '+video.getAttribute('aria-label'));
    figure.dataset.playing=String(!video.paused);
@@ -79,12 +88,11 @@
    }else figure.dataset.framesReady='true';
   });
   video.addEventListener('timeupdate',()=>{
-   if(holidayHero&&!reduced.matches&&!video.paused&&video.currentTime>=5.8){
+   if(holidayHero&&!reduced.matches&&!video.paused&&video.currentTime>=4.8){
     holidayHero.classList.add('holiday-intro-complete');
    }
   });
   video.addEventListener('pause',()=>{
-   if(holidayHero)holidayHero.classList.remove('holiday-intro-complete');
    refresh();
   });
   video.addEventListener('volumechange',refresh);

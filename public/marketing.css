@@ -1012,194 +1012,178 @@
 @media(min-width:721px){.commercial-hero .brand-film-hero .brand-film-controls{top:18px;right:20px;bottom:auto}}
 
 
-/* Holiday-only cinematic hero experiment (2026-11-08).
-   Full-bleed video + readable gradient on desktop; an uncropped, centered
-   16:9 frame on mobile so the supplied video logo remains visible. */
+/* Holiday cinematic landing — one composition, not a player beside a card.
+   Original 16:9 film stays centered on phones. The darkened scene flows
+   directly into the editorial copy; only the short film caption is timed. */
 .holiday-head.holiday-cinematic-head{
- position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr);
- align-items:center;min-height:clamp(570px,49vw,730px);box-sizing:border-box;
- overflow:hidden;padding:clamp(44px,5vw,76px) clamp(24px,5vw,80px);
- background:#153327;color:#fff;
+ display:block;position:relative;isolation:isolate;padding:0;margin:0;
+ min-height:0;overflow:hidden;background:#173c2e;color:#fff7e9;
+ border:0;border-radius:0 0 30px 30px;
 }
-.holiday-cinematic-head>.brand-film{
- position:absolute;inset:0;z-index:0;display:block;justify-self:stretch;
- width:100%;max-width:none;height:100%;min-height:0;box-sizing:border-box;
- margin:0;border:0;border-radius:0;box-shadow:none;aspect-ratio:auto;
+.holiday-cinema-scene{
+ position:relative;isolation:isolate;overflow:hidden;
+ height:clamp(460px,43vw,660px);background:#142b25;
 }
-.holiday-cinematic-head>.brand-film .brand-film-poster,
-.holiday-cinematic-head>.brand-film .brand-film-video{
- object-position:center center;object-fit:cover;
+.holiday-cinema-scene>.brand-film{
+ position:absolute;inset:0;z-index:0;width:100%;max-width:none;height:100%;
+ min-height:0;aspect-ratio:auto;margin:0;border:0;border-radius:0;
+ box-shadow:none;background:transparent;
 }
-.holiday-cinematic-head>.brand-film .brand-film-video{opacity:0;transition:opacity 950ms ease}
-.holiday-cinematic-head>.brand-film[data-frames-ready="true"] .brand-film-video{opacity:1}
-.holiday-cinematic-head::after{
- content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
- background:linear-gradient(90deg,rgba(11,35,28,.96) 0%,rgba(11,35,28,.86) 27%,
- rgba(12,35,28,.48) 49%,rgba(11,35,28,.12) 73%,rgba(11,35,28,.03) 100%);
- transition:background 900ms ease;
+.holiday-cinema-scene .brand-film-poster,
+.holiday-cinema-scene .brand-film-video{
+ width:100%;height:100%;object-fit:cover;object-position:center top;
+}
+.holiday-cinema-scene .brand-film-video{opacity:0;transition:opacity .7s ease}
+.holiday-cinema-scene .brand-film[data-frames-ready="true"] .brand-film-video{opacity:1}
+.holiday-cinema-vignette{
+ position:absolute;inset:0;z-index:2;pointer-events:none;
+ background:linear-gradient(90deg,rgba(9,28,22,.53) 0%,rgba(9,28,22,.23) 38%,transparent 70%),
+ linear-gradient(0deg,#173c2e 0%,rgba(23,60,46,.26) 14%,transparent 38%);
+}
+.holiday-cinema-message{
+ position:absolute;z-index:3;left:clamp(28px,6vw,90px);right:auto;bottom:clamp(46px,6vw,85px);
+ width:min(430px,38vw);color:#fff5db;text-align:left;
+ filter:drop-shadow(0 2px 18px rgba(2,16,10,.35));
+ opacity:1;transform:translateY(0);transition:opacity 1.05s ease,transform 1.05s ease;
+ pointer-events:none;
+}
+.holiday-cinema-message span{
+ display:block;font:800 12px/1.4 Arial,system-ui,sans-serif;
+ letter-spacing:.23em;color:#ffda8e;margin-bottom:9px;
+}
+.holiday-cinema-message strong{
+ display:block;font:750 clamp(31px,3vw,48px)/1.08 Arial,system-ui,sans-serif;
+ letter-spacing:-.045em;text-wrap:balance;
+}
+.holiday-cinematic-head.holiday-intro-complete .holiday-cinema-message{
+ opacity:0;transform:translateY(-15px);
+}
+.holiday-cinema-scene .brand-film-controls{
+ z-index:5;position:absolute;top:14px;right:16px;bottom:auto;
+ opacity:.86;gap:7px;transition:opacity .2s ease;
+}
+.holiday-cinema-scene .brand-film-controls button{
+ min-height:38px;width:38px;min-width:38px;padding:0;display:grid;place-items:center;border-radius:100px;
+ border:1px solid rgba(255,255,255,.48);
+ background:rgba(10,35,26,.65);font-size:12px;
+}
+.holiday-cinema-scene .brand-film[data-player-pending="true"] .brand-film-controls{
+ opacity:0;
+}
+.holiday-cinema-scene .brand-film[data-player-pending="true"]:hover .brand-film-controls,
+.holiday-cinema-scene .brand-film[data-player-pending="true"]:focus-within .brand-film-controls,
+.holiday-cinema-scene .brand-film[data-playing="false"] .brand-film-controls{
+ opacity:1;
 }
 .holiday-cinematic-head .holiday-head-copy{
- position:relative;z-index:2;max-width:min(710px,57vw);width:100%;
- min-width:0;padding:0;margin:0;box-sizing:border-box;
+ position:relative;z-index:3;display:grid;align-items:center;
+ grid-template-columns:minmax(0,1fr) minmax(310px,.72fr);
+ gap:clamp(24px,5vw,80px);width:100%;max-width:1380px;
+ padding:clamp(18px,3vw,36px) clamp(25px,5vw,80px) clamp(30px,4vw,52px);
+ margin:0 auto;box-sizing:border-box;color:#fff7e9;
+}
+.holiday-cinematic-head .holiday-copy-intro,
+.holiday-cinematic-head .holiday-head-actions{min-width:0}
+.holiday-cinematic-head .holiday-copy-intro{opacity:1!important;transform:none!important}
+.holiday-cinematic-head .kicker{
+ display:block;color:#f9d48d;font-size:11px;letter-spacing:.16em;
+ margin:0 0 12px;line-height:1.5;
 }
 .holiday-cinematic-head .holiday-head-copy h1{
- font-size:clamp(40px,4.6vw,70px);line-height:1.08;max-width:660px;
- text-shadow:0 2px 20px rgba(0,0,0,.20);
+ color:#fffaf1;font-size:clamp(30px,3.4vw,48px);line-height:1.07;
+ letter-spacing:-.045em;max-width:680px;margin:0 0 13px;text-wrap:balance;
 }
-.holiday-cinematic-head .holiday-head-copy .lede{font-size:clamp(16px,1.55vw,21px);max-width:620px}
-.holiday-cinematic-head .holiday-head-copy .micro{max-width:570px;font-size:14px;line-height:1.46}
-.holiday-cinematic-head .holiday-head-copy .site-actions{position:relative;z-index:4;gap:10px}
-.holiday-cinematic-head .holiday-copy-intro{opacity:1;transform:translateY(0);
- transition:opacity 1.2s ease,transform 1.2s ease}
-.holiday-cinematic-head>.brand-film .brand-film-controls{
- position:absolute;z-index:6;right:14px;top:14px;bottom:auto;left:auto;
- opacity:.65;transition:opacity .35s ease;
+.holiday-cinematic-head .holiday-head-copy .lede{
+ color:#f5eee0;max-width:690px;font-size:clamp(15px,1.3vw,18px);
+ line-height:1.5;margin:0;
 }
-.holiday-cinematic-head>.brand-film .brand-film-controls:hover,
-.holiday-cinematic-head>.brand-film .brand-film-controls:focus-within,
-.holiday-cinematic-head>.brand-film[data-playing="false"] .brand-film-controls{opacity:1}
-.holiday-cinematic-head>.brand-film .brand-film-controls button{
- min-height:36px;font-size:12px;font-weight:750;padding:6px 10px;
- background:rgba(12,30,24,.72);border-color:rgba(255,255,255,.55);
+.holiday-cinematic-head .holiday-head-actions .site-actions{
+ display:flex;flex-wrap:wrap;gap:10px;margin:0 0 11px;
 }
-@media(min-width:951px){
- .holiday-cinematic-head.holiday-intro-complete .holiday-copy-intro{
-  opacity:0;transform:translateY(-12px);pointer-events:none;
- }
- .holiday-cinematic-head.holiday-intro-complete::after{
-  background:linear-gradient(90deg,rgba(10,34,26,.60),rgba(11,35,28,.15) 45%,transparent 86%);
- }
+.holiday-cinematic-head .holiday-head-actions .site-button{
+ min-height:48px;padding:12px 18px;display:inline-flex;align-items:center;
+ justify-content:center;white-space:normal;line-height:1.2;
+ border-radius:999px;font-size:14px;font-weight:800;
+ transition:transform .22s ease,background-color .22s ease,border-color .22s ease;
+}
+.holiday-cinematic-head .holiday-head-actions .site-button:hover{transform:translateY(-2px)}
+.holiday-cinematic-head .holiday-head-actions .site-button.primary{
+ background:#f5d392;color:#1f3b2c;border:1px solid #f5d392;
+}
+.holiday-cinematic-head .holiday-head-actions .site-button.outline{
+ background:transparent;color:#fff7e9;border:1px solid rgba(255,248,228,.6);
+}
+.holiday-cinematic-head .holiday-head-actions .micro{
+ color:#e6e4d3!important;font-size:12px;line-height:1.45;margin:4px 0 0;
 }
 @media(max-width:950px){
- .holiday-head.holiday-cinematic-head{
-  display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
-  min-height:0;gap:0;padding:0 0 24px;overflow:hidden;background:#183b2d;
+ .holiday-cinema-scene{height:clamp(360px,54vw,520px)}
+ .holiday-cinematic-head .holiday-head-copy{grid-template-columns:1fr;gap:20px}
+ .holiday-cinema-message{left:clamp(20px,5vw,42px);right:auto;width:min(380px,55vw)}
+}
+@media(max-width:620px){
+ .holiday-head.holiday-cinematic-head{border-radius:0 0 24px 24px}
+ .holiday-cinema-scene{
+  height:clamp(267px,68vw,385px);
+  background:#183c2d url('/site-assets/brand-films/prescotts-best-holiday-lighting-poster.webp')
+  center top/cover no-repeat;
  }
- .holiday-head.holiday-cinematic-head::before{
-  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:url('/site-assets/brand-films/prescotts-best-holiday-lighting-poster.webp')
-   center center/cover no-repeat;filter:blur(18px) brightness(.55);transform:scale(1.08);
+ .holiday-cinema-scene>.brand-film{
+  position:absolute;top:0;right:0;bottom:auto;left:0;
+  width:100%;height:auto;aspect-ratio:16/9;
  }
- .holiday-cinematic-head>.brand-film{
-  position:relative;inset:auto;order:0;flex:none;
-  margin:0!important;padding:0;width:100%;height:auto;
-  min-height:0;max-width:none;aspect-ratio:16/9;border-radius:0;
+ .holiday-cinema-scene .brand-film-poster,
+ .holiday-cinema-scene .brand-film-video{
+  object-fit:contain;object-position:center center;
  }
- .holiday-cinematic-head>.brand-film .brand-film-poster,
- .holiday-cinematic-head>.brand-film .brand-film-video{
-  width:100%;height:100%;object-fit:contain;object-position:center center;
+ .holiday-cinema-vignette{
+  background:linear-gradient(180deg,transparent 0%,transparent 56%,
+    rgba(14,43,31,.25) 68%,#173c2e 99%);
  }
- .holiday-cinematic-head::after{
-  background:linear-gradient(180deg,transparent 0%,rgba(11,33,26,.08) 90px,
-  rgba(11,33,26,.82) 255px,#183b2d 440px);
+ .holiday-cinema-message{
+  left:20px;right:20px;bottom:12px;width:auto;text-align:left;
+  max-width:340px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));
+ }
+ .holiday-cinema-message span{font-size:10px;margin-bottom:5px;letter-spacing:.18em}
+ .holiday-cinema-message strong{font-size:clamp(22px,6vw,28px);line-height:1.1}
+ .holiday-cinema-scene .brand-film-controls{top:8px;right:9px;gap:5px}
+ .holiday-cinema-scene .brand-film-controls button{
+  width:36px;min-width:36px;min-height:36px;padding:0;
  }
  .holiday-cinematic-head .holiday-head-copy{
-  order:1;z-index:3;width:100%;max-width:none;
-  padding:0 clamp(18px,5vw,36px) 14px;margin:-28px 0 0;
+  gap:14px;padding:8px 19px 26px;
  }
+ .holiday-cinematic-head .kicker{font-size:10px;margin:0 0 9px}
  .holiday-cinematic-head .holiday-head-copy h1{
-  font-size:clamp(32px,6.3vw,49px);line-height:1.11;
+  font-size:clamp(30px,8.1vw,38px);margin:0 0 9px;
  }
- .holiday-cinematic-head .holiday-head-copy .lede{font-size:clamp(16px,2.8vw,19px)}
- .holiday-cinematic-head>.brand-film .brand-film-controls{
-  top:8px;right:8px;bottom:auto;opacity:.83;gap:5px;
+ .holiday-cinematic-head .holiday-head-copy .lede{font-size:15px;line-height:1.42}
+ .holiday-cinematic-head .holiday-head-actions .site-actions{
+  display:grid;grid-template-columns:1fr;gap:8px;margin:0 0 11px;
  }
- .holiday-cinematic-head>.brand-film .brand-film-controls button{
-  min-height:34px;font-size:11px;padding:5px 8px;
+ .holiday-cinematic-head .holiday-head-actions .site-button{
+  width:100%;min-height:46px;padding:10px 14px;
  }
-}
-@media(max-width:560px){
- .holiday-head.holiday-cinematic-head{padding:0 0 12px}
- .holiday-cinematic-head .holiday-head-copy{margin:-23px 0 0;padding:0 18px 10px}
- .holiday-cinematic-head .holiday-head-copy h1{
-  font-size:clamp(32px,8.6vw,41px);letter-spacing:-.035em;margin:8px 0 12px;
+ .holiday-cinematic-head .holiday-head-actions .site-button.outline{
+  background:rgba(255,255,255,.05);
  }
- .holiday-cinematic-head .holiday-head-copy .lede{font-size:16px;line-height:1.45}
- .holiday-cinematic-head .holiday-head-copy .micro{font-size:12px!important;line-height:1.45}
- .holiday-cinematic-head .holiday-head-copy .site-actions{display:grid;grid-template-columns:1fr}
- .holiday-cinematic-head .holiday-head-copy .site-button{min-height:44px;padding:8px 12px}
-}
-@media(prefers-reduced-motion:reduce){
- .holiday-cinematic-head>.brand-film .brand-film-video,
- .holiday-cinematic-head .holiday-copy-intro{transition:none!important}
- .holiday-cinematic-head .holiday-copy-intro{opacity:1!important;transform:none!important}
-}
-@media(max-width:560px){
- /* A compact assistant launcher does not obscure the holiday hero CTA. */
+ .holiday-cinematic-head .holiday-head-actions .micro{font-size:11px!important;line-height:1.43}
  body:has(.holiday-cinematic-head) .scotty-widget{right:10px;bottom:83px}
- body:has(.holiday-cinematic-head) .scotty-launch{width:49px;min-width:49px;min-height:49px;height:49px;
-  border-radius:50%;padding:0;font-size:0;display:flex;align-items:center;justify-content:center}
+ body:has(.holiday-cinematic-head) .scotty-launch{min-width:49px;width:49px;
+  min-height:49px;height:49px;border-radius:50%;padding:0;font-size:0}
  body:has(.holiday-cinematic-head) .scotty-launch span{font-size:23px}
  body:has(.holiday-cinematic-head) .scotty-launch small{display:none}
 }
-@media print{
- .holiday-head.holiday-cinematic-head{min-height:0;background:#fff;color:#142c20}
- .holiday-cinematic-head .holiday-head-copy{color:#143524}
- .holiday-cinematic-head .holiday-copy-intro{opacity:1!important}
- .holiday-cinematic-head>.brand-film{display:none!important}
- .holiday-cinematic-head::after{display:none!important}
-}
-
-
-/* Holiday film final blend: visible house, gentle overlap and quiet controls.
-   Only this service hero is affected; other commercial pages retain their players. */
-.holiday-cinematic-head>.brand-film[data-player-pending="true"] .brand-film-controls{
- opacity:0;transition:opacity .45s ease;
-}
-.holiday-cinematic-head>.brand-film[data-player-pending="true"]:hover .brand-film-controls,
-.holiday-cinematic-head>.brand-film[data-player-pending="true"]:focus-within .brand-film-controls{
- opacity:1;
-}
-.holiday-cinematic-head>.brand-film[data-playing="true"] .brand-film-controls{
- opacity:.16;
-}
-.holiday-cinematic-head>.brand-film[data-playing="true"]:hover .brand-film-controls,
-.holiday-cinematic-head>.brand-film[data-playing="true"]:focus-within .brand-film-controls{
- opacity:1;
-}
-@media(max-width:950px){
- /* Keep the complete 16:9 film. Its closing logo sits at upper-left,
-    so a short gradient across the bottom cannot obscure that brand mark. */
- .holiday-head.holiday-cinematic-head::after{
-  background:linear-gradient(180deg,transparent 0%,transparent 16%,
-    rgba(16,44,33,.18) 31%,rgba(19,49,37,.80) 46%,#183b2d 66%);
- }
- .holiday-cinematic-head .holiday-head-copy{
-  margin:-98px 0 0;
-  padding:35px clamp(18px,5vw,36px) 20px;
-  background:linear-gradient(180deg,rgba(24,59,45,0) 0%,
-   rgba(24,59,45,.95) 92px,#183b2d 146px);
- }
- .holiday-cinematic-head .holiday-copy-intro{position:relative;z-index:4}
- .holiday-cinematic-head .holiday-head-copy h1{max-width:650px;text-wrap:balance;
-   text-shadow:0 2px 16px rgba(0,0,0,.26)}
- .holiday-cinematic-head>.brand-film .brand-film-controls{
-  top:9px;right:9px;bottom:auto;
- }
-}
-@media(max-width:560px){
- .holiday-cinematic-head .holiday-head-copy{margin:-90px 0 0;padding:29px 18px 12px}
- .holiday-cinematic-head .holiday-head-copy h1{
-  font-size:clamp(30px,8vw,39px);
-  margin:8px 0 10px;
- }
- .holiday-cinematic-head .holiday-head-copy .lede{font-size:15px;line-height:1.42}
- .holiday-cinematic-head .holiday-head-copy .micro{font-size:12px!important}
- .holiday-cinematic-head>.brand-film .brand-film-controls{
-  top:9px;right:10px;bottom:auto;gap:5px;
- }
- .holiday-cinematic-head>.brand-film .brand-film-controls button{
-  font-size:11px;padding:5px 9px;min-height:34px;
- }
-}
 @media(prefers-reduced-motion:reduce){
- .holiday-cinematic-head>.brand-film .brand-film-controls{
-  opacity:1!important;
- }
+ .holiday-cinema-message,.holiday-cinema-scene .brand-film-video,
+ .holiday-cinema-scene .brand-film-controls{transition:none!important}
+ .holiday-cinema-message{opacity:1!important;transform:none!important}
+ .holiday-cinema-scene .brand-film-controls{opacity:1!important}
 }
-
-/* Keep the holiday film's upper-left brand logo entirely in frame on extra-wide desktop heroes. */
-@media(min-width:951px){
- .holiday-cinematic-head>.brand-film .brand-film-poster,
- .holiday-cinematic-head>.brand-film .brand-film-video{object-position:center top}
+@media print{
+ .holiday-cinema-scene{height:170px}
+ .holiday-cinema-scene .brand-film-video,.holiday-cinema-scene .brand-film-controls{display:none!important}
+ .holiday-cinematic-head .holiday-head-copy{display:block}
+ .holiday-head.holiday-cinematic-head{background:#fff;color:#173c2e}
+ .holiday-cinematic-head .holiday-head-copy h1{color:#173c2e}
 }

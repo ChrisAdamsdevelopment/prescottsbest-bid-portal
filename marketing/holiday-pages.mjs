@@ -69,12 +69,19 @@ export function holidayPages(link){
  const page={
   title:'Holiday Lighting Concierge | Prescott & Prescott Valley | Prescott’s Best Construction',
   description:'Explore holiday lighting designs and outdoor light installation options in Prescott and Prescott Valley. Try a private photo-based preview and request a contractor review.',
-  body:'<section class="site-pagehead holiday-head holiday-cinematic-head"><div class="holiday-head-copy"><div class="holiday-copy-intro"><span class="kicker">SEASONAL CONCIERGE · PRESCOTT AREA</span>'+
-   '<h1>Beautiful holiday lighting for Prescott homes.</h1>'+
-   '<p class="lede">Bring your roofline, entryway and backyard to life. Explore a look, preview it on your house, and let us take care of the installation.</p></div>'+
-   '<p class="micro">Classic Roofline starts at $599 for up to 60 feet on qualifying one-story homes. Your written quote confirms installation and seasonal services.</p>'+
-   '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Try the home lighting preview</a>'+
-   '<a class="site-button outline" href="'+link('/schedule')+'">Discuss your holiday project</a></div></div>'+brandFilm('holiday')+'</section>'+
+  body:'<section class="site-pagehead holiday-head holiday-cinematic-head" aria-labelledby="holiday-hero-heading">'+
+   '<div class="holiday-cinema-scene">'+brandFilm('holiday')+
+   '<div class="holiday-cinema-vignette" aria-hidden="true"></div>'+
+   '<div class="holiday-cinema-message" aria-hidden="true"><span>LET THE SEASON SHINE</span><strong>A little magic, right at home.</strong></div></div>'+
+   '<div class="holiday-head-copy"><div class="holiday-copy-intro">'+
+   '<span class="kicker">HOLIDAY LIGHTING · PRESCOTT &amp; PRESCOTT VALLEY</span>'+
+   '<h1 id="holiday-hero-heading">A brighter home for the holidays.</h1>'+
+   '<p class="lede">Beautiful rooflines, warm welcomes and memorable backyards. Explore your look, preview it on your home and plan the installation with us.</p></div>'+
+   '<div class="holiday-head-actions"><div class="site-actions">'+
+   '<a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Preview lights on my house</a>'+
+   '<a class="site-button outline" href="'+link('/schedule')+'">Plan my holiday lighting</a></div>'+
+   '<p class="micro">Classic Roofline starts at $599 for qualifying single-story homes, up to 60 feet. Final details in your written quote.</p>'+
+   '</div></div></section>'+
    '<section class="site-section"><div class="section-heading"><span class="kicker">START WITH A LOOK</span><h2>Choose a style, then make it yours.</h2><p>Four starting points. Everything is adjustable after a site review.</p></div>'+
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
    '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Small ornamental tree lighting starts at $149.</strong> Larger trees, specialty lighting and additional access or equipment are quoted according to your property and the design.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
