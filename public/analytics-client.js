@@ -92,9 +92,14 @@
   const message=document.createElement('div');
   const heading=document.createElement('strong');heading.textContent='Help us improve this website?';
   const description=document.createElement('p');
-  description.textContent='With your permission, we measure page views, reading time, navigation and interactions to understand which homeowner resources help. We do not record your name, email, form answers or precise location in browsing analytics.';
+  description.textContent='Optional analytics help us improve pages and tools. Your choice; no tracking until you opt in.';
+  const details=document.createElement('details');details.className='analytics-consent-details';
+  const more=document.createElement('summary');more.textContent='What information would we measure?';
+  const explanation=document.createElement('p');
+  explanation.textContent='With your permission, we measure page views, reading time, navigation and interactions to understand which homeowner resources help. We do not record your name, email, form answers or precise location in browsing analytics.';
+  details.append(more,explanation);
   const link=document.createElement('a');link.href='/privacy';link.textContent='Privacy details';
-  message.append(heading,description,link);
+  message.append(heading,description,details,link);
   const actions=document.createElement('div');actions.className='analytics-consent-actions';
   const accept=document.createElement('button');accept.type='button';accept.textContent='Allow analytics';accept.addEventListener('click',()=>choice('yes'));
   const decline=document.createElement('button');decline.type='button';decline.textContent='No thanks';decline.addEventListener('click',()=>choice('no'));

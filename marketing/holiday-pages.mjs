@@ -100,24 +100,36 @@ export function holidayPages(link){
    '<div class="site-actions"><a class="site-button primary" href="#holiday-editor-tools">Start designing lights</a><a class="site-button outline" href="'+link('/holiday-lighting')+'">View lighting packages</a></div>'+
    '<p class="micro">Your original photo stays on your device unless you separately agree to AI editing or attach it to your quote request. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p><p class="micro">'+previewCopy.disclaimer+'</p><p class="micro">Planning the back of your house? Use a photo of your rear elevation or covered patio, and <a href="'+link('/holiday-lighting')+'#backyard-holiday-lighting">explore backyard lighting examples</a>.</p></div>'+
    '<section class="site-section holiday-workspace"><div class="holiday-controls">'+
-   '<div class="holiday-simple-steps" aria-label="Three simple steps"><span><b>1</b> Pick your lights</span><span><b>2</b> Preview your home</span><span><b>3</b> Request a quote</span></div>'+
+   '<div class="holiday-simple-steps" aria-label="Three simple steps"><span><b>1</b> Pick your lights</span><span><b>2</b> Choose a house</span><span><b>3</b> Design & save</span></div>'+
    '<h2>Step 1 · Pick the look you like</h2><p class="micro">You can change colors anytime. Start with one of our popular styles—there is no commitment.</p>'+
    '<div class="holiday-style-picks" role="group" aria-label="Popular light looks"><button type="button" class="holiday-style-pick" data-package="classic">Warm & classic <small>From $599</small></button><button type="button" class="holiday-style-pick" data-package="welcome">Red & white <small>From $899</small></button><button type="button" class="holiday-style-pick" data-package="showcase">Multicolor <small>From $1,399</small></button><button type="button" class="holiday-style-pick" data-package="permanent">Year-round smart <small>Custom quote</small></button></div>'+
    '<label for="holiday-package">Lighting package</label><select id="holiday-package">'+
    packages.map(p=>'<option value="'+p.id+'">'+escapeHtml(p.name)+'</option>').join('')+'</select>'+
-   '<label for="holiday-tone">Lighting colors</label><select id="holiday-tone"><option value="warm">Warm white</option><option value="cool">Bright white</option><option value="candy">Red & white</option><option value="festive">Multicolor</option><option value="smart">Color-changing smart style</option></select>'+
-   '<details class="holiday-advanced"><summary>Optional · Choose a different light type</summary><div class="holiday-advanced-fields"><label for="holiday-product">Preferred light product</label><select id="holiday-product"><option value="c9">C9-style outdoor LED roofline lights</option><option value="rope">Outdoor-rated LED rope lighting</option><option value="icicle">Outdoor-rated icicle strands</option><option value="rgbic">Smart RGBIC / neon-flex (compatible controller required)</option><option value="permanent">Permanent track / puck lighting</option></select><p class="micro">Light type is a design preference; exact outdoor product, connection lengths and electrical requirements must be reviewed.</p></div></details>'+
    '<h2>Step 2 · Preview on a home</h2><p class="micro">The sample home is ready below. Or choose your own front-of-house, backyard or patio photo for a personal preview.</p>'+
    '<label for="holiday-photo">Optional: front, backyard or patio photo of your home (JPG, PNG, or WebP; 10 MB max)</label>'+
    '<input id="holiday-photo" type="file" accept="image/jpeg,image/png,image/webp"/>'+
    '<p class="micro">For privacy, choose a photo without visible house numbers, license plates or people. Your original image stays in your browser.</p>'+
    '<button type="button" id="holiday-demo" class="site-button outline">Use a sample home instead</button>'+
+   '<details class="holiday-advanced" id="holiday-options"><summary>Optional · Add length, access and accents</summary><div class="holiday-advanced-fields"><label for="holiday-feet">Approximate light-run length, in feet (optional)</label>'+
+   '<input id="holiday-feet" type="number" min="10" max="1200" step="1" placeholder="Example: 120"/>'+
+   '<label for="holiday-access">Access to mounting area</label><select id="holiday-access"><option value="unknown">Not sure</option><option value="single">Single-story accessible areas</option><option value="complex">Two-story or complex access</option></select>'+
+   '<fieldset class="holiday-addons"><legend>Optional design accents</legend><label><input type="checkbox" value="entry"/> Doorway or porch accent</label>'+
+   '<label><input type="checkbox" value="garage"/> Garage outline</label><label><input type="checkbox" value="bush"/> Shrub or small tree lights</label>'+
+   '<label><input type="checkbox" value="path"/> Walkway lights</label><label><input type="checkbox" value="smart"/> App scene / timer setup</label></fieldset></div></details>'+
+   '<button type="button" id="holiday-build" class="site-button primary">Open the lighting editor</button></div>'+
+   '<div class="holiday-preview" id="holiday-preview"><div class="holiday-preview-heading"><h2>My house lighting preview</h2><button type="button" id="holiday-before" class="site-button outline" aria-pressed="false">View original photo</button></div>'+
+   '<p class="micro">The sample starts without lights. Pick a tool to draw or adjust individual runs; toggle the original photo whenever you like.</p>'+
+   '<div class="holiday-preview-quicklinks"><a href="#holiday-photo">Change home photo</a><a href="#holiday-package">Change package</a><a href="'+link('/visual-design-preview')+'#my-inspiration-list">My saved ideas (<span data-inspiration-count>0</span>)</a></div>'+
    '<div class="holiday-edit-intro" id="holiday-editor-tools"><h2>Step 3 · Draw and adjust your lights</h2>'+
-   '<p>Start with a clean house photo. Choose <strong>Draw lights</strong>, then tap along one roofline or patio edge. Finish that run before drawing another. Select any run later to move, recolor or remove it.</p></div>'+
+   '<p>Choose <strong>Draw lights</strong>, tap along a roof or patio edge, then select <strong>Finish this run</strong>. Tap any run to move, recolor or delete it.</p></div>'+
    '<div class="holiday-editor-toolbar" role="toolbar" aria-label="Lighting editing tools">'+
    '<button type="button" id="holiday-tool-draw" data-holiday-tool="draw" aria-pressed="false">✎ Draw lights</button>'+
    '<button type="button" id="holiday-tool-select" data-holiday-tool="select" aria-pressed="true">↔ Select / move</button>'+
    '<button type="button" id="holiday-tool-erase" data-holiday-tool="erase" aria-pressed="false">⌫ Erase run</button></div>'+
+   '<label for="holiday-tone">Color for new or selected light run</label><select id="holiday-tone"><option value="warm">Warm white</option><option value="cool">Bright white</option><option value="candy">Red & white</option><option value="festive">Multicolor</option><option value="smart">Color-changing smart style</option></select>'+
+   '<details class="holiday-advanced"><summary>Optional · Choose a different light type</summary><div class="holiday-advanced-fields"><label for="holiday-product">Preferred light product</label><select id="holiday-product"><option value="c9">C9-style outdoor LED roofline lights</option><option value="rope">Outdoor-rated LED rope lighting</option><option value="icicle">Outdoor-rated icicle strands</option><option value="rgbic">Smart RGBIC / neon-flex (compatible controller required)</option><option value="permanent">Permanent track / puck lighting</option></select><p class="micro">Light type is a design preference; exact outdoor product, connection lengths and electrical requirements must be reviewed.</p></div></details>'+
+   '<div class="holiday-canvas-wrap"><canvas id="holiday-canvas" width="1152" height="720" tabindex="0" aria-label="Lighting design canvas; use Draw lights to add points, Select / move to adjust a run, or Erase run to remove it"></canvas></div>'+
+   '<p id="holiday-preview-status" class="micro" role="status">Sample home ready without lights. Choose Draw lights to start a run.</p>'+
    '<div class="holiday-editor-buttons">'+
    '<button type="button" id="holiday-finish" class="site-button primary" disabled>Finish this run</button>'+
    '<button type="button" id="holiday-undo" class="site-button outline" disabled>Undo</button>'+
@@ -126,19 +138,6 @@ export function holidayPages(link){
    '<button type="button" id="holiday-reset" class="site-button outline" disabled>Clear all</button></div>'+
    '<div class="holiday-run-panel"><h3>Your light runs</h3><p class="micro">Each run can have its own colors. Select a run and change the color above.</p>'+
    '<ul id="holiday-strand-list" class="holiday-strand-list"><li>No light runs added yet.</li></ul></div>'+
-   '<a class="site-button outline" href="#holiday-preview">View my house preview</a>'+
-   '<details class="holiday-advanced" id="holiday-options"><summary>Optional · Add length, access and accents</summary><div class="holiday-advanced-fields"><label for="holiday-feet">Approximate light-run length, in feet (optional)</label>'+
-   '<input id="holiday-feet" type="number" min="10" max="1200" step="1" placeholder="Example: 120"/>'+
-   '<label for="holiday-access">Access to mounting area</label><select id="holiday-access"><option value="unknown">Not sure</option><option value="single">Single-story accessible areas</option><option value="complex">Two-story or complex access</option></select>'+
-   '<fieldset class="holiday-addons"><legend>Optional design accents</legend><label><input type="checkbox" value="entry"/> Doorway or porch accent</label>'+
-   '<label><input type="checkbox" value="garage"/> Garage outline</label><label><input type="checkbox" value="bush"/> Shrub or small tree lights</label>'+
-   '<label><input type="checkbox" value="path"/> Walkway lights</label><label><input type="checkbox" value="smart"/> App scene / timer setup</label></fieldset></div></details>'+
-   '<button type="button" id="holiday-build" class="site-button primary">Review my lighting design</button></div>'+
-   '<div class="holiday-preview" id="holiday-preview"><div class="holiday-preview-heading"><h2>My house lighting preview</h2><button type="button" id="holiday-before" class="site-button outline" aria-pressed="false">View original photo</button></div>'+
-   '<p class="micro">The sample starts without lights. Pick a tool to draw or adjust individual runs; toggle the original photo whenever you like.</p>'+
-   '<div class="holiday-canvas-wrap"><canvas id="holiday-canvas" width="1152" height="720" tabindex="0" aria-label="Lighting design canvas; use Draw lights to add points, Select / move to adjust a run, or Erase run to remove it"></canvas></div>'+
-   '<p id="holiday-preview-status" class="micro" role="status">Sample home ready without lights. Choose Draw lights to start a run.</p>'+
-   '<a class="holiday-edit-return" href="#holiday-editor-tools">Back to light editing tools</a>'+
    '<div class="holiday-actions"><button type="button" id="holiday-download" class="site-button outline" disabled>Save preview image</button>'+
    '<button type="button" id="holiday-print" class="site-button outline" disabled>Print crew concept</button>'+
    '<button type="button" id="holiday-json" class="site-button outline" disabled>Save material worksheet</button><button type="button" id="holiday-email" class="site-button outline" disabled>Email my plan summary</button></div>'+

@@ -880,3 +880,59 @@
  .analytics-consent-actions button{min-height:38px;padding:7px;font-size:13px}
  .holiday-design-heading .site-actions{display:grid;grid-template-columns:1fr;gap:8px}
 }
+
+
+/* Holiday workspace final polish: keep editor controls adjacent to the canvas on phones. */
+.holiday-preview>label{display:block;margin:12px 0 5px;font-size:16px;font-weight:750;color:#284333}
+.holiday-preview>select{width:100%;min-height:48px;padding:10px 12px;border-radius:10px;
+ border:2px solid #9eae9b;background:#fff;color:#284333;font-size:17px}
+.holiday-preview>.holiday-advanced{margin:10px 0}
+.holiday-preview .holiday-edit-intro{margin:18px 0 10px}
+.holiday-preview .holiday-editor-toolbar{margin:10px 0}
+.holiday-preview .holiday-canvas-wrap{margin-top:13px}
+.holiday-preview .holiday-editor-buttons{margin:12px 0}
+.holiday-preview .holiday-run-panel{margin:12px 0 18px}
+.holiday-workspace .holiday-controls{align-self:start}
+.holiday-edit-intro{scroll-margin-top:92px}
+@media(max-width:1130px){
+ .holiday-workspace{gap:12px;padding-top:24px}
+ .holiday-controls{gap:9px}
+ .holiday-controls h2{margin:8px 0 1px}
+ .holiday-preview{margin-top:0}
+}
+@media(max-width:670px){
+ .holiday-design-heading{padding:23px 18px 18px}
+ .holiday-design-heading .lede{font-size:16px;line-height:1.43}
+ .holiday-design-heading h1{font-size:clamp(31px,8vw,40px);line-height:1.14}
+ .holiday-design-heading .site-actions{display:grid;grid-template-columns:1fr;gap:8px}
+ .holiday-design-heading .site-button{min-height:45px;padding:9px 13px}
+ .holiday-design-heading .micro{font-size:12px!important;line-height:1.45!important;margin:8px 0}
+ .holiday-design-heading .micro:last-child{display:none}
+ .holiday-preview .holiday-editor-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .holiday-preview .holiday-editor-buttons button{font-size:12px;min-width:0;padding:7px 4px}
+ /* Choices remain explicit and understandable without obscuring the page. */
+ .analytics-consent{bottom:75px;max-height:min(34dvh,244px);padding:9px 11px;gap:4px}
+ .analytics-consent strong{font-size:15px}
+ .analytics-consent p{font-size:12px;line-height:1.35}
+ .analytics-consent-actions{gap:8px}
+ .analytics-consent-actions button{min-height:39px;font-size:13px;padding:7px}
+}
+.analytics-consent-details{margin:3px 0}
+.analytics-consent-details summary{font-size:12px;color:#1d5235;font-weight:750;cursor:pointer;text-decoration:underline}
+.analytics-consent-details p{max-width:75ch;margin:5px 0}
+
+/* Short route links help customers switch the input while staying in the preview workspace. */
+.holiday-preview-quicklinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0 14px}
+.holiday-preview-quicklinks a{display:inline-flex;align-items:center;justify-content:center;
+ min-height:39px;font-size:13px;font-weight:750;text-decoration:none;line-height:1.35;
+ border:1px solid #acc6ae;background:#f8fbf6;border-radius:999px;padding:8px 12px;color:#1d5033}
+.holiday-preview-quicklinks a:hover{background:#e7f1e5}
+#holiday-photo,#holiday-package{scroll-margin-top:85px}
+@media(max-width:670px){
+ /* The Design Center nav and preview links already expose My Ideas: don't cover house photos. */
+ body:has(.holiday-workspace) .inspiration-floating{display:none!important}
+ .holiday-preview .holiday-edit-intro{padding:10px 12px}
+ .holiday-preview .holiday-edit-intro h2{font-size:22px;margin:2px 0 5px}
+ .holiday-preview .holiday-edit-intro p{font-size:13px;line-height:1.43}
+ .holiday-preview-quicklinks a{font-size:12px;min-height:38px;padding:7px 10px}
+}

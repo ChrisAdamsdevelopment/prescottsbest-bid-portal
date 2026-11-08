@@ -49,6 +49,12 @@ with TemporaryDirectory(prefix='pbc-design-center-qa-') as temp:
       {'width':390,'height':844,'deviceScaleFactor':2,'mobile':True})
     else:driver.execute_cdp_cmd('Emulation.clearDeviceMetricsOverride',{})
     go('')
+    if width==390:
+     consent=el('#pbc-analytics-consent')
+     assert consent.is_displayed()
+     assert driver.execute_script('return arguments[0].getBoundingClientRect().height',consent)<250, 'Consent panel obscures too much of the mobile screen'
+     press('#pbc-analytics-consent .analytics-consent-actions button:last-child')
+     assert not driver.find_elements(By.ID,'pbc-analytics-consent')
     assert driver.find_element(By.CSS_SELECTOR,'.holiday-home-feature').is_displayed()
     home=driver.page_source
     assert home.index('holiday-home-feature')<home.index('storm-home-banner')
@@ -69,6 +75,7 @@ with TemporaryDirectory(prefix='pbc-design-center-qa-') as temp:
     assert el('#holiday-download').get_attribute('disabled') is not None
     assert len(driver.find_elements(By.CSS_SELECTOR,'#holiday-strand-list li'))==1
     assert 'No light runs yet' in el('#holiday-strand-list').text
+    assert driver.execute_script('return ["holiday-editor-tools","holiday-tool-draw","holiday-tone","holiday-strand-list"].every(id=>document.getElementById(id).closest("#holiday-preview"))'), 'Editor controls must be inside preview workspace'
     image_before=driver.execute_script("return document.getElementById('holiday-canvas').toDataURL('image/png')")
     # First run, default red/white preset
     press('#holiday-tool-draw')
@@ -138,9 +145,9 @@ with TemporaryDirectory(prefix='pbc-design-center-qa-') as temp:
     assert len(driver.find_elements(By.CSS_SELECTOR,'#holiday-strand-list li'))==1
     assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3'),('editor overflow',width)
     driver.save_screenshot(str(root/'tests'/f'design-center-holiday-{width}.png'))
-    driver.execute_script('arguments[0].scrollIntoView({block:"start"})',el('#holiday-editor-tools'))
+    driver.execute_script('document.documentElement.style.scrollBehavior="auto";arguments[0].scrollIntoView({behavior:"instant",block:"start"})',el('#holiday-editor-tools'))
     driver.save_screenshot(str(root/'tests'/f'design-center-editor-tools-{width}.png'))
-    driver.execute_script('arguments[0].scrollIntoView({block:"start"})',el('#holiday-preview'))
+    driver.execute_script('document.documentElement.style.scrollBehavior="auto";arguments[0].scrollIntoView({behavior:"instant",block:"start"})',el('#holiday-preview'))
     driver.save_screenshot(str(root/'tests'/f'design-center-preview-canvas-{width}.png'))
     results.append({'width':width,'homeHolidayProminent':True,'crossNav':True,'cleanStart':True,
      'independentRuns':True,'recolorSingleRun':True,'undoRedo':True,'move':True,
