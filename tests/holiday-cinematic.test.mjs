@@ -10,7 +10,7 @@ test('holiday hero blends commercial into text only on holiday landing page',()=
  assert.match(holiday,/class="site-pagehead holiday-head holiday-cinematic-head"/);
  assert.match(holiday,/class="holiday-head-copy"><div class="holiday-copy-intro"/);
  assert.match(holiday,/class="brand-film" data-brand-film="holiday"/);
- assert.match(holiday,/Holiday lights, thoughtfully designed/);
+ assert.match(holiday,/Beautiful holiday lighting for Prescott homes/);
  assert.match(holiday,/Try the home lighting preview/);
  assert.match(holiday,/Discuss your holiday project/);
  assert.match(holiday,/prescotts-best-holiday-lighting-480\.mp4/);
@@ -30,6 +30,9 @@ test('holiday blending is responsive, uncropped on mobile and reduces motion',as
  assert.match(css,/linear-gradient\(90deg/);
  assert.match(css,/@media\(max-width:950px\)/);
  assert.match(css,/object-fit:contain;object-position:center center/);
+ assert.match(css,/holiday film's upper-left brand logo entirely in frame/i);
+ assert.match(css,/object-position:center top/);
+ assert.match(css,/data-player-pending/);
  assert.match(css,/\.holiday-cinematic-head\.holiday-intro-complete \.holiday-copy-intro/);
  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
  assert.match(js,/video\.addEventListener\('playing'/);

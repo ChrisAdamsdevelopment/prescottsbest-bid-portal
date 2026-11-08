@@ -17,6 +17,9 @@
   if(!video||!toolbar||!play||!sound)continue;
   toolbar.hidden=false;
   video.controls=false; // Keep native controls as the no-JavaScript fallback.
+  // The holiday video opens on its poster instead of flashing a large Play badge
+  // while muted autoplay is being negotiated. Failures restore visible controls.
+  if(holidayHero&&!reduced.matches&&!slow)figure.dataset.playerPending='true';
   let visible=false;
   let chosenPause=false;
   let userPlayed=false;
@@ -37,7 +40,10 @@
     if(manual){chosenPause=false;userPlayed=true}
     await video.play();
     if(!manual)autoplayStarted=true;
-   }catch{ /* Browser declined autoplay; keep poster and functional Play control. */ }
+   }catch{
+    if(holidayHero)figure.dataset.playerPending='false';
+    /* Browser declined autoplay; keep poster and functional Play control. */
+   }
    refresh();
   }
   const stop=()=>{
@@ -48,6 +54,15 @@
    if(video.paused){start(true)}
    else{chosenPause=true;stop()}
   });
+  // The image itself is also a pause/resume target on this one commercial.
+  // The explicit buttons and their keyboard semantics remain available.
+  if(holidayHero){
+   video.style.cursor='pointer';
+   video.addEventListener('click',()=>{
+    if(video.paused)start(true);
+    else{chosenPause=true;stop()}
+   });
+  }
   sound.addEventListener('click',async()=>{
    video.muted=!video.muted;
    // Starting or resuming playback after clicking sound requires a user gesture.
@@ -56,7 +71,12 @@
   });
   video.addEventListener('play',refresh);
   video.addEventListener('playing',()=>{
-   if(holidayHero)figure.dataset.framesReady='true';
+   if(!holidayHero)return;
+   figure.dataset.playerPending='false';
+   // Fade in only after the first decoded frame when the browser supports it.
+   if(typeof video.requestVideoFrameCallback==='function'){
+    video.requestVideoFrameCallback(()=>{figure.dataset.framesReady='true';});
+   }else figure.dataset.framesReady='true';
   });
   video.addEventListener('timeupdate',()=>{
    if(holidayHero&&!reduced.matches&&!video.paused&&video.currentTime>=5.8){
@@ -71,7 +91,10 @@
   const entry={figure,video,refresh,setVisible(value){
    visible=value;
    if(visible&&autoAllowed()&&!userPlayed&&!autoplayStarted)start();
-   else if(!visible)stop();
+   else if(!visible){
+    if(holidayHero)figure.dataset.playerPending='false';
+    stop();
+   }
   },stop};
   players.push(entry);
   refresh();

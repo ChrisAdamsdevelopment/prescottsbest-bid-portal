@@ -1139,3 +1139,67 @@
  .holiday-cinematic-head>.brand-film{display:none!important}
  .holiday-cinematic-head::after{display:none!important}
 }
+
+
+/* Holiday film final blend: visible house, gentle overlap and quiet controls.
+   Only this service hero is affected; other commercial pages retain their players. */
+.holiday-cinematic-head>.brand-film[data-player-pending="true"] .brand-film-controls{
+ opacity:0;transition:opacity .45s ease;
+}
+.holiday-cinematic-head>.brand-film[data-player-pending="true"]:hover .brand-film-controls,
+.holiday-cinematic-head>.brand-film[data-player-pending="true"]:focus-within .brand-film-controls{
+ opacity:1;
+}
+.holiday-cinematic-head>.brand-film[data-playing="true"] .brand-film-controls{
+ opacity:.16;
+}
+.holiday-cinematic-head>.brand-film[data-playing="true"]:hover .brand-film-controls,
+.holiday-cinematic-head>.brand-film[data-playing="true"]:focus-within .brand-film-controls{
+ opacity:1;
+}
+@media(max-width:950px){
+ /* Keep the complete 16:9 film. Its closing logo sits at upper-left,
+    so a short gradient across the bottom cannot obscure that brand mark. */
+ .holiday-head.holiday-cinematic-head::after{
+  background:linear-gradient(180deg,transparent 0%,transparent 16%,
+    rgba(16,44,33,.18) 31%,rgba(19,49,37,.80) 46%,#183b2d 66%);
+ }
+ .holiday-cinematic-head .holiday-head-copy{
+  margin:-98px 0 0;
+  padding:35px clamp(18px,5vw,36px) 20px;
+  background:linear-gradient(180deg,rgba(24,59,45,0) 0%,
+   rgba(24,59,45,.95) 92px,#183b2d 146px);
+ }
+ .holiday-cinematic-head .holiday-copy-intro{position:relative;z-index:4}
+ .holiday-cinematic-head .holiday-head-copy h1{max-width:650px;text-wrap:balance;
+   text-shadow:0 2px 16px rgba(0,0,0,.26)}
+ .holiday-cinematic-head>.brand-film .brand-film-controls{
+  top:9px;right:9px;bottom:auto;
+ }
+}
+@media(max-width:560px){
+ .holiday-cinematic-head .holiday-head-copy{margin:-90px 0 0;padding:29px 18px 12px}
+ .holiday-cinematic-head .holiday-head-copy h1{
+  font-size:clamp(30px,8vw,39px);
+  margin:8px 0 10px;
+ }
+ .holiday-cinematic-head .holiday-head-copy .lede{font-size:15px;line-height:1.42}
+ .holiday-cinematic-head .holiday-head-copy .micro{font-size:12px!important}
+ .holiday-cinematic-head>.brand-film .brand-film-controls{
+  top:9px;right:10px;bottom:auto;gap:5px;
+ }
+ .holiday-cinematic-head>.brand-film .brand-film-controls button{
+  font-size:11px;padding:5px 9px;min-height:34px;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .holiday-cinematic-head>.brand-film .brand-film-controls{
+  opacity:1!important;
+ }
+}
+
+/* Keep the holiday film's upper-left brand logo entirely in frame on extra-wide desktop heroes. */
+@media(min-width:951px){
+ .holiday-cinematic-head>.brand-film .brand-film-poster,
+ .holiday-cinematic-head>.brand-film .brand-film-video{object-position:center top}
+}
