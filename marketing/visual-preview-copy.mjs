@@ -3,15 +3,30 @@
 const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const image=(file,alt)=>'<img src="'+file+'" width="1280" height="960" loading="lazy" decoding="async" alt="'+escape(alt)+'">';
 const sampleScenes=[
- {title:'Cabinetry you can compare',url:'/custom-cabinetry',src:'/site-assets/visual-explorer/B01-cabinet-finish/cabinet-medium-brass.webp',
-  alt:'Medium wood-tone built-in cabinetry with brass-color hardware, a central desk and shelving.',
-  copy:'Try light, medium and dark wood-tone looks, then switch cabinet hardware.'},
- {title:'Outdoor spaces that feel like home',url:'/deck-building-outdoor-carpentry',src:'/site-assets/visual-explorer/B06-deck-inspiration/deck-pine-home-wood-stairs.webp',
-  alt:'Illustrative wooden deck with stairs and seating beside a pine-country home.',
-  copy:'Explore deck styles for different house settings and outdoor activities.'},
- {title:'Holiday lighting, front and backyard',url:'/holiday-lighting/design',src:'/site-assets/holiday-concepts/22-backyard-warm-roofline-long-view.webp',
-  alt:'Distant backyard view of an Arizona-style home with warm-white holiday lights tracing the roofline and glowing outdoor landscaping.',
-  copy:'See a full backyard from across the property, then try a photo of your own front, patio or rear elevation.'}
+ {title:'Kitchen cabinets & countertops',url:'/kitchen-remodeling#kitchen-finish-comparison',
+  src:'/site-assets/visual-explorer/B03-matched-kitchen/matched-kitchen-medium-pale.webp',
+  alt:'Full room kitchen inspiration with warm medium wood cabinets, pale stone-look island and pendant lights.',
+  copy:'Compare six full-room finish combinations in the same general kitchen layout.'},
+ {title:'Built-ins & custom cabinetry',url:'/custom-cabinetry#cabinet-finishes',
+  src:'/site-assets/visual-explorer/B01-cabinet-finish/cabinet-medium-brass.webp',
+  alt:'Medium-tone built-in cabinetry with brass hardware, shelving and a central workspace.',
+  copy:'Try practical storage and custom office cabinetry options.'},
+ {title:'Wood species & stain looks',url:'/kitchen-remodeling#wood-stain-boards',
+  src:'/site-assets/visual-explorer/wood-stain-boards/white-oak-stain-reference.webp',
+  alt:'White oak cabinet door reference board displaying six stain color families.',
+  copy:'Browse oak, alder, maple, hickory and walnut-style stain references.'},
+ {title:'Knobs, handles & hinges',url:'/custom-cabinetry#hardware-exterior',
+  src:'/site-assets/visual-explorer/cabinet-hardware/exterior-satin-brass-bar.webp',
+  alt:'Satin brass-color straight cabinet pull example for kitchen hardware ideas.',
+  copy:'Compare handle types and concealed or decorative hinges.'},
+ {title:'Decks & outdoor living',url:'/deck-building-outdoor-carpentry#deck-inspiration',
+  src:'/site-assets/visual-explorer/B06-deck-inspiration/deck-pine-home-wood-stairs.webp',
+  alt:'Wood deck with steps and railing beside a pine-country home.',
+  copy:'Browse six outdoor settings, then explore matching wood references.'},
+ {title:'Holiday lighting — front & backyard',url:'/holiday-lighting/design',
+  src:'/site-assets/holiday-concepts/22-backyard-warm-roofline-long-view.webp',
+  alt:'Distant Arizona backyard with warm white holiday roofline lights and soft landscape lighting.',
+  copy:'Try our lighting editor on a home photo, or browse seasonal packages.'}
 ];
 export const previewCopy={
  homeHeading:'See it before we build it.',
@@ -56,13 +71,13 @@ export function previewHubPage(link){
   title:'See It Before We Build It | Visual Remodeling Previews | Prescott’s Best',
   description:'See design ideas for built-in cabinets, decks and holiday lights, then ask about a personalized visual preview during your Prescott-area remodeling consultation.',
   body:'<section class="site-pagehead visual-preview-hero"><span class="kicker">SEE IT BEFORE WE BUILD IT</span>'+
-   '<h1>Picture your project before construction begins.</h1>'+
+   '<h1>Explore your home ideas in one Design Center.</h1>'+
    '<p class="lede">It can be hard to imagine new cabinets, a deck or a completely different room from samples and measurements alone. We make visual design exploration part of the conversation—so you can compare possibilities and explain what feels right for your home.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/schedule')+'?preview=1">Ask about a custom design preview</a>'+
    '<a class="site-button outline" href="#preview-examples">Explore design examples</a></div>'+
    '<p class="micro">Personalized previews are available for suitable projects after an initial scope review; they are not automatically included with every estimate.</p></section>'+
    '<section class="site-section" id="preview-examples"><div class="section-heading"><span class="kicker">TRY THE IDEAS YOURSELF</span>'+
-   '<h2>Explore the looks, then imagine them in your home.</h2><p>Start with existing examples, choose what you like and bring those preferences into your conversation with us.</p></div>'+
+   '<h2>Choose a category, compare options, and collect your favorite ideas.</h2><p>Start with existing examples, choose what you like and bring those preferences into your conversation with us.</p></div>'+
    '<div class="visual-preview-cards">'+cards+'</div></section>'+
    previewSteps()+
    '<section class="site-section visual-preview-differences"><h2>Inspiration now. A home-specific concept when appropriate.</h2>'+

@@ -5,9 +5,9 @@ export const inspirationPanel=(link,{compact=false}={})=>{
  const url=link('/schedule')+'?preview=1&from=inspiration';
  return '<section class="site-section inspiration-list-panel'+(compact?' inspiration-list-compact':'')+'" id="my-inspiration-list" data-inspiration-list aria-labelledby="inspiration-list-title">'+
   '<div class="section-heading"><span class="kicker">SAVE IDEAS AS YOU EXPLORE</span><h2 id="inspiration-list-title">'+heading+'</h2>'+
-  '<p>Tap <strong>Add to My Inspiration List</strong> on any kitchen, cabinet, wood, deck or hardware design. Your choices stay on this device until you decide to send them with a consultation request.</p></div>'+
+  '<p>Tap <strong>Add to My Inspiration List</strong> on any kitchen, cabinet, wood, deck, hardware or holiday-lighting design. Your choices stay on this device until you decide to send them with a consultation request.</p></div>'+
   '<p class="inspiration-status" data-inspiration-status role="status" aria-live="polite">No ideas saved yet.</p>'+
-  '<p data-inspiration-empty class="inspiration-empty">Your list is empty. Explore <a href="'+link('/kitchen-remodeling')+'">kitchen finishes</a>, <a href="'+link('/custom-cabinetry')+'">cabinetry and hardware</a>, or <a href="'+link('/deck-building-outdoor-carpentry')+'">decks</a> and tag the ideas you like.</p>'+
+  '<p data-inspiration-empty class="inspiration-empty">Your list is empty. Explore <a href="'+link('/kitchen-remodeling')+'">kitchen finishes</a>, <a href="'+link('/custom-cabinetry')+'">cabinetry and hardware</a>, or <a href="'+link('/deck-building-outdoor-carpentry')+'">decks</a> and <a href="'+link('/holiday-lighting/design')+'">holiday lights</a> and tag the ideas you like.</p>'+
   '<ol class="inspiration-items" data-inspiration-items></ol>'+
   '<div class="site-actions inspiration-list-actions"><a href="'+url+'" class="site-button primary">'+action+'</a>'+
   '<button type="button" class="site-button outline" data-inspiration-clear hidden>Clear my list</button></div>'+

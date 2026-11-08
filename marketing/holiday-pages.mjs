@@ -96,8 +96,9 @@ export function holidayPages(link){
   title:'Holiday Lighting Design Studio | Preview Lights on Your House | Prescott’s Best',
   description:'Preview holiday lighting on your home with private on-device drawing or optional consent-based photorealistic AI editing, then request a contractor-reviewed quote.',
   body:'<div class="site-pagehead holiday-design-heading"><span class="kicker">PRIVATE DESIGN STUDIO · NO ACCOUNT NEEDED</span><h1>See the holiday lights on your own home.</h1>'+
-   '<p class="lede">Start with a sample home or choose a photo of your own. Compare lighting styles instantly, or optionally generate a photorealistic AI preview. Your photo stays on your device unless you separately agree to send a resized copy for AI rendering or submit it with a quote request.</p>'+
-   '<p class="micro">Explore the look you love, then send us your ideas. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p><p class="micro">'+previewCopy.disclaimer+'</p><p class="micro">Planning the back of your house? Use a photo of your rear elevation or covered patio, and <a href="'+link('/holiday-lighting')+'#backyard-holiday-lighting">explore backyard lighting examples</a>.</p></div>'+
+   '<p class="lede">Choose a lighting style, use our sample home or add a photo of your own, and draw lights exactly where you want them. Adjust each run, compare the look, and save your idea.</p>'+
+   '<div class="site-actions"><a class="site-button primary" href="#holiday-preview">Start designing lights</a><a class="site-button outline" href="'+link('/holiday-lighting')+'">View lighting packages</a></div>'+
+   '<p class="micro">Your original photo stays on your device unless you separately agree to AI editing or attach it to your quote request. We’ll confirm measurements, outdoor-rated products and installation requirements before preparing your quote.</p><p class="micro">'+previewCopy.disclaimer+'</p><p class="micro">Planning the back of your house? Use a photo of your rear elevation or covered patio, and <a href="'+link('/holiday-lighting')+'#backyard-holiday-lighting">explore backyard lighting examples</a>.</p></div>'+
    '<section class="site-section holiday-workspace"><div class="holiday-controls">'+
    '<div class="holiday-simple-steps" aria-label="Three simple steps"><span><b>1</b> Pick your lights</span><span><b>2</b> Preview your home</span><span><b>3</b> Request a quote</span></div>'+
    '<h2>Step 1 · Pick the look you like</h2><p class="micro">You can change colors anytime. Start with one of our popular styles—there is no commitment.</p>'+
@@ -111,26 +112,42 @@ export function holidayPages(link){
    '<input id="holiday-photo" type="file" accept="image/jpeg,image/png,image/webp"/>'+
    '<p class="micro">For privacy, choose a photo without visible house numbers, license plates or people. Your original image stays in your browser.</p>'+
    '<button type="button" id="holiday-demo" class="site-button outline">Use a sample home instead</button>'+
-   '<h2>Try your own roofline or patio edge (optional)</h2><p>Tap two or more points on the preview to customize the lights. You can skip drawing and still request a quote for your chosen style.</p>'+
-   '<div class="holiday-actions"><button type="button" class="site-button outline" id="holiday-undo">Undo point</button>'+
-   '<button type="button" class="site-button outline" id="holiday-reset">Clear lights</button></div>'+
+   '<div class="holiday-edit-intro" id="holiday-editor-tools"><h2>Step 3 · Draw and adjust your lights</h2>'+
+   '<p>Start with a clean house photo. Choose <strong>Draw lights</strong>, then tap along one roofline or patio edge. Finish that run before drawing another. Select any run later to move, recolor or remove it.</p></div>'+
+   '<div class="holiday-editor-toolbar" role="toolbar" aria-label="Lighting editing tools">'+
+   '<button type="button" id="holiday-tool-draw" data-holiday-tool="draw" aria-pressed="false">✎ Draw lights</button>'+
+   '<button type="button" id="holiday-tool-select" data-holiday-tool="select" aria-pressed="true">↔ Select / move</button>'+
+   '<button type="button" id="holiday-tool-erase" data-holiday-tool="erase" aria-pressed="false">⌫ Erase run</button></div>'+
+   '<div class="holiday-editor-buttons">'+
+   '<button type="button" id="holiday-finish" class="site-button primary" disabled>Finish this run</button>'+
+   '<button type="button" id="holiday-undo" class="site-button outline" disabled>Undo</button>'+
+   '<button type="button" id="holiday-redo" class="site-button outline" disabled>Redo</button>'+
+   '<button type="button" id="holiday-delete" class="site-button outline" disabled>Delete selected</button>'+
+   '<button type="button" id="holiday-reset" class="site-button outline" disabled>Clear all</button></div>'+
+   '<div class="holiday-run-panel"><h3>Your light runs</h3><p class="micro">Each run can have its own colors. Select a run and change the color above.</p>'+
+   '<ul id="holiday-strand-list" class="holiday-strand-list"><li>No light runs added yet.</li></ul></div>'+
+   '<a class="site-button outline" href="#holiday-preview">View my house preview</a>'+
    '<details class="holiday-advanced" id="holiday-options"><summary>Optional · Add length, access and accents</summary><div class="holiday-advanced-fields"><label for="holiday-feet">Approximate light-run length, in feet (optional)</label>'+
    '<input id="holiday-feet" type="number" min="10" max="1200" step="1" placeholder="Example: 120"/>'+
    '<label for="holiday-access">Access to mounting area</label><select id="holiday-access"><option value="unknown">Not sure</option><option value="single">Single-story accessible areas</option><option value="complex">Two-story or complex access</option></select>'+
    '<fieldset class="holiday-addons"><legend>Optional design accents</legend><label><input type="checkbox" value="entry"/> Doorway or porch accent</label>'+
    '<label><input type="checkbox" value="garage"/> Garage outline</label><label><input type="checkbox" value="bush"/> Shrub or small tree lights</label>'+
    '<label><input type="checkbox" value="path"/> Walkway lights</label><label><input type="checkbox" value="smart"/> App scene / timer setup</label></fieldset></div></details>'+
-   '<button type="button" id="holiday-build" class="site-button primary">Step 3 · Review my design</button></div>'+
-   '<div class="holiday-preview" id="holiday-preview"><h2>Your lighting preview</h2><div class="holiday-canvas-wrap"><canvas id="holiday-canvas" width="1152" height="720" tabindex="0" aria-label="Holiday light preview; tap or click along the roofline to place path points"></canvas></div>'+
-   '<p id="holiday-preview-status" class="micro" role="status">Select a home photo or sample house, then tap the roofline.</p>'+
+   '<button type="button" id="holiday-build" class="site-button primary">Review my lighting design</button></div>'+
+   '<div class="holiday-preview" id="holiday-preview"><div class="holiday-preview-heading"><h2>My house lighting preview</h2><button type="button" id="holiday-before" class="site-button outline" aria-pressed="false">View original photo</button></div>'+
+   '<p class="micro">The sample starts without lights. Pick a tool to draw or adjust individual runs; toggle the original photo whenever you like.</p>'+
+   '<div class="holiday-canvas-wrap"><canvas id="holiday-canvas" width="1152" height="720" tabindex="0" aria-label="Lighting design canvas; use Draw lights to add points, Select / move to adjust a run, or Erase run to remove it"></canvas></div>'+
+   '<p id="holiday-preview-status" class="micro" role="status">Sample home ready without lights. Choose Draw lights to start a run.</p>'+
+   '<a class="holiday-edit-return" href="#holiday-editor-tools">Back to light editing tools</a>'+
    '<div class="holiday-actions"><button type="button" id="holiday-download" class="site-button outline" disabled>Save preview image</button>'+
    '<button type="button" id="holiday-print" class="site-button outline" disabled>Print crew concept</button>'+
    '<button type="button" id="holiday-json" class="site-button outline" disabled>Save material worksheet</button><button type="button" id="holiday-email" class="site-button outline" disabled>Email my plan summary</button></div>'+
+   '<div class="holiday-idea-actions"><button type="button" id="holiday-add-idea" class="site-button primary">Add this lighting idea to My List</button>'+'<a class="site-button outline" href="'+link('/visual-design-preview')+'#my-inspiration-list">View saved ideas</a></div>'+
    '<button type="button" id="holiday-contact" class="site-button primary holiday-request-quote">Request a quote with this design</button>'+
-   '<p class="micro">Review your choices and enter contact details before sending anything. The preview photo stays here unless you separately choose to share one.</p>'+
+   '<p class="micro">Review your choices and enter contact details before sending anything. You can save the lighting package as an idea; your house photo itself stays on your device unless you explicitly share it.</p>'+
    '<div class="holiday-worksheet" id="holiday-worksheet" aria-live="polite"><h3>Your design summary</h3><p>Choose a package and add points to begin. Exact materials, power and ladder access require an on-site check.</p></div>'+
    '<section class="holiday-photoreal" aria-labelledby="holiday-real-heading"><div class="holiday-feature-head"><span class="kicker">OPTIONAL · REAL PHOTO EDITING</span><h3 id="holiday-real-heading">See a realistic evening lighting design</h3></div>'+
-   '<p>Our instant tool above draws lights over a photo. This optional AI feature uses your house photo to generate a more photorealistic concept with the chosen roofline, colors and accents. It may change small visual details, and it is not an exact installation drawing.</p>'+
+   '<p>Our instant tool above draws lights over a photo. This optional AI feature uses your house photo to generate a more photorealistic concept with the chosen roofline, colors and accents. It may change small visual details and does not precisely follow manual light-run tracing; it is not an exact installation drawing.</p>'+
    '<label class="holiday-image-consent"><input type="checkbox" id="holiday-image-consent"/><span>I agree to send one resized image of my house and selected lighting options to Google Gemini to create this optional AI concept. The website does not save the photo. <a href="'+link('/privacy')+'">Privacy details</a>.</span></label>'+
    '<button type="button" id="holiday-realistic" class="site-button primary" disabled>Generate realistic lighting design</button>'+
    '<p class="micro" id="holiday-image-status" role="status">Checking image editing availability. Your instant preview and quote form work without this feature.</p>'+

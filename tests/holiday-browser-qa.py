@@ -36,9 +36,9 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
    for width in (390,1440):
     driver.set_window_size(width,900)
     driver.get(base+'/remodeling-preview/holiday-lighting/design?package=welcome')
-    WebDriverWait(driver,15).until(lambda x:'Sample concept home loaded' in x.find_element(By.ID,'holiday-preview-status').text)
+    WebDriverWait(driver,15).until(lambda x:'Clean sample house ready' in x.find_element(By.ID,'holiday-preview-status').text)
     assert driver.find_element(By.ID,'holiday-package').get_attribute('value')=='welcome'
-    assert driver.find_element(By.ID,'holiday-download').is_enabled()
+    assert not driver.find_element(By.ID,'holiday-download').is_enabled()
     assert driver.find_element(By.ID,'holiday-product').get_attribute('value')=='c9'
     driver.execute_script('arguments[0].value="rope";arguments[0].dispatchEvent(new Event("change",{bubbles:true}))',driver.find_element(By.ID,'holiday-product'))
     assert 'rope lighting' in driver.find_element(By.ID,'holiday-worksheet').text.lower()
@@ -49,6 +49,11 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     WebDriverWait(driver,8).until(lambda x:'Suggestions are for inspiration' in x.find_element(By.ID,'holiday-ai-status').text)
     assert 'For your project' in driver.find_element(By.ID,'holiday-ai-answer').text
     assert driver.execute_script('return document.documentElement.scrollWidth<=window.innerWidth+3'),('overflow',width)
+    driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'holiday-tool-draw'))
+    demo_canvas=driver.find_element(By.ID,'holiday-canvas')
+    for px,py in [(0.2,0.5),(0.48,0.37)]:
+     driver.execute_script("const c=arguments[0],b=c.getBoundingClientRect();c.dispatchEvent(new PointerEvent('pointerdown',{clientX:b.left+b.width*arguments[1],clientY:b.top+b.height*arguments[2],bubbles:true}));",demo_canvas,px,py)
+    driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'holiday-finish'))
     before=driver.execute_script('return document.getElementById("holiday-canvas").toDataURL()')
     sel=driver.find_element(By.ID,'holiday-tone')
     driver.execute_script('arguments[0].value="festive";arguments[0].dispatchEvent(new Event("change",{bubbles:true}))',sel)
@@ -57,12 +62,13 @@ with TemporaryDirectory(prefix='pbc-holiday-qa-') as tmp:
     driver.execute_script('const e=arguments[0];e.value="125";e.dispatchEvent(new Event("input",{bubbles:true}));e.dispatchEvent(new Event("change",{bubbles:true}));',driver.find_element(By.ID,'holiday-feet'))
     driver.execute_script('arguments[0].click()',driver.find_element(By.CSS_SELECTOR,'.holiday-addons input[value="garage"]'))
     assert 'Garage outline' in driver.find_element(By.ID,'holiday-worksheet').text
-    assert 'Materials planning guide' in driver.find_element(By.ID,'holiday-worksheet').text
+    assert 'Materials allowance discussion' in driver.find_element(By.ID,'holiday-worksheet').text
     checks.append(f'{width}px demo-home preset, style preview, package and research cost')
     photo=driver.find_element(By.ID,'holiday-photo');photo.send_keys(str(imagefile))
-    WebDriverWait(driver,8).until(lambda x:'Photo loaded only on this device' in x.find_element(By.ID,'holiday-preview-status').text)
+    WebDriverWait(driver,8).until(lambda x:'Your photo is ready' in x.find_element(By.ID,'holiday-preview-status').text)
     assert driver.find_element(By.ID,'holiday-download').get_attribute('disabled') is not None
     canvas=driver.find_element(By.ID,'holiday-canvas')
+    driver.execute_script('arguments[0].click()',driver.find_element(By.ID,'holiday-tool-draw'))
     for px,py in [(0.2,0.42),(0.5,0.2),(0.8,0.44)]:
      driver.execute_script("""
        const c=arguments[0],b=c.getBoundingClientRect();

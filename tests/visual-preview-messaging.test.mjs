@@ -10,7 +10,7 @@ const page=path=>marketingPage('/remodeling-preview'+(path==='/'?'':path),
 
 test('See it before we build it hub is a genuine indexable route with practical examples',()=>{
  const html=page('/visual-design-preview');
- assert.match(html,/<h1>Picture your project before construction begins\.<\/h1>/);
+ assert.match(html,/<h1>Explore your home ideas in one Design Center\.<\/h1>/);
  assert.match(html,/rel="canonical" href="https:\/\/prescottsbestremodeling.com\/visual-design-preview"/);
  assert.match(html,/site-assets\/visual-explorer\/B01-cabinet-finish/);
  assert.match(html,/site-assets\/visual-explorer\/B06-deck-inspiration/);

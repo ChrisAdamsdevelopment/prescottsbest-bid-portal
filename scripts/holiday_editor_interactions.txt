@@ -1,0 +1,91 @@
+ async function load(src,sample=false){
+  clearReal();
+  if(src instanceof File){
+   if(src.size>10*1024*1024||!['image/jpeg','image/png','image/webp'].includes(src.type))throw Error('Choose JPG, PNG or WebP under 10 MB.');
+   const bitmap=await createImageBitmap(src);
+   if(bitmap.width>9000||bitmap.height>9000){bitmap.close();throw Error('Please resize this unusually large photo.')}
+   image=bitmap;setStatus('Your photo is ready. Choose Draw lights, then trace a roofline or patio edge with two or more points.');
+  }else{
+   const picture=new Image();picture.decoding='async';picture.src=src;await picture.decode();
+   image=picture;setStatus('Clean sample house ready — no default lights. Choose Draw lights to create a run wherever you want.');
+  }
+  strokes=[];selectedId=null;drawingId=null;nextId=1;mode='select';undoStack=[];redoStack=[];dragging=null;showBefore=false;
+  render();updateReal();
+ }
+ photo.addEventListener('change',async()=>{
+  if(!photo.files?.[0])return;
+  try{await load(photo.files[0]);}catch(err){setStatus(err.message||'Unable to load photo.')}
+ });
+ $('holiday-demo').addEventListener('click',()=>load('/site-assets/concepts/local-home-detail.webp',true).catch(()=>setStatus('Sample is unavailable. Please choose a house photo.')));
+ document.querySelectorAll('[data-holiday-tool]').forEach(button=>button.addEventListener('click',()=>selectMode(button.dataset.holidayTool)));
+ canvas.style.touchAction='none';
+ canvas.addEventListener('pointerdown',e=>{
+  if(!image||showBefore)return;
+  const loc=posFromEvent(e);if(!loc)return;
+  if(mode==='draw'){
+   let run=strokes.find(s=>s.id===drawingId);
+   if(!run){
+    editHistory();
+    run={id:nextId++,tone:toneSelect.value,product:productSelect.value,points:[]};
+    strokes.push(run);drawingId=run.id;selectedId=run.id;
+   }else editHistory();
+   if(run.points.length>=35){setStatus('Maximum 35 points per run. Choose Finish this run, then begin another.');return;}
+   run.points.push(loc.n);clearReal();render();
+   setStatus(run.points.length<2?'First point placed. Tap the next edge to show lights.':'Run has '+run.points.length+' points. Tap to extend, or Finish this run.');
+   e.preventDefault();return;
+  }
+  const hit=hitRun(loc);
+  if(mode==='erase'){if(hit)deleteRun(hit.run.id);else setStatus('Tap directly on a lighting run to erase it.');return;}
+  selectedId=hit?.run.id||null;drawingId=null;
+  if(hit){
+   toneSelect.value=hit.run.tone;productSelect.value=hit.run.product;
+   editHistory();dragging={id:hit.run.id,index:hit.index,last:loc.n};
+   try{canvas.setPointerCapture(e.pointerId)}catch{}
+   setStatus('Run selected. Drag to reposition, change its colors above, or delete it.');
+  }else setStatus('No run selected. Use Draw lights to create one, or tap a visible run to adjust it.');
+  render();
+ });
+ canvas.addEventListener('pointermove',e=>{
+  if(!dragging||mode!=='select')return;
+  const loc=posFromEvent(e);if(!loc)return;
+  const run=strokes.find(s=>s.id===dragging.id);if(!run)return;
+  if(dragging.index!==null){
+   run.points[dragging.index]=loc.n;
+  }else{
+   const dx=loc.n[0]-dragging.last[0],dy=loc.n[1]-dragging.last[1];
+   run.points=run.points.map(p=>[Math.max(0,Math.min(1,p[0]+dx)),Math.max(0,Math.min(1,p[1]+dy))]);
+   dragging.last=loc.n;
+  }
+  clearReal();render();e.preventDefault();
+ });
+ const stopDrag=()=>{if(dragging){dragging=null;render();setStatus('Light run position updated. Select another run or save your design.')}};
+ canvas.addEventListener('pointerup',stopDrag);
+ canvas.addEventListener('pointercancel',stopDrag);
+ canvas.addEventListener('keydown',e=>{
+  if(!['Enter',' '].includes(e.key))return;
+  e.preventDefault();setStatus('Use the labeled run list for keyboard-friendly selection and removal, or use your mouse/touchscreen to place dots.');
+ });
+ $('holiday-finish').addEventListener('click',()=>{
+  const run=strokes.find(s=>s.id===drawingId);if(!run||run.points.length<2)return;
+  drawingId=null;mode='select';selectedId=run.id;render();
+  setStatus('Run finished. Select Draw lights to add another independent section, or select and move this run.');
+ });
+ $('holiday-strand-list')?.addEventListener('click',e=>{
+  const select=e.target.closest('[data-run-select]');
+  const remove=e.target.closest('[data-run-delete]');
+  if(remove){deleteRun(Number(remove.dataset.runDelete));return;}
+  if(select){selectedId=Number(select.dataset.runSelect);drawingId=null;mode='select';
+   const run=selectedRun();if(run){toneSelect.value=run.tone;productSelect.value=run.product;}
+   render();setStatus('Run selected. Change its color or product, or choose Delete selected.');}
+ });
+ $('holiday-delete').addEventListener('click',()=>{if(selectedRun())deleteRun(selectedId)});
+ $('holiday-undo').addEventListener('click',undoChange);
+ $('holiday-redo').addEventListener('click',redoChange);
+ $('holiday-reset').addEventListener('click',()=>{
+  if(!strokes.length)return;
+  editHistory();strokes=[];selectedId=null;drawingId=null;mode='select';clearReal();render();
+  setStatus('All light runs cleared. Undo restores the previous design.');
+ });
+ $('holiday-before').addEventListener('click',()=>{
+  showBefore=!showBefore;render();setStatus(showBefore?'Original house photo — tap Show my lighting design to return.':'Lighting concept shown. You can continue editing.');
+ });

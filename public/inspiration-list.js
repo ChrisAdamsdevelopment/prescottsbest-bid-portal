@@ -3,7 +3,7 @@
 (()=>{
  const KEY='pbc-inspiration-list-v1';
  const MAX=20;
- const filePattern=/^\/site-assets\/visual-explorer\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\.webp$/;
+ const filePattern=/^\/site-assets\/(?:visual-explorer\/[a-zA-Z0-9-]+\/|holiday-concepts\/)[a-zA-Z0-9_-]+\.webp$/;
  const clean=(value,n)=>typeof value==='string'?value.slice(0,n):'';
  let fallback=[];
  const valid=(x)=>x&&typeof x==='object'&&
@@ -13,7 +13,7 @@
   name:clean(x.name,130),caption:clean(x.caption,300),
   thumb:filePattern.test(x.thumb||'')?x.thumb:x.file,
   category:clean(x.category,110),
-  page:/^\/(kitchen-remodeling|custom-cabinetry|deck-building-outdoor-carpentry)$/.test(x.page||'')?x.page:'',
+  page:/^\/(kitchen-remodeling|custom-cabinetry|deck-building-outdoor-carpentry|holiday-lighting\/design)$/.test(x.page||'')?x.page:'',
   note:clean(x.note,180)
  });
  const read=()=>{

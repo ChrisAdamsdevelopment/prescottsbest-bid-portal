@@ -1,0 +1,181 @@
+ function segmentNotes(totalFeet){
+  const parts=[];
+  strokes.forEach((run,i)=>{
+   const xy=run.points.map(projectPoint);
+   for(let j=1;j<xy.length;j++){
+    const dist=Math.hypot(xy[j].x-xy[j-1].x,xy[j].y-xy[j-1].y);
+    if(dist<1)continue;
+    parts.push({id:'R'+(i+1)+'-L'+j,pixelDistance:dist,from:run.points[j-1].slice(),to:run.points[j].slice(),tone:run.tone});
+   }
+  });
+  const total=parts.reduce((sum,p)=>sum+p.pixelDistance,0);
+  return parts.map(p=>({id:p.id,from:p.from,to:p.to,tone:p.tone,
+   imageFraction:total?Math.round(p.pixelDistance/total*1000)/1000:0,
+   provisionalFeet:totalFeet&&total?Math.round(p.pixelDistance/total*totalFeet*10)/10:null,
+   caveat:'Visual proportional allocation only. Perspective distorts length; measure on site.'}));
+ }
+ const pointToPixel=p=>{const box=fit();return {x:box.x+p[0]*box.w,y:box.y+p[1]*box.h}};
+ function lightRun(run){
+  const xy=run.points.map(pointToPixel);
+  if(!xy.length)return;
+  const palette=colorSets[run.tone]||colorSets.warm;
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  if(xy.length>=2){
+   ctx.beginPath();xy.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
+   ctx.lineWidth=run.product==='rope'||run.product==='rgbic'?6:4;
+   ctx.strokeStyle='rgba(10,22,18,.82)';ctx.stroke();
+   if(run.product==='rope'||run.product==='rgbic'){
+    ctx.shadowBlur=17;ctx.shadowColor=palette[0];ctx.strokeStyle=palette[0];
+    ctx.lineWidth=run.product==='rgbic'?7:5;ctx.stroke();ctx.shadowBlur=0;
+   }else{
+    const step=run.product==='icicle'?18:run.product==='permanent'?31:23;
+    let distance=0,index=0;
+    for(let i=1;i<xy.length;i++){
+     const from=xy[i-1],to=xy[i],len=Math.hypot(to.x-from.x,to.y-from.y);
+     if(len<1)continue;
+     for(let t=distance?step-distance:0;t<=len;t+=step){
+      const x=from.x+(to.x-from.x)*t/len,y=from.y+(to.y-from.y)*t/len;
+      const hue=palette[index%palette.length];
+      if(run.product==='icicle'){
+       ctx.strokeStyle=hue;ctx.shadowColor=hue;ctx.shadowBlur=12;ctx.lineWidth=2.6;
+       ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+13+index%3*5);ctx.stroke();ctx.shadowBlur=0;
+      }
+      ctx.shadowColor=hue;ctx.shadowBlur=17;ctx.fillStyle=hue;
+      ctx.beginPath();ctx.arc(x,y,run.product==='permanent'?4.7:5.2,0,Math.PI*2);ctx.fill();
+      ctx.shadowBlur=0;index++;
+     }
+     distance=(distance+len)%step;
+    }
+   }
+  }
+  const highlighted=run.id===selectedId;
+  if(!exporting&&mode==='select'&&highlighted&&!showBefore){
+   xy.forEach((p,i)=>{
+    ctx.fillStyle='#073f38';ctx.strokeStyle='#fff';ctx.lineWidth=3;
+    ctx.beginPath();ctx.arc(p.x,p.y,9,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 11px system-ui';ctx.fillText(String(i+1),p.x-3,p.y+4);
+   });
+  }else if(!exporting&&mode==='draw'&&run.id===drawingId&&!showBefore){
+   xy.forEach(p=>{
+    ctx.fillStyle='#f6d67c';ctx.strokeStyle='#173c2a';ctx.lineWidth=3;
+    ctx.beginPath();ctx.arc(p.x,p.y,8,0,Math.PI*2);ctx.fill();ctx.stroke();
+   });
+  }
+  ctx.restore();
+ }
+ function lights(){
+  if(!image||showBefore)return;
+  for(const run of strokes)lightRun(run);
+ }
+ function renderRunList(){
+  const root=$('holiday-strand-list');if(!root)return;
+  root.replaceChildren();
+  if(!strokes.length){const empty=document.createElement('li');empty.textContent='No light runs yet. Choose Draw lights to add one.';root.append(empty);return}
+  strokes.forEach((run,i)=>{
+   const li=document.createElement('li');
+   if(run.id===selectedId)li.className='holiday-run-selected';
+   const title=document.createElement('span');
+   title.textContent='Run '+(i+1)+' · '+run.points.length+' points · '+run.tone.replaceAll('-',' ');
+   const select=document.createElement('button');select.type='button';
+   select.textContent=run.id===selectedId?'Selected':'Select';
+   select.dataset.runSelect=String(run.id);select.setAttribute('aria-pressed',String(run.id===selectedId));
+   const remove=document.createElement('button');remove.type='button';remove.textContent='Remove';
+   remove.dataset.runDelete=String(run.id);
+   li.append(title,select,remove);root.append(li);
+  });
+ }
+ function updateTools(){
+  document.querySelectorAll('[data-holiday-tool]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.holidayTool===mode)));
+  const usable=strokes.some(s=>s.points.length>=2);
+  $('holiday-finish').disabled=drawingId===null||!strokes.some(s=>s.id===drawingId&&s.points.length>=2);
+  $('holiday-undo').disabled=undoStack.length===0;
+  $('holiday-redo').disabled=redoStack.length===0;
+  $('holiday-delete').disabled=!selectedRun();
+  $('holiday-reset').disabled=strokes.length===0;
+  const before=$('holiday-before');
+  before.setAttribute('aria-pressed',String(showBefore));
+  before.textContent=showBefore?'Show my lighting design':'View original photo';
+  save.disabled=!image||!usable;json.disabled=!usable;print.disabled=!usable;email.disabled=false;
+ }
+ function render(){
+  baseImage();lights();updateTools();renderRunList();
+  worksheet.replaceChildren();
+  const summary=document.createElement('h3');summary.textContent='Your lighting design summary';worksheet.append(summary);
+  const list=document.createElement('ul'),add=s=>{const li=document.createElement('li');li.textContent=s;list.append(li)};
+  const pkg=packages[packageSelect.value]||packages.classic;
+  const extras=[...document.querySelectorAll('.holiday-addons input:checked')].map(el=>el.value);
+  add('Selected package: '+pkg.name);
+  const isPermanent=packageSelect.value==='permanent'||productSelect.value==='permanent';
+  add(isPermanent?'Permanent lighting needs a custom quote.':'Package starts at '+USD(pkg.base)+' for a qualifying single-story front roofline up to 60 feet.');
+  add('New-run color choice: '+toneSelect.selectedOptions[0].textContent);
+  add('Preferred light type: '+productSelect.selectedOptions[0].textContent);
+  add('Individual lighting runs: '+strokes.filter(s=>s.points.length>=2).length);
+  if(strokes.length)add('Run colors: '+strokes.filter(s=>s.points.length>=2).map((s,i)=>'Run '+(i+1)+' '+s.tone).join('; '));
+  if(extras.length)add('Optional accents: '+extras.map(x=>accentLabels[x]).join(', '));
+  const length=Number(feet.value),valid=feet.value.trim()!==''&&Number.isFinite(length)&&length>=10&&length<=1200;
+  if(valid){
+   add('Approximate planning length: '+Math.round(length)+' feet (not measured from the photo).');
+   add('Materials allowance discussion: approximately '+Math.ceil(length*1.1)+' feet, subject to actual product lengths and measurements.');
+  }else add('Roofline length not entered. We measure the real installation on site.');
+  add('Outdoor power, attachments, product availability and installation access require contractor review.');
+  worksheet.append(list);
+  const note=document.createElement('p');note.className='micro';
+  note.textContent='Your manual lighting drawing stays in your browser. If you choose optional photo editing or submit a quote request, separate consent rules apply.';
+  worksheet.append(note);
+  const routeSegments=segmentNotes(valid?length:null);
+  generated={
+   package:packageSelect.value,packageName:pkg.name,tone:toneSelect.value,
+   preferredProduct:productSelect.value,preferredProductName:productSelect.selectedOptions[0].textContent,
+   selectedAccents:extras,approximateRunFt:valid?length:null,
+   points:strokes.flatMap(s=>s.points.map(p=>p.slice())),
+   lightRuns:strokes.filter(s=>s.points.length>=2).map(s=>({id:s.id,tone:s.tone,product:s.product,points:s.points.map(p=>p.slice())})),
+   annotatedSegments:routeSegments,
+   access:access.value,customerPhotoIncluded:false,previewType:'on-device lighting markup, not a measured installation plan',
+   materialOrderStatus:'NOT APPROVED: confirm measurement, outdoor ratings, attachments, power and labor on site',
+   seasonalTakedownIncluded:false,contractPrice:null,hasPhoto:!!image,
+   notes:'Manual preview does not constitute a quote. A contractor must approve materials and installation details.'
+  };
+ }
+ function selectMode(next){
+  if(!['draw','select','erase'].includes(next))return;
+  mode=next;
+  if(next==='draw'){drawingId=null;selectedId=null;showBefore=false;
+   setStatus('Draw lights: click two or more points for ONE run, then choose Finish this run. Use a new run for another roof edge.');}
+  if(next==='select')setStatus('Select / move: tap an existing light run. Drag a dot or the line to reposition it. Change colors above for the selected run.');
+  if(next==='erase')setStatus('Erase run: tap any lighting run to remove it. Use Undo if you change your mind.');
+  render();
+ }
+ const posFromEvent=e=>{
+  const rect=canvas.getBoundingClientRect();
+  const x=(e.clientX-rect.left)*canvas.width/rect.width,y=(e.clientY-rect.top)*canvas.height/rect.height;
+  const box=fit();
+  if(x<box.x||x>box.x+box.w||y<box.y||y>box.y+box.h)return null;
+  return {x,y,n:[(x-box.x)/box.w,(y-box.y)/box.h]};
+ };
+ const pointSegment=(p,a,b)=>{
+  const dx=b.x-a.x,dy=b.y-a.y,den=dx*dx+dy*dy;
+  const t=den?Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/den)):0;
+  return Math.hypot(p.x-(a.x+t*dx),p.y-(a.y+t*dy));
+ };
+ function hitRun(point){
+  let closest=null;
+  for(const run of strokes){
+   const xy=run.points.map(pointToPixel);
+   xy.forEach((p,index)=>{
+    const dist=Math.hypot(point.x-p.x,point.y-p.y);
+    if(dist<23&&(!closest||dist<closest.distance))closest={run,index,distance:dist};
+   });
+   for(let i=1;i<xy.length;i++){
+    const dist=pointSegment(point,xy[i-1],xy[i]);
+    if(dist<22&&(!closest||dist<closest.distance))closest={run,index:null,distance:dist};
+   }
+  }
+  return closest;
+ }
+ function deleteRun(id){
+  if(!strokes.some(s=>s.id===id))return;
+  editHistory();strokes=strokes.filter(s=>s.id!==id);
+  if(selectedId===id)selectedId=null;
+  if(drawingId===id)drawingId=null;
+  clearReal();render();setStatus('Light run removed. Undo restores it.');
+ }
