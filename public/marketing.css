@@ -1187,3 +1187,218 @@
  .holiday-head.holiday-cinematic-head{background:#fff;color:#173c2e}
  .holiday-cinematic-head .holiday-head-copy h1{color:#173c2e}
 }
+/* Sitewide cinematic scenes (homepage + visual planning), inheriting the
+   holiday film's compositional system without repeating its seasonal styling. */
+.site-hero.concept-hero.commercial-hero.cinema-hero,
+.site-pagehead.visual-preview-hero.cinema-hero{
+ display:block;position:relative;isolation:isolate;min-height:0;padding:0;margin:0;
+ overflow:hidden;gap:0;border:0;border-radius:0 0 30px 30px;
+}
+.cinema-hero.commercial-hero::after{content:none!important;display:none!important}
+.cinema-hero .cinema-scene{
+ position:relative;isolation:isolate;overflow:hidden;height:clamp(460px,42vw,660px);
+ background:#18392e;
+}
+.cinema-home .cinema-scene{background:#3a473d}
+.cinema-design .cinema-scene{background:#354b3e}
+.cinema-hero .cinema-scene>.brand-film{
+ position:absolute;z-index:0;inset:0;width:100%;max-width:none;height:100%;
+ min-height:0;aspect-ratio:auto;margin:0;border:0;border-radius:0;
+ box-shadow:none;background:transparent;pointer-events:auto;order:initial;
+}
+.cinema-hero .cinema-scene .brand-film-poster,
+.cinema-hero .cinema-scene .brand-film-video{
+ object-fit:cover;object-position:center center;width:100%;height:100%;
+}
+.cinema-hero .cinema-scene .brand-film-video{opacity:0;transition:opacity .75s ease}
+.cinema-hero .cinema-scene .brand-film[data-frames-ready="true"] .brand-film-video{opacity:1}
+.cinema-hero .cinema-vignette{
+ position:absolute;inset:0;z-index:2;pointer-events:none;
+ background:linear-gradient(90deg,rgba(13,37,29,.52),rgba(13,37,29,.19) 42%,transparent 75%),
+  linear-gradient(0deg,rgba(18,46,35,.82),transparent 32%);
+}
+.cinema-design .cinema-vignette{
+ background:linear-gradient(90deg,rgba(14,30,23,.63),rgba(14,30,23,.17) 49%,transparent 80%),
+  linear-gradient(0deg,rgba(23,49,36,.78),transparent 31%);
+}
+.cinema-hero .cinema-message{
+ position:absolute;z-index:3;left:clamp(26px,6vw,86px);
+ bottom:clamp(36px,5vw,76px);width:min(465px,40vw);
+ text-align:left;color:#fff5e4;pointer-events:none;
+ filter:drop-shadow(0 2px 12px rgba(0,0,0,.25));
+ opacity:1;transform:translateY(0);
+ transition:opacity 1s ease,transform 1s ease;
+}
+.cinema-hero .cinema-message span{
+ display:block;margin-bottom:16px;font:800 12px/1.5 Arial,system-ui,sans-serif;
+ letter-spacing:.18em;color:#f6d99c;
+}
+.cinema-hero .cinema-message strong{
+ display:block;font:750 clamp(34px,3.2vw,52px)/1.13 Arial,system-ui,sans-serif;
+ letter-spacing:-.04em;text-wrap:balance;
+}
+.cinema-hero.holiday-intro-complete .cinema-message{opacity:0;transform:translateY(-13px)}
+.cinema-hero .cinema-scene .brand-film-controls{
+ z-index:5;top:16px;right:18px;bottom:auto;gap:8px;opacity:.83;transition:opacity .2s ease;
+}
+.cinema-hero .cinema-scene .brand-film-controls button{
+ display:grid;place-items:center;min-width:39px;width:39px;min-height:39px;
+ padding:0;border-radius:50%;font-size:12px;background:rgba(14,36,26,.67);
+ border:1px solid rgba(255,255,255,.48);
+}
+.cinema-hero .cinema-scene .brand-film[data-player-pending="true"] .brand-film-controls{opacity:0}
+.cinema-hero .cinema-scene .brand-film[data-player-pending="true"]:focus-within .brand-film-controls,
+.cinema-hero .cinema-scene .brand-film[data-player-pending="true"]:hover .brand-film-controls,
+.cinema-hero .cinema-scene .brand-film[data-playing="false"] .brand-film-controls{opacity:1}
+.cinema-hero .cinema-copy{
+ position:relative;z-index:3;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+ align-items:center;gap:clamp(24px,4.5vw,70px);box-sizing:border-box;
+ width:100%;max-width:none;padding:clamp(25px,3.1vw,43px) clamp(24px,5.4vw,82px);
+ margin:0;transform:none;background:#faf5e9;
+}
+.cinema-home .cinema-copy{background:linear-gradient(135deg,#fffaf0,#f3ecda)}
+.cinema-design .cinema-copy{background:linear-gradient(145deg,#f3f7ed,#e8eee5)}
+.cinema-hero .cinema-copy .cinema-editorial{min-width:0}
+.cinema-hero .cinema-copy .kicker{
+ display:block;margin:0 0 12px;color:#876338;font-size:11px;line-height:1.4;
+ letter-spacing:.16em;font-weight:850;
+}
+.cinema-hero .cinema-copy h1{
+ margin:0 0 12px;color:#234336;font-size:clamp(31px,3.5vw,50px);
+ line-height:1.09;letter-spacing:-.045em;text-wrap:balance;max-width:780px;
+}
+.cinema-hero .cinema-copy p,
+.cinema-hero .cinema-copy .lede{
+ margin:0;font-size:clamp(15px,1.35vw,18px);line-height:1.55;
+ color:#415a4c;max-width:810px;
+}
+.cinema-hero .cinema-copy .cinema-actions{min-width:0}
+.cinema-hero .cinema-actions .site-actions{
+ display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px;
+}
+.cinema-hero .cinema-actions .site-button{
+ display:inline-flex;align-items:center;justify-content:center;min-height:49px;
+ padding:12px 19px;border-radius:999px;font-size:14px;font-weight:800;
+ line-height:1.25;white-space:normal;
+ transition:transform .22s ease,background-color .22s ease;
+}
+.cinema-hero .cinema-actions .site-button:hover{transform:translateY(-2px)}
+.cinema-hero .cinema-actions .site-button.primary{
+ background:#244a37;border-color:#244a37;color:#fff;
+}
+.cinema-hero .cinema-actions .site-button.outline{
+ background:transparent;color:#264735;border-color:#819b7d;
+}
+.cinema-hero .cinema-actions .cinema-secondary,
+.cinema-hero .cinema-actions .micro{
+ font-size:12px!important;color:#566c5c!important;line-height:1.45!important;
+}
+.cinema-hero .cinema-secondary a{font-weight:800}
+.cinema-hero .cinema-copy .cinema-secondary a:hover{text-decoration-thickness:2px}
+
+/* The category selector belongs after the visual introduction, not above it. */
+.design-center-nav{
+ position:relative;top:auto;z-index:1;display:grid;
+ grid-template-columns:minmax(180px,245px) minmax(0,1fr);
+ gap:22px;align-items:center;box-shadow:none;
+ padding:20px clamp(21px,5vw,78px);
+ background:#f8f8f2;border:0;border-bottom:1px solid #d5dfd1;
+}
+.design-center-nav-heading{min-width:0}
+.design-center-nav-title{
+ display:block;color:#37604a;font-size:11px;letter-spacing:.15em;
+ line-height:1.45;font-weight:900;white-space:normal;
+}
+.design-center-nav-heading p{
+ margin:5px 0 0;color:#667a6c;font-size:12px;line-height:1.4;
+}
+.design-center-nav-scroll{
+ display:flex;align-items:center;gap:7px;overflow-x:auto;
+ scrollbar-width:none;min-width:0;padding:5px 0 8px;
+}
+.design-center-nav-item{
+ background:transparent;color:#365b43;border:1px solid #c7d4c3;
+ font-size:12px;line-height:1.3;font-weight:800;
+ padding:10px 14px;min-height:40px;white-space:nowrap;
+ border-radius:999px;box-shadow:none;
+}
+.design-center-nav-item.is-current{background:#284e37;color:#fff;border-color:#284e37}
+.design-center-nav-item:hover,.design-center-nav-item:focus-visible{
+ background:#e4eee1;border-color:#6d9270;
+}
+.design-center-nav-item.is-current:hover,.design-center-nav-item.is-current:focus-visible{background:#21432f;color:#fff}
+@media(max-width:1000px){
+ .cinema-hero .cinema-scene{height:clamp(370px,53vw,530px)}
+ .cinema-hero .cinema-copy{grid-template-columns:1fr;gap:19px}
+ .cinema-hero .cinema-message{width:min(410px,56vw)}
+ .design-center-nav{display:block;padding:17px 22px 10px}
+ .design-center-nav-heading{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+ .design-center-nav-heading p{margin:0}
+}
+@media(max-width:620px){
+ .site-hero.concept-hero.commercial-hero.cinema-hero,
+ .site-pagehead.visual-preview-hero.cinema-hero{border-radius:0 0 23px 23px}
+ .cinema-hero .cinema-scene{
+  height:clamp(260px,78vw,385px);
+ }
+ .cinema-home .cinema-scene{
+  background:#243d31 url('/site-assets/brand-films/prescotts-best-home-remodeling-poster.webp') center top/cover no-repeat;
+ }
+ .cinema-design .cinema-scene{
+  background:#234333 url('/site-assets/brand-films/prescotts-best-design-center-poster.webp') center top/cover no-repeat;
+ }
+ .cinema-hero .cinema-scene>.brand-film{
+  position:absolute;inset:0 auto auto 0;width:100%;height:auto;aspect-ratio:16/9;
+  min-height:0;border-radius:0;pointer-events:auto;
+ }
+ .cinema-hero .cinema-scene .brand-film-poster,
+ .cinema-hero .cinema-scene .brand-film-video{
+  object-fit:contain;object-position:center center;
+ }
+ .cinema-hero .cinema-vignette,
+ .cinema-design .cinema-vignette{
+  background:linear-gradient(180deg,transparent 0%,transparent 50%,
+   rgba(18,47,34,.28) 67%,#183a2c 98%);
+ }
+ .cinema-hero .cinema-message{
+  left:19px;right:19px;bottom:14px;width:auto;max-width:355px;
+ }
+ .cinema-hero .cinema-message span{font-size:10px;margin-bottom:9px}
+ .cinema-hero .cinema-message strong{font-size:clamp(23px,6.2vw,29px);line-height:1.14}
+ .cinema-hero .cinema-scene .brand-film-controls{top:8px;right:10px;gap:6px}
+ .cinema-hero .cinema-scene .brand-film-controls button{min-width:37px;width:37px;min-height:37px}
+ .cinema-hero .cinema-copy{display:grid;gap:18px;padding:15px 19px 27px}
+ .cinema-hero .cinema-copy .kicker{font-size:10px;margin:0 0 8px}
+ .cinema-hero .cinema-copy h1{font-size:clamp(31px,8.2vw,39px);margin:0 0 10px}
+ .cinema-hero .cinema-copy p,.cinema-hero .cinema-copy .lede{font-size:15px;line-height:1.45}
+ .cinema-hero .cinema-actions .site-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-bottom:11px}
+ .cinema-hero .cinema-actions .site-button{min-height:47px;padding:11px 13px;width:100%}
+ .design-center-nav{padding:16px 18px 9px}
+ .design-center-nav-heading{display:block}
+ .design-center-nav-title{font-size:10px}
+ .design-center-nav-heading p{font-size:12px;margin:3px 0 1px}
+ .design-center-nav-scroll{margin-top:8px;gap:8px}
+ .design-center-nav-item{min-height:39px;font-size:12px;padding:9px 12px}
+ body:has(.cinema-hero) .scotty-widget{right:10px;bottom:83px}
+ body:has(.cinema-hero) .scotty-launch{
+  width:49px;min-width:49px;height:49px;min-height:49px;
+  border-radius:50%;padding:0;font-size:0;
+ }
+ body:has(.cinema-hero) .scotty-launch span{font-size:23px}
+ body:has(.cinema-hero) .scotty-launch small{display:none}
+}
+/* The holiday caption should read as two separate beats, even on wide monitors. */
+.holiday-cinema-message span{margin-bottom:20px}
+@media(max-width:620px){.holiday-cinema-message span{margin-bottom:12px}}
+@media(prefers-reduced-motion:reduce){
+ .cinema-hero .cinema-message,.cinema-hero .cinema-scene .brand-film-video,
+ .cinema-hero .cinema-scene .brand-film-controls{transition:none!important}
+ .cinema-hero .cinema-message{opacity:1!important;transform:none!important}
+ .cinema-hero .cinema-scene .brand-film-controls{opacity:1!important}
+}
+@media print{
+ .cinema-hero .cinema-scene{height:210px}
+ .cinema-hero .cinema-scene .brand-film-video,.cinema-hero .cinema-scene .brand-film-controls{display:none!important}
+ .cinema-hero .cinema-copy{display:block}
+}
+.design-center-nav-scroll::-webkit-scrollbar{display:none}

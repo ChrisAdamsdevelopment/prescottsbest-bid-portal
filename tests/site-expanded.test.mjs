@@ -9,7 +9,7 @@ test('homeowner routes have complete pages, real owner scope and safe drafts',()
  for(const p of paths){
   const html=marketingPage('/remodeling-preview'+(p==='/'?'':p),{indexable:false});
   assert.ok(html,p+' must be available');
-  assert.match(html,/<h1>/,p);
+  assert.match(html,/<h1(?:\s+[^>]*)?>/,p);
   assert.match(html,/<meta name="robots" content="noindex,nofollow">/,p);
   assert.match(html,/(?:AZ ROC #343141|Arizona Registrar of Contractors license #343141)/,p);
   assert.match(html,/href="\/remodeling-preview\/privacy"/,p);

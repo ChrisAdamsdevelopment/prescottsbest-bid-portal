@@ -51,7 +51,14 @@ function faq(rows){return '<div class="faqs">'+rows.map(([q,a])=>'<details><summ
 const call='<a href="tel:+19283500940" class="text-link">Call (928) 350-0940</a>';
 function home(){
  return {title:'Bathroom & Kitchen Remodeling | Prescott’s Best Construction',description:'Explore residential remodeling in Prescott and Prescott Valley. View services, understand preliminary budgets, and request a personal consultation.',body:
- '<section class="site-hero concept-hero commercial-hero">'+brandFilm('home',{hero:true})+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+aiLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
+ '<section class="site-hero concept-hero commercial-hero cinema-hero cinema-home" aria-labelledby="home-hero-heading">'+
+ '<div class="cinema-scene">'+brandFilm('home',{hero:true})+'<div class="cinema-vignette" aria-hidden="true"></div>'+
+ '<div class="cinema-message" aria-hidden="true"><span>LOCAL CRAFTSMANSHIP · PRESCOTT AREA</span><strong>Made for the way you live.</strong></div></div>'+
+ '<div class="hero-copy cinema-copy"><div class="cinema-editorial"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span>'+
+ '<h1 id="home-hero-heading">Bring your remodeling ideas into focus.</h1>'+
+ '<p>Bathrooms, kitchens, custom cabinetry and thoughtful details for homes across Prescott and Prescott Valley. Explore the possibilities, then plan the right next step.</p></div>'+
+ '<div class="cinema-actions"><div class="site-actions">'+priceLink+consultLink+'</div>'+
+ '<p class="cinema-secondary">Need some direction? <a href="'+link('/project-guide')+'">Ask our optional Project Guide</a> or '+call+'.</p></div></div></section>'+
  trust+
  '<section class="holiday-home-feature" aria-label="Holiday lighting installation and house photo previews">'+
  '<div class="holiday-home-feature-copy"><span class="kicker">HOLIDAY LIGHTING · PRESCOTT AREA</span>'+
@@ -250,7 +257,21 @@ export function marketingPage(path,options={}){
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+
  '<a href="'+link('/about')+'">About us</a><a href="'+link('/concierge')+'">Project concierge</a></nav></details>'+
  '<a class="header-phone" href="tel:+19283500940">Call (928) 350-0940</a></header>'+
- '<main id="site-main">'+designCenterNav(link,suffix)+body+'</main>'+scottyWidget+'<div class="mobile-actions" aria-label="Quick actions"><a href="tel:+19283500940">Call us</a><a href="'+link('/estimate')+'">Budget example</a><a href="'+link('/schedule')+'">Contact</a></div><footer class="site-footer"><div class="footer-grid"><div>'+logo+'<h2>Prescott’s Best Construction</h2><p>Practical planning, thoughtful craftsmanship and clear communication.</p></div><div><h3>Homeowner tools</h3>'+linkText('Project budget explorer','/estimate')+linkText('AI Project Guide','/project-guide')+linkText('Holiday Lighting Concierge','/holiday-lighting')+linkText('See it before we build it','/visual-design-preview')+'<a data-inspiration-link href="'+link('/visual-design-preview')+'#my-inspiration-list">My Inspiration List (<span data-inspiration-count>0</span>)</a>'+linkText('Request a conversation','/schedule')+linkText('Remodeling guides','/resources')+linkText('Custom cabinetry','/custom-cabinetry')+linkText('Deck and outdoor carpentry','/deck-building-outdoor-carpentry')+linkText('Knowledge center','/blog')+linkText('Storm and flood recovery','/storm-flood-damage-prescott')+linkText('Wildfire home readiness','/wildfire-home-readiness')+linkText('Our process','/process')+linkText('About us','/about')+linkText('Smaller projects','/concierge')+linkText('Privacy','/privacy')+linkText('Accessibility','/accessibility')+'<button class="footer-analytics-settings" type="button" id="analytics-settings">Analytics choices</button></div><div><h3>Reach us</h3><a href="tel:+19283500940">(928) 350-0940</a><a href="mailto:'+contact+'">'+contact+'</a><span>Prescott Valley, Arizona</span><span>AZ ROC #343141</span><a href="'+maps+'" target="_blank" rel="noopener">Verified Google reviews</a></div></div><p class="footer-disclosure">Online prices are starting points. Your written quote will confirm the scope, materials, installation and any selected options.</p></footer></body></html>';
+ '<main id="site-main">'+placeDesignNavigation(body,suffix)+'</main>'+scottyWidget+'<div class="mobile-actions" aria-label="Quick actions"><a href="tel:+19283500940">Call us</a><a href="'+link('/estimate')+'">Budget example</a><a href="'+link('/schedule')+'">Contact</a></div><footer class="site-footer"><div class="footer-grid"><div>'+logo+'<h2>Prescott’s Best Construction</h2><p>Practical planning, thoughtful craftsmanship and clear communication.</p></div><div><h3>Homeowner tools</h3>'+linkText('Project budget explorer','/estimate')+linkText('AI Project Guide','/project-guide')+linkText('Holiday Lighting Concierge','/holiday-lighting')+linkText('See it before we build it','/visual-design-preview')+'<a data-inspiration-link href="'+link('/visual-design-preview')+'#my-inspiration-list">My Inspiration List (<span data-inspiration-count>0</span>)</a>'+linkText('Request a conversation','/schedule')+linkText('Remodeling guides','/resources')+linkText('Custom cabinetry','/custom-cabinetry')+linkText('Deck and outdoor carpentry','/deck-building-outdoor-carpentry')+linkText('Knowledge center','/blog')+linkText('Storm and flood recovery','/storm-flood-damage-prescott')+linkText('Wildfire home readiness','/wildfire-home-readiness')+linkText('Our process','/process')+linkText('About us','/about')+linkText('Smaller projects','/concierge')+linkText('Privacy','/privacy')+linkText('Accessibility','/accessibility')+'<button class="footer-analytics-settings" type="button" id="analytics-settings">Analytics choices</button></div><div><h3>Reach us</h3><a href="tel:+19283500940">(928) 350-0940</a><a href="mailto:'+contact+'">'+contact+'</a><span>Prescott Valley, Arizona</span><span>AZ ROC #343141</span><a href="'+maps+'" target="_blank" rel="noopener">Verified Google reviews</a></div></div><p class="footer-disclosure">Online prices are starting points. Your written quote will confirm the scope, materials, installation and any selected options.</p></footer></body></html>';
+}
+function placeDesignNavigation(body,suffix){
+ const nav=designCenterNav(link,suffix);
+ if(!nav)return body;
+ const before={
+  '/visual-design-preview':'<section class="site-section" id="preview-examples">',
+  '/kitchen-remodeling':'<section class="site-section site-detail">',
+  '/custom-cabinetry':'<section class="site-section site-detail">',
+  '/deck-building-outdoor-carpentry':'<section class="site-section site-detail">',
+  '/holiday-lighting':'<section class="site-section"><div class="section-heading">',
+  '/holiday-lighting/design':'<section class="site-section holiday-workspace">'
+ }[suffix];
+ if(!before||!body.includes(before))throw new Error('Design navigation insertion anchor missing: '+suffix);
+ return body.replace(before,nav+before);
 }
 export function sitemapPaths(){return routenames.filter(k=>k!=='/contact').map(k=>link(k))}
 export const publicSiteBase=base;

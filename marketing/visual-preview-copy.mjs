@@ -71,12 +71,17 @@ export function previewHubPage(link){
  return {
   title:'See It Before We Build It | Visual Remodeling Previews | Prescott’s Best',
   description:'See design ideas for built-in cabinets, decks and holiday lights, then ask about a personalized visual preview during your Prescott-area remodeling consultation.',
-  body:'<section class="site-pagehead visual-preview-hero"><div class="visual-preview-hero-copy"><span class="kicker">SEE IT BEFORE WE BUILD IT</span>'+
-   '<h1>Explore your home ideas in one Design Center.</h1>'+
-   '<p class="lede">It can be hard to imagine new cabinets, a deck or a completely different room from samples and measurements alone. We make visual design exploration part of the conversation—so you can compare possibilities and explain what feels right for your home.</p>'+
-   '<div class="site-actions"><a class="site-button primary" href="'+link('/schedule')+'?preview=1">Ask about a custom design preview</a>'+
-   '<a class="site-button outline" href="#preview-examples">Explore design examples</a></div>'+
-   '<p class="micro">Personalized previews are available for suitable projects after an initial scope review; they are not automatically included with every estimate.</p></div>'+brandFilm('design')+'</section>'+
+  body:'<section class="site-pagehead visual-preview-hero cinema-hero cinema-design" aria-labelledby="design-hero-heading">'+
+   '<div class="cinema-scene">'+brandFilm('design')+'<div class="cinema-vignette" aria-hidden="true"></div>'+
+   '<div class="cinema-message" aria-hidden="true"><span>SEE IT BEFORE WE BUILD IT</span><strong>Picture what comes next.</strong></div></div>'+
+   '<div class="visual-preview-hero-copy cinema-copy"><div class="cinema-editorial">'+
+   '<span class="kicker">A MORE PERSONAL WAY TO PLAN</span>'+
+   '<h1 id="design-hero-heading">See your home ideas take shape.</h1>'+
+   '<p class="lede">Compare kitchens, built-ins, hardware and outdoor spaces. Save the looks you like, then ask how a design preview might help with your own project.</p></div>'+
+   '<div class="cinema-actions"><div class="site-actions">'+
+   '<a class="site-button primary" href="#preview-examples">Explore design examples</a>'+
+   '<a class="site-button outline" href="'+link('/schedule')+'?preview=1">Ask about a custom preview</a></div>'+
+   '<p class="micro">Personalized previews are available for suitable projects after an initial scope review; they are not automatically included with every estimate.</p></div></div></section>'+
    '<section class="site-section" id="preview-examples"><div class="section-heading"><span class="kicker">TRY THE IDEAS YOURSELF</span>'+
    '<h2>Choose a category, compare options, and collect your favorite ideas.</h2><p>Start with existing examples, choose what you like and bring those preferences into your conversation with us.</p></div>'+
    '<div class="visual-preview-cards">'+cards+'</div></section>'+

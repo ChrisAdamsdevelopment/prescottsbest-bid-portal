@@ -8,16 +8,16 @@
  const players=[];
  for(const figure of items){
   const video=figure.querySelector('[data-brand-video]');
-  // The holiday commercial is a one-off cinematic hero: crossfade only when frames play
-  // and let the opening copy clear the brand logo near the end of the 10-second film.
-  const holidayHero=figure.closest('.holiday-cinematic-head');
+  // All three cinematic scenes share poster-to-film transitions and timed introductory copy;
+  // keep the film's closing brand mark unobstructed.
+  const holidayHero=figure.closest('.holiday-cinematic-head, .cinema-hero');
   const toolbar=figure.querySelector('[data-film-controls]');
   const play=figure.querySelector('[data-film-toggle]');
   const sound=figure.querySelector('[data-film-sound]');
   if(!video||!toolbar||!play||!sound)continue;
   toolbar.hidden=false;
   video.controls=false; // Keep native controls as the no-JavaScript fallback.
-  // The holiday video opens on its poster instead of flashing a large Play badge
+  // Cinematic video opens on its poster instead of flashing a large Play badge
   // while muted autoplay is being negotiated. Failures restore visible controls.
   if(holidayHero&&!reduced.matches&&!slow)figure.dataset.playerPending='true';
   let visible=false;
@@ -63,7 +63,7 @@
    if(video.paused){start(true)}
    else{chosenPause=true;stop()}
   });
-  // The image itself is also a pause/resume target on this one commercial.
+  // The video itself is a pause/resume target for cinematic scenes.
   // The explicit buttons and their keyboard semantics remain available.
   if(holidayHero){
    video.style.cursor='pointer';

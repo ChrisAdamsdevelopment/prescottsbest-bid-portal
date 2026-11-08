@@ -91,12 +91,12 @@ with TemporaryDirectory(prefix="pbc-films-qa-") as temp:
      assert not video.get_property('muted') is False,'Autoplay starts muted'
      driver.execute_script('arguments[0].click()',sound)
      wait.until(lambda d:not video.get_property('muted'))
-     assert sound.text=='Sound off'
+     assert sound.get_attribute('aria-pressed')=='true'
      driver.execute_script('arguments[0].click()',sound)
      wait.until(lambda d:video.get_property('muted'))
      driver.execute_script('arguments[0].click()',play)
      wait.until(lambda d:video.get_property('paused'))
-     assert play.text=='Play video'
+     assert play.get_attribute('aria-label').startswith('Play ')
      assert 9.7<float(video.get_property('duration') or 10)<10.5
      widthInfo=driver.execute_script('return {viewport:innerWidth,document:document.documentElement.scrollWidth}')
      assert widthInfo['document']<=widthInfo['viewport']+4,(path,width,widthInfo)
