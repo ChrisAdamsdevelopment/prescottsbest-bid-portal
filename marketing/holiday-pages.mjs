@@ -69,9 +69,9 @@ export function holidayPages(link){
  const page={
   title:'Holiday Lighting Concierge | Prescott & Prescott Valley | Prescott’s Best Construction',
   description:'Explore holiday lighting designs and outdoor light installation options in Prescott and Prescott Valley. Try a private photo-based preview and request a contractor review.',
-  body:'<section class="site-pagehead holiday-head"><div class="holiday-head-copy"><span class="kicker">SEASONAL CONCIERGE · PRESCOTT AREA</span>'+
+  body:'<section class="site-pagehead holiday-head holiday-cinematic-head"><div class="holiday-head-copy"><div class="holiday-copy-intro"><span class="kicker">SEASONAL CONCIERGE · PRESCOTT AREA</span>'+
    '<h1>Holiday lights, thoughtfully designed. We handle the hard part.</h1>'+
-   '<p class="lede">Explore your Christmas lighting style from the comfort of home. Start with a package or create your own design, then speak directly with Prescott’s Best about materials, installation and service.</p>'+
+   '<p class="lede">Explore your Christmas lighting style from the comfort of home. Start with a package or create your own design, then speak directly with Prescott’s Best about materials, installation and service.</p></div>'+
    '<p class="micro">Classic Roofline starts at $599 for up to 60 feet of accessible front roofline on a one-story home. Your written quote will confirm the lighting selection, installation details and any optional takedown or storage services.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Try the home lighting preview</a>'+
    '<a class="site-button outline" href="'+link('/schedule')+'">Discuss your holiday project</a></div></div>'+brandFilm('holiday')+'</section>'+

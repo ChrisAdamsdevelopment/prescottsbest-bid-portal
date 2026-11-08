@@ -8,6 +8,9 @@
  const players=[];
  for(const figure of items){
   const video=figure.querySelector('[data-brand-video]');
+  // The holiday commercial is a one-off cinematic hero: crossfade only when frames play
+  // and let the opening copy clear the brand logo near the end of the 10-second film.
+  const holidayHero=figure.closest('.holiday-cinematic-head');
   const toolbar=figure.querySelector('[data-film-controls]');
   const play=figure.querySelector('[data-film-toggle]');
   const sound=figure.querySelector('[data-film-sound]');
@@ -52,7 +55,18 @@
    refresh();
   });
   video.addEventListener('play',refresh);
-  video.addEventListener('pause',refresh);
+  video.addEventListener('playing',()=>{
+   if(holidayHero)figure.dataset.framesReady='true';
+  });
+  video.addEventListener('timeupdate',()=>{
+   if(holidayHero&&!reduced.matches&&!video.paused&&video.currentTime>=5.8){
+    holidayHero.classList.add('holiday-intro-complete');
+   }
+  });
+  video.addEventListener('pause',()=>{
+   if(holidayHero)holidayHero.classList.remove('holiday-intro-complete');
+   refresh();
+  });
   video.addEventListener('volumechange',refresh);
   const entry={figure,video,refresh,setVisible(value){
    visible=value;
