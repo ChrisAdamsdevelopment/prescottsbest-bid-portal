@@ -1,9 +1,45 @@
 import {marketingPage,sitemapPaths} from './site.mjs';
+import {createReadStream} from 'node:fs';
+import {stat} from 'node:fs/promises';
+import {brandFilmAssets,brandFilmForPath} from './brand-films.mjs';
 import {articles} from './articles.mjs';
 import {holidayImages,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
- if(req.method!=='GET')return false;
+ const filmAsset=brandFilmAssets.find(x=>x.path===path);
+ if(req.method!=='GET'&&!(req.method==='HEAD'&&filmAsset))return false;
+ if(filmAsset){
+  // Strict asset allowlist, streaming and single byte-range support for desktop/mobile playback.
+  const localFile=new URL('../public'+filmAsset.path,import.meta.url);
+  const metadata=await stat(localFile);
+  const total=metadata.size;
+  let start=0,end=total-1,code=200;
+  const rawRange=req.headers.range;
+  if(rawRange){
+   const match=typeof rawRange==='string'&&rawRange.length<96&&/^bytes=(\d*)-(\d*)$/.exec(rawRange);
+   if(!match||(!match[1]&&!match[2])){
+    res.writeHead(416,{'Content-Range':'bytes */'+total,'Accept-Ranges':'bytes'});res.end();return true;
+   }
+   if(!match[1]){
+    const suffix=Number(match[2]);
+    if(!Number.isSafeInteger(suffix)||suffix<=0){res.writeHead(416,{'Content-Range':'bytes */'+total});res.end();return true}
+    start=Math.max(0,total-suffix);
+   }else{
+    start=Number(match[1]);end=match[2]?Math.min(total-1,Number(match[2])):total-1;
+   }
+   if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start>=total||end<start){
+    res.writeHead(416,{'Content-Range':'bytes */'+total,'Accept-Ranges':'bytes'});res.end();return true;
+   }
+   code=206;
+  }
+  res.writeHead(code,{'Content-Type':filmAsset.type,'Content-Length':end-start+1,
+   'Accept-Ranges':'bytes','Cache-Control':'public,max-age=86400',
+   ...(code===206?{'Content-Range':'bytes '+start+'-'+end+'/'+total}:{})});
+  if(req.method==='HEAD'){res.end();return true}
+  createReadStream(localFile,{start,end}).on('error',()=>res.destroy()).pipe(res);
+  return true;
+ }
+
  // The new PBC domain serves the marketing homepage; the Render host keeps the
  // existing private proposal landing page, preserving current invite links.
  const hostname=(req.headers.host||'').split(':')[0].toLowerCase();
@@ -38,6 +74,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/storm.js':['public/storm.js','text/javascript; charset=utf-8'],
  '/visual-explorer.js':['public/visual-explorer.js','text/javascript; charset=utf-8'],
  '/inspiration-list.js':['public/inspiration-list.js','text/javascript; charset=utf-8'],
+ '/brand-films.js':['public/brand-films.js','text/javascript; charset=utf-8'],
  '/site-assets/pbc-logo.webp':['public/site-assets/pbc-logo.webp','image/webp'],
  '/site-assets/pbc-social-card.jpg':['public/site-assets/pbc-social-card.jpg','image/jpeg'],
  '/site-assets/favicon.ico':['public/site-assets/favicon.ico','image/x-icon'],
@@ -90,7 +127,9 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Main pages',
    '- [November 2026 storm recovery]('+site+'/storm-flood-damage-prescott): Free Prescott-area flood, insurance and reconstruction guide',
    '- [Home]('+site+'/): Residential remodeling and service overview',
+   '- [Prescott home remodeling commercial]('+site+'/site-assets/brand-films/prescotts-best-home-remodeling-720.mp4): Ten-second introduction to the company, Northern Arizona homes and remodeled kitchen craftsmanship',
    '- [Visual design previews]('+site+'/visual-design-preview): See-it-before-we-build-it exploration, design examples, and optional home-specific concept requests',
+   '- [Design Center commercial]('+site+'/site-assets/brand-films/prescotts-best-design-center-720.mp4): Ten-second illustration of exploring kitchen cabinetry, countertops and finishes',
    '- [About]('+site+'/about): Company and local service-area introduction',
    '- [Services]('+site+'/bathroom-remodeling): Bathroom remodeling',
    '- [Kitchens]('+site+'/kitchen-remodeling): Kitchen remodeling',
@@ -101,6 +140,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [Budget explorer]('+site+'/estimate): Starting remodeling budget range; written quote follows project review',
    '- [Knowledge center]('+site+'/blog): Homeowner educational articles',
    '- [Holiday lighting concierge]('+site+'/holiday-lighting): Seasonal concept packages and service scope',
+   '- [Holiday lighting commercial]('+site+'/site-assets/brand-films/prescotts-best-holiday-lighting-720.mp4): Ten-second seasonal exterior lighting inspiration for Prescott homes',
    '- [Holiday lighting design studio]('+site+'/holiday-lighting/design): Private on-device preview, optional consent-based AI image editing, and a contractor-reviewed concept worksheet',
    '- [Contact]('+site+'/schedule): Phone and email contact',
    '',
@@ -162,16 +202,23 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  }
  if(path==='/robots.txt'){
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});
-  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nAllow: /site-assets/visual-explorer/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
+  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nAllow: /site-assets/visual-explorer/\nAllow: /site-assets/brand-films/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
  }
  if(path==='/sitemap.xml'){
   if(!indexed)throw bad('Sitemap not published yet',404);
-  const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'+
+  const xmlEsc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+  const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">'+
    sitemapPaths().map(p=>{const clean=(marketingHost?p.replace('/remodeling-preview',''):p)||'/';
      const holiday=clean==='/holiday-lighting'?[...holidayCloseups,...holidayBackyards].map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
      const designs=visualImageObjectsForPage(clean,origin).map(a=>'<image:image><image:loc>'+a.contentUrl+'</image:loc></image:image>').join('');
      const images=holiday+designs;
-    return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+'</url>';}).join('')+'</urlset>';
+     const video=brandFilmForPath(clean);
+     const v=video?'<video:video><video:thumbnail_loc>'+origin+'/site-assets/brand-films/'+video.slug+'-poster.webp</video:thumbnail_loc>'+
+      '<video:title>'+xmlEsc(video.title)+'</video:title>'+
+      '<video:description>'+xmlEsc(video.description)+'</video:description>'+
+      '<video:content_loc>'+origin+'/site-assets/brand-films/'+video.slug+'-720.mp4</video:content_loc>'+
+      '<video:duration>'+video.duration+'</video:duration></video:video>':'';
+    return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+v+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;
  }

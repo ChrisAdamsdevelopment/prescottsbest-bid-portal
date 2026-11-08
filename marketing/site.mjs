@@ -7,6 +7,7 @@ import {visualExplorerSection,visualExplorersForService,visualImageObjectsForPag
 import {previewCopy,previewPromo,previewSteps,previewHubPage} from './visual-preview-copy.mjs';
 import {inspirationPanel,inspirationSummary} from './inspiration-view.mjs';
 import {designCenterNav} from './design-center-nav.mjs';
+import {brandFilm,brandFilmForPath,brandFilmJsonLd} from './brand-films.mjs';
 import {wildfirePages} from './wildfire-page.mjs';
 import {stormPages} from './storm-page.mjs';
 import {conceptCardImage,conceptServiceImage,conceptHero,conceptEditorialImage} from './imagery.mjs';
@@ -50,7 +51,7 @@ function faq(rows){return '<div class="faqs">'+rows.map(([q,a])=>'<details><summ
 const call='<a href="tel:+19283500940" class="text-link">Call (928) 350-0940</a>';
 function home(){
  return {title:'Bathroom & Kitchen Remodeling | Prescott’s Best Construction',description:'Explore residential remodeling in Prescott and Prescott Valley. View services, understand preliminary budgets, and request a personal consultation.',body:
- '<section class="site-hero concept-hero">'+conceptHero()+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+aiLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
+ '<section class="site-hero concept-hero commercial-hero">'+brandFilm('home',{hero:true})+'<div class="hero-copy"><span class="kicker">YOUR HOME. THOUGHTFULLY REMODELED.</span><h1>Bring your remodeling ideas into focus.</h1><p>Bathrooms, kitchens, room conversions and finish carpentry across the greater Prescott area. Understand the options, explore an early budget and talk directly with someone who does the work.</p><div class="site-actions">'+priceLink+aiLink+consultLink+'</div><p class="micro">You can also '+call+'. No chatbot or account is required.</p></div><div class="hero-mark"><div class="hero-mark-image">'+logo+'</div><div class="hero-mark-caption">THE DETAILS MATTER</div><p>Careful planning. Clear expectations. Respect for the home you live in.</p></div></section>'+
  trust+
  '<section class="holiday-home-feature" aria-label="Holiday lighting installation and house photo previews">'+
  '<div class="holiday-home-feature-copy"><span class="kicker">HOLIDAY LIGHTING · PRESCOTT AREA</span>'+
@@ -215,6 +216,8 @@ export function marketingPage(path,options={}){
    width:image.width,height:image.height
   }))
  }:null;
+  const featuredFilm=brandFilmForPath(suffix);
+  const videoSchema=brandFilmJsonLd(suffix,shareOrigin);
  const visualImages=visualImageObjectsForPage(suffix,shareOrigin);
  const visualGallerySchema=visualImages.length?{
   '@context':'https://schema.org','@type':'ImageGallery',
@@ -232,16 +235,16 @@ export function marketingPage(path,options={}){
  '<link rel="manifest" href="/site-assets/site.webmanifest"><link rel="alternate" type="application/rss+xml" title="Prescott’s Best homeowner guides" href="/feed.xml">'+
  '<meta property="og:type" content="website"><meta property="og:site_name" content="Prescott’s Best Construction">'+
  '<meta property="og:title" content="'+esc(title)+'"><meta property="og:description" content="'+esc(description)+'">'+
- '<meta property="og:url" content="'+esc(shareUrl)+'"><meta property="og:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
- '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:secure_url" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg"><meta property="og:image:type" content="image/jpeg">'+
- '<meta property="og:image:alt" content="Prescott’s Best Construction official gold badge and remodeling message">'+
+ '<meta property="og:url" content="'+esc(shareUrl)+'"><meta property="og:image" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'">'+
+ '<meta property="og:image:width" content="'+(featuredFilm?'1280':'1200')+'"><meta property="og:image:height" content="'+(featuredFilm?'720':'630')+'"><meta property="og:image:secure_url" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'"><meta property="og:image:type" content="'+(featuredFilm?'image/webp':'image/jpeg')+'">'+
+ '<meta property="og:image:alt" content="'+esc(featuredFilm?featuredFilm.posterAlt:'Prescott’s Best Construction official gold badge and remodeling message')+'">'+
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
- '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+'/site-assets/pbc-social-card.jpg">'+
- '<link rel="stylesheet" href="/marketing.css"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script>'+
+ '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'">'+
+ '<link rel="stylesheet" href="/marketing.css"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script><script defer src="/brand-films.js"></script>'+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
  (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+
  (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
- (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
+ (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(videoSchema?'<script type="application/ld+json">'+JSON.stringify(videoSchema)+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
  '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+

@@ -73,12 +73,12 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/site-assets\/favicon\.ico/);
   assert.match(home.body,/site-assets\/apple-touch-icon\.png/);
   assert.match(home.body,/property="og:image"/);
-  assert.match(home.body,/site-assets\/pbc-social-card\.jpg/);
+  assert.match(home.body,/site-assets\/brand-films\/prescotts-best-home-remodeling-poster\.webp/);
   assert.match(home.body,/class="mobile-menu"/);
   assert.match(home.body,/class="desktop-nav"/);
-  assert.match(home.body,/class="site-hero concept-hero"/);
-  assert.match(home.body,/Design inspiration/);
-  assert.match(home.body,/kitchen-hero-detail.webp/);
+  assert.match(home.body,/class="site-hero concept-hero commercial-hero"/);
+  assert.match(home.body,/data-brand-film="home"/);
+  assert.match(home.body,/prescotts-best-home-remodeling-720\.mp4/);
   for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry','consultation','local-home']){
    for(const variant of ['card','detail']){
     const name=slug+'-'+variant+'.webp';

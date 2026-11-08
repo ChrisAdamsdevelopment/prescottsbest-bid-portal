@@ -936,3 +936,77 @@
  .holiday-preview .holiday-edit-intro p{font-size:13px;line-height:1.43}
  .holiday-preview-quicklinks a{font-size:12px;min-height:38px;padding:7px 10px}
 }
+
+
+/* Three commercial brand films: poster-first, responsive, muted-until-asked, pauseable. */
+.brand-film{position:relative;isolation:isolate;display:block;width:100%;min-width:0;aspect-ratio:16/9;
+ background:#203d30;border-radius:16px;box-shadow:0 18px 44px #0d231d35;overflow:hidden}
+.brand-film-poster,.brand-film-video{position:absolute;inset:0;display:block;width:100%;height:100%;
+ object-fit:cover;object-position:center;background:transparent}
+.brand-film-poster{z-index:0}.brand-film-video{z-index:1}
+.brand-film-controls{position:absolute;z-index:6;right:13px;bottom:12px;display:flex;align-items:center;gap:8px}
+.brand-film-controls button{appearance:none;min-height:43px;padding:9px 13px;border-radius:999px;
+ background:rgba(13,30,23,.88);color:#fff;border:1px solid rgba(255,255,255,.65);
+ font:800 13px/1.3 Arial,"Segoe UI",system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(8px)}
+.brand-film-controls button:hover{background:rgba(13,30,23,.98)}
+.brand-film-controls button:focus-visible{outline:3px solid #ffe7a5;outline-offset:3px}
+.brand-film .brand-film-description,.concept-hero .brand-film .brand-film-description{
+ position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+ overflow:hidden!important;white-space:nowrap!important;clip:rect(0 0 0 0)!important;
+ clip-path:inset(50%)!important;border:0!important}
+@media(prefers-reduced-motion:reduce){.brand-film-poster{display:block}}
+
+/* Main homepage commercial replaces the static background image without hiding calls to action. */
+.concept-hero.commercial-hero.site-hero{min-height:625px;position:relative;isolation:isolate}
+.commercial-hero .brand-film-hero{position:absolute;inset:0;z-index:0;margin:0;border:0;
+ width:100%;height:100%;min-height:100%;border-radius:0;box-shadow:none;aspect-ratio:auto;pointer-events:none}
+.commercial-hero .brand-film-hero .brand-film-controls{pointer-events:auto;right:20px;bottom:19px}
+.commercial-hero::after{z-index:1;pointer-events:none;
+ background:linear-gradient(90deg,rgba(250,248,242,.98) 0%,rgba(250,248,242,.96) 24%,
+ rgba(250,248,242,.83) 42%,rgba(250,248,242,.20) 69%,rgba(250,248,242,.00) 100%)}
+.commercial-hero .hero-copy{z-index:2;position:relative;max-width:645px}
+.commercial-hero .brand-film-video,.commercial-hero .brand-film-poster{object-position:center 48%}
+.commercial-hero .hero-mark{display:none}
+@media(min-width:721px) and (max-width:1150px){
+ .concept-hero.commercial-hero.site-hero{min-height:550px}
+ .commercial-hero::after{background:linear-gradient(90deg,rgba(250,248,242,.98),
+ rgba(250,248,242,.90) 45%,rgba(250,248,242,.1) 94%)}
+}
+@media(max-width:720px){
+ .concept-hero.commercial-hero.site-hero{display:flex;flex-direction:column;align-items:stretch;
+ min-height:0;padding:0;gap:0;overflow:visible}
+ .commercial-hero::after{display:none}
+ .commercial-hero .brand-film-hero{position:relative;inset:auto;order:1;min-height:0;height:auto;
+ aspect-ratio:16/9;width:100%;border-radius:0;pointer-events:auto}
+ .commercial-hero .hero-copy{order:2;padding:28px 20px 30px;max-width:none;
+ background:linear-gradient(140deg,#fffaf0,#f1e8d5)}
+ .commercial-hero .hero-copy h1{font-size:clamp(32px,8.7vw,49px)}
+ .commercial-hero .brand-film-hero .brand-film-controls{right:10px;bottom:10px}
+}
+
+/* Holiday service hero gets its own commercial, preserving the package selection below. */
+.holiday-head>.brand-film{max-width:730px;justify-self:stretch;border:2px solid rgba(255,247,220,.36);
+ box-shadow:0 16px 44px rgba(0,0,0,.26)}
+@media(max-width:950px){.holiday-head>.brand-film{width:100%;max-width:800px}}
+@media(max-width:560px){.holiday-head>.brand-film{border-radius:12px}}
+
+/* Design Center commercial pairs with a clear introduction and clickable category cards. */
+.visual-preview-hero{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+ gap:clamp(24px,4vw,56px);align-items:center}
+.visual-preview-hero-copy{min-width:0;max-width:700px}
+.visual-preview-hero-copy h1{font-size:clamp(39px,4.1vw,62px)}
+.visual-preview-hero>.brand-film{width:100%;border:2px solid #d9dfd0}
+@media(max-width:980px){.visual-preview-hero{grid-template-columns:1fr;gap:26px}
+ .visual-preview-hero>.brand-film{order:-1;max-width:800px}
+ .visual-preview-hero-copy h1{font-size:clamp(36px,6vw,58px)}}
+@media(max-width:560px){.visual-preview-hero{padding:22px 17px 32px}
+ .visual-preview-hero-copy h1{font-size:clamp(35px,9vw,48px)}
+ .brand-film{border-radius:12px}.brand-film-controls{right:7px;bottom:7px;gap:5px}
+ .brand-film-controls button{font-size:12px;min-height:40px;padding:8px 10px}}
+
+/* Physical printouts should show a frame, never a video playback control. */
+@media print{.brand-film-video,.brand-film-controls{display:none!important}
+ .brand-film-poster{position:relative}.brand-film{break-inside:avoid;box-shadow:none}}
+
+/* Keep homepage commercial player controls clear of the floating Scotty contact assistant. */
+@media(min-width:721px){.commercial-hero .brand-film-hero .brand-film-controls{top:18px;right:20px;bottom:auto}}
