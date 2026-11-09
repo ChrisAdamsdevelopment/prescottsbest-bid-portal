@@ -1,8 +1,10 @@
 // Small, accessible, self-contained read-aloud guides for complex homeowner tools.
-// Audio asset remains optional: the browser reads this same text aloud until approved recordings arrive.
+// Approved M4A recordings are wired to each page; the browser can still read
+// the same transcript aloud when the media file cannot play.
 const source={
   '/holiday-lighting/design':{
     id:'holiday-designer',
+    audioFile:'holiday-lighting-designer-instructions-v1.m4a',
     title:'Holiday Lighting Designer',
     short:'Hear how to choose lights, trace your roofline, and save a design.',
     intro:'Welcome to the Holiday Lighting Designer. You can try it without an account or an appointment.',
@@ -15,6 +17,7 @@ const source={
   },
   '/visual-design-preview':{
     id:'design-center',
+    audioFile:'design-center-instructions-v1.m4a',
     title:'Design Center',
     short:'Hear how to compare ideas and save your favorite designs.',
     intro:'Welcome to the Design Center. This is a place to explore ideas before making construction decisions.',
@@ -27,6 +30,7 @@ const source={
   },
   '/estimate':{
     id:'budget-explorer',
+    audioFile:'budget-explorer-instructions-v1.m4a',
     title:'Project Budget Explorer',
     short:'Hear how to answer four questions and understand your starting budget.',
     intro:'Welcome to the Project Budget Explorer. It gives you a planning range, not a final contractor quote.',
@@ -40,12 +44,17 @@ const source={
 };
 const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 export const voiceGuideConfig=Object.freeze(source);
+// Only these three approved recordings are available publicly. Requests for arbitrary
+// generated-folder or customer audio paths must never be served.
+export const voiceGuideAudioAssets=Object.freeze(Object.values(source).map(g=>Object.freeze({
+ path:'/site-assets/audio-guides/'+g.audioFile,type:'audio/mp4'
+})));
 export function voiceGuideForPath(suffix){
  const g=source[suffix];
  if(!g)return '';
  const speech=[g.intro,...g.steps].join(' ');
  const ref='audio-guide-'+g.id;
- return '<section class="voice-guide" data-voice-guide="'+g.id+'" data-guide-speech="'+escape(speech)+'" aria-labelledby="'+ref+'-heading">'+
+ return '<section class="voice-guide" data-voice-guide="'+g.id+'" data-guide-speech="'+escape(speech)+'" data-guide-audio="/site-assets/audio-guides/'+escape(g.audioFile)+'" aria-labelledby="'+ref+'-heading">'+
    '<div class="voice-guide-intro"><div class="voice-guide-copy"><span class="voice-guide-kicker">NEED A HAND?</span>'+
    '<h2 id="'+ref+'-heading">Let us talk you through it.</h2><p>'+escape(g.short)+'</p></div>'+
    '<button type="button" class="voice-guide-open" data-guide-open aria-expanded="false" aria-controls="'+ref+'-panel"><span aria-hidden="true">▶</span> Listen to instructions</button></div>'+
@@ -57,5 +66,5 @@ export function voiceGuideForPath(suffix){
    '<p class="voice-guide-status" data-guide-status role="status" aria-live="polite">Ready to listen.</p>'+
    '<details class="voice-guide-transcript"><summary>Read the step-by-step instructions</summary>'+
    '<p>'+escape(g.intro)+'</p><ol>'+g.steps.map(s=>'<li>'+escape(s)+'</li>').join('')+'</ol></details>'+
-   '<p class="voice-guide-privacy">Read-aloud uses your device. No account or microphone is needed.</p></div></section>';
+   '<p class="voice-guide-privacy">Plays your recorded walkthrough on this device. If the recording cannot play, your device can read the same instructions aloud. No account or microphone is needed.</p></div></section>';
 }

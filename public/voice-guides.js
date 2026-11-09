@@ -1,5 +1,6 @@
 // Accessible on-demand spoken instructions. No microphone, no automatic playback.
-// Once approved M4A recordings are available, set data-guide-audio on the guide panel.
+// Recorded AAC/M4A audio plays from the page's allowlisted data-guide-audio URL;
+// device speech synthesis remains the fallback if a recording cannot play.
 (() => {
  'use strict';
  const cards=[...document.querySelectorAll('[data-voice-guide]')];
@@ -66,17 +67,19 @@
   if(path){
    const a=new Audio(path);a.preload='none';media=a;
    a.onended=()=>finished(card,stamp);
-   a.onerror=()=>{
-    if(stamp!==version||current!==card)return;
-    media=null;readWithDevice(card,stamp);
+   let fallbackStarted=false;
+   const useFallback=()=>{
+    if(fallbackStarted||stamp!==version||current!==card)return;
+    fallbackStarted=true;
+    a.pause();media=null;
+    readWithDevice(card,stamp);
    };
+   a.onerror=useFallback;
    a.play().then(()=>{
     if(stamp!==version||current!==card){a.pause();return;}
     card.querySelector('[data-guide-pause]').disabled=false;
     status(card,'Playing recorded instructions. Press Pause whenever you like.');
-   }).catch(()=>{
-    if(stamp===version&&current===card){media=null;readWithDevice(card,stamp);}
-   });
+   }).catch(useFallback);
   }else readWithDevice(card,stamp);
  }
  cards.forEach(card=>{
