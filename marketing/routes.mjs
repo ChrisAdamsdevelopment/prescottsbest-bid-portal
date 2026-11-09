@@ -100,6 +100,11 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   staticPaths['/site-assets/process/'+name]=['public/site-assets/process/'+name,'image/webp'];
  }
  staticPaths['/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp']=['public/site-assets/wildfire/tucson-1-crew-ai-enhanced-banner.webp','image/webp'];
+ // Handpicked homepage holiday concept: explicit filenames, not arbitrary filesystem access.
+ for(const width of ['960','1672']){
+  const name='holiday-gnarled-tree-twilight-'+width+'.webp';
+  staticPaths['/site-assets/homepage/'+name]=['public/site-assets/homepage/'+name,'image/webp'];
+ }
  // Explicit allowlist of selected home-design visual examples; never serve arbitrary project uploads.
  for(const asset of allVisualImages()){
   for(const file of [asset.file,asset.thumb]){
