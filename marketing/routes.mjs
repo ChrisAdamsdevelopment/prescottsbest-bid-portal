@@ -75,6 +75,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/visual-explorer.js':['public/visual-explorer.js','text/javascript; charset=utf-8'],
  '/inspiration-list.js':['public/inspiration-list.js','text/javascript; charset=utf-8'],
  '/brand-films.js':['public/brand-films.js','text/javascript; charset=utf-8'],
+ '/voice-guides.js':['public/voice-guides.js','text/javascript; charset=utf-8'],
  '/site-assets/pbc-logo.webp':['public/site-assets/pbc-logo.webp','image/webp'],
  '/site-assets/pbc-social-card.jpg':['public/site-assets/pbc-social-card.jpg','image/jpeg'],
  '/site-assets/favicon.ico':['public/site-assets/favicon.ico','image/x-icon'],
