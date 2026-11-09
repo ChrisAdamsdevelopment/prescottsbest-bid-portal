@@ -78,7 +78,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/class="desktop-nav"/);
   assert.match(home.body,/class="site-hero concept-hero commercial-hero cinema-hero cinema-home"/);
   assert.match(home.body,/data-brand-film="home"/);
-  assert.match(home.body,/prescotts-best-home-remodeling-custom-audio-720\.mp4/);
+  assert.match(home.body,/prescotts-best-home-remodeling-new-hero-audio-720\.mp4/);
   for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry','consultation','local-home']){
    for(const variant of ['card','detail']){
     const name=slug+'-'+variant+'.webp';

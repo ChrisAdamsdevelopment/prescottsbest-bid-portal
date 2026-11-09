@@ -3,7 +3,7 @@
 const base='/site-assets/brand-films/';
 export const brandFilmData=Object.freeze({
  home:{
-  slug:'prescotts-best-home-remodeling',videoSlug:'prescotts-best-home-remodeling-custom-audio',path:'/',
+  slug:'prescotts-best-home-remodeling',videoSlug:'prescotts-best-home-remodeling-new-hero-audio',path:'/',
   title:'Prescott’s Best Construction — Your Vision, Beautifully Built',
   description:'Ten-second brand film showing a Northern Arizona style residence, a warm wood kitchen remodel concept, custom cabinetry details, and the Prescott’s Best Construction logo.',
   posterAlt:'Prescott-style residence and warm remodeling inspiration featuring Northern Arizona scenery.',

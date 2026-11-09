@@ -6,7 +6,7 @@ import {brandFilmData,brandFilmForPath,brandFilmJsonLd,brandFilmAssets} from '..
 
 const origin='https://prescottsbestremodeling.com';
 const cases=[
- ['/', 'home','prescotts-best-home-remodeling-custom-audio'],
+ ['/', 'home','prescotts-best-home-remodeling-new-hero-audio'],
  ['/holiday-lighting','holiday','prescotts-best-holiday-lighting-custom-audio'],
  ['/visual-design-preview','design','prescotts-best-design-center']
 ];
