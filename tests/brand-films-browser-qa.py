@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 repo=Path(__file__).resolve().parents[1]
 films=[
  ('/','home','prescotts-best-home-remodeling-custom-audio'),
- ('/holiday-lighting','holiday','prescotts-best-holiday-lighting'),
+ ('/holiday-lighting','holiday','prescotts-best-holiday-lighting-custom-audio'),
  ('/visual-design-preview','design','prescotts-best-design-center')
 ]
 report=[]
@@ -28,7 +28,7 @@ with TemporaryDirectory(prefix="pbc-films-qa-") as temp:
   else:raise RuntimeError('Marketing test server did not respond.')
   for path,id,slug in films:
    for ending in ['720.mp4','480.mp4','poster.webp']:
-    posterSlug='prescotts-best-home-remodeling' if id=='home' else slug
+    posterSlug={'home':'prescotts-best-home-remodeling','holiday':'prescotts-best-holiday-lighting'}.get(id,slug)
     assetSlug=posterSlug if ending=='poster.webp' else slug
     url=base+'/site-assets/brand-films/'+assetSlug+'-'+ending
     resp=requests.head(url,timeout=8)

@@ -13,8 +13,8 @@ test('holiday hero blends commercial into text only on holiday landing page',()=
  assert.match(holiday,/A brighter home for the holidays./);
  assert.match(holiday,/Preview lights on my house/);
  assert.match(holiday,/Plan my holiday lighting/);
- assert.match(holiday,/prescotts-best-holiday-lighting-480\.mp4/);
- assert.match(holiday,/prescotts-best-holiday-lighting-720\.mp4/);
+ assert.match(holiday,/prescotts-best-holiday-lighting-custom-audio-480\.mp4/);
+ assert.match(holiday,/prescotts-best-holiday-lighting-custom-audio-720\.mp4/);
  const home=make('/');
  const design=make('/visual-design-preview');
  for(const [path,html] of [['/',home],['/visual-design-preview',design]]){

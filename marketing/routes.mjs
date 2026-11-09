@@ -145,7 +145,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [Budget explorer]('+site+'/estimate): Starting remodeling budget range; written quote follows project review',
    '- [Knowledge center]('+site+'/blog): Homeowner educational articles',
    '- [Holiday lighting concierge]('+site+'/holiday-lighting): Seasonal concept packages and service scope',
-   '- [Holiday lighting commercial]('+site+'/site-assets/brand-films/prescotts-best-holiday-lighting-720.mp4): Ten-second seasonal exterior lighting inspiration for Prescott homes',
+   '- [Holiday lighting commercial]('+site+'/site-assets/brand-films/prescotts-best-holiday-lighting-custom-audio-720.mp4): Ten-second seasonal exterior lighting inspiration for Prescott homes',
    '- [Holiday lighting design studio]('+site+'/holiday-lighting/design): Private on-device preview, optional consent-based AI image editing, and a contractor-reviewed concept worksheet',
    '- [Contact]('+site+'/schedule): Phone and email contact',
    '',

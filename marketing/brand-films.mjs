@@ -12,7 +12,7 @@ export const brandFilmData=Object.freeze({
   width:1280,height:720,duration:10,
  },
  holiday:{
-  slug:'prescotts-best-holiday-lighting',path:'/holiday-lighting',
+  slug:'prescotts-best-holiday-lighting',videoSlug:'prescotts-best-holiday-lighting-custom-audio',path:'/holiday-lighting',
   title:'Custom Holiday Lighting in Prescott — Prescott’s Best Construction',
   description:'Ten-second seasonal lighting commercial showing a Northern Arizona home at dusk illuminated with warm roofline and entryway lights, an inviting patio, and the Prescott’s Best Construction brand mark.',
   posterAlt:'Prescott-style home at twilight with warm white holiday lights along its roofline and entryway.',
