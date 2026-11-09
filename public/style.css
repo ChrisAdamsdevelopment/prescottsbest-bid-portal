@@ -59,3 +59,146 @@ footer{background:#e8eeec;padding:25px clamp(18px,5vw,68px);display:flex;justify
 @media(max-width:780px){.config-layout{grid-template-columns:1fr}.configurator{padding:18px}}
 .portal-badge{width:66px;height:57px;object-fit:contain;flex:none}
 @media(max-width:760px){.portal-badge{width:46px;height:43px}}
+
+/* Room 1 production proposal — private invite, owner-reviewed appearance. */
+body.pr-mode{background:#f8f7f2;color:#20362b;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.pr-mode .top{background:#203d30;border-bottom:1px solid #486251;color:#fff}
+.pr-mode .top .brand small{color:#d8c8a5}
+.pr-mode .private{color:#ecf1e9}
+.pr-mode .main{max-width:1280px;margin:auto;padding:0 0 96px}
+.pr-mode footer{background:#203d30;color:#dee7dc}
+.prell-room1{overflow:hidden}
+.prell-room1 *{box-sizing:border-box}
+.prell-room1 a{text-decoration:none}
+.prell-room1 [id]{scroll-margin-top:24px}
+.pr-eyebrow{font-size:11px;letter-spacing:.18em;font-weight:800;color:#8c6b3c}
+.pr-separator{display:inline-block;width:22px;height:1px;background:#b79c70;margin:0 15px 4px}
+.pr-kicker{font-size:12px;letter-spacing:.16em;color:#c8d3c7;font-weight:800}
+.pr-hero{background:radial-gradient(ellipse at 5% 0%,#355842 0%,transparent 58%),linear-gradient(125deg,#1b3528,#163324 70%,#2b4635);color:#fcf8ee;display:grid;grid-template-columns:1.45fr .75fr;align-items:center;gap:42px;padding:clamp(36px,6vw,74px) clamp(25px,5vw,72px);border-radius:0 0 26px 26px}
+.pr-hero .pr-eyebrow{color:#efd5a3}
+.pr-hero h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(42px,5.7vw,81px);line-height:1.02;letter-spacing:-.05em;margin:20px 0 24px;color:#fff}
+.pr-hero h1 em{font-weight:400;color:#f4dcb0}
+.pr-hero-copy>p{font-size:clamp(17px,1.8vw,21px);line-height:1.55;color:#e0ebe1;max-width:640px;margin:0 0 25px}
+.pr-hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+.pr-hero-pills span{font-size:12px;line-height:1.4;border:1px solid #8ba38d;border-radius:30px;padding:7px 13px;color:#f2eee2}
+.prell-room1 .pr-primary{display:inline-flex;justify-content:center;align-items:center;gap:16px;background:#eed7a6;color:#254034;padding:15px 23px;border-radius:12px;font-weight:800;font-size:15px;border:1px solid #eed7a6;min-height:51px}
+.prell-room1 .pr-primary:hover{background:#fff1d2;color:#20382b}
+.prell-room1 a:focus-visible,.prell-room1 button:focus-visible,.prell-room1 summary:focus-visible,.prell-room1 input:focus-visible,.prell-room1 textarea:focus-visible{outline:3px solid #ba8f4d;outline-offset:3px}
+.pr-investment{background:#f8f4e7;border-radius:18px;padding:clamp(24px,3vw,34px);color:#244332;box-shadow:0 22px 48px #0d251440}
+.pr-investment strong{display:block;font-size:clamp(40px,4.3vw,61px);letter-spacing:-.055em;font-weight:780;margin:16px 0 6px;color:#244332;font-variant-numeric:tabular-nums}
+.pr-investment>span{display:block;font-size:15px;line-height:1.5;color:#526454}
+.pr-price-rule{height:1px;background:#d4cbb4;margin:25px 0 18px}
+.pr-investment small{font-size:13px;font-weight:700;color:#55725a}
+.pr-design,.pr-plan,.pr-price-section,.pr-review{padding:clamp(32px,5.3vw,62px) clamp(18px,5vw,65px) 0}
+.pr-section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 25px}
+.pr-section-title h2{font-family:Georgia,serif;font-weight:500;font-size:clamp(28px,3.5vw,44px);letter-spacing:-.035em;color:#264331;line-height:1.14;margin:10px 0 0}
+.pr-section-count{flex-shrink:0;font-size:12px;color:#6c806f;font-weight:750;letter-spacing:.08em}
+.pr-media-frame{border-radius:19px;overflow:hidden;border:1px solid #dddcd0;background:#fff;box-shadow:0 14px 34px #28392a12}
+.pr-media-bar{display:flex;justify-content:space-between;align-items:center;padding:13px 19px;gap:14px;background:#e9eee7}
+.pr-toggle{display:flex;flex-wrap:wrap;gap:6px}
+.pr-toggle button{padding:10px 15px;min-height:45px;border-radius:10px;font-size:13px;font-weight:800;line-height:1.2;background:transparent;color:#244735;border:1px solid transparent;white-space:normal}
+.pr-toggle button[aria-pressed="true"]{background:#244c34;border-color:#244c34;color:#fff}
+.pr-media-bar>span{font-size:10px;letter-spacing:.1em;color:#57715a;font-weight:800;text-align:right}
+.pr-picture{background:#f2f1ed;display:grid;place-items:center;min-height:380px}
+.pr-picture img{width:100%;max-height:690px;display:block;object-fit:contain;object-position:center}
+.pr-photo-foot{padding:19px 25px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.pr-photo-foot strong{font-family:Georgia,serif;font-size:21px;color:#294331;display:block;font-weight:600;margin-bottom:6px}
+.pr-photo-foot span{display:block;color:#586b5b;font-size:14px;line-height:1.45}
+.pr-concept-tag{flex-shrink:0;color:#8a6b40!important;font-size:11px!important;letter-spacing:.08em;font-weight:800!important}
+.pr-visual-caption{font-size:12px;color:#677868;margin:10px 4px 0}
+.pr-features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.pr-features article{border:1px solid #deded2;background:#fff;border-radius:17px;padding:25px 21px;min-width:0}
+.pr-n{font-size:12px;color:#9c7a49;font-weight:900;letter-spacing:.13em}
+.pr-features h3{font-family:Georgia,serif;color:#294532;font-size:22px;line-height:1.15;font-weight:600;margin:17px 0 13px}
+.pr-features p{font-size:14px;color:#536b5a;line-height:1.65;margin:0}
+.pr-specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;background:#e6ece4;border-radius:15px;padding:20px;margin-top:16px}
+.pr-specs div{text-align:center;display:grid;gap:5px}
+.pr-specs strong{font-size:30px;font-weight:800;color:#254330;letter-spacing:-.035em;white-space:nowrap}
+.pr-specs strong span{font-size:16px}
+.pr-specs div>span{font-size:12px;line-height:1.4;color:#506b56}
+.pr-price-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+.pr-scope-card{border:1px solid #dadbd0;background:#fff;padding:28px 28px 25px;border-radius:18px}
+.pr-scope-card h3{font-family:Georgia,serif;font-weight:600;font-size:27px;color:#284532;margin:12px 0 22px}
+.pr-inclusions{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.pr-inclusions li{position:relative;padding-left:28px;line-height:1.55;color:#435b49;font-size:14px}
+.pr-inclusions li:before{content:"✓";position:absolute;left:0;font-weight:900;color:#338055}
+.pr-schedule{background:#f0f4ed;border-radius:12px;padding:19px;margin-top:24px;display:grid;gap:6px}
+.pr-schedule strong{color:#2a5036;font-size:15px}
+.pr-schedule span{color:#506858;font-size:14px;line-height:1.6}
+.pr-total-card{background:#233f2f;color:#fff;padding:34px 30px;border-radius:19px;box-shadow:0 15px 40px #233f2f26}
+.pr-total-card .pr-eyebrow{color:#e8ca93}
+.pr-total-amount{font-size:clamp(42px,5vw,64px);font-weight:750;letter-spacing:-.045em;display:block;margin:19px 0 9px;font-variant-numeric:tabular-nums}
+.pr-total-card>p{font-size:15px;line-height:1.6;color:#deecdf}
+.pr-total-divider{height:1px;background:#59715e;margin:25px 0 10px}
+.pr-total-row{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid #496753;font-size:14px;color:#dae7d9}
+.pr-total-row strong{font-variant-numeric:tabular-nums;white-space:nowrap;color:#fff}
+.pr-final-row{font-size:17px;font-weight:800;border:0;margin-bottom:19px}
+.pr-price-cta{width:100%}
+.pr-review{padding-bottom:58px}
+.pr-review-columns{display:grid;grid-template-columns:.8fr 1fr;gap:27px}
+.pr-review-copy{padding:12px 10px}
+.pr-review-copy>p{font-size:17px;line-height:1.7;color:#425b4a}
+.pr-review-copy .pr-legal{font-size:13px;color:#6e7e6e}
+.pr-review-form{background:#fff;border:1px solid #d7e0d6;border-radius:18px;padding:25px}
+.pr-review-form label{display:block;margin-bottom:10px;font-size:14px;color:#294635}
+.pr-review-form input[type=text],.pr-review-form textarea{width:100%;border-radius:9px;padding:15px;font-size:16px;background:#fff;border:1px solid #b3c9b9;min-height:51px}
+.pr-checkbox{display:flex!important;align-items:flex-start;gap:12px;margin:20px 0!important;line-height:1.5}
+.pr-checkbox input{width:20px;height:20px;flex:none;accent-color:#254f39;margin:2px 0 0}
+.pr-review-form .pr-primary{background:#294e37;color:#fff;border-color:#294e37;width:100%}
+.pr-review-form .pr-primary:hover{background:#1c3b2b;color:#fff}
+.pr-inline-status{min-height:20px;font-size:13px;line-height:1.4;color:#346a43;margin:13px 0}
+.pr-note{border-top:1px solid #d9e4d8;padding-top:15px}
+.pr-note summary{font-size:15px;color:#304c36;font-weight:800;cursor:pointer;padding:8px 0}
+.pr-note label{margin-top:12px}
+.pr-note button{background:#e5efe4;color:#254932;margin-top:12px;border:1px solid #a1c1a8;padding:11px 16px}
+.pr-mobile-dock{display:none}
+@media(max-width:920px){.pr-features{grid-template-columns:repeat(2,minmax(0,1fr))}.pr-hero{gap:22px}.pr-hero h1{font-size:clamp(40px,5.3vw,64px)}}
+@media(max-width:720px){
+ .pr-mode .main{padding:0 0 80px}
+ .pr-mode .top{padding:13px 15px}
+ .pr-mode .private{display:none}
+ .pr-hero{grid-template-columns:1fr;padding:34px 23px 27px;gap:22px;border-radius:0 0 20px 20px}
+ .pr-hero h1{font-size:clamp(39px,10vw,56px);margin:15px 0 18px}
+ .pr-hero-copy>p{font-size:16px;line-height:1.6}
+ .pr-hero-pills{gap:7px;margin-bottom:22px}
+ .pr-hero-pills span{font-size:11px}
+ .pr-investment{padding:22px 24px}
+ .pr-investment strong{font-size:42px;margin:9px 0 5px}
+ .pr-price-rule{margin:16px 0 10px}
+ .pr-design,.pr-plan,.pr-price-section,.pr-review{padding:30px 14px 0}
+ .pr-section-title{gap:6px;align-items:flex-start}
+ .pr-section-count{font-size:9px;align-self:center}
+ .pr-section-title h2{font-size:29px}
+ .pr-media-bar{padding:11px;display:grid;gap:9px}
+ .pr-toggle{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:6px}
+ .pr-toggle button{padding:10px 6px;font-size:12px}
+ .pr-media-bar>span{text-align:left;font-size:9px}
+ .pr-picture{min-height:230px}
+ .pr-picture img{max-height:480px;object-fit:contain}
+ .pr-photo-foot{display:grid;padding:15px;gap:9px}
+ .pr-photo-foot strong{font-size:20px}
+ .pr-photo-foot span{font-size:13px}
+ .pr-features{grid-template-columns:1fr 1fr;gap:10px}
+ .pr-features article{padding:17px 14px}
+ .pr-features h3{font-size:18px;margin:11px 0}
+ .pr-features p{font-size:13px;line-height:1.5}
+ .pr-specs{padding:15px;grid-template-columns:1fr 1fr;row-gap:17px}
+ .pr-specs strong{font-size:27px}
+ .pr-price-layout,.pr-review-columns{grid-template-columns:1fr;gap:13px}
+ .pr-scope-card{padding:22px 20px}
+ .pr-total-card{padding:26px 22px}
+ .pr-review{padding-bottom:40px}
+ .pr-review-form{padding:21px 18px}
+ .pr-mobile-dock{display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;bottom:0;left:0;right:0;z-index:40;background:#faf9f2;border-top:1px solid #c9d6c8;box-shadow:0 -6px 25px #243b2d22;padding:10px 16px max(10px,env(safe-area-inset-bottom))}
+ .pr-mobile-dock span{display:grid;gap:3px}
+ .pr-mobile-dock small{font-size:9px;letter-spacing:.12em;color:#506e55;font-weight:800}
+ .pr-mobile-dock strong{font-size:23px;color:#254330}
+ .pr-mobile-dock a{border-radius:10px;background:#214833;color:#fff;padding:13px 15px;font-weight:800;font-size:12px;white-space:nowrap}
+}
+@media(max-width:360px){.pr-features{grid-template-columns:1fr}.pr-section-count{display:none}}
+@media(prefers-reduced-motion:reduce){.prell-room1 *{scroll-behavior:auto!important;transition:none!important}}
+@media print{
+ .pr-mode .top,.pr-mobile-dock,.pr-toggle,.pr-review-form,.pr-price-cta{display:none!important}
+ .pr-mode .main{max-width:100%;padding:0}.pr-hero,.pr-total-card{print-color-adjust:exact}
+ .pr-design,.pr-plan,.pr-price-section{break-inside:avoid}
+}

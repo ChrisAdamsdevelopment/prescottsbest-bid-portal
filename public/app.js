@@ -15,7 +15,8 @@ function description(title,txt){const wrap=el('div');add(wrap,el('h3','',title),
 function inputText(place){const v=el('input');v.type='text';v.placeholder=place;v.maxLength=120;return v}
 function formStatus(parent,t,bad=false){const line=el('p',bad?'message':'status',t);parent.append(line);}
 function display(d){
- current=d;const p=d.proposal,root=el('div');
+ current=d;if(window.renderRoom1Proposal?.(d,api,refresh))return;
+ const p=d.proposal,root=el('div');
  const intro=el('div','hero'),left=el('div'),right=el('div','details');
  add(left,el('div','eyebrow','PROJECT PROPOSAL • '+p.revision),el('h1','',p.title),
     el('p','lead',p.location||'Prescott Valley and the Quad Cities'));
