@@ -67,7 +67,7 @@ export function brandFilmJsonLd(path,origin='https://prescottsbestremodeling.com
  return {
   '@context':'https://schema.org','@type':'VideoObject',
   '@id':root+film.path+'#brand-film',name:film.title,description:film.description,
-  uploadDate:'2026-11-08',duration:'PT10S',isFamilyFriendly:true,inLanguage:'en-US',
+  uploadDate:'2026-11-08T00:00:00-07:00',duration:'PT10S',isFamilyFriendly:true,inLanguage:'en-US',
   thumbnailUrl:[root+base+film.slug+'-poster.webp'],
   contentUrl:root+base+(film.videoSlug||film.slug)+'-720.mp4',
   url:root+(film.path==='/'?'/':film.path),

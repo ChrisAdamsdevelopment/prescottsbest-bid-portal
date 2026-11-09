@@ -41,7 +41,9 @@ test('each commercial is on its correct page with poster, controls, a text descr
   assert.equal(v.contentUrl,origin+'/site-assets/brand-films/'+slug+'-720.mp4');
   assert.equal(v.thumbnailUrl[0],origin+'/site-assets/brand-films/'+(id==='home'?'prescotts-best-home-remodeling':id==='holiday'?'prescotts-best-holiday-lighting':slug)+'-poster.webp');
   assert.equal(v.duration,'PT10S');
-  assert.equal(v.uploadDate,'2026-11-08');
+  assert.equal(v.uploadDate,'2026-11-08T00:00:00-07:00');
+  assert.match(v.uploadDate,/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/);
+  assert.ok(Number.isFinite(Date.parse(v.uploadDate)));
   assert.equal(v.name,brandFilmData[id].title);
   assert.ok(v.description.length>100);
   assert.ok(page.includes('og:image:alt'));
