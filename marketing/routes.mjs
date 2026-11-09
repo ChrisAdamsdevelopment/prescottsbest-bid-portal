@@ -132,7 +132,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Main pages',
    '- [November 2026 storm recovery]('+site+'/storm-flood-damage-prescott): Free Prescott-area flood, insurance and reconstruction guide',
    '- [Home]('+site+'/): Residential remodeling and service overview',
-   '- [Prescott home remodeling commercial]('+site+'/site-assets/brand-films/prescotts-best-home-remodeling-720.mp4): Ten-second introduction to the company, Northern Arizona homes and remodeled kitchen craftsmanship',
+   '- [Prescott home remodeling commercial]('+site+'/site-assets/brand-films/prescotts-best-home-remodeling-custom-audio-720.mp4): Ten-second introduction to the company, Northern Arizona homes and remodeled kitchen craftsmanship',
    '- [Visual design previews]('+site+'/visual-design-preview): See-it-before-we-build-it exploration, design examples, and optional home-specific concept requests',
    '- [Design Center commercial]('+site+'/site-assets/brand-films/prescotts-best-design-center-720.mp4): Ten-second illustration of exploring kitchen cabinetry, countertops and finishes',
    '- [About]('+site+'/about): Company and local service-area introduction',

@@ -6,7 +6,7 @@ import {brandFilmData,brandFilmForPath,brandFilmJsonLd,brandFilmAssets} from '..
 
 const origin='https://prescottsbestremodeling.com';
 const cases=[
- ['/', 'home','prescotts-best-home-remodeling'],
+ ['/', 'home','prescotts-best-home-remodeling-custom-audio'],
  ['/holiday-lighting','holiday','prescotts-best-holiday-lighting'],
  ['/visual-design-preview','design','prescotts-best-design-center']
 ];
@@ -22,7 +22,7 @@ test('each commercial is on its correct page with poster, controls, a text descr
   const page=render(path);
   assert.equal((page.match(/data-brand-film="/g)||[]).length,1,path);
   assert.match(page,new RegExp('data-brand-film="'+id+'"'));
-  assert.ok(page.includes('/site-assets/brand-films/'+slug+'-poster.webp'));
+  assert.ok(page.includes('/site-assets/brand-films/'+(id==='home'?'prescotts-best-home-remodeling':slug)+'-poster.webp'));
   assert.ok(page.includes('/site-assets/brand-films/'+slug+'-720.mp4'));
   assert.ok(page.includes('/site-assets/brand-films/'+slug+'-480.mp4'));
   assert.match(page,/<video[^>]+data-brand-video controls muted playsinline loop preload="none"/);
@@ -33,17 +33,18 @@ test('each commercial is on its correct page with poster, controls, a text descr
   assert.match(page,/class="brand-film-description"/);
   assert.match(page,/href="\/remodeling-preview\/schedule/);
   assert.ok(brandFilmForPath(path));
+  if(id==='home')assert.doesNotMatch(page,/src="[^"]*prescotts-best-home-remodeling-(?:480|720)\.mp4"/);
   const metadata=schema(page).filter(x=>x['@type']==='VideoObject');
   assert.equal(metadata.length,1,path+' VideoObject');
   const v=metadata[0];
   assert.equal(v.contentUrl,origin+'/site-assets/brand-films/'+slug+'-720.mp4');
-  assert.equal(v.thumbnailUrl[0],origin+'/site-assets/brand-films/'+slug+'-poster.webp');
+  assert.equal(v.thumbnailUrl[0],origin+'/site-assets/brand-films/'+(id==='home'?'prescotts-best-home-remodeling':slug)+'-poster.webp');
   assert.equal(v.duration,'PT10S');
   assert.equal(v.uploadDate,'2026-11-08');
   assert.equal(v.name,brandFilmData[id].title);
   assert.ok(v.description.length>100);
   assert.ok(page.includes('og:image:alt'));
-  assert.ok(page.includes(slug+'-poster.webp'));
+  assert.ok(page.includes((id==='home'?'prescotts-best-home-remodeling':slug)+'-poster.webp'));
  }
  assert.ok(render('/').includes('commercial-hero'));
  assert.ok(render('/holiday-lighting').includes('A brighter home for the holidays.'));
