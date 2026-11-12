@@ -58,7 +58,17 @@ try {
     if (-not $SkipInit) {
         # Executable and server path contain no spaces in this fixed installation.
         # This value is a local command only, never an API key.
-        $mcpCommand = $python + ' ' + $server
+        # The tunnel-client parses --mcp-command using Unix-style shell word rules.
+        # Literal Windows backslashes get consumed as escape characters and corrupt
+        # paths (D:\\foo becomes D:foo). Win32 Python accepts forward slashes.
+        $mcpPython = $python.Replace('\', '/')
+        $mcpServer = $server.Replace('\', '/')
+        $mcpCommand = $mcpPython + ' ' + $mcpServer
+        if ($mcpCommand.Contains('\') -or
+            -not (Test-Path -LiteralPath $mcpPython -PathType Leaf) -or
+            -not (Test-Path -LiteralPath $mcpServer -PathType Leaf)) {
+            throw 'Windows MCP executable/script path verification failed.'
+        }
         Write-Host 'Initializing a local stdio MCP tunnel profile...'
         & $exe init --sample sample_mcp_stdio_local --profile $Profile --tunnel-id $TunnelId --mcp-command $mcpCommand
         if ($LASTEXITCODE -ne 0) {
