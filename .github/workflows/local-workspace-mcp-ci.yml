@@ -41,12 +41,24 @@ jobs:
     timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install actual MCP SDK for Windows import smoke test
+        run: python -m pip install -r integrations/local-workspace-mcp/requirements.txt
+      - name: Run bootstrap's MCP import test in Windows PowerShell
+        shell: pwsh
+        run: |
+          & ./integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1 `
+            -PythonExe (Get-Command python.exe).Source `
+            -GatewayDir (Resolve-Path "integrations/local-workspace-mcp").Path
       - name: Parse Windows installers without running them
         shell: pwsh
         run: |
           $scripts = @(
             "integrations/local-workspace-mcp/scripts/BOOTSTRAP_WINDOWS.ps1",
-            "integrations/local-workspace-mcp/scripts/INSTALL_TO_D.ps1"
+            "integrations/local-workspace-mcp/scripts/INSTALL_TO_D.ps1",
+            "integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1"
           )
           foreach ($script in $scripts) {
             $tokens = $null
