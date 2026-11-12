@@ -94,6 +94,61 @@ The script securely prompts for a tunnel ID and restricted runtime key, initiali
 
 This pilot offers restricted project inspection and local-human-approved source proposals; it is not unrestricted PowerShell or remote desktop. Successful installation is not proof of remote access; verify a real ChatGPT MCP tool call.
 
+## Alternative transport: authenticated ngrok HTTP (Forge-style)
+
+Forge-AI used ngrok -> a FastMCP Streamable HTTP server on port 8000. This
+pilot now also supports Streamable HTTP at local `127.0.0.1:8766/mcp`,
+without changing the existing `stdio` transport or Render's customer portal.
+
+1. Update `PBC_MCP_SOURCE` to the current `feature/private-local-mcp-bridge`
+   branch with `git -C <source> pull --ff-only`.
+2. Install the official ngrok Windows CLI if needed:
+   https://ngrok.com/download/windows ; `winget install ngrok -s msstore`.
+3. In the ngrok dashboard, find your assigned HTTPS dev domain and configure
+   your ngrok CLI account locally using the authtoken instructions. **Never**
+   place the ngrok authtoken in Render, a GitHub repo, or chat.
+4. On TRIPLE7, run the private startup script with YOUR actual dev domain:
+
+    $root = 'D:\GrowthEngineeringVenture\15_INTEGRATION_WORKBENCH_20261111'
+    $run = "$root\PBC_MCP_SOURCE\integrations\local-workspace-mcp\scripts\START_NGROK_MCP.ps1"
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $run -PublicUrl 'https://YOUR-ASSIGNED-NGROK-DOMAIN'
+
+   The script requires the existing MCP Python virtualenv, starts a localhost-
+   only server, checks that anonymous requests receive HTTP 401, then starts
+   ngrok on the assigned HTTPS domain. Keep that terminal open; Ctrl+C closes
+   the ngrok process and local service. No incoming Windows firewall rule.
+
+5. When privately adding the server as a custom MCP plugin in ChatGPT Work,
+   enter `https://YOUR-ASSIGNED-NGROK-DOMAIN/mcp`. Choose **API-key / Bearer**
+   authentication *if your eligible ChatGPT workspace's connector setup
+   supports it*. To view the secret ONLY on the LOCAL Windows terminal, rerun
+   the launcher with `-RevealConnectionToken` and enter the returned value
+   directly in the ChatGPT secure connection form. Never paste it into chat.
+
+   If the plugin setup does not offer fixed API-key authentication, do not
+   switch to `No authentication` or expose a public unauthenticated gateway.
+   Use the already installed OpenAI Secure MCP Tunnel, or add an actual
+   OAuth 2.1 authorization server before enabling the public endpoint.
+
+6. Test real MCP tool discovery and `workspace_status` from ChatGPT. Only
+   then is the remote connection verified; a local CI test does not prove
+   the user's ChatGPT workspace has permission to add/use that custom plugin.
+
+**Security:** Requests are checked for an exact HTTPS forwarding hostname,
+a high-entropy bearer secret, duplicate HTTP Host/auth headers, DNS rebinding,
+and payload size. Browser Origin requests are rejected. The bearer token is
+DPAPI-encrypted for the local Windows user, outside Git. The server cannot
+be directly reached off the loopback interface. A publicly reachable ngrok
+endpoint can still be scanned/attacked; keep it off when not in use. Pilot tools
+remain narrowly scoped and require separate on-device approval for edits.
+ngrok may log traffic in its request inspector; use synthetic project data
+until you have confirmed that your privacy and retention settings are suitable.
+
+No OpenAI model inference API is called by this gateway or its ngrok launcher.
+Plugin availability, ChatGPT subscription usage, and ngrok traffic limits
+are separate product policies. Never configure the ngrok credentials in
+the public Render remodeling website environment.
+
 ## Human approval for proposed edits
 
 A remote MCP tool call can only queue a proposal in the local MCP_APPROVAL_INBOX directory. The owner opens the proposal and may run local_approve.py from an **interactive Windows terminal**, explicitly typing APPLY plus the proposal ID. The script verifies the old source SHA before applying it and writes a basic audit record.
