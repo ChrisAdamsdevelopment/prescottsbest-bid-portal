@@ -185,7 +185,9 @@ try {
     Write-Host 'Local unauthorized-request test PASSED (401).'
     Write-Host ('Starting HTTPS ngrok endpoint: ' + $PublicUrl + '/mcp')
     Write-Host 'Keep this window open; Ctrl+C stops the tunnel and HTTP server.'
-    & $ngrokExe http $port --url $PublicUrl
+    # ngrok CLI v3 uses --domain with the hostname (no URL scheme).
+    # Using --url here prints help and exits 1 without opening the tunnel.
+    & $ngrokExe http $port --domain $hostName
     if ($LASTEXITCODE -ne 0) {
         throw "ngrok exited with code $LASTEXITCODE. Check ngrok authentication and domain ownership."
     }
