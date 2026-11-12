@@ -85,6 +85,17 @@ jobs:
           try { & $launcher -PublicUrl 'nintendo-corncob-animal.ngrok-free.dev' -NgrokExe $bad -CheckOnly } catch { $didReject = $true }
           if (-not $didReject) { throw 'Broken executable was accepted' }
           Write-Host "Windows ngrok launcher preflight PASS"
+      - name: Check ngrok CLI v3 invocation contract
+        shell: pwsh
+        run: |
+          $script = Get-Content -LiteralPath 'integrations/local-workspace-mcp/scripts/START_NGROK_MCP.ps1' -Raw
+          if ($script -notmatch '\& \$ngrokExe http \$port --domain \$hostName') {
+            throw 'ngrok must start using --domain and the bare hostname'
+          }
+          if ($script -match '\& \$ngrokExe http \$port --url') {
+            throw 'ngrok v3 does not support --url for ngrok http'
+          }
+          Write-Host 'ngrok CLI v3 invocation PASS'
       - name: Parse Windows installers without running them
         shell: pwsh
         run: |
