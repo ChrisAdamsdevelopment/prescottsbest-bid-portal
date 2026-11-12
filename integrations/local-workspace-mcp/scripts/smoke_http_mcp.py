@@ -59,8 +59,17 @@ async def test_real_client() -> None:
             assert expected <= names, f"Tool discovery missing: {expected - names}"
             status = await client.call_tool("workspace_status", {})
             assert not status.is_error, "workspace_status failed"
-            assert status.structured_content, "Expected structured status output"
-            assert status.structured_content.get("branch") in ("master", "main"), status.structured_content
+            # MCP tool results can use structuredContent or text content,
+            # depending on the SDK / negotiated protocol revision.
+            payload = status.structured_content
+            if not payload:
+                import json
+                text_blocks = [block.text for block in status.content
+                               if hasattr(block, "text")]
+                assert text_blocks, "Expected JSON text or structured result"
+                payload = json.loads(text_blocks[0])
+            assert isinstance(payload, dict), "Expected Git status object"
+            assert payload.get("branch") in ("master", "main"), payload
 
 
 def main() -> int:
