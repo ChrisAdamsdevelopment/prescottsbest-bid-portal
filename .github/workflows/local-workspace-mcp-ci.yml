@@ -60,6 +60,31 @@ jobs:
       - name: Verify actual Windows localhost MCP HTTP connection
         shell: pwsh
         run: python integrations/local-workspace-mcp/scripts/smoke_http_mcp.py
+      - name: Verify bare ngrok domain and broken-executable detection
+        shell: pwsh
+        run: |
+          $mock = Join-Path $env:RUNNER_TEMP 'ngrok-mock.cmd'
+          @'
+          @echo off
+          if /I "%~1"=="version" (
+            echo ngrok version 3.99.0
+            exit /b 0
+          )
+          exit /b 9
+          '@ | Set-Content -LiteralPath $mock -Encoding ASCII
+          $launcher = './integrations/local-workspace-mcp/scripts/START_NGROK_MCP.ps1'
+          $result = (& $launcher -PublicUrl 'nintendo-corncob-animal.ngrok-free.dev' -NgrokExe $mock -CheckOnly 2>&1 | Out-String)
+          if ($result -notmatch 'NGROK_CLI_AND_DOMAIN_PASS: https://nintendo-corncob-animal.ngrok-free.dev/mcp') {
+            throw "Bare domain normalization failed"
+          }
+          $bad = Join-Path $env:RUNNER_TEMP 'broken-ngrok.cmd'
+          '@echo off
+          echo Cannot find underlying ngrok.exe
+          exit /b 1' | Set-Content -LiteralPath $bad -Encoding ASCII
+          $didReject = $false
+          try { & $launcher -PublicUrl 'nintendo-corncob-animal.ngrok-free.dev' -NgrokExe $bad -CheckOnly } catch { $didReject = $true }
+          if (-not $didReject) { throw 'Broken executable was accepted' }
+          Write-Host "Windows ngrok launcher preflight PASS"
       - name: Parse Windows installers without running them
         shell: pwsh
         run: |
