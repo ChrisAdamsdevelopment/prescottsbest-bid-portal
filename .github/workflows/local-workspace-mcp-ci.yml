@@ -84,6 +84,9 @@ jobs:
           $didReject = $false
           try { & $launcher -PublicUrl 'nintendo-corncob-animal.ngrok-free.dev' -NgrokExe $bad -CheckOnly } catch { $didReject = $true }
           if (-not $didReject) { throw 'Broken executable was accepted' }
+          # The intentionally broken mock leaves native LASTEXITCODE=1 even after
+          # PowerShell catches the expected failure. Clear it for step success.
+          $global:LASTEXITCODE = 0
           Write-Host "Windows ngrok launcher preflight PASS"
       - name: Check ngrok CLI v3 invocation contract
         shell: pwsh
