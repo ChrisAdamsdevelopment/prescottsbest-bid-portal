@@ -66,7 +66,7 @@ if ($hostName -notmatch '^[a-z0-9][a-z0-9.-]+[a-z0-9]$' -or
     throw 'This pilot only accepts ngrok-hosted domains, not the remodeling customer domain.'
 }
 if ($CheckOnly) {
-    Write-Host ('NGROK_CLI_AND_DOMAIN_PASS: ' + $PublicUrl + '/mcp')
+    Write-Output ('NGROK_CLI_AND_DOMAIN_PASS: ' + $PublicUrl + '/mcp')
     Write-Host 'No MCP server, workspace checks, or public tunnel were started.'
     return
 }
