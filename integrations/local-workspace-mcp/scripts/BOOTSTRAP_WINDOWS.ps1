@@ -75,10 +75,13 @@ if (-not $SkipGateway) {
 $python = Join-Path $gateway '.venv\Scripts\python.exe'
 if (Test-Path -LiteralPath $python) {
     Write-Host 'Verifying installed MCP Python SDK...'
-    & $python -c 'from mcp.server.mcpserver import MCPServer; print("MCP SDK v2 import verified")'
+    # Avoid embedded Python string quotes: Windows PowerShell 5.1 strips them when forwarding -c arguments.
+    & $python -c 'from mcp.server.mcpserver import MCPServer'
     Assert-Success 'MCP import'
-    & $python -c 'import sys; sys.path.insert(0, sys.argv[1]); import server; print("MeasuredField MCP server import verified")' $gateway
+    Write-Host 'MCP SDK v2 import verified'
+    & $python -c 'import sys; sys.path.insert(0, sys.argv[1]); import server' $gateway
     Assert-Success 'MeasuredField server import'
+    Write-Host 'MeasuredField MCP server import verified'
     Write-Host 'Running synthetic source security tests...'
     & python.exe -B -m unittest discover -s (Join-Path $projectFolder 'tests') -p 'test_core.py' -v
     Assert-Success 'Gateway unit tests'
