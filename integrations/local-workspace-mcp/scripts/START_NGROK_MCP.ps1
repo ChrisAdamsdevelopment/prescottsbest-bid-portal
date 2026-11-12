@@ -49,14 +49,6 @@ function Find-WorkingNgrok([string]$ExplicitPath) {
 }
 $ngrokExe = Find-WorkingNgrok $NgrokExe
 Write-Host ('Verified working ngrok executable: ' + $ngrokExe)
-foreach ($item in @($python, $httpScript)) {
-    if (-not (Test-Path -LiteralPath $item -PathType Leaf)) {
-        throw 'Required MCP executable or HTTP server missing. Update PBC_MCP_SOURCE.'
-    }
-}
-if (-not (Test-Path -LiteralPath (Join-Path $repository '.git'))) {
-    throw 'Canonical MeasuredField Git checkout missing.'
-}
 # Accept either the ngrok hostname or its full HTTPS URL.
 $PublicUrl = $PublicUrl.Trim()
 if ($PublicUrl -notmatch '^[a-zA-Z][a-zA-Z0-9+.-]*://') {
@@ -74,8 +66,8 @@ if ($hostName -notmatch '^[a-z0-9][a-z0-9.-]+[a-z0-9]$' -or
     throw 'This pilot only accepts ngrok-hosted domains, not the remodeling customer domain.'
 }
 if ($CheckOnly) {
-    Write-Host ('NGROK_MCP_PREFLIGHT_PASS: ' + $PublicUrl + '/mcp')
-    Write-Host 'No HTTP server or public tunnel was started.'
+    Write-Host ('NGROK_CLI_AND_DOMAIN_PASS: ' + $PublicUrl + '/mcp')
+    Write-Host 'No MCP server, workspace checks, or public tunnel were started.'
     return
 }
 if ($ConfigureNgrokAuth) {
@@ -107,6 +99,14 @@ if ($ConfigureNgrokAuth) {
     Write-Host 'NGROK_AUTH_CONFIGURED: local account token saved by official ngrok CLI.'
     Write-Host 'No MCP server or public tunnel was started.'
     return
+}
+foreach ($item in @($python, $httpScript)) {
+    if (-not (Test-Path -LiteralPath $item -PathType Leaf)) {
+        throw 'Required MCP executable or HTTP server missing. Update PBC_MCP_SOURCE.'
+    }
+}
+if (-not (Test-Path -LiteralPath (Join-Path $repository '.git'))) {
+    throw 'Canonical MeasuredField Git checkout missing.'
 }
 if (Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue) {
     throw "Port $port is occupied; refusing to replace an existing local server."
