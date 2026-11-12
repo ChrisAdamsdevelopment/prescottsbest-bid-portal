@@ -27,10 +27,36 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Install the official MCP SDK
         run: python -m pip install -r requirements.txt
-      - name: Verify server advertises supported tools
+      - name: Verify server import on MCP SDK v2
         run: |
           python - <<'PY'
+          from mcp.server.mcpserver import MCPServer
           import server
           assert server.mcp is not None
           print("MCPServer import succeeded; stdio server not started")
           PY
+
+  windows-bootstrap-syntax:
+    runs-on: windows-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse Windows installers without running them
+        shell: pwsh
+        run: |
+          $scripts = @(
+            "integrations/local-workspace-mcp/scripts/BOOTSTRAP_WINDOWS.ps1",
+            "integrations/local-workspace-mcp/scripts/INSTALL_TO_D.ps1"
+          )
+          foreach ($script in $scripts) {
+            $tokens = $null
+            $errors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile(
+              (Resolve-Path $script), [ref]$tokens, [ref]$errors
+            )
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error $_.Message }
+              throw "PowerShell parse errors in $script"
+            }
+            Write-Host "PowerShell parser verified $script"
+          }
