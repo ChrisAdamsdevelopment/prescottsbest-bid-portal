@@ -2,6 +2,7 @@
 import json
 import os
 import sqlite3
+from contextlib import closing
 import subprocess
 import sys
 import tempfile
@@ -94,7 +95,9 @@ class WorkspaceGatewayTests(unittest.TestCase):
 
     def test_agent_board_exposes_only_claim_summary(self):
         board = Path(self.temp.name) / "board.sqlite3"
-        with sqlite3.connect(board) as db:
+        # sqlite3.Connection.__exit__ commits but does NOT close the handle.
+        # Windows locks the file until close(), breaking TemporaryDirectory cleanup.
+        with closing(sqlite3.connect(board)) as db, db:
             db.execute("CREATE TABLE stories(id TEXT,title TEXT,status TEXT,claimed_by TEXT,priority INTEGER)")
             db.execute("INSERT INTO stories VALUES(?,?,?,?,?)",
                        ("MF-012", "Remote connector", "ready", None, 1))
