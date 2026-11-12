@@ -1,0 +1,123 @@
+name: Private MCP gateway pilot
+on:
+  pull_request:
+    paths:
+      - "integrations/local-workspace-mcp/**"
+      - ".github/workflows/local-workspace-mcp-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: integrations/local-workspace-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify source syntax
+        run: python -m py_compile core.py server.py http_server.py local_approve.py tests/test_core.py tests/test_http_gateway.py
+      - name: Install the official MCP SDK
+        run: python -m pip install -r requirements.txt
+      - name: Run isolated security tests
+        run: python -m unittest discover -s tests -v
+      - name: Verify actual localhost HTTP MCP connection
+        run: python scripts/smoke_http_mcp.py
+      - name: Verify server import on MCP SDK v2
+        run: |
+          python - <<'PY'
+          from mcp.server.mcpserver import MCPServer
+          import server
+          assert server.mcp is not None
+          print("MCPServer import succeeded; stdio server not started")
+          PY
+
+  windows-bootstrap-syntax:
+    runs-on: windows-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install actual MCP SDK for Windows import smoke test
+        run: python -m pip install -r integrations/local-workspace-mcp/requirements.txt
+      - name: Run bootstrap's MCP import test in Windows PowerShell
+        shell: pwsh
+        run: |
+          & ./integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1 `
+            -PythonExe (Get-Command python.exe).Source `
+            -GatewayDir (Resolve-Path "integrations/local-workspace-mcp").Path
+      - name: Run all gateway tests on Windows (verify SQLite handle cleanup)
+        shell: pwsh
+        run: python -m unittest discover -s integrations/local-workspace-mcp/tests -v
+      - name: Verify actual Windows localhost MCP HTTP connection
+        shell: pwsh
+        run: python integrations/local-workspace-mcp/scripts/smoke_http_mcp.py
+      - name: Verify bare ngrok domain and broken-executable detection
+        shell: pwsh
+        run: |
+          $mock = Join-Path $env:RUNNER_TEMP 'ngrok-mock.cmd'
+          @'
+          @echo off
+          if /I "%~1"=="version" (
+            echo ngrok version 3.99.0
+            exit /b 0
+          )
+          exit /b 9
+          '@ | Set-Content -LiteralPath $mock -Encoding ASCII
+          $launcher = './integrations/local-workspace-mcp/scripts/START_NGROK_MCP.ps1'
+          $result = (& $launcher -PublicUrl 'nintendo-corncob-animal.ngrok-free.dev' -NgrokExe $mock -CheckOnly 2>&1 | Out-String)
+          if ($result -notmatch 'NGROK_CLI_AND_DOMAIN_PASS: https://nintendo-corncob-animal.ngrok-free.dev/mcp') {
+            throw "Bare domain normalization failed"
+          }
+          $bad = Join-Path $env:RUNNER_TEMP 'broken-ngrok.cmd'
+          '@echo off
+          echo Cannot find underlying ngrok.exe
+          exit /b 1' | Set-Content -LiteralPath $bad -Encoding ASCII
+          $didReject = $false
+          try { & $launcher -PublicUrl 'nintendo-corncob-animal.ngrok-free.dev' -NgrokExe $bad -CheckOnly } catch { $didReject = $true }
+          if (-not $didReject) { throw 'Broken executable was accepted' }
+          # The intentionally broken mock leaves native LASTEXITCODE=1 even after
+          # PowerShell catches the expected failure. Clear it for step success.
+          $global:LASTEXITCODE = 0
+          Write-Host "Windows ngrok launcher preflight PASS"
+      - name: Check ngrok CLI v3 invocation contract
+        shell: pwsh
+        run: |
+          $script = Get-Content -LiteralPath 'integrations/local-workspace-mcp/scripts/START_NGROK_MCP.ps1' -Raw
+          if ($script -notmatch '\& \$ngrokExe http \$port --domain \$hostName') {
+            throw 'ngrok must start using --domain and the bare hostname'
+          }
+          if ($script -match '\& \$ngrokExe http \$port --url') {
+            throw 'ngrok v3 does not support --url for ngrok http'
+          }
+          Write-Host 'ngrok CLI v3 invocation PASS'
+      - name: Parse Windows installers without running them
+        shell: pwsh
+        run: |
+          $scripts = @(
+            "integrations/local-workspace-mcp/scripts/BOOTSTRAP_WINDOWS.ps1",
+            "integrations/local-workspace-mcp/scripts/INSTALL_TO_D.ps1",
+            "integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1",
+            "integrations/local-workspace-mcp/scripts/CONNECT_TUNNEL_WINDOWS.ps1",
+            "integrations/local-workspace-mcp/scripts/START_NGROK_MCP.ps1"
+          )
+          foreach ($script in $scripts) {
+            $tokens = $null
+            $errors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile(
+              (Resolve-Path $script), [ref]$tokens, [ref]$errors
+            )
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error $_.Message }
+              throw "PowerShell parse errors in $script"
+            }
+            Write-Host "PowerShell parser verified $script"
+          }
