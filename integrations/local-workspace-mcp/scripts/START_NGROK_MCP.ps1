@@ -4,6 +4,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$PublicUrl,
+    [string]$NgrokExe,
+    [switch]$CheckOnly,
     [switch]$RevealConnectionToken
 )
 $ErrorActionPreference = 'Stop'
@@ -12,12 +14,40 @@ $source = Join-Path $base 'PBC_MCP_SOURCE\integrations\local-workspace-mcp'
 $python = Join-Path $base 'LOCAL_WORKSPACE_MCP_GATEWAY\.venv\Scripts\python.exe'
 $httpScript = Join-Path $source 'http_server.py'
 $repository = Join-Path $base 'mf_platform'
-$ngrokExe = (Get-Command ngrok.exe -ErrorAction SilentlyContinue).Source
 $port = 8766
 
-if (-not $ngrokExe) {
-    throw 'ngrok CLI not installed. Use: winget install ngrok -s msstore'
+# A stale Chocolatey shim can remain on PATH after its actual ngrok.exe is
+# deleted. Do not assume that Get-Command implies a working ngrok installation.
+function Find-WorkingNgrok([string]$ExplicitPath) {
+    $candidates = @()
+    if ($ExplicitPath) {
+        if (-not [IO.Path]::IsPathRooted($ExplicitPath)) {
+            throw 'NgrokExe must be an absolute path to the ngrok.exe file.'
+        }
+        $candidates = @($ExplicitPath)
+    } else {
+        $candidates = @(Get-Command ngrok.exe -All -ErrorAction SilentlyContinue |
+            Where-Object { $_.CommandType -eq 'Application' } |
+            Select-Object -ExpandProperty Source -Unique)
+    }
+    foreach ($candidate in $candidates) {
+        if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
+        try {
+            $versionText = (& $candidate version 2>&1 | Out-String)
+            if ($LASTEXITCODE -eq 0 -and $versionText -match '(?i)ngrok|version\s*[0-9]') {
+                return $candidate
+            }
+        } catch {
+            # Ignore missing/broken package shims and try the next candidate.
+        }
+    }
+    throw ('No working ngrok.exe found. Install the official app with ' +
+           'winget install ngrok -s msstore, reopen PowerShell, or provide ' +
+           '-NgrokExe C:\full\path\to\ngrok.exe. ' +
+           'A stale Chocolatey shim must not be selected.')
 }
+$ngrokExe = Find-WorkingNgrok $NgrokExe
+Write-Host ('Verified working ngrok executable: ' + $ngrokExe)
 foreach ($item in @($python, $httpScript)) {
     if (-not (Test-Path -LiteralPath $item -PathType Leaf)) {
         throw 'Required MCP executable or HTTP server missing. Update PBC_MCP_SOURCE.'
@@ -25,6 +55,11 @@ foreach ($item in @($python, $httpScript)) {
 }
 if (-not (Test-Path -LiteralPath (Join-Path $repository '.git'))) {
     throw 'Canonical MeasuredField Git checkout missing.'
+}
+# Accept either the ngrok hostname or its full HTTPS URL.
+$PublicUrl = $PublicUrl.Trim()
+if ($PublicUrl -notmatch '^[a-zA-Z][a-zA-Z0-9+.-]*://') {
+    $PublicUrl = 'https://' + $PublicUrl
 }
 $uri = $null
 if (-not [Uri]::TryCreate($PublicUrl, [UriKind]::Absolute, [ref]$uri) -or
@@ -36,6 +71,11 @@ $hostName = $uri.DnsSafeHost.ToLowerInvariant()
 if ($hostName -notmatch '^[a-z0-9][a-z0-9.-]+[a-z0-9]$' -or
     $hostName.Contains('..') -or $hostName -notmatch '\.ngrok(-free)?\.(app|dev)$') {
     throw 'This pilot only accepts ngrok-hosted domains, not the remodeling customer domain.'
+}
+if ($CheckOnly) {
+    Write-Host ('NGROK_MCP_PREFLIGHT_PASS: ' + $PublicUrl + '/mcp')
+    Write-Host 'No HTTP server or public tunnel was started.'
+    return
 }
 if (Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue) {
     throw "Port $port is occupied; refusing to replace an existing local server."
