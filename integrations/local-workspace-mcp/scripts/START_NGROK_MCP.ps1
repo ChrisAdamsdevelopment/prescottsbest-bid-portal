@@ -6,6 +6,7 @@ param(
     [Parameter(Mandatory=$true)][string]$PublicUrl,
     [string]$NgrokExe,
     [switch]$CheckOnly,
+    [switch]$ConfigureNgrokAuth,
     [switch]$RevealConnectionToken
 )
 $ErrorActionPreference = 'Stop'
@@ -34,7 +35,7 @@ function Find-WorkingNgrok([string]$ExplicitPath) {
         if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) { continue }
         try {
             $versionText = (& $candidate version 2>&1 | Out-String)
-            if ($LASTEXITCODE -eq 0 -and $versionText -match '(?i)ngrok|version\s*[0-9]') {
+            if ($LASTEXITCODE -eq 0 -and $versionText -match '(?i)\bngrok\s+(?:version\s+)?v?[0-9]+\.[0-9]+') {
                 return $candidate
             }
         } catch {
@@ -75,6 +76,36 @@ if ($hostName -notmatch '^[a-z0-9][a-z0-9.-]+[a-z0-9]$' -or
 if ($CheckOnly) {
     Write-Host ('NGROK_MCP_PREFLIGHT_PASS: ' + $PublicUrl + '/mcp')
     Write-Host 'No HTTP server or public tunnel was started.'
+    return
+}
+if ($ConfigureNgrokAuth) {
+    # The official ngrok CLI persists its authtoken in the current user's
+    # ngrok configuration. Prompt without echo; do not put it in shell history.
+    # The CLI needs it as a transient process argument while saving locally.
+    $secret = Read-Host 'Enter ngrok account authtoken (hidden)' -AsSecureString
+    if (-not $secret -or $secret.Length -lt 12) {
+        throw 'No valid ngrok authtoken supplied.'
+    }
+    $ptr = [IntPtr]::Zero
+    $plain = $null
+    try {
+        $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret)
+        $plain = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr)
+        & $ngrokExe config add-authtoken $plain
+        if ($LASTEXITCODE -ne 0) {
+            throw 'ngrok rejected the authtoken or could not save its local configuration.'
+        }
+    } finally {
+        $plain = $null
+        if ($ptr -ne [IntPtr]::Zero) {
+            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr)
+        }
+        if ($secret) { $secret.Dispose() }
+    }
+    & $ngrokExe config check
+    if ($LASTEXITCODE -ne 0) { throw 'ngrok configuration validation failed.' }
+    Write-Host 'NGROK_AUTH_CONFIGURED: local account token saved by official ngrok CLI.'
+    Write-Host 'No MCP server or public tunnel was started.'
     return
 }
 if (Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue) {
