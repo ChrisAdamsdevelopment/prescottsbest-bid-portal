@@ -52,6 +52,9 @@ jobs:
           & ./integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1 `
             -PythonExe (Get-Command python.exe).Source `
             -GatewayDir (Resolve-Path "integrations/local-workspace-mcp").Path
+      - name: Run all gateway tests on Windows (verify SQLite handle cleanup)
+        shell: pwsh
+        run: python -m unittest discover -s integrations/local-workspace-mcp/tests -v
       - name: Parse Windows installers without running them
         shell: pwsh
         run: |
