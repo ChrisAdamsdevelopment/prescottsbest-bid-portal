@@ -61,7 +61,8 @@ jobs:
           $scripts = @(
             "integrations/local-workspace-mcp/scripts/BOOTSTRAP_WINDOWS.ps1",
             "integrations/local-workspace-mcp/scripts/INSTALL_TO_D.ps1",
-            "integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1"
+            "integrations/local-workspace-mcp/scripts/VERIFY_WINDOWS_GATEWAY.ps1",
+            "integrations/local-workspace-mcp/scripts/CONNECT_TUNNEL_WINDOWS.ps1"
           )
           foreach ($script in $scripts) {
             $tokens = $null
