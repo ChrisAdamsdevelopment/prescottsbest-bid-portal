@@ -77,6 +77,23 @@ Use the [official OpenAI guide](https://developers.openai.com/api/docs/guides/se
 
 The Platform organization and ChatGPT workspace permissions are separate. This code does not create a tunnel, register OAuth credentials, publish a plugin or connect any account.
 
+## Connect ChatGPT after the gateway is installed on D:
+
+1. In https://platform.openai.com/settings/organization/tunnels create an MCP tunnel associated with the intended ChatGPT workspace. Keep its tunnel ID.
+2. In https://platform.openai.com/settings/organization/api-keys create a restricted runtime API key with Tunnels Read + Use permission. Never paste the key into chat or GitHub.
+3. Update the local Git checkout. Then use Windows PowerShell to run:
+
+    $root = 'D:\GrowthEngineeringVenture\15_INTEGRATION_WORKBENCH_20261111'
+    $script = "$root\PBC_MCP_SOURCE\integrations\local-workspace-mcp\scripts\CONNECT_TUNNEL_WINDOWS.ps1"
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $script
+
+The script securely prompts for a tunnel ID and restricted runtime key, initializes a local stdio profile, runs the official doctor health checks, and then starts the outbound tunnel. Leave PowerShell open while connected. Ctrl+C stops the tunnel.
+
+4. In ChatGPT on web: Plugins > + > Add custom MCP server > Connection: Tunnel. Select the same tunnel ID, review permissions, and create the private plugin. Call workspace_status first to verify actual tool use.
+5. To restart a previously initialized profile, run the same script with -SkipInit. For stdio configurations run only one tunnel-client per tunnel ID at once.
+
+This pilot offers restricted project inspection and local-human-approved source proposals; it is not unrestricted PowerShell or remote desktop. Successful installation is not proof of remote access; verify a real ChatGPT MCP tool call.
+
 ## Human approval for proposed edits
 
 A remote MCP tool call can only queue a proposal in the local MCP_APPROVAL_INBOX directory. The owner opens the proposal and may run local_approve.py from an **interactive Windows terminal**, explicitly typing APPLY plus the proposal ID. The script verifies the old source SHA before applying it and writes a basic audit record.
