@@ -104,14 +104,22 @@ without changing the existing `stdio` transport or Render's customer portal.
    branch with `git -C <source> pull --ff-only`.
 2. Install the official ngrok Windows CLI if needed:
    https://ngrok.com/download/windows ; `winget install ngrok -s msstore`.
-3. In the ngrok dashboard, find your assigned HTTPS dev domain and configure
-   your ngrok CLI account locally using the authtoken instructions. **Never**
+   Reopen PowerShell after installation. If a stale Chocolatey shim points at
+   a deleted executable, the launcher skips it and tries other PATH entries.
+   You can also pass `-NgrokExe 'C:\full\path\ngrok.exe'` to choose the real
+   executable explicitly.
+3. Find your ngrok account's assigned dev domain on the ngrok dashboard.
+   Configure the account locally using the hidden prompt below. **Never**
    place the ngrok authtoken in Render, a GitHub repo, or chat.
-4. On TRIPLE7, run the private startup script with YOUR actual dev domain:
+4. On TRIPLE7, run the updated launcher. A bare hostname is accepted; the
+   launcher adds HTTPS when necessary.
 
     $root = 'D:\GrowthEngineeringVenture\15_INTEGRATION_WORKBENCH_20261111'
     $run = "$root\PBC_MCP_SOURCE\integrations\local-workspace-mcp\scripts\START_NGROK_MCP.ps1"
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $run -PublicUrl 'https://YOUR-ASSIGNED-NGROK-DOMAIN'
+    $domain = 'nintendo-corncob-animal.ngrok-free.dev'  # replace if not your current account domain
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $run -PublicUrl $domain -CheckOnly
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $run -PublicUrl $domain -ConfigureNgrokAuth
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File $run -PublicUrl $domain
 
    The script requires the existing MCP Python virtualenv, starts a localhost-
    only server, checks that anonymous requests receive HTTP 401, then starts
