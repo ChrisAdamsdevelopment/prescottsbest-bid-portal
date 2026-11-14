@@ -142,6 +142,12 @@ test('HTTP regression: indexed legacy permit URL 301s to current guide; optimize
    await pause(90);
   }
   assert.ok(ready,'local server started');
+  const homepage=await req('prescottsbestconstruction.com','/');
+  assert.equal(homepage.status,200);
+  assert.match(homepage.headers['content-security-policy'],/(^|;\s*)manifest-src 'self'(;|$)/);
+  const manifest=await req('prescottsbestconstruction.com','/site-assets/site.webmanifest');
+  assert.equal(manifest.status,200);
+  assert.match(manifest.headers['content-type'],/application\/manifest\+json/);
   for(const host of ['prescottsbestconstruction.com','www.prescottsbestconstruction.com']){
    const old=await req(host,'/prescott-fast-track-permits-2026?source=legacy');
    assert.equal(old.status,301);
