@@ -40,6 +40,19 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/Bathroom remodeling/i);
   assert.match(home.body,/site-assets\/pbc-logo.webp/);
   assert.match(home.headers.get('x-robots-tag'),/noindex/);
+  // Render must redirect either construction hostname to the canonical remodeling host
+  // once the Render custom domain and DNS are explicitly verified. No email DNS changes.
+  for(const oldHost of ['prescottsbestconstruction.com','www.prescottsbestconstruction.com']){
+   const redirect=await hostCall('/',oldHost);
+   assert.equal(redirect.status,301);
+   assert.equal(redirect.headers.location,'https://prescottsbestremodeling.com/');
+   const deepLink=await hostCall('/bathroom-remodeling',oldHost);
+   assert.equal(deepLink.status,301);
+   assert.equal(deepLink.headers.location,'https://prescottsbestremodeling.com/bathroom-remodeling');
+  }
+  const canonicalHome=await hostCall('/','prescottsbestremodeling.com');
+  assert.equal(canonicalHome.status,200);
+  assert.match(canonicalHome.body,/Bathroom remodeling/i);
   const guide=await hostCall('/project-guide','prescottsbestremodeling.com');
   assert.equal(guide.status,200);
   assert.match(guide.body,/Chat with Scotty/);

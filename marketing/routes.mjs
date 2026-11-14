@@ -7,6 +7,14 @@ import {articles} from './articles.mjs';
 import {holidayImages,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
+ const hostname=(req.headers.host||'').split(':')[0].toLowerCase();
+ // If the existing Wix domain is later verified and pointed to this Render service,
+ // make the remodeling site the single canonical destination. Do not route it to the private portal.
+ if((req.method==='GET'||req.method==='HEAD')&&
+   ['prescottsbestconstruction.com','www.prescottsbestconstruction.com'].includes(hostname)){
+  res.writeHead(301,{'Location':'https://prescottsbestremodeling.com'+path,'Cache-Control':'public,max-age=300'});
+  res.end();return true;
+ }
  // Reuse byte-range streaming for the three explicitly allowlisted M4A guides.
  const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path);
  if(req.method!=='GET'&&!(req.method==='HEAD'&&filmAsset))return false;
@@ -44,7 +52,6 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
 
  // The new PBC domain serves the marketing homepage; the Render host keeps the
  // existing private proposal landing page, preserving current invite links.
- const hostname=(req.headers.host||'').split(':')[0].toLowerCase();
  const marketingHost=['prescottsbestremodeling.com','www.prescottsbestremodeling.com'].includes(hostname);
  // Keep one clean canonical URL per marketing page on the custom domain.
  if(marketingHost&&(path==='/remodeling-preview'||path.startsWith('/remodeling-preview/')||path==='/contact')){
