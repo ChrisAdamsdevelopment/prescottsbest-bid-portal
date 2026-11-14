@@ -1,7 +1,7 @@
 
 // Website interactions are optional; core content and phone/email links work without JavaScript.
 // No visitor data is transmitted by the planning worksheet.
-const siteBase=['prescottsbestremodeling.com','www.prescottsbestremodeling.com']
+const siteBase=['prescottsbestremodeling.com','www.prescottsbestremodeling.com','prescottsbestconstruction.com','www.prescottsbestconstruction.com']
  .includes(window.location.hostname.toLowerCase())?'':'/remodeling-preview';
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
 const element=document.querySelector('#budget-form');

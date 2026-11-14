@@ -45,7 +45,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // The new PBC domain serves the marketing homepage; the Render host keeps the
  // existing private proposal landing page, preserving current invite links.
  const hostname=(req.headers.host||'').split(':')[0].toLowerCase();
- const marketingHost=['prescottsbestremodeling.com','www.prescottsbestremodeling.com'].includes(hostname);
+ const marketingHost=['prescottsbestremodeling.com','www.prescottsbestremodeling.com','prescottsbestconstruction.com','www.prescottsbestconstruction.com'].includes(hostname);
  // Keep one clean canonical URL per marketing page on the custom domain.
  if(marketingHost&&(path==='/remodeling-preview'||path.startsWith('/remodeling-preview/')||path==='/contact')){
   const dest=path==='/contact'?'/schedule':path.slice('/remodeling-preview'.length)||'/';

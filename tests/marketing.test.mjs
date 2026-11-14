@@ -138,7 +138,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.equal((await call('/api/admin/leads')).status,401);
   const staff=await call('/api/admin/leads','GET',null,true);
   assert.equal(staff.body.leads.length,1);
-  assert.equal(staff.body.notificationTo,'chris@prescottsbestconstruction.com');
+  assert.deepEqual(staff.body.notificationTo,['chris@prescottsbestconstruction.com','andrew@prescottsbestconstruction.com']);
   assert.equal(staff.body.leads[0].notification.status,'failed');
   assert.equal(added.body.notificationStatus,'failed');
   assert.equal(staff.body.leads[0].notification.attempts,1);
@@ -150,6 +150,13 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const customHtml=custom.body;
   assert.equal(custom.status,200);
   assert.match(customHtml,/Bring your remodeling ideas into focus/);
+  for(const host of ['prescottsbestconstruction.com','www.prescottsbestconstruction.com']){
+   const newDomainHome=await hostCall('/',host);
+   assert.equal(newDomainHome.status,200,host);
+   assert.match(newDomainHome.body,/Bring your remodeling ideas into focus/,host);
+   assert.match(newDomainHome.body,/href=\"\/estimate\"/,host);
+   assert.doesNotMatch(newDomainHome.body,/Private Proposal/,host);
+  }
   assert.match(customHtml,/href="\/estimate"/);
   assert.match(customHtml,/href="\/"/);
   assert.doesNotMatch(customHtml,/href="\/remodeling-preview/);
