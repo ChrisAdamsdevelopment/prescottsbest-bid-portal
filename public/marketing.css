@@ -1455,3 +1455,56 @@
 @media(prefers-reduced-motion:reduce){
  .voice-guide-open,.voice-guide button{transition:none!important}
 }
+
+
+/* Homeowner-first accessible remodeling and craft detail sections, Nov 2026 */
+.new-pagehead{max-width:1100px;margin-inline:auto}
+.new-concept-hero,.accessible-home-feature,.new-split,.new-project-card{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.18fr);gap:clamp(22px,4vw,52px);
+ align-items:center}
+.new-concept-hero{background:#f2f0e9;border-radius:18px;margin:clamp(20px,3vw,38px) auto}
+.new-concept-hero-copy{padding:clamp(20px,4vw,44px)}
+.new-concept-hero-copy h2,.accessible-home-feature h2,.new-split h2{font-size:clamp(28px,3vw,43px);line-height:1.17;margin:10px 0 18px}
+.new-concept-hero-copy p,.accessible-home-feature p,.new-split p{line-height:1.7;max-width:58ch}
+.new-concept{margin:0;min-width:0;overflow:hidden;border-radius:14px;background:#ece7dc;border:1px solid rgba(49,65,49,.11)}
+.new-concept img{display:block;width:100%;height:auto;object-fit:cover}
+.new-concept figcaption{font-size:clamp(13px,1.4vw,15px);line-height:1.5;padding:12px 15px 15px;color:#334539;background:#fcfbf7}
+.new-concept figcaption .concept-kind{font-weight:750;letter-spacing:.03em;color:#244737;margin-right:6px}
+.new-concept-hero .new-concept{border-radius:0 18px 18px 0;border:0}
+.new-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,24px)}
+.new-info-card{min-width:0;background:#f8f8f3;border:1px solid #d5dfd7;border-radius:14px;padding:clamp(18px,2vw,30px)}
+.new-info-card h3{font-size:clamp(20px,2vw,25px);margin:0 0 13px;color:#254132}
+.new-info-card p{margin:0;line-height:1.65}
+.new-split.reverse>div{order:2}.new-split.reverse>.new-concept{order:1}
+.concept-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,26px)}
+.concept-feature-section .section-heading{max-width:950px}
+.new-checklist,.homeowner-project-story,.new-project-card{background:#f4f4ec;border-radius:16px;padding:clamp(20px,3vw,42px)}
+.homeowner-project-story p,.new-checklist p{max-width:75ch}
+.new-resource-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0 26px}
+.new-resource-links a{padding:13px;border:1px solid #cbd7cd;background:#f9faf6;border-radius:10px;overflow-wrap:anywhere}
+.new-article{max-width:1020px;margin-inline:auto}.new-article h2{margin-top:1.7em}.new-article ul,.new-article ol{line-height:1.8}
+.project-media-note{margin:32px 0;padding:24px;border-radius:13px;background:#f0f2ed}
+.service-depth .section-heading{max-width:950px}
+.service-depth-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,26px);margin:25px 0}
+.service-depth-item{padding:clamp(18px,2vw,26px);border-radius:13px;border:1px solid #d9e1d8;background:#fffefa}
+.service-depth-item summary{font-size:clamp(18px,2vw,22px);font-weight:700;cursor:pointer;line-height:1.4;color:#253c31}
+.service-depth-item summary:focus-visible{outline:3px solid #1a6851;outline-offset:4px}
+.service-depth-item p{line-height:1.7;margin:16px 0 0;color:#354a40}
+.service-depth>.micro{max-width:80ch}
+@media(max-width:850px){
+ .new-concept-hero,.accessible-home-feature,.new-split,.new-project-card{grid-template-columns:1fr}
+ .new-concept-hero .new-concept{border-radius:0 0 14px 14px}
+ .new-split.reverse>div,.new-split.reverse>.new-concept{order:initial}
+ .new-card-grid{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+ .concept-feature-grid,.service-depth-list,.new-resource-links{grid-template-columns:1fr}
+ .new-concept-hero{margin-left:0;margin-right:0}
+ .new-concept-hero-copy{padding:20px}
+}
+
+/* Explicitly user-controlled, silent educational concept reel. No autoplay. */
+.accessible-reel{margin:0;max-width:1050px;margin-inline:auto;border-radius:16px;overflow:hidden;background:#14251b}
+.accessible-reel video{display:block;width:100%;height:auto;aspect-ratio:16 / 9;background:#162b21}
+.accessible-reel figcaption{background:#f6f5ef;padding:12px 18px;color:#355145;line-height:1.5}
+.accessible-video .section-heading{max-width:960px;margin-inline:auto}

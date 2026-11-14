@@ -6,9 +6,11 @@ import {voiceGuideAudioAssets} from './voice-guides.mjs';
 import {articles} from './articles.mjs';
 import {holidayImages,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
+import {approvedConceptAssetPaths} from './remodeling-concept-media.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Reuse byte-range streaming for the three explicitly allowlisted M4A guides.
- const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path);
+ const conceptFilm=path==='/site-assets/remodeling-concepts/accessibility-design-reel.mp4'?{path,type:'video/mp4'}:null;
+ const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm;
  if(req.method!=='GET'&&req.method!=='HEAD')return false;
  if(filmAsset){
   // Strict asset allowlist, streaming and single byte-range support for desktop/mobile playback.
@@ -51,6 +53,11 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   const dest=path==='/contact'?'/schedule':path.slice('/remodeling-preview'.length)||'/';
   res.writeHead(301,{'Location':'https://prescottsbestconstruction.com'+dest,'Cache-Control':'public,max-age=300'});
   res.end();return true;
+ }
+ // Preserve the indexed 2026 Wix permit URL with a relevant current guide.
+ if(marketingHost&&path==='/prescott-fast-track-permits-2026'){
+  const query=new URL(req.url,'http://localhost').search;
+  res.writeHead(301,{'Location':'https://prescottsbestconstruction.com/guides/prescott-remodeling-permits'+query,'Cache-Control':'public,max-age=300'});res.end();return true;
  }
  const mappedPath=marketingHost&&path!='/remodeling-preview'&&!path.startsWith('/remodeling-preview/')
   ? '/remodeling-preview'+(path==='/'?'':path) : path;
@@ -121,6 +128,10 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   staticPaths[publicPath]=['public/site-assets/holiday-concepts/'+asset.file,'image/webp'];
   if(asset.thumbFile)staticPaths['/site-assets/holiday-concepts/'+asset.thumbFile]=['public/site-assets/holiday-concepts/'+asset.thumbFile,'image/webp'];
  }
+ // Only reviewed generated assets may be served. Never a raw user-inbox path.
+ for(const file of approvedConceptAssetPaths)staticPaths[file]=['public'+file,'image/webp'];
+ staticPaths['/site-assets/remodeling-concepts/accessibility-design-reel-poster.webp']=['public/site-assets/remodeling-concepts/accessibility-design-reel-poster.webp','image/webp'];
+ staticPaths['/site-assets/remodeling-concepts/accessibility-design-reel.vtt']=['public/site-assets/remodeling-concepts/accessibility-design-reel.vtt','text/vtt; charset=utf-8'];
  if(staticPaths[path]){
   const [file,type]=staticPaths[path];
   res.writeHead(200,{'Content-Type':type,'Cache-Control':'public,max-age=86400'});

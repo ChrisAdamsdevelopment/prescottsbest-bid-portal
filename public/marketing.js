@@ -47,7 +47,7 @@ if(element){
    tools.append(printable,copy);
    target.replaceChildren(head,modes,expl,warning,tools,next);
    window.pbcAnalytics?.track('budget_complete');
-  }catch(err){status.textContent='Could not calculate this example: '+err.message;}
+  }catch(err){status.textContent='The budget range did not load this time. Please try again, or call (928) 350-0940 and we can talk through your project.';const retry=document.createElement('button');retry.type='button';retry.className='site-button outline';retry.textContent='Try again';retry.addEventListener('click',calculate,{once:true});target.replaceChildren(status,retry);}
  };
  element.addEventListener('submit',event=>{event.preventDefault();calculate();});
  element.querySelectorAll('select').forEach(select=>select.addEventListener('change',calculate));
