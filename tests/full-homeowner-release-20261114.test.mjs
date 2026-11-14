@@ -149,6 +149,10 @@ test('HTTP regression: indexed legacy permit URL 301s to current guide; optimize
    const next=await req(host,'/guides/prescott-remodeling-permits');
    assert.equal(next.status,200);
   }
+  const googleProof=await req('prescottsbestconstruction.com','/google7fb70dbbf6b9c725.html');
+  assert.equal(googleProof.status,200);
+  assert.match(googleProof.headers['content-type'],/text\/html/);
+  assert.equal(googleProof.body.toString('utf8').trim(),'google-site-verification: google7fb70dbbf6b9c725.html');
   const caseStudy=await req('prescottsbestconstruction.com','/projects/crystal-creek-accessible-remodel');
   assert.equal(caseStudy.status,200);
   assert.match(caseStudy.body.toString('utf8'),/A Home Designed to Stay In/);
