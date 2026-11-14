@@ -20,7 +20,7 @@ test('unconfigured sender fails closed and never invents success',async()=>{
   assert.equal(result.category,'configuration');
  }finally{restore();}
 });
-test('Resend sends a scoped synthetic notification to Chris and preserves reply-to',async()=>{
+test('Resend sends synthetic inquiry to both Chris and Andrew, preserving reply-to',async()=>{
  clear();process.env.RESEND_API_KEY='re_fake_test_not_valid';
  process.env.LEAD_FROM_EMAIL='website@updates.prescottsbestremodeling.com';
  let received;
@@ -31,7 +31,7 @@ test('Resend sends a scoped synthetic notification to Chris and preserves reply-
   }});
   assert.equal(result.sent,true);
   assert.equal(result.providerId,'synthetic-provider-id');
-  assert.equal(received.to,'chris@prescottsbestconstruction.com');
+  assert.deepEqual(received.to,['chris@prescottsbestconstruction.com','andrew@prescottsbestconstruction.com']);
   assert.equal(received.replyTo,LEAD.email);
   assert.match(received.text,/Synthetic QA/);
   assert.match(received.subject,/Bathroom remodeling/);
@@ -58,14 +58,14 @@ test('Resend HTTP rejection is reported without leaking secrets',async()=>{
   assert.doesNotMatch(JSON.stringify(result),/re_fake_secret_literal/);
  }finally{globalThis.fetch=prior;restore();}
 });
-test('SMTP fallback requires an accepted Chris recipient',async()=>{
+test('SMTP fallback requires acceptance by both Chris and Andrew',async()=>{
  clear();
  Object.assign(process.env,{SMTP_HOST:'smtp.example.invalid',SMTP_USER:'test@example.invalid',
  SMTP_PASS:'synthetic',SMTP_FROM:'test@example.invalid',SMTP_PORT:'587'});
  let observed;
  try{
   const ok=await sendLeadEmail(LEAD,{sendWithSmtp:async p=>{
-   observed=p;return {messageId:'synthetic-message',accepted:['chris@prescottsbestconstruction.com'],rejected:[]};
+   observed=p;return {messageId:'synthetic-message',accepted:['chris@prescottsbestconstruction.com','andrew@prescottsbestconstruction.com'],rejected:[]};
   }});
   assert.equal(ok.sent,true);
   assert.equal(observed.replyTo,LEAD.email);

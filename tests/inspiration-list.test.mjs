@@ -94,7 +94,7 @@ test('contractor email receives structured item titles, true image links and hom
   assert.match(sent.text,/My note:|Homeowner note:/);
   assert.ok(sent.text.includes(inspirations[0].url));
   assert.ok(sent.text.includes('We prefer the cooler top'));
-  assert.equal(sent.to,'chris@prescottsbestconstruction.com');
+  assert.deepEqual(sent.to,['chris@prescottsbestconstruction.com','andrew@prescottsbestconstruction.com']);
  }finally{
   for(const [k,v] of Object.entries(saved))if(v===undefined)delete process.env[k];else process.env[k]=v;
  }

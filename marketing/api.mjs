@@ -2,7 +2,7 @@ import {randomUUID} from 'node:crypto';
 import {budget} from './budget.mjs';
 import {recordAnalytics,analyticsSummary} from './analytics.mjs';
 import {prepareLeadPhotos,saveLeadPhotos,readLeadPhoto,photoUploadReady} from './lead-images.mjs';
-import {sendLeadEmail,emailConfigured} from './email.mjs';
+import {sendLeadEmail,emailConfigured,leadNotificationRecipients} from './email.mjs';
 import {validateInspirationSelections} from './inspiration-selections.mjs';
 const contact='chris@prescottsbestconstruction.com';
 const validEmail=s=>typeof s==='string'&&s.length<=180&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
@@ -65,7 +65,7 @@ export async function publicApi(req,res,path,utils){
    const record={id,requestId:reqId,name,email,phone,project,notes,area,visualPreviewRequested,inspirations,photos:imageRecords,
     referral:{source:entrySource,path:entryPath},
     createdAt:new Date().toISOString(),consent:true,source:'remodeling-preview',
-    notification:{status:'pending',to:contact}};
+    notification:{status:'pending',to:[...leadNotificationRecipients]}};
    s.leads.push(record);s.audit.push({type:'public_lead_recorded',id,at:record.createdAt});
    return {id,already:false,record};
   });
@@ -74,7 +74,7 @@ export async function publicApi(req,res,path,utils){
    await change(s=>{
     const saved=s.leads.find(l=>l.id===row.id);
     if(saved&&saved.notification.status==='pending'){
-     saved.notification={status:outcome.sent?'sent':'failed',to:contact,attempts:1,
+     saved.notification={status:outcome.sent?'sent':'failed',to:[...leadNotificationRecipients],attempts:1,
       ...(outcome.sent?{providerId:outcome.providerId,sentAt:new Date().toISOString()}:{reason:outcome.reason})};
     }
    });
@@ -90,7 +90,7 @@ export async function publicApi(req,res,path,utils){
   utils.admin(req);
   const s=await read();
   const leads=(s.leads||[]).map(({requestId,...l})=>l);
-  return reply(res,200,{leads,notificationTo:contact});
+  return reply(res,200,{leads,notificationTo:[...leadNotificationRecipients]});
  }
  throw bad('Not found',404);
 }

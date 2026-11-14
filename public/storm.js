@@ -2,7 +2,7 @@
 const form=document.querySelector('#storm-planner');
 if(form){
  const result=document.getElementById('storm-plan-result');
- const base=['prescottsbestremodeling.com','www.prescottsbestremodeling.com'].includes(location.hostname.toLowerCase())?'':'/remodeling-preview';
+ const base=['prescottsbestremodeling.com','www.prescottsbestremodeling.com','prescottsbestconstruction.com','www.prescottsbestconstruction.com'].includes(location.hostname.toLowerCase())?'':'/remodeling-preview';
  const make=(tag,content,cls)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(content!==undefined)el.textContent=content;return el;};
  form.addEventListener('submit',ev=>{
   ev.preventDefault();

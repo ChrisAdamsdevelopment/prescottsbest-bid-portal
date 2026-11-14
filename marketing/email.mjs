@@ -3,7 +3,7 @@
 // No customer lead details or secrets are ever logged here.
 import nodemailer from 'nodemailer';
 
-const destination='chris@prescottsbestconstruction.com';
+export const leadNotificationRecipients=Object.freeze(['chris@prescottsbestconstruction.com','andrew@prescottsbestconstruction.com']);
 export const emailConfigured=()=>Boolean(
  (process.env.RESEND_API_KEY&&process.env.LEAD_FROM_EMAIL)||
  (process.env.SMTP_HOST&&process.env.SMTP_USER&&process.env.SMTP_PASS&&process.env.SMTP_FROM)
@@ -35,7 +35,7 @@ const text=(lead)=>[
 ].join('\n');
 
 export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend,attachments=[]}={}){
- const message={to:destination,replyTo:lead.email,subject:subject(lead),text:text(lead),
+ const message={to:[...leadNotificationRecipients],replyTo:lead.email,subject:subject(lead),text:text(lead),
   attachments:attachments.map(p=>({filename:p.filename,content:p.content,contentType:'image/jpeg'}))};
  if(process.env.RESEND_API_KEY&&process.env.LEAD_FROM_EMAIL){
   try{
@@ -44,7 +44,7 @@ export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend,attachment
    else{
     const response=await fetch('https://api.resend.com/emails',{
      method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},
-     body:JSON.stringify({from:process.env.LEAD_FROM_EMAIL,to:[message.to],reply_to:message.replyTo,subject:message.subject,text:message.text,
+     body:JSON.stringify({from:process.env.LEAD_FROM_EMAIL,to:message.to,reply_to:message.replyTo,subject:message.subject,text:message.text,
       ...(message.attachments.length?{attachments:message.attachments.map(p=>({filename:p.filename,content:p.content.toString('base64')}))}:{})}),
      signal:AbortSignal.timeout(16000)
     });
@@ -79,7 +79,7 @@ export async function sendLeadEmail(lead,{sendWithSmtp,sendWithResend,attachment
     });
     result=await transport.sendMail(payload);
    }
-   if(!Array.isArray(result?.accepted) || result.rejected?.length || !result.accepted.some(x=>x.toLowerCase()===destination))
+   if(!Array.isArray(result?.accepted) || result.rejected?.length || !leadNotificationRecipients.every(to=>result.accepted.some(x=>x.toLowerCase()===to)))
     return {sent:false,reason:'SMTP recipient not accepted',category:'provider'};
    return {sent:true,provider:'smtp',providerId:result?.messageId||null};
   }catch(error){

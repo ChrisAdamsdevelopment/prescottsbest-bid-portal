@@ -74,7 +74,7 @@ test('inquiry request remains a choice not automatic; email notification flags i
   const result=await sendLeadEmail(lead,{sendWithResend:async p=>{msg=p;return {id:'synthetic-id'};}});
   assert.equal(result.sent,true);
   assert.match(msg.text,/Ask about visual design preview: Yes/);
-  assert.equal(msg.to,'chris@prescottsbestconstruction.com');
+  assert.deepEqual(msg.to,['chris@prescottsbestconstruction.com','andrew@prescottsbestconstruction.com']);
  }finally{
   for(const [k,val] of Object.entries(saved))if(val===undefined)delete process.env[k];else process.env[k]=val;
  }
