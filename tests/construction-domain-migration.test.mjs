@@ -68,7 +68,7 @@ test('live-local host switching, canonicals, sitemap and private portal survive'
   const oldHead=await request('prescottsbestremodeling.com','/bathroom-remodeling','HEAD');
   assert.equal(oldHead.status,301);assert.equal(oldHead.headers.location,primaryOrigin+'/bathroom-remodeling');
   const home=await request('prescottsbestconstruction.com','/');
-  assert.equal(home.status,200);assert.match(home.body,/Bring your remodeling ideas into focus/);
+  assert.equal(home.status,200);assert.match(home.body,/Good remodeling starts with listening/);
   assert.match(home.body,/rel="canonical" href="https:\/\/prescottsbestconstruction\.com\/"/);
   assert.doesNotMatch(home.body,/rel="canonical" href="https:\/\/prescottsbestremodeling\.com/);
   const bath=await request('prescottsbestconstruction.com','/bathroom-remodeling');

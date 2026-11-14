@@ -109,7 +109,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(process.body,/STEP 05/);
   assert.match(process.body,/cost-plus proposal/);
   assert.match(process.body,/consultation-measurements.webp/);
-  assert.match(process.body,/Design illustration/);
+  assert.match(process.body,/Design concept/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/Useful starting numbers/i);
@@ -150,11 +150,11 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const custom=await hostCall('/','prescottsbestconstruction.com');
   const customHtml=custom.body;
   assert.equal(custom.status,200);
-  assert.match(customHtml,/Bring your remodeling ideas into focus/);
+  assert.match(customHtml,/Good remodeling starts with listening/);
   for(const host of ['prescottsbestconstruction.com','www.prescottsbestconstruction.com']){
    const newDomainHome=await hostCall('/',host);
    assert.equal(newDomainHome.status,200,host);
-   assert.match(newDomainHome.body,/Bring your remodeling ideas into focus/,host);
+   assert.match(newDomainHome.body,/Good remodeling starts with listening/,host);
    assert.match(newDomainHome.body,/href=\"\/estimate\"/,host);
    assert.doesNotMatch(newDomainHome.body,/Private Proposal/,host);
   }

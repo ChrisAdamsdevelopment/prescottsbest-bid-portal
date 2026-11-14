@@ -11,8 +11,9 @@ test('five-step customer process and design concept disclosure',()=>{
  assert.match(html,/STEP 01/);
  assert.match(html,/STEP 05/);
  for(const f of ['consultation-measurements','design-review-materials','finished-sewing-hidden-office','protected-custom-installation'])assert.match(html,new RegExp('/site-assets/process/'+f+'[.]webp'));
- for(const phrase of ['cost-plus','physical wood and finish samples','Google Drive sharing','protecting nearby floors'])assert.ok(html.includes(phrase),phrase);
- assert.match(html,/Design illustration, not a photograph/);
+ for(const phrase of ['cost-plus','physical wood and finish samples','We make it easier to review the options','protecting nearby floors'])assert.ok(html.includes(phrase),phrase);
+ assert.doesNotMatch(html,/developing organized Google Drive sharing/);
+ assert.match(html,/Design concept/);
 });
 test('wildfire readiness shows crew-background bio and qualified guidance',async()=>{
  const html=marketingPage('/remodeling-preview/wildfire-home-readiness',env);
