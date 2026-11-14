@@ -14,7 +14,7 @@ test('holiday lighting publishes three agreed starting prices plus a custom smar
 });
 test('holiday lighting and design studio render in protected preview without promises',()=>{
  for(const slug of ['/holiday-lighting','/holiday-lighting/design']){
-  const html=marketingPage('/remodeling-preview'+slug,{indexable:false,origin:'https://prescottsbestremodeling.com'});
+  const html=marketingPage('/remodeling-preview'+slug,{indexable:false,origin:'https://prescottsbestconstruction.com'});
   assert.ok(html);
   assert.match(html,/<meta name="robots" content="noindex,nofollow">/);
   assert.match(html,/Holiday Lighting/);
@@ -60,7 +60,7 @@ test('holiday plan separates product purchase and future crew review',()=>{
 });
 
 test('six holiday close-ups have honest descriptions and valid image gallery structured data',()=>{
- const page=marketingPage('/remodeling-preview/holiday-lighting',{indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+ const page=marketingPage('/remodeling-preview/holiday-lighting',{indexable:true,origin:'https://prescottsbestconstruction.com',cleanPaths:true});
  assert.equal(holidayCloseups.length,6);
  assert.match(page,/"@type":"ImageGallery"/);
  assert.match(page,/What different holiday lights look like on a house/);
@@ -73,13 +73,13 @@ test('six holiday close-ups have honest descriptions and valid image gallery str
   assert.ok(page.includes(img.file));
   assert.ok(page.includes(img.thumbFile));
   assert.ok(page.includes(img.alt));
-  assert.ok(page.includes('"contentUrl":"https://prescottsbestremodeling.com/site-assets/holiday-concepts/'+img.file+'"'));
+  assert.ok(page.includes('"contentUrl":"https://prescottsbestconstruction.com/site-assets/holiday-concepts/'+img.file+'"'));
  }
 });
 
 test('six approved backyard views span close, medium and long-distance, with structured data',()=>{
  const html=marketingPage('/remodeling-preview/holiday-lighting',
-  {indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+  {indexable:true,origin:'https://prescottsbestconstruction.com',cleanPaths:true});
  assert.equal(holidayBackyards.length,6);
  assert.deepEqual(holidayBackyards.reduce((m,v)=>({...m,[v.view]:(m[v.view]||0)+1}),{}),
   {close:2,medium:2,distant:2});

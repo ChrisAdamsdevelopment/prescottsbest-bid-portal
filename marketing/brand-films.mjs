@@ -60,7 +60,7 @@ export function brandFilm(id,options={}){
   '<figcaption id="'+captionId+'" class="brand-film-description">'+enc(film.accessibleSummary)+'</figcaption>'+
   '</figure>';
 }
-export function brandFilmJsonLd(path,origin='https://prescottsbestremodeling.com'){
+export function brandFilmJsonLd(path,origin='https://prescottsbestconstruction.com'){
  const film=brandFilmForPath(path);
  if(!film)return null;
  const root=origin.replace(/\/$/,'');

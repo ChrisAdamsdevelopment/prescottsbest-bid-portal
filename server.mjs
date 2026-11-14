@@ -4,6 +4,7 @@ import {join,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {randomBytes,randomUUID,createHash,timingSafeEqual} from 'node:crypto';
 import {maybeServeMarketing} from './marketing/routes.mjs';
+import {canonicalMarketingRedirect} from './marketing/domain-migration.mjs';
 import {publicApi} from './marketing/api.mjs';
 import {pruneOldLeadPhotos} from './marketing/lead-images.mjs';
 import {aiGuideApi} from './marketing/ai-guide.mjs';
@@ -84,6 +85,11 @@ function security(res){
 }
 async function route(req,res){
  security(res);const path=new URL(req.url,'http://localhost').pathname;
+ const location=canonicalMarketingRedirect(req,path);
+ if(location){
+  res.writeHead(301,{'Location':location,'Cache-Control':'public,max-age=300'});
+  res.end();return;
+ }
  if(path==='/healthz')return reply(res,200,{status:'ok',service:'pbc-private-portal'});
  if(await maybeServeMarketing(req,res,path,{root,readFile,bad}))return;
  if(req.method==='GET'&&['/','/proposal','/app.js','/style.css','/room1-proposal.js'].includes(path)){

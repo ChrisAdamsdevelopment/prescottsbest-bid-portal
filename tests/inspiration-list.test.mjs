@@ -6,7 +6,7 @@ import {visualExplorersForService,allVisualImages,visualGroups} from '../marketi
 import {validateInspirationSelections} from '../marketing/inspiration-selections.mjs';
 import {sendLeadEmail} from '../marketing/email.mjs';
 
-const page=path=>marketingPage('/remodeling-preview'+path,{indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+const page=path=>marketingPage('/remodeling-preview'+path,{indexable:true,origin:'https://prescottsbestconstruction.com',cleanPaths:true});
 
 test('six matched full-room kitchens and six existing material boards appear as real image assets',async()=>{
  const chosen=visualExplorersForService('/kitchen-remodeling');
@@ -71,7 +71,7 @@ test('server accepts only curated, available image IDs and sanitizes homeowner n
  assert.equal(normalized.length,2);
  assert.equal(normalized[0].note,'Like the brighter countertops');
  assert.equal(normalized[0].name,first.name);
- assert.equal(normalized[0].url,'https://prescottsbestremodeling.com'+first.file);
+ assert.equal(normalized[0].url,'https://prescottsbestconstruction.com'+first.file);
  assert.throws(()=>validateInspirationSelections([{explorerId:'kitchen-finish-comparison',file:'/secret/private.jpg'}]));
  assert.throws(()=>validateInspirationSelections([{explorerId:'kitchen-finish-comparison',file:first.file,note:'x'.repeat(181)}]));
  assert.throws(()=>validateInspirationSelections(Array.from({length:21},()=>entries[0])));

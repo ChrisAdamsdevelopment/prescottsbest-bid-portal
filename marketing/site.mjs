@@ -200,12 +200,12 @@ export function marketingPage(path,options={}){
  '<button id="scotty-send" type="submit" disabled>Ask Scotty</button><p id="scotty-status" role="status">Optional AI help. Or call (928) 350-0940.</p></form></section></aside>';
 
  const canonical=published?options.origin.replace(/\/$/,'')+(options.cleanPaths===true?(suffix==='/'?'/':suffix):link(suffix)):null;
- const shareOrigin='https://prescottsbestremodeling.com';
+ const shareOrigin='https://prescottsbestconstruction.com';
  const shareUrl=shareOrigin+(suffix==='/'?'/':suffix);
  const articleSchema=kind==='blog'?{"@context":"https://schema.org","@type":"BlogPosting",
   headline,description,datePublished,dateModified,mainEntityOfPage:shareUrl,
-  author:{"@type":"Organization",name:"Prescott’s Best Construction",url:"https://prescottsbestremodeling.com/about"},
-  publisher:{"@type":"Organization",name:"Prescott’s Best Construction",url:"https://prescottsbestremodeling.com/"}}:null;
+  author:{"@type":"Organization",name:"Prescott’s Best Construction",url:"https://prescottsbestconstruction.com/about"},
+  publisher:{"@type":"Organization",name:"Prescott’s Best Construction",url:"https://prescottsbestconstruction.com/"}}:null;
  const schema={"@context":"https://schema.org","@type":"GeneralContractor",name:"Prescotts Best Construction",
  telephone:"+1-928-350-0940",email:contact,areaServed:[{ "@type":"City",name:"Prescott Valley"},{ "@type":"City",name:"Prescott"}],
  url:options.cleanPaths===true?shareUrl:'https://www.prescottsbestconstruction.com/',image:shareOrigin+'/site-assets/pbc-logo.webp',
