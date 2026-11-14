@@ -27,7 +27,7 @@ export const validateInspirationSelections=(raw)=>{
    caption:item.caption,
    note:note.trim(),
    file:item.file,
-   url:'https://prescottsbestremodeling.com'+item.file
+   url:'https://prescottsbestconstruction.com'+item.file
   });
  }
  return results;

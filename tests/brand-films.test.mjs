@@ -4,7 +4,7 @@ import {readFile,stat} from 'node:fs/promises';
 import {marketingPage} from '../marketing/site.mjs';
 import {brandFilmData,brandFilmForPath,brandFilmJsonLd,brandFilmAssets} from '../marketing/brand-films.mjs';
 
-const origin='https://prescottsbestremodeling.com';
+const origin='https://prescottsbestconstruction.com';
 const cases=[
  ['/', 'home','prescotts-best-home-remodeling-new-hero-audio'],
  ['/holiday-lighting','holiday','prescotts-best-holiday-lighting-custom-audio'],

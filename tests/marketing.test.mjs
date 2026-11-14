@@ -41,7 +41,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/site-assets\/pbc-logo.webp/);
   assert.match(home.body,/<h3>Reach us<\/h3>[\s\S]*?<a href="mailto:andrew@prescottsbestconstruction\.com">andrew@prescottsbestconstruction\.com<\/a>/);
   assert.match(home.headers.get('x-robots-tag'),/noindex/);
-  const guide=await hostCall('/project-guide','prescottsbestremodeling.com');
+  const guide=await hostCall('/project-guide','prescottsbestconstruction.com');
   assert.equal(guide.status,200);
   assert.match(guide.body,/Chat with Scotty/);
   assert.match(guide.body,/scotty-widget/);
@@ -147,7 +147,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match((await call('/')).body,/Private Proposal/);
   // Domain-aware routing: branded PBC site at the new hostname while legacy
   // Render hostname continues to serve the original private proposal entry.
-  const custom=await hostCall('/','prescottsbestremodeling.com');
+  const custom=await hostCall('/','prescottsbestconstruction.com');
   const customHtml=custom.body;
   assert.equal(custom.status,200);
   assert.match(customHtml,/Bring your remodeling ideas into focus/);
@@ -162,44 +162,44 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(customHtml,/href="\/"/);
   assert.doesNotMatch(customHtml,/href="\/remodeling-preview/);
   assert.match(custom.headers['x-robots-tag'],/noindex/);
-  const customEstimate=await hostCall('/estimate','www.prescottsbestremodeling.com');
+  const customEstimate=await hostCall('/estimate','www.prescottsbestconstruction.com');
   assert.equal(customEstimate.status,200);
   assert.match(customEstimate.body,/Useful starting numbers/i);
   const customPrivate=await hostCall('/proposal','prescottsbestremodeling.com');
   assert.equal(customPrivate.status,200);
   assert.match(customPrivate.body,/Private Proposal/);
-  const blog=await hostCall('/blog','prescottsbestremodeling.com');
+  const blog=await hostCall('/blog','prescottsbestconstruction.com');
   assert.equal(blog.status,200);
   assert.match(blog.body,/Know more before you remodel/);
-  const article=await hostCall('/blog/compare-fixed-price-and-cost-plus','prescottsbestremodeling.com');
+  const article=await hostCall('/blog/compare-fixed-price-and-cost-plus','prescottsbestconstruction.com');
   assert.equal(article.status,200);
   assert.match(article.body,/BlogPosting/);
   assert.match(article.body,/datePublished/);
   assert.match(article.body,/not an approved estimate|scope, not just the number/i);
   assert.match(article.headers['x-robots-tag'],/noindex/);
   for(const path of ['/blog/bathroom-remodel-planning-checklist','/blog/kitchen-budget-decisions','/blog/prescott-permit-questions-homeowners']){
-   const p=await hostCall(path,'prescottsbestremodeling.com');
+   const p=await hostCall(path,'prescottsbestconstruction.com');
    assert.equal(p.status,200,path);
    assert.match(p.body,/BlogPosting/,path);
   }
-  const llms=await hostCall('/llms.txt','prescottsbestremodeling.com');
+  const llms=await hostCall('/llms.txt','prescottsbestconstruction.com');
   assert.equal(llms.status,200);
   assert.match(llms.body,/Prescott.s Best Construction/);
   assert.match(llms.body,/Knowledge center/);
   assert.match(llms.body,/private proposal portal is access-controlled/);
   assert.match(llms.headers['content-type'],/text\/plain/);
   assert.match(llms.body,/\n## Main pages\n/);
-  const full=await hostCall('/llms-full.txt','prescottsbestremodeling.com');
+  const full=await hostCall('/llms-full.txt','prescottsbestconstruction.com');
   assert.equal(full.status,200);
   assert.match(full.body,/Bathroom Remodel Planning Checklist/);
-  const feed=await hostCall('/feed.xml','prescottsbestremodeling.com');
+  const feed=await hostCall('/feed.xml','prescottsbestconstruction.com');
   assert.equal(feed.status,200);
   assert.match(feed.headers['content-type'],/rss\+xml/);
   assert.match(feed.body,/<rss version="2.0">/);
   assert.match(feed.body,/prescott-permit-questions-homeowners/);
-  const sitemap=await hostCall('/sitemap.xml','prescottsbestremodeling.com');
+  const sitemap=await hostCall('/sitemap.xml','prescottsbestconstruction.com');
   assert.equal(sitemap.status,404);
-  const customRobots=await hostCall('/robots.txt','prescottsbestremodeling.com');
+  const customRobots=await hostCall('/robots.txt','prescottsbestconstruction.com');
   assert.match(customRobots.body,/Disallow: \/\n/);
   assert.equal((await call('/robots.txt')).body,'User-agent: *\nDisallow: /\n');
   console.log('PASS: noindex marketing preview + logo, deterministic budget, fixed-vs-costplus, consent, dedupe, staff-only lead storage and Chris destination');

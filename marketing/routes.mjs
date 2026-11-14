@@ -49,12 +49,12 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Keep one clean canonical URL per marketing page on the custom domain.
  if(marketingHost&&(path==='/remodeling-preview'||path.startsWith('/remodeling-preview/')||path==='/contact')){
   const dest=path==='/contact'?'/schedule':path.slice('/remodeling-preview'.length)||'/';
-  res.writeHead(301,{'Location':'https://prescottsbestremodeling.com'+dest,'Cache-Control':'public,max-age=300'});
+  res.writeHead(301,{'Location':'https://prescottsbestconstruction.com'+dest,'Cache-Control':'public,max-age=300'});
   res.end();return true;
  }
  const mappedPath=marketingHost&&path!='/remodeling-preview'&&!path.startsWith('/remodeling-preview/')
   ? '/remodeling-preview'+(path==='/'?'':path) : path;
- const origin=marketingHost?'https://prescottsbestremodeling.com':process.env.PUBLIC_SITE_ORIGIN;
+ const origin=marketingHost?'https://prescottsbestconstruction.com':process.env.PUBLIC_SITE_ORIGIN;
  const indexed=marketingHost&&process.env.SITE_INDEXABLE==='true'&&!!origin?.startsWith('https://');
  const preview=marketingPage(mappedPath,{indexable:indexed,origin,cleanPaths:marketingHost});
  if(preview){
@@ -127,7 +127,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   res.end(await readFile(new URL('../'+file,import.meta.url)));return true;
  }
  if(path==='/llms.txt'){
-  const site='https://prescottsbestremodeling.com';
+  const site='https://prescottsbestconstruction.com';
   const md=[
    '# Prescott’s Best Construction',
    '> Residential remodeling information for Prescott and Prescott Valley, Arizona. Official contractor work requires an on-site review.',
@@ -188,18 +188,18 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '> General residential remodeling guidance. Not a construction contract, price quote or permit authorization.\n\n'+
    articles.map(a=>'## '+a.title+'\nPublished '+a.date+'\n'+a.excerpt+'\n\n'+
     a.sections.map(([h,body])=>'### '+h+'\n'+body+'\n').join('\n')+
-    '\nOriginal article: https://prescottsbestremodeling.com/blog/'+a.slug+'\n').join('\n---\n')+
+    '\nOriginal article: https://prescottsbestconstruction.com/blog/'+a.slug+'\n').join('\n---\n')+
    '\n\n## Holiday Lighting Design References\nThese illustrative examples are not photographs of completed work.\n'+
-   holidayCloseups.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file+'\n').join('\n')+
+   holidayCloseups.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestconstruction.com/site-assets/holiday-concepts/'+a.file+'\n').join('\n')+
    '\n\n## Backyard Holiday Lighting Concepts: Near, Medium and Distant Views\n'+
-   holidayBackyards.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestremodeling.com/site-assets/holiday-concepts/'+a.file).join('\n')+
+   holidayBackyards.map(a=>'### '+a.title+'\n'+a.caption+'\nhttps://prescottsbestconstruction.com/site-assets/holiday-concepts/'+a.file).join('\n')+
    '\n\n## Cabinetry and Deck Visual Choices\nThese are design examples, not photographs of installed projects.\n'+
-   allVisualImages().map(v=>'### '+v.name+'\n'+v.caption+'\nhttps://prescottsbestremodeling.com'+v.file).join('\n');
+   allVisualImages().map(v=>'### '+v.name+'\n'+v.caption+'\nhttps://prescottsbestconstruction.com'+v.file).join('\n');
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'public,max-age=600','X-Robots-Tag':'noindex'});
   res.end(text);return true;
  }
  if(path==='/feed.xml'){
-  const origin='https://prescottsbestremodeling.com';
+  const origin='https://prescottsbestconstruction.com';
   const xmlEsc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
   const rss='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Prescott’s Best Construction Homeowner Guides</title>'+
    '<link>'+origin+'/blog</link><description>Practical information for Prescott-area homeowners preparing a renovation.</description><language>en-us</language>'+

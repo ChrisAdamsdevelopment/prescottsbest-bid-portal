@@ -64,7 +64,7 @@
    'My Design Inspiration List ('+items.length+' choices):\n'+items.map((x,i)=>
     (i+1)+'. '+x.category+' — '+x.name+'\n   '+x.caption+
     (x.note?'\n   My note: '+x.note:'')+
-    '\n   https://prescottsbestremodeling.com'+x.file).join('\n'):
+    '\n   https://prescottsbestconstruction.com'+x.file).join('\n'):
    'My Design Inspiration List: no ideas selected.';
  };
  const make=(tag,cls,content)=>{

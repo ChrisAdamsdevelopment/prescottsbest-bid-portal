@@ -5,7 +5,7 @@ import {marketingPage} from '../marketing/site.mjs';
 import {validateInspirationSelections} from '../marketing/inspiration-selections.mjs';
 import {holidayImages} from '../marketing/holiday-assets.mjs';
 const page=(path)=>marketingPage('/remodeling-preview'+(path==='/'?'':path),
- {indexable:true,origin:'https://prescottsbestremodeling.com',cleanPaths:true});
+ {indexable:true,origin:'https://prescottsbestconstruction.com',cleanPaths:true});
 
 test('home page elevates holiday lights with a dedicated first-screen offer and direct studio link',()=>{
  const home=page('/');
@@ -68,7 +68,7 @@ test('holiday inspiration choices use approved public images and reject arbitrar
  assert.equal(picks.length,1);
  assert.equal(picks[0].name,item.title);
  assert.equal(picks[0].note,'Warm white on the backyard roof');
- assert.equal(picks[0].url,'https://prescottsbestremodeling.com'+file);
+ assert.equal(picks[0].url,'https://prescottsbestconstruction.com'+file);
  assert.throws(()=>validateInspirationSelections([{explorerId:'holiday-lighting',file:'/proposal/secret'}]));
  assert.throws(()=>validateInspirationSelections([{explorerId:'holiday-lighting',file:'/site-assets/holiday-concepts/not-listed.webp'}]));
 });
