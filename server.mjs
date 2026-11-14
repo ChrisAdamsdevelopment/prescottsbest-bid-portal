@@ -92,7 +92,7 @@ async function route(req,res){
  }
  if(path==='/healthz')return reply(res,200,{status:'ok',service:'pbc-private-portal'});
  if(await maybeServeMarketing(req,res,path,{root,readFile,bad}))return;
- if(req.method==='GET'&&['/','/proposal','/app.js','/style.css','/room1-proposal.js'].includes(path)){
+ if((req.method==='GET'||req.method==='HEAD')&&['/','/proposal','/app.js','/style.css','/room1-proposal.js'].includes(path)){
   const fn=path==='/'||path==='/proposal'?'index.html':path.slice(1),type=path==='/'||path==='/proposal'?'text/html':path.endsWith('.js')?'application/javascript':'text/css';
   res.writeHead(200,{'Content-Type':type+'; charset=utf-8','Cache-Control':'no-store',...(type==='text/html'?{'X-Robots-Tag':'noindex,nofollow'}:{})});return res.end(await readFile(join(root,'public',fn)));
  }
