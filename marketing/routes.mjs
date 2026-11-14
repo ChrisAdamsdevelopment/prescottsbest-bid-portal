@@ -9,7 +9,7 @@ import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Reuse byte-range streaming for the three explicitly allowlisted M4A guides.
  const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path);
- if(req.method!=='GET'&&!(req.method==='HEAD'&&filmAsset))return false;
+ if(req.method!=='GET'&&req.method!=='HEAD')return false;
  if(filmAsset){
   // Strict asset allowlist, streaming and single byte-range support for desktop/mobile playback.
   const localFile=new URL('../public'+filmAsset.path,import.meta.url);

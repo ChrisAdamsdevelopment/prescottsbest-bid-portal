@@ -57,6 +57,16 @@ test('live-local host switching, canonicals, sitemap and private portal survive'
   assert.equal(oldWww.status,301);assert.equal(oldWww.headers.location,primaryOrigin+'/');
   const oldAsset=await request('prescottsbestremodeling.com','/site-assets/pbc-logo.webp');
   assert.equal(oldAsset.status,301);assert.equal(oldAsset.headers.location,primaryOrigin+'/site-assets/pbc-logo.webp');
+  // HEAD must reflect page availability for crawlers and uptime checks.
+  for(const route of ['/', '/bathroom-remodeling', '/robots.txt', '/sitemap.xml', '/site-assets/pbc-logo.webp']){
+   const response=await request('prescottsbestconstruction.com',route,'HEAD');
+   assert.equal(response.status,200,'HEAD '+route);
+   assert.equal(response.body,'','HEAD body '+route);
+  }
+  const privateHead=await request('spectracleanse-ai.onrender.com','/proposal','HEAD');
+  assert.equal(privateHead.status,200);assert.equal(privateHead.body,'');
+  const oldHead=await request('prescottsbestremodeling.com','/bathroom-remodeling','HEAD');
+  assert.equal(oldHead.status,301);assert.equal(oldHead.headers.location,primaryOrigin+'/bathroom-remodeling');
   const home=await request('prescottsbestconstruction.com','/');
   assert.equal(home.status,200);assert.match(home.body,/Bring your remodeling ideas into focus/);
   assert.match(home.body,/rel="canonical" href="https:\/\/prescottsbestconstruction\.com\/"/);
