@@ -1455,3 +1455,11 @@
 @media(prefers-reduced-motion:reduce){
  .voice-guide-open,.voice-guide button{transition:none!important}
 }
+/* Draft service-page depth: production release only after accompanying approved media. */
+.service-depth .section-heading{max-width:980px}
+.service-depth-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,24px);margin:26px 0}
+.service-depth-item{min-width:0;border:1px solid #d9e1d8;background:#fffefa;border-radius:13px;padding:clamp(18px,2vw,27px)}
+.service-depth-item h3{color:#203a2d;margin:0 0 9px;font-size:clamp(18px,2vw,23px);line-height:1.25}
+.service-depth-item p{margin:0;color:#385349;font-size:clamp(15px,1.4vw,17px);line-height:1.7}
+.service-depth>.micro{max-width:1030px;line-height:1.7}
+@media(max-width:700px){.service-depth-list{grid-template-columns:1fr}.service-depth-item{padding:18px}}

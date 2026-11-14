@@ -1,4 +1,5 @@
 import {extraPages} from './extra-pages.mjs';
+import {serviceDepth} from './service-depth.mjs';
 import {guidePage} from './guide-page.mjs';
 import {articlePages,articles} from './articles.mjs';
 import {holidayPages} from './holiday-pages.mjs';
@@ -101,7 +102,7 @@ function service(s){
  return {title:s.title+' | Prescott’s Best Construction',description:s.desc+' Serving Prescott Valley and the greater Prescott area.',body:
  '<div class="site-pagehead service-pagehead"><div class="service-pagehead-copy"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p><p class="micro">Review a design concept for inspiration; the final project scope is confirmed on site.</p></div>'+heroImage+'</div>'+
  '<section class="site-section site-detail"><div><h2>Start with the right plan</h2><p>'+esc(s.detail)+'</p><p>We focus on clearly defined homeowner priorities, practical project sequencing and communication about what is included. Final recommendations require evaluating the home itself.</p></div><aside class="site-callout"><h3>Useful first steps</h3><ol><li>Describe what needs to change.</li><li>List what needs to stay.</li><li>Choose a finish and budget preference.</li><li>Request a site conversation.</li></ol>'+(s.path==='/custom-cabinetry'||s.path==='/deck-building-outdoor-carpentry'?button('Discuss this project scope','/schedule','outline'):priceLink)+'</aside></section>'+
- visualQuickLinks(s.path)+visualExplorersForService(s.path).map(config=>visualExplorerSection(config,link)).join('')+
+ serviceDepth(s.path)+visualQuickLinks(s.path)+visualExplorersForService(s.path).map(config=>visualExplorerSection(config,link)).join('')+
  previewPromo(link,{compact:true,project:({ '/bathroom-remodeling':'Bathroom remodeling','/kitchen-remodeling':'Kitchen remodeling', '/shower-conversions':'Shower or bath conversion','/room-conversions':'Room or garage conversion', '/finish-carpentry':'Finish carpentry','/custom-cabinetry':'Custom cabinetry and built-ins', '/deck-building-outdoor-carpentry':'Deck or outdoor carpentry'})[s.path]})+
  serviceGuideList(s.path)+'<section class="site-section"><h2>Questions homeowners often ask</h2>'+faq([
  ['Can I see a project budget before an appointment?',s.path==='/custom-cabinetry'||s.path==='/deck-building-outdoor-carpentry'?'These projects depend heavily on measurements, materials and structural requirements. Contact us for a scope review before relying on a price range.':'Yes. Our budget explorer offers a useful starting range. After reviewing your space, materials and preferences, we prepare a written proposal tailored to your project.'],
