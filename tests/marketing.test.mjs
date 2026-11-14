@@ -39,6 +39,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/Prescott.*Best/);
   assert.match(home.body,/Bathroom remodeling/i);
   assert.match(home.body,/site-assets\/pbc-logo.webp/);
+  assert.match(home.body,/<h3>Reach us<\/h3>[\s\S]*?<a href="mailto:andrew@prescottsbestconstruction\.com">andrew@prescottsbestconstruction\.com<\/a>/);
   assert.match(home.headers.get('x-robots-tag'),/noindex/);
   const guide=await hostCall('/project-guide','prescottsbestremodeling.com');
   assert.equal(guide.status,200);
