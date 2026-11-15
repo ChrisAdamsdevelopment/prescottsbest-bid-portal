@@ -88,6 +88,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Google Search Console URL-prefix ownership proof for the construction domain.
  // Keep this exact file available at the host root as long as the property is in use.
  '/google7fb70dbbf6b9c725.html':['public/google7fb70dbbf6b9c725.html','text/html; charset=utf-8'],
+ '/google8f94b7995e1d2447.html':['public/google8f94b7995e1d2447.html','text/html; charset=utf-8'],
  '/marketing.css':['public/marketing.css','text/css; charset=utf-8'],
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
  '/photo-upload.js':['public/photo-upload.js','text/javascript; charset=utf-8'],
