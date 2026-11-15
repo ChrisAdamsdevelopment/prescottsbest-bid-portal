@@ -6,7 +6,9 @@ const scenes={
  '/kitchen-remodeling':{slug:'kitchen-remodel',alt:'Concept rendering of a warm white kitchen with stone island and Northern Arizona landscape visible through window'},
  '/shower-conversions':{slug:'shower-conversion',alt:'Concept rendering of a glass enclosed shower with warm stone-look tile and handheld fixture'},
  '/room-conversions':{slug:'room-conversion',alt:'Concept rendering of a converted garage used as a comfortable office and hobby workspace'},
- '/finish-carpentry':{slug:'finish-carpentry',alt:'Concept detail showing clean white-painted door casing, baseboard and warm wooden flooring'}
+ '/finish-carpentry':{slug:'finish-carpentry',alt:'Concept detail showing clean white-painted door casing, baseboard and warm wooden flooring'},
+ '/custom-cabinetry':{slug:'custom-cabinetry',alt:'Design concept of a warm living room with custom wood built-in shelving, cabinetry and detailed trim beside a fireplace'},
+ '/deck-building-outdoor-carpentry':{slug:'deck-outdoor',alt:'Design concept of a pine-country Northern Arizona home with wood deck, safe stair access and exterior carpentry details'}
 };
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;');
 export function conceptCardImage(path){

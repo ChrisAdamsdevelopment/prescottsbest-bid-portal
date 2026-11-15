@@ -1508,3 +1508,130 @@
 .accessible-reel video{display:block;width:100%;height:auto;aspect-ratio:16 / 9;background:#162b21}
 .accessible-reel figcaption{background:#f6f5ef;padding:12px 18px;color:#355145;line-height:1.5}
 .accessible-video .section-heading{max-width:960px;margin-inline:auto}
+
+
+/* PBC mobile repair 2026-11-14: owner-reported shower concept cards and reel. */
+@media (max-width: 720px) {
+  /* Natural-width landscape photographs; no media block inherits a tall, empty video frame. */
+  .site-section.new-concept-hero {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding:0;
+    margin:18px 16px 25px;
+    width:auto;
+    min-height:0;
+    border-radius:15px;
+    overflow:hidden;
+  }
+  .new-concept-hero .new-concept {
+    flex:none;
+    display:block;
+    width:100%;
+    max-width:100%;
+    min-height:0;
+    height:auto;
+    margin:0;
+    border:0;
+    border-radius:0;
+  }
+  .new-concept-hero .new-concept img {
+    display:block;
+    width:100%;
+    height:auto;
+    max-height:none;
+    aspect-ratio:16 / 9;
+    object-fit:cover;
+    object-position:center;
+  }
+  .new-split {
+    align-items:stretch;
+    gap:18px;
+  }
+  .new-split .new-concept,
+  .concept-feature-grid .new-concept {
+    display:block;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    min-height:0;
+    height:auto;
+  }
+  .new-split .new-concept img {
+    width:100%;
+    height:auto;
+    aspect-ratio:16 / 9;
+    object-fit:cover;
+  }
+  .concept-feature-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+  }
+  .concept-feature-grid .new-concept img {
+    width:100%;
+    height:auto;
+    aspect-ratio:4 / 3;
+    object-fit:cover;
+  }
+  .new-concept figcaption {
+    font-size:13px;
+    line-height:1.4;
+    padding:10px 13px;
+  }
+  /* 20-second educational reel is a normal 16:9 in-page video, not a full-height mobile embed. */
+  .site-section.accessible-video {
+    padding-block:30px 42px;
+  }
+  .accessible-video .section-heading {
+    margin-bottom:16px;
+  }
+  .accessible-reel {
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    min-height:0;
+    margin:0;
+    border-radius:12px;
+    background:#f5f3ed;
+  }
+  .accessible-reel video {
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    min-height:0;
+    aspect-ratio:16 / 9;
+    object-fit:contain;
+    background:#172c21;
+  }
+  .accessible-reel figcaption {
+    padding:10px 13px;
+    font-size:13px;
+    line-height:1.45;
+  }
+}
+@media (max-width: 690px) {
+  /* A compact one-tap Scotty launcher avoids covering photography and blocking the fixed CTA. */
+  .scotty-widget {
+    right:12px;
+    bottom:calc(86px + env(safe-area-inset-bottom));
+  }
+  .scotty-launch {
+    width:52px;
+    min-width:52px;
+    height:52px;
+    min-height:52px;
+    padding:0;
+    font-size:0;
+    line-height:1;
+    border-radius:50%;
+  }
+  .scotty-launch span {
+    font-size:24px;
+    line-height:1;
+  }
+  .scotty-launch small { display:none; }
+  .scotty-active .scotty-launch { visibility:hidden; }
+}
