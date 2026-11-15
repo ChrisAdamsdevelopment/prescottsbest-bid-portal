@@ -6,7 +6,7 @@ import {brandFilmData,brandFilmForPath,brandFilmJsonLd,brandFilmAssets} from '..
 
 const origin='https://prescottsbestconstruction.com';
 const cases=[
- ['/', 'home','prescotts-best-home-remodeling-new-hero-audio'],
+ ['/', 'home','prescotts-best-home-remodeling-new-voice-20261115'],
  ['/holiday-lighting','holiday','prescotts-best-holiday-lighting-custom-audio'],
  ['/visual-design-preview','design','prescotts-best-design-center']
 ];
@@ -26,6 +26,10 @@ test('each commercial is on its correct page with poster, controls, a text descr
   assert.ok(page.includes('/site-assets/brand-films/'+slug+'-720.mp4'));
   assert.ok(page.includes('/site-assets/brand-films/'+slug+'-480.mp4'));
   assert.match(page,/<video[^>]+data-brand-video controls muted playsinline loop preload="none"/);
+  if(id==='home'){
+   assert.match(page,/<track kind="captions"[^>]+srclang="en"[^>]+default>/);
+   assert.match(page,/prescotts-best-home-remodeling-new-voice-20261115\.vtt/);
+  }
   assert.match(page,/data-film-controls hidden/);
   assert.match(page,/data-film-toggle aria-label=/);
   assert.match(page,/data-film-sound aria-label=/);
@@ -41,7 +45,7 @@ test('each commercial is on its correct page with poster, controls, a text descr
   assert.equal(v.contentUrl,origin+'/site-assets/brand-films/'+slug+'-720.mp4');
   assert.equal(v.thumbnailUrl[0],origin+'/site-assets/brand-films/'+(id==='home'?'prescotts-best-home-remodeling':id==='holiday'?'prescotts-best-holiday-lighting':slug)+'-poster.webp');
   assert.equal(v.duration,'PT10S');
-  assert.equal(v.uploadDate,'2026-11-08T00:00:00-07:00');
+  assert.equal(v.uploadDate,id==='home'?'2026-11-15T00:00:00-07:00':'2026-11-08T00:00:00-07:00');
   assert.match(v.uploadDate,/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/);
   assert.ok(Number.isFinite(Date.parse(v.uploadDate)));
   assert.equal(v.name,brandFilmData[id].title);
@@ -55,26 +59,28 @@ test('each commercial is on its correct page with poster, controls, a text descr
  assert.ok(!render('/bathroom-remodeling').includes('data-brand-film='));
  assert.equal(brandFilmJsonLd('/bathroom-remodeling'),null);
 });
-test('all nine optimized commercial assets exist, have expected magic bytes and sensible dimensions',async()=>{
- assert.equal(brandFilmAssets.length,9);
- const unique=new Set(brandFilmAssets.map(a=>a.path));assert.equal(unique.size,9);
+test('all ten optimized commercial assets and homepage caption track exist with correct content types',async()=>{
+ assert.equal(brandFilmAssets.length,10);
+ const unique=new Set(brandFilmAssets.map(a=>a.path));assert.equal(unique.size,10);
  const list=[];
  for(const asset of brandFilmAssets){
-  assert.match(asset.path,/^\/site-assets\/brand-films\/[a-z0-9-]+\.(mp4|webp)$/);
+  assert.match(asset.path,/^\/site-assets\/brand-films\/[a-z0-9-]+\.(mp4|webp|vtt)$/);
   const file=new URL('../public'+asset.path,import.meta.url);
   const info=await stat(file),buffer=await readFile(file);
-  assert.ok(info.size>=20000);
+  assert.ok(info.size>=(asset.type.startsWith('text/')?50:20000));
   assert.ok(info.size<(asset.type==='video/mp4'?3000000:220000));
   assert.equal(info.size,buffer.length);
   if(asset.type==='video/mp4'){
    assert.equal(buffer.toString('ascii',4,8),'ftyp',asset.name);
    assert.ok(buffer.includes(Buffer.from('moov')),'faststart metadata in '+asset.name);
-  }else assert.equal(buffer.toString('ascii',0,4),'RIFF',asset.name);
+  }else if(asset.type==='image/webp')assert.equal(buffer.toString('ascii',0,4),'RIFF',asset.name);
+  else {assert.equal(asset.type,'text/vtt; charset=utf-8');assert.match(buffer.toString('utf8'),/^WEBVTT/);}
   list.push(asset.name);
  }
  assert.equal(list.filter(n=>n.endsWith('720.mp4')).length,3);
  assert.equal(list.filter(n=>n.endsWith('480.mp4')).length,3);
  assert.equal(list.filter(n=>n.endsWith('poster.webp')).length,3);
+ assert.equal(list.filter(n=>n.endsWith('.vtt')).length,1);
 });
 test('playback scripts respect reduced motion and offscreen playback, without user-data analytics',async()=>{
  const js=await readFile(new URL('../public/brand-films.js',import.meta.url),'utf8');
@@ -85,8 +91,9 @@ test('playback scripts respect reduced motion and offscreen playback, without us
  assert.match(js,/chosenPause/);
  assert.match(js,/video\.play\(\)/);
  assert.match(js,/video\.controls=false/);
+ assert.match(js,/track\.mode='showing'/);
  assert.doesNotMatch(js,/fetch\(/);
  const home=render('/');
- assert.match(home,/src="\/brand-films\.js"/);
+ assert.match(home,/src="\/brand-films\.js\?v=home-captions-20261115"/);
  assert.match(home,/class="brand-film hero-visual brand-film-hero"/);
 });

@@ -149,7 +149,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '## Main pages',
    '- [November 2026 storm recovery]('+site+'/storm-flood-damage-prescott): Free Prescott-area flood, insurance and reconstruction guide',
    '- [Home]('+site+'/): Residential remodeling and service overview',
-   '- [Prescott home remodeling commercial]('+site+'/site-assets/brand-films/prescotts-best-home-remodeling-new-hero-audio-720.mp4): Ten-second introduction to the company, Northern Arizona homes and remodeled kitchen craftsmanship',
+   '- [Prescott home remodeling commercial]('+site+'/site-assets/brand-films/prescotts-best-home-remodeling-new-voice-20261115-720.mp4): Ten-second introduction to the company, Northern Arizona homes and remodeled kitchen craftsmanship',
    '- [Visual design previews]('+site+'/visual-design-preview): See-it-before-we-build-it exploration, design examples, and optional home-specific concept requests',
    '- [Design Center commercial]('+site+'/site-assets/brand-films/prescotts-best-design-center-720.mp4): Ten-second illustration of exploring kitchen cabinetry, countertops and finishes',
    '- [About]('+site+'/about): Company and local service-area introduction',
@@ -238,7 +238,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
      const v=video?'<video:video><video:thumbnail_loc>'+origin+'/site-assets/brand-films/'+video.slug+'-poster.webp</video:thumbnail_loc>'+
       '<video:title>'+xmlEsc(video.title)+'</video:title>'+
       '<video:description>'+xmlEsc(video.description)+'</video:description>'+
-      '<video:content_loc>'+origin+'/site-assets/brand-films/'+video.slug+'-720.mp4</video:content_loc>'+
+      '<video:content_loc>'+origin+'/site-assets/brand-films/'+(video.videoSlug||video.slug)+'-720.mp4</video:content_loc>'+
       '<video:duration>'+video.duration+'</video:duration></video:video>':'';
     return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+v+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});

@@ -3,7 +3,7 @@
 const base='/site-assets/brand-films/';
 export const brandFilmData=Object.freeze({
  home:{
-  slug:'prescotts-best-home-remodeling',videoSlug:'prescotts-best-home-remodeling-new-hero-audio',path:'/',
+  slug:'prescotts-best-home-remodeling',videoSlug:'prescotts-best-home-remodeling-new-voice-20261115',captionsFile:'prescotts-best-home-remodeling-new-voice-20261115.vtt',publishedDate:'2026-11-15T00:00:00-07:00',path:'/',
   title:'Prescott’s Best Construction — Your Vision, Beautifully Built',
   description:'Ten-second brand film showing a Northern Arizona style residence, a warm wood kitchen remodel concept, custom cabinetry details, and the Prescott’s Best Construction logo.',
   posterAlt:'Prescott-style residence and warm remodeling inspiration featuring Northern Arizona scenery.',
@@ -34,7 +34,8 @@ export const brandFilmForPath=path=>Object.values(brandFilmData).find(f=>f.path=
 export const brandFilmAssets=Object.freeze(Object.values(brandFilmData).flatMap(f=>[
  {path:base+(f.videoSlug||f.slug)+'-720.mp4',name:(f.videoSlug||f.slug)+'-720.mp4',type:'video/mp4'},
  {path:base+(f.videoSlug||f.slug)+'-480.mp4',name:(f.videoSlug||f.slug)+'-480.mp4',type:'video/mp4'},
- {path:base+f.slug+'-poster.webp',name:f.slug+'-poster.webp',type:'image/webp'}
+ {path:base+f.slug+'-poster.webp',name:f.slug+'-poster.webp',type:'image/webp'},
+ ...(f.captionsFile?[{path:base+f.captionsFile,name:f.captionsFile,type:'text/vtt; charset=utf-8'}]:[])
 ]));
 const enc=x=>String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 export function brandFilm(id,options={}){
@@ -51,6 +52,7 @@ export function brandFilm(id,options={}){
   ' aria-label="'+enc(film.title)+'" aria-describedby="'+captionId+'">'+
   '<source src="'+videoBase+'-480.mp4" media="(max-width: 700px)" type="video/mp4">'+
   '<source src="'+videoBase+'-720.mp4" type="video/mp4">'+
+  (film.captionsFile?'<track kind="captions" src="'+base+film.captionsFile+'" srclang="en" label="English captions" default>':'')+
   '<p>Your browser cannot play this video. <a href="'+videoBase+'-720.mp4">View the commercial directly</a>.</p>'+
   '</video>'+
   '<div class="brand-film-controls" data-film-controls hidden>'+
@@ -67,7 +69,7 @@ export function brandFilmJsonLd(path,origin='https://prescottsbestconstruction.c
  return {
   '@context':'https://schema.org','@type':'VideoObject',
   '@id':root+film.path+'#brand-film',name:film.title,description:film.description,
-  uploadDate:'2026-11-08T00:00:00-07:00',duration:'PT10S',isFamilyFriendly:true,inLanguage:'en-US',
+  uploadDate:film.publishedDate||'2026-11-08T00:00:00-07:00',duration:'PT10S',isFamilyFriendly:true,inLanguage:'en-US',
   thumbnailUrl:[root+base+film.slug+'-poster.webp'],
   contentUrl:root+base+(film.videoSlug||film.slug)+'-720.mp4',
   url:root+(film.path==='/'?'/':film.path),

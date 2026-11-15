@@ -15,6 +15,18 @@
   const play=figure.querySelector('[data-film-toggle]');
   const sound=figure.querySelector('[data-film-sound]');
   if(!video||!toolbar||!play||!sound)continue;
+  if(figure.dataset.brandFilm==='home'){
+   // Keep spoken captions visible by default during muted autoplay and sound-on playback.
+   const captions=video.querySelector('track[kind="captions"]');
+   const showCaptions=()=>{
+    for(const track of Array.from(video.textTracks||[])){
+     if(track.kind==='captions')track.mode='showing';
+    }
+   };
+   captions?.addEventListener('load',showCaptions);
+   video.addEventListener('loadedmetadata',showCaptions);
+   showCaptions();
+  }
   toolbar.hidden=false;
   video.controls=false; // Keep native controls as the no-JavaScript fallback.
   // Cinematic video opens on its poster instead of flashing a large Play badge

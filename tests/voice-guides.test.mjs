@@ -27,7 +27,7 @@ test('three advanced tools have a visible, one-tap read-aloud control and a full
   assert.match(html,/role="status" aria-live="polite"/);
   assert.ok(html.indexOf('data-voice-guide=')<html.indexOf(marker),route);
   assert.match(html,/<script defer src="\/voice-guides.js\?v=recorded-guides-20261109"/);
-  assert.match(html,/marketing.css\?v=voice-guides-20261109/);
+  assert.match(html,/marketing.css\?v=home-voice-captions-20261115/);
   assert.equal(voiceGuideConfig[route].steps.length,4,route);
   assert.ok(voiceGuideConfig[route].steps.every(x=>x.length>65));
   assert.match(voiceGuideForPath(route),/data-guide-speech="/);
