@@ -61,6 +61,10 @@ test('legacy www and apex paths permanently redirect to live relevant pages with
    assert.equal(response.status,200,path);
    assert.ok(response.body.includes(marker),path+' contains actual replacement content');
   }
+  const verification=await request(port,'/google8f94b7995e1d2447.html','prescottsbestconstruction.com');
+  assert.equal(verification.status,200,'canonical URL-prefix property proof is served at site root');
+  assert.match(verification.headers['content-type'],/text\/html/);
+  assert.equal(verification.body.trim(),'google-site-verification: google8f94b7995e1d2447.html');
   const preview=await request(port,'/services','localhost');
   assert.equal(preview.status,404,'private/nonmarketing hostname does not gain a redirect');
  }finally{
