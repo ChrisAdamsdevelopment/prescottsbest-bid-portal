@@ -1635,3 +1635,10 @@
   .scotty-launch small { display:none; }
   .scotty-active .scotty-launch { visibility:hidden; }
 }
+
+/* Home brand-commercial captions: visible for muted autoplay and sound-on playback. */
+.brand-film[data-brand-film="home"] .brand-film-video::cue {
+  color:#fff; background-color:rgba(12,26,20,.86);
+  font-family:Arial,"Segoe UI",sans-serif; font-size:19px; font-weight:700;
+}
+@media(max-width:720px){.brand-film[data-brand-film="home"] .brand-film-video::cue{font-size:14px}}
