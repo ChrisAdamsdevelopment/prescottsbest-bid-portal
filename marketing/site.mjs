@@ -65,7 +65,7 @@ function home(){
  '<div class="cinema-actions"><div class="site-actions">'+consultLink+priceLink+'</div>'+
  '<p class="cinema-secondary">Need some direction? <a href="'+link('/project-guide')+'">Ask our optional Project Guide</a> or '+call+'.</p></div></div></section>'+
  trust+
- '<section class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
+ '<section id="services" class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
  '<section class="site-section accessible-home-feature"><div><span class="kicker">REMODEL FOR COMFORT AND EASE</span><h2>A bathroom that feels easier to use.</h2><p>From a lower shower entry to practical support, comfortable lighting and storage you can reach, thoughtful changes can help a home work better for the people living in it.</p><a class="site-button primary" href="'+link('/accessible-aging-in-place-remodeling')+'">Explore accessible remodeling</a></div>'+conceptMediaFigure('access-shower-wide')+'</section>'+
  '<section class="holiday-home-feature" aria-label="Holiday lighting installation and house photo previews">'+
  '<div class="holiday-home-feature-copy"><span class="kicker">HOLIDAY LIGHTING · PRESCOTT AREA</span>'+

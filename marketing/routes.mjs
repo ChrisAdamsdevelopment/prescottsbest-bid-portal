@@ -54,6 +54,18 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
   res.writeHead(301,{'Location':'https://prescottsbestconstruction.com'+dest,'Cache-Control':'public,max-age=300'});
   res.end();return true;
  }
+ // Preserve useful legacy Wix entry points with permanent, relevant redirects.
+ // These two addresses appeared as "Discovered - currently not indexed" in the
+ // old www Search Console property, but led to 404s after www canonicalization.
+ if(marketingHost&&(path==='/concierge-maintenance'||path==='/services')){
+  const query=new URL(req.url,'http://localhost').search;
+  const target=path==='/concierge-maintenance'
+   ? '/concierge'+query
+   : '/'+query+'#services';
+  res.writeHead(301,{'Location':'https://prescottsbestconstruction.com'+target,
+   'Cache-Control':'public,max-age=300'});
+  res.end();return true;
+ }
  // Preserve the indexed 2026 Wix permit URL with a relevant current guide.
  if(marketingHost&&path==='/prescott-fast-track-permits-2026'){
   const query=new URL(req.url,'http://localhost').search;
