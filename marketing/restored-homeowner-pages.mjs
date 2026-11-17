@@ -81,26 +81,25 @@ export function prescottPermitGuidePage(link){
  '</article>'+cta(link,'Planning work on your home?','We can help you identify the questions to ask and explain the next steps for your project.')};
 }
 export function crystalCreekCaseStudyPage(link){
- return {title:'Crystal Creek Accessible Bathroom & Closet | Prescott’s Best',description:'A Home Designed to Stay In: how a Crystal Creek remodeling project addressed an accessible closet, flush-entry shower and difficult underfloor conditions.',kind:'blog',headline:'A Home Designed to Stay In — Crystal Creek Accessible Bathroom',published:'2026-10-31',modified:'2026-11-14',body:
- header('REAL PROJECT STORY · CRYSTAL CREEK','A Home Designed to Stay In.','The owners loved their home. They needed it to work differently so they could stay there. That meant looking beyond the visible tile and fixtures—and solving a difficult problem beneath the floor.')+
+ return {title:'Crystal Creek Accessible Bathroom & Closet | Prescott’s Best',description:'See how Prescott’s Best Construction reworked floor framing in a tight two-foot crawlspace to build a flush, wheelchair-accessible shower and closet in Crystal Creek.',kind:'blog',headline:'A Home Designed to Stay In — Crystal Creek Accessible Bathroom',published:'2026-10-31',modified:'2026-11-16',body:
+ header('REAL PROJECT STORY · CRYSTAL CREEK','A Home Designed to Stay In.','The owners loved their home. They needed it to work differently so they could stay there. That meant looking beyond the visible tile and fixtures—and solving a difficult structural problem beneath the floor.')+
  '<article class="site-section site-article new-article"><h2>Start with the homeowner’s goal.</h2>'+
- '<p>In the original Prescott’s Best Construction project story, the homeowners were considering moving because changing mobility needs had made parts of their house harder to use. Andrew worked with them on a more practical layout for wheelchair use.</p>'+
- '<p>The project included a wheelchair-accessible closet, a spacious shower with a level entry, and a specialized toilet. Each choice was part of making the house more comfortable to live in—not just giving it a new look.</p>'+
+ '<p>When these Crystal Creek homeowners reached out to us, they were considering moving out of a house they wanted to keep because changing mobility needs had made everyday spaces harder to use. Andrew worked with them on a practical layout built around comfortable wheelchair access.</p>'+
+ '<p>The project brought together a wheelchair-accessible closet, a spacious walk-in shower with a flush, level entry, and a specialized toilet. Every decision focused on making the house easier and safer to live in every day—not just giving the room a new look.</p>'+
  '<h2>The hardest work was under the shower.</h2>'+
- '<p>To make the shower entry flush, the existing floor and supports needed attention. The original account describes a crawlspace of roughly two feet, heating equipment between joists, and the challenge of cutting back the floor without leaving the new shower unsupported.</p>'+
- '<p>In that cramped space, Andrew dug by hand with a garden trowel and installed two concrete support posts. It is the kind of demanding work a finished photograph might never show, but it made the planned shower possible.</p>'+
+ '<p>To make the shower entry truly flush with the bathroom floor, the existing subfloor framing and supports underneath had to be reworked. Beneath the bathroom was a tight crawlspace of roughly two feet with heating equipment running between the joists, leaving very little room to cut back the floor and recess the shower pan without compromising structural support.</p>'+
+ '<p>Working inside that two-foot space, Andrew dug by hand with a garden trowel and installed two concrete support posts to carry the load properly. It is the kind of demanding structural work a finished photograph never shows, but it is what made a solid, zero-threshold shower possible.</p>'+
  '<h2>What made the result matter.</h2>'+
- '<p>Tile, fixtures and finishing details completed the room. The most important change, though, was what the homeowners could do afterward: remain in the home they wanted to keep, with spaces better suited to how they lived.</p>'+
- '<p>Every accessibility remodel is different. This project shows why careful measurements, floor structure, plumbing and the homeowner’s daily routine all belong in the conversation from the start.</p>'+
- '<div class="project-media-note"><h3>See original project media</h3>'+
- '<p>The original project post is available on the company’s Instagram. We are preserving the original photos rather than substituting generated images and calling them completed work.</p>'+
- '<a class="site-button outline" href="https://www.instagram.com/p/DV162KsgUxP/" target="_blank" rel="noopener noreferrer">Open the original project post</a></div>'+
- '<p class="micro">This story is restored from the company’s previously published October 2026 Wix project page and archived publication record. Project details refer to this specific home; they are not a promise that the same design will work in every home.</p>'+
+ '<p>Clean tile work, accessible fixtures, and custom finish details completed the bathroom and closet. The real outcome, though, was much more personal: the homeowners could stay in the home and neighborhood they loved, with everyday spaces built around how they actually live.</p>'+
+ '<p>Every accessibility remodel starts with different framing, drainage, and floor elevations. This project is a good example of why careful on-site measurements, subfloor inspection, and an honest conversation about your daily routine belong at the very beginning of the plan.</p>'+
+ '<div class="project-media-note"><h3>See the project photos</h3>'+
+ '<p>You can view the original walkthrough and project photos directly on our Instagram page. Every home’s framing and subfloor conditions are different, so we always check what is underneath your existing floor before confirming which shower-entry options will work in your space.</p>'+
+ '<a class="site-button outline" href="https://www.instagram.com/p/DV162KsgUxP/" target="_blank" rel="noopener noreferrer">Open the original project post on Instagram</a></div>'+
  '</article>'+
  '<section class="site-section homeowner-project-story"><div><span class="kicker">EXPLORE A SIMILAR IDEA</span><h2>Could your bathroom work better for you?</h2>'+
- '<p>See how low-entry showers, useful storage, support locations and comfortable circulation can be planned around your own home.</p>'+
+ '<p>See how low-entry showers, solid grab-bar backing, reachable storage, and comfortable doorway clearances can be planned around your own home.</p>'+
  '<a href="'+link('/accessible-aging-in-place-remodeling')+'" class="site-button primary">Explore accessible remodeling</a></div></section>'+
- cta(link,'Let’s talk about what would help at home.','We will listen to what needs to change, then look at what the home can accommodate.')};
+ cta(link,'Let’s talk about what would help at home.','We will listen to what needs to change, look at what your home’s structure can accommodate, and help you sort through the options.')};
 }
 export function projectsIndexPage(link){
  return {title:'Real Remodeling Work & Project Stories | Prescott’s Best',description:'Read the Crystal Creek accessible remodel story and explore remodeling ideas from Prescott’s Best Construction, with a clear distinction between real projects and design concepts.',body:
