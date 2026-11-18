@@ -92,7 +92,7 @@
 .site-header .mobile-menu summary:before{content:"☰";font-size:21px;line-height:1}
 .site-header .mobile-menu[open] summary:before{content:"×";font-size:24px}
 .site-header .mobile-menu summary:focus-visible{outline:3px solid #af801d;outline-offset:3px}
-@media(max-width:1100px){
+@media(max-width:1450px){
  .site-header{gap:14px}
  .site-header .desktop-nav{display:none}
  .site-header .mobile-menu{display:block;position:relative;margin-left:auto}
@@ -1642,3 +1642,20 @@
   font-family:Arial,"Segoe UI",sans-serif; font-size:19px; font-weight:700;
 }
 @media(max-width:720px){.brand-film[data-brand-film="home"] .brand-film-video::cue{font-size:14px}}
+
+/* Real-project evidence: original contractor Instagram posts, never AI project renders. */
+.real-proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:24px;margin:26px 0}
+.real-media-card{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:var(--paper);box-shadow:0 10px 30px #2038280d}
+.real-media-card-copy{padding:24px}
+.real-media-card h3{font-size:23px;line-height:1.25;margin:11px 0 12px;color:var(--forest)}
+.real-media-card p{font-size:16px;line-height:1.65}
+.real-media-card .instagram-embed-load{margin-top:10px;width:100%;max-width:420px}
+.real-media-card .instagram-embed-load[disabled]{cursor:default;opacity:.75}
+.instagram-embed-target:not(:empty){margin:18px 0 12px;max-width:480px;width:100%;min-height:360px;background:#f3f1e9;border-radius:12px;overflow:hidden}
+.instagram-embed-target iframe{display:block;width:100%;height:clamp(460px,85vh,620px);border:0;background:#fff}
+.real-media-original{display:inline-block;font-size:16px;font-weight:750;margin-top:12px}
+.real-project-links{display:flex;flex-direction:column;gap:12px;align-items:flex-start;text-align:left}
+.real-project-links a{font-size:17px;font-weight:750}
+.real-project-teaser{background:#f1f2e9;border-radius:15px;padding:30px;margin-top:20px}
+.real-project-teaser h2{margin-top:8px}
+@media(max-width:620px){.real-media-card-copy{padding:18px}.instagram-embed-target iframe{height:530px}.real-project-teaser{padding:21px}}

@@ -24,7 +24,7 @@ test('keeps actual photo provenance, working original media and accessible page 
 test('keeps approved metadata and conversion actions', () => {
  assert.match(page.title, /Crystal Creek Accessible Bathroom/);
  assert.match(page.description, /wheelchair-accessible shower and closet in Crystal Creek/);
- assert.equal(page.modified, '2026-11-16');
+ assert.equal(page.modified, '2026-11-18');
  assert.match(page.body, /Talk with Andrew about your project/);
  assert.match(page.body, /tel:\+19283500940/);
 });
