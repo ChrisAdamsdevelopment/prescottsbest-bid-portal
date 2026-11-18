@@ -27,6 +27,8 @@ export function windowCasingCaseStudyPage(link){
   return {
     title:'Precision Window Casing & Finish Carpentry | Prescott’s Best Construction',
     description:'Watch real shop footage of measured, preassembled window casing and joinery work by Prescott’s Best Construction serving the Prescott Valley area.',
+    kind:'blog',headline:'Precision Window Casing and Finish Carpentry — Prescott’s Best Construction',
+    published:'2026-11-18',modified:'2026-11-18',
     body:
       '<header class="site-pagehead new-pagehead"><span class="kicker">REAL CRAFTSMANSHIP · FINISH CARPENTRY</span>'+
       '<h1>Precision starts before the trim reaches the wall.</h1>'+
