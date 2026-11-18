@@ -2,6 +2,7 @@
 // Project story grounded in the original Wix publication and screenshots (2026-10-31).
 // Never present concept illustrations as completed Prescott’s Best projects.
 import {conceptMediaFigure} from './remodeling-concept-media.mjs';
+import {instagramProjectMedia} from './instagram-project-proof.mjs';
 const esc=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const header=(label,title,lead)=>'<header class="site-pagehead new-pagehead"><span class="kicker">'+esc(label)+'</span><h1>'+esc(title)+'</h1><p class="lede">'+esc(lead)+'</p></header>';
 const cta=(link,title,copy)=>'<section class="site-cta"><h2>'+esc(title)+'</h2><p>'+esc(copy)+'</p><div class="site-actions"><a class="site-button primary" href="'+link('/schedule')+'">Talk with Andrew about your project</a><a class="site-button outline" href="tel:+19283500940">Call (928) 350-0940</a></div></section>';
@@ -81,7 +82,7 @@ export function prescottPermitGuidePage(link){
  '</article>'+cta(link,'Planning work on your home?','We can help you identify the questions to ask and explain the next steps for your project.')};
 }
 export function crystalCreekCaseStudyPage(link){
- return {title:'Crystal Creek Accessible Bathroom & Closet | Prescott’s Best',description:'See how Prescott’s Best Construction reworked floor framing in a tight two-foot crawlspace to build a flush, wheelchair-accessible shower and closet in Crystal Creek.',kind:'blog',headline:'A Home Designed to Stay In — Crystal Creek Accessible Bathroom',published:'2026-10-31',modified:'2026-11-16',body:
+ return {title:'Crystal Creek Accessible Bathroom & Closet | Prescott’s Best',description:'See how Prescott’s Best Construction reworked floor framing in a tight two-foot crawlspace to build a flush, wheelchair-accessible shower and closet in Crystal Creek.',kind:'blog',headline:'A Home Designed to Stay In — Crystal Creek Accessible Bathroom',published:'2026-10-31',modified:'2026-11-18',body:
  header('REAL PROJECT STORY · CRYSTAL CREEK','A Home Designed to Stay In.','The owners loved their home. They needed it to work differently so they could stay there. That meant looking beyond the visible tile and fixtures—and solving a difficult structural problem beneath the floor.')+
  '<article class="site-section site-article new-article"><h2>Start with the homeowner’s goal.</h2>'+
  '<p>When these Crystal Creek homeowners reached out to us, they were considering moving out of a house they wanted to keep because changing mobility needs had made everyday spaces harder to use. Andrew worked with them on a practical layout built around comfortable wheelchair access.</p>'+
@@ -95,6 +96,10 @@ export function crystalCreekCaseStudyPage(link){
  '<div class="project-media-note"><h3>See the project photos</h3>'+
  '<p>You can view the original walkthrough and project photos directly on our Instagram page. Every home’s framing and subfloor conditions are different, so we always check what is underneath your existing floor before confirming which shower-entry options will work in your space.</p>'+
  '<a class="site-button outline" href="https://www.instagram.com/p/DV162KsgUxP/" target="_blank" rel="noopener noreferrer">Open the original project post on Instagram</a></div>'+
+ '<section class="real-project-teaser" aria-labelledby="crystal-creek-proof-title"><span class="kicker">FROM OUR OWN JOBSITE · ORIGINAL INSTAGRAM POSTS</span>'+
+ '<h2 id="crystal-creek-proof-title">See the build, not just the finished tile.</h2>'+
+ '<p>The company’s Crystal Creek posts document shower construction stages, large-format wall tile, a built-in bench and recessed niches. One update described the tile phase as finished while glass and some fixtures were still being scheduled. The original media gives an honest look at the work in progress; it does not itself document the crawlspace structural work described above.</p>'+
+ '<div class="real-proof-grid">'+instagramProjectMedia('crystalProgress','Behind the walls and tile','Follow original construction footage from the preparation stages through the shower build.')+instagramProjectMedia('crystalPhotos','Large-format tile and shower details','See original photographs of the tiled walls, bench and shower detailing before final glass was completed.')+'</div></section>'+
  '</article>'+
  '<section class="site-section homeowner-project-story"><div><span class="kicker">EXPLORE A SIMILAR IDEA</span><h2>Could your bathroom work better for you?</h2>'+
  '<p>See how low-entry showers, solid grab-bar backing, reachable storage, and comfortable doorway clearances can be planned around your own home.</p>'+
@@ -102,13 +107,18 @@ export function crystalCreekCaseStudyPage(link){
  cta(link,'Let’s talk about what would help at home.','We will listen to what needs to change, look at what your home’s structure can accommodate, and help you sort through the options.')};
 }
 export function projectsIndexPage(link){
- return {title:'Real Remodeling Work & Project Stories | Prescott’s Best',description:'Read the Crystal Creek accessible remodel story and explore remodeling ideas from Prescott’s Best Construction, with a clear distinction between real projects and design concepts.',body:
- header('THE WORK AND THE STORIES BEHIND IT','Built for how people really live.','We want you to see what thoughtful remodeling looks like. Here is a real project story from our original site, along with clearly labeled design concepts to help you plan a project of your own.')+
+ return {title:'Real Remodeling Work & Project Stories | Prescott’s Best',description:'Explore original Crystal Creek shower construction footage, a precision window-casing reel and real project stories from Prescott’s Best Construction in the Prescott area.',body:
+ header('THE WORK AND THE STORIES BEHIND IT','Built for how people really live.','Real project stories and original workshop footage show how our work takes shape. Planning concepts are labeled separately so you can always tell finished jobs from design inspiration.')+
  '<section class="site-section new-project-card"><div><span class="kicker">FEATURED PROJECT · CRYSTAL CREEK</span>'+
  '<h2>Helping homeowners stay in the place they love.</h2>'+
  '<p>A wheelchair-accessible closet and level-entry shower called for careful work under the floor, including hand-excavated concrete support posts in a tight crawlspace. The challenge was worth solving because it helped the homeowners remain in their familiar home.</p>'+
  '<div class="site-actions"><a class="site-button primary" href="'+link('/projects/crystal-creek-accessible-remodel')+'">Read the project story</a>'+
  '<a class="site-button outline" href="https://www.instagram.com/p/DV162KsgUxP/" rel="noopener noreferrer" target="_blank">Original project media</a></div></div></section>'+
+ '<section class="site-section real-project-teaser" aria-labelledby="real-casing-title"><div><span class="kicker">ORIGINAL WORKSHOP FOOTAGE · FINISH CARPENTRY</span>'+
+ '<h2 id="real-casing-title">Precision window and door casings start at the workbench.</h2>'+
+ '<p>Watch the original shop reel showing measured pieces and preassembled trim corners before installation. This is real process footage—not a concept rendering.</p>'+
+ '<div class="site-actions"><a class="site-button primary" href="'+link('/projects/precision-window-casings')+'">See the craftsmanship story</a>'+
+ '<a class="site-button outline" href="'+link('/finish-carpentry')+'">Explore finish carpentry</a></div></div></section>'+
  '<section class="site-section"><div class="section-heading"><span class="kicker">EXPLORE MATERIALS AND LAYOUTS</span>'+
  '<h2>Design ideas you can make your own.</h2><p>These images are planning concepts—not photographs of our completed jobs. They can help you compare the kind of layout and finishes you would enjoy at home.</p></div>'+
  '<div class="concept-feature-grid">'+conceptMediaFigure('access-shower-wide')+conceptMediaFigure('builtins-living')+conceptMediaFigure('access-kitchen')+'</div></section>'+

@@ -3,6 +3,7 @@ import {serviceEditorial} from './editorial-voice.mjs';
 import {serviceDepth} from './service-depth.mjs';
 import {conceptMediaFigure,conceptSectionForService,conceptImageObjectsForPage} from './remodeling-concept-media.mjs';
 import {accessibleRemodelingPage,prescottPermitGuidePage,crystalCreekCaseStudyPage,projectsIndexPage} from './restored-homeowner-pages.mjs';
+import {windowCasingCaseStudyPage} from './instagram-project-proof.mjs';
 import {guidePage} from './guide-page.mjs';
 import {articlePages,articles} from './articles.mjs';
 import {holidayPages} from './holiday-pages.mjs';
@@ -84,7 +85,7 @@ function home(){
  previewPromo(link,{heading:previewCopy.homeHeading,copy:previewCopy.homeBody})+
  '<section class="site-band"><div><span class="kicker">PLAN WITH CONFIDENCE</span><h2>Have a project in mind but no idea what it could cost?</h2><p>Explore a practical budget range and see how fixed-price and cost-plus projects differ. We’ll refine your numbers after discussing the space, materials and scope.</p></div>'+priceLink+'</section>'+
  '<section class="site-section"><div class="section-heading"><span class="kicker">LEARN BEFORE YOU START</span><h2>Helpful answers for local homeowners</h2><p>Useful preparation is more important than pushing for a quick commitment.</p></div>'+cards(guides,'guide')+'<p class="resource-more"><a class="site-button outline" href="'+link('/blog')+'">Browse the Knowledge Center</a></p></section>'+
- '<section class="site-section proof"><div><span class="kicker">PROJECT EXPERIENCE & CUSTOMER REVIEWS</span><h2>Real experience. Direct reviews.</h2><p>Explore our existing project videos and read customer feedback on Google. See the quality of the work and get to know our approach before inviting us into your home.</p><div class="site-actions"><a class="site-button outline" href="'+link('/projects')+'">See our project stories</a><a class="site-button outline" href="'+maps+'" target="_blank" rel="noopener">Reviews on Google Maps</a></div></div><div class="proof-panel">Explore project videos and homeowner reviews, or contact us to see relevant examples for your renovation.</div></section>'+
+ '<section class="site-section proof"><div><span class="kicker">PROJECT EXPERIENCE & CUSTOMER REVIEWS</span><h2>Real experience. Direct reviews.</h2><p>Explore our existing project videos and read customer feedback on Google. See the quality of the work and get to know our approach before inviting us into your home.</p><div class="site-actions"><a class="site-button outline" href="'+link('/projects')+'">See our project stories</a><a class="site-button outline" href="'+maps+'" target="_blank" rel="noopener">Reviews on Google Maps</a></div></div><div class="proof-panel real-project-links"><strong>Actual work, documented from the jobsite</strong><a href="'+link('/projects/crystal-creek-accessible-remodel')+'">Crystal Creek accessible shower — real construction footage</a><a href="'+link('/projects/precision-window-casings')+'">Window casing — precision shop assembly reel</a><a href="'+link('/projects')+'">Browse real projects and clearly labeled design ideas</a></div></section>'+
  '<section class="site-band"><div><span class="kicker">SEASONAL CONCIERGE</span><h2>Holiday lighting without climbing ladders.</h2><p>Holiday lighting packages start at $599. Choose a classic roofline, add entry and landscape accents, and preview the look on your own home before requesting a quote.</p><p>'+linkText('Explore holiday lighting','/holiday-lighting')+' · '+linkText('Design lights on a house photo','/holiday-lighting/design')+'</p></div><a class="site-button outline" href="'+link('/holiday-lighting')+'">Explore holiday lights</a></section>'+
  '<section class="site-band"><div><span class="kicker">A PERSONAL APPROACH</span><h2>Experienced hands for projects big and small.</h2><p>Learn how we work, and ask about selected smaller improvements through our project concierge.</p><p>'+linkText('Meet Prescott’s Best','/about')+' · '+linkText('Smaller project concierge','/concierge')+'</p></div><a class="site-button outline" href="'+link('/projects')+'">See project media</a></section>'+
  '<section class="site-cta"><h2>Let us talk about your home.</h2><p>A simple conversation can help turn ideas into a clear next step.</p><div class="site-actions">'+consultLink+'</div></section>'};
@@ -108,7 +109,9 @@ function service(s){
  return {title:s.title+' | Prescott’s Best Construction',description:s.desc+' Serving Prescott Valley and the greater Prescott area.',body:
  '<div class="site-pagehead service-pagehead"><div class="service-pagehead-copy"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p></div>'+heroImage+'</div>'+
  '<section class="site-section site-detail"><div><h2>What could change in your home?</h2><p>'+esc(serviceEditorial(s.path).approach)+'</p><p>'+esc(s.detail)+'</p></div><aside class="site-callout"><h3>Useful first steps</h3><ol><li>Describe what needs to change.</li><li>List what needs to stay.</li><li>Choose a finish and budget preference.</li><li>Request a site conversation.</li></ol>'+(s.path==='/custom-cabinetry'||s.path==='/deck-building-outdoor-carpentry'?button('Discuss this project scope','/schedule','outline'):priceLink)+'</aside></section>'+
- serviceDepth(s.path)+conceptSectionForService(s.path)+
+ serviceDepth(s.path)+
+ (s.path==='/finish-carpentry'?'<section class="site-section real-project-teaser"><span class="kicker">REAL COMPANY WORKSHOP FOOTAGE</span><h2>See how our window casings come together.</h2><p>Andrew measures, lays out and joins the trim before installation. Explore the original footage and the craftsmanship behind a finished opening.</p><a class="site-button outline" href="'+link('/projects/precision-window-casings')+'">View the precision-casing project</a></section>':'')+
+ conceptSectionForService(s.path)+
  visualQuickLinks(s.path)+visualExplorersForService(s.path).map(config=>visualExplorerSection(config,link)).join('')+
  previewPromo(link,{compact:true,project:({ '/bathroom-remodeling':'Bathroom remodeling','/kitchen-remodeling':'Kitchen remodeling', '/shower-conversions':'Shower or bath conversion','/room-conversions':'Room or garage conversion', '/finish-carpentry':'Finish carpentry','/custom-cabinetry':'Custom cabinetry and built-ins', '/deck-building-outdoor-carpentry':'Deck or outdoor carpentry'})[s.path]})+
  serviceGuideList(s.path)+'<section class="site-section"><h2>Questions homeowners often ask</h2>'+faq(serviceEditorial(s.path).faqs)+'</section><section class="site-cta"><h2>Tell us what you want to change.</h2><p>We can help identify the next step for your home.</p>'+consultLink+'</section>'};
@@ -188,6 +191,7 @@ for(const g of guides)routes[g.path]=()=>guide(g);
 routes['/accessible-aging-in-place-remodeling']=()=>accessibleRemodelingPage(link);
 routes['/projects']=()=>projectsIndexPage(link);
 routes['/projects/crystal-creek-accessible-remodel']=()=>crystalCreekCaseStudyPage(link);
+routes['/projects/precision-window-casings']=()=>windowCasingCaseStudyPage(link);
 routes['/guides/prescott-remodeling-permits']=()=>prescottPermitGuidePage(link);
 const routenames=Object.keys(routes);
 export function marketingPage(path,options={}){
@@ -268,6 +272,7 @@ export function marketingPage(path,options={}){
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
  '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'">'+
  '<link rel="stylesheet" href="/marketing.css?v=home-voice-captions-20261115"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script><script defer src="/brand-films.js?v=home-captions-20261115"></script><script defer src="/voice-guides.js?v=recorded-guides-20261109"></script>'+
+ (body.includes('data-instagram-post=')?'<script defer src="/instagram-projects.js"></script>':'')+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
  (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+
  (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
