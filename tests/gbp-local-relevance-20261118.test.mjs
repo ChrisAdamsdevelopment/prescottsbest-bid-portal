@@ -19,7 +19,7 @@ test('live canonical business identity is consistent across PBC service pages',(
     assert.equal(entity.url,origin+'/');
     assert.equal(entity.name,'Prescotts Best Construction');
     assert.equal(entity.telephone,'+1-928-350-0940');
-    assert.ok(entity.sameAs.some(x=>x.includes('query_place_id=')));
+    assert.deepEqual(entity.sameAs,['https://www.google.com/maps/place/?q=place_id:ChIJuVpyA3ojLYcRZ4nEjfpJBIU']);
     const served=entity.areaServed.map(city=>city.name);
     assert.deepEqual(served,['Prescott Valley','Prescott','Chino Valley','Dewey-Humboldt']);
     for(const city of entity.areaServed) {

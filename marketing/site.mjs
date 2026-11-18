@@ -21,6 +21,8 @@ const base='/remodeling-preview';
 const root='Prescott’s Best Construction';
 const contact='chris@prescottsbestconstruction.com';
 const maps='https://www.google.com/maps/search/?api=1&query=Prescotts+Best+Construction&query_place_id=ChIJuVpyA3ojLYcRZ4nEjfpJBIU';
+// Independently opened this verified Place ID in Google Maps (owner profile, 2026-11-18).
+const mapsIdentity='https://www.google.com/maps/place/?q=place_id:ChIJuVpyA3ojLYcRZ4nEjfpJBIU';
 const link=(p)=>base+(p==='/'?'':p);
 const services=[
  {path:'/bathroom-remodeling',name:'Bathroom remodeling',desc:'Refresh finishes or plan a complete bathroom renovation, with practical options for layout, surfaces, showers and accessibility.',icon:'BATH',title:'Bathroom Remodeling in Prescott & Prescott Valley',detail:'Bathroom projects often begin with a problem: damaged surfaces, awkward storage, a dated shower or a layout that no longer works. We help homeowners define what should stay, what should change and where the major cost and scheduling questions are. A site visit can confirm whether plumbing, ventilation, waterproofing or electrical work changes the plan.'},
@@ -217,7 +219,7 @@ export function marketingPage(path,options={}){
  telephone:"+1-928-350-0940",email:contact,
  // Only communities actually served, not fabricated storefronts or geographic pins.
  areaServed:["Prescott Valley","Prescott","Chino Valley","Dewey-Humboldt"].map(name=>({"@type":"City",name,address:{"@type":"PostalAddress",addressRegion:"AZ",addressCountry:"US"}})),
- "@id":shareOrigin+"/#business",url:shareOrigin+"/",sameAs:[maps],
+ "@id":shareOrigin+"/#business",url:shareOrigin+"/",sameAs:[mapsIdentity],
  image:shareOrigin+'/site-assets/pbc-logo.webp',
  // Corresponds exactly to the existing public service pages. No invented offers or prices.
  hasOfferCatalog:{"@type":"OfferCatalog",name:"Residential remodeling services",
@@ -269,7 +271,7 @@ export function marketingPage(path,options={}){
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
  (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+
  (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
- (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(newConceptGallerySchema?'<script type="application/ld+json">'+JSON.stringify(newConceptGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(accessibleReelSchema?'<script type="application/ld+json">'+JSON.stringify(accessibleReelSchema).replace(/</g,'\\u003c')+'</script>':'')+(videoSchema?'<script type="application/ld+json">'+JSON.stringify(videoSchema)+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
+ (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(newConceptGallerySchema?'<script type="application/ld+json">'+JSON.stringify(newConceptGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(accessibleReelSchema?'<script type="application/ld+json">'+JSON.stringify(accessibleReelSchema).replace(/</g,'\\u003c')+'</script>':'')+(videoSchema?'<script type="application/ld+json">'+JSON.stringify(videoSchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
  '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+
