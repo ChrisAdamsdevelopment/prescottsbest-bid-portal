@@ -59,7 +59,13 @@ test('existing Crystal Creek story retains evidence distinctions while showing o
 
 test('high-intent service page and homepage link to real project evidence',()=>{
  const carpentry=marketingPage('/remodeling-preview/finish-carpentry');
+ const bathroom=marketingPage('/remodeling-preview/bathroom-remodeling');
+ const shower=marketingPage('/remodeling-preview/shower-conversions');
  const home=marketingPage('/remodeling-preview');
+ assert.match(bathroom,/\/projects\/crystal-creek-accessible-remodel/);
+ assert.match(shower,/\/projects\/crystal-creek-accessible-remodel/);
+ assert.match(home,/Prescott Valley Kitchen &amp; Bathroom Remodeling/);
+ assert.match(home,/instagram\.com\/prescottsbestconstruction/);
  assert.match(carpentry,/\/projects\/precision-window-casings/);
  assert.match(home,/\/projects\/precision-window-casings/);
  assert.match(home,/\/projects\/crystal-creek-accessible-remodel/);
