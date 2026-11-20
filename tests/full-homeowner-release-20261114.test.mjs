@@ -50,7 +50,7 @@ test('accessible aging-in-place landing is indexable, linked and displays correc
  const home=render('/');
  assert.match(home,/Explore accessible remodeling/);
  assert.match(home,/accessible-aging-in-place-remodeling/);
- assert.match(home,/Accessible living/);
+ assert.match(home,/REMODEL FOR COMFORT AND EASE/);
  assert.equal((home.match(/class="site-section accessible-home-feature"/g)||[]).length,1);
  assert.ok(sitemapPaths().includes('/remodeling-preview/accessible-aging-in-place-remodeling'));
 });

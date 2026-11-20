@@ -7,18 +7,20 @@ import {holidayImages} from '../marketing/holiday-assets.mjs';
 const page=(path)=>marketingPage('/remodeling-preview'+(path==='/'?'':path),
  {indexable:true,origin:'https://prescottsbestconstruction.com',cleanPaths:true});
 
-test('home page elevates holiday lights with a dedicated first-screen offer and direct studio link',()=>{
+test('homepage places verified trust and remodeling work before seasonal offers',()=>{
  const home=page('/');
- const holiday=home.indexOf('class="holiday-home-feature"');
- const storm=home.indexOf('class="storm-home-banner"');
- const general=home.indexOf('See it before we build it.');
- assert.ok(holiday>0&&holiday<storm&&holiday<general,'seasonal feature should be easy to find');
- assert.match(home,/Design lights on my home/);
- assert.match(home,/View lighting packages &amp; gallery|View lighting packages & gallery/);
- assert.match(home,/HOLIDAY LIGHTING/);
+ const proof=home.indexOf('home-trust-proof');
+ const services=home.indexOf('id="services"');
+ const seasonal=home.indexOf('ALSO AVAILABLE · SEASONAL');
+ assert.ok(proof>0&&proof<services&&services<seasonal,'real-project proof and remodeling services lead seasonal work');
+ assert.match(home,/4\.8\/5 on Google · 17 reviews/);
+ assert.match(home,/projects\/crystal-creek-accessible-remodel/);
  assert.match(home,/href="\/remodeling-preview\/holiday-lighting"/);
  assert.match(home,/href="\/remodeling-preview\/holiday-lighting\/design"/);
- assert.match(home,/aria-label="Main navigation"/);
+ const nav=home.match(/<nav class="desktop-nav"[^>]*>(.*?)<\/nav>/)?.[1]||'';
+ assert.match(nav,/Real Projects/);
+ assert.match(nav,/Get an Estimate/);
+ assert.doesNotMatch(nav,/Holiday Lights|Design Center/);
 });
 test('Design Center offers six categories, saved ideas and cross-navigation on every design page',()=>{
  const paths=['/visual-design-preview','/kitchen-remodeling','/custom-cabinetry','/deck-building-outdoor-carpentry','/holiday-lighting','/holiday-lighting/design'];

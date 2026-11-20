@@ -9,14 +9,14 @@ const page=path=>marketingPage('/remodeling-preview'+path,env);
 
 test('home leads with a useful human introduction and clear contact choice',()=>{
  const html=page('/');
- assert.match(html,/Good remodeling starts with listening/);
- assert.match(html,/tell us what you have in mind/i);
- assert.ok(html.indexOf('HOW CAN WE HELP?')<html.indexOf('HOLIDAY LIGHTING · PRESCOTT AREA'),'main services lead seasonal offers');
+ assert.match(html,/Bathroom and kitchen remodeling, built around your home/);
+ assert.match(html,/From walk-in showers and kitchen updates/i);
+ assert.ok(html.indexOf('home-trust-proof')<html.indexOf('HOW CAN WE HELP?'),'real work and reviews precede service grid');
  const actions=html.indexOf('class="cinema-actions"');
  const section=html.slice(actions,actions+900);
- assert.ok(section.indexOf('Request a consultation')>=0);
- assert.ok(section.indexOf('Explore a budget range')>=0);
- assert.ok(section.indexOf('Request a consultation')<section.indexOf('Explore a budget range'));
+ assert.ok(section.indexOf('Request an estimate')>=0);
+ assert.ok(section.indexOf('See real project stories')>=0);
+ assert.ok(section.indexOf('Request an estimate')<section.indexOf('See real project stories'));
 });
 
 test('About replaces defensive compliance heading with a genuine local-contractor introduction',()=>{

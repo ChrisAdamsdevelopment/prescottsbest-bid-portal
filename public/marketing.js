@@ -69,15 +69,15 @@ if(lead){
  const photoSection=lead.querySelector('#lead-photo-section');
  const photoInput=lead.querySelector('#lead-photos');
   const previewBox=lead.querySelector('#lead-visual-preview');
- // The form remains usable in email-draft mode until verified server delivery is enabled.
- fetch('/api/public/site-status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Unavailable');return r.json()}).then(config=>{
+ // Show email fallback only if the live inquiry service is actually unavailable.
+ const statusReady=fetch('/api/public/site-status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Unavailable');return r.json()}).then(config=>{
   liveDelivery=config.inquiryEnabled===true;
   const photoReady=liveDelivery&&config.photoUploadEnabled===true;
   if(photoSection)photoSection.hidden=!photoReady;
   if(photoInput)photoInput.disabled=!photoReady;
-  sendButton.textContent=liveDelivery?'Send project request':'Open email draft to Chris';
+  sendButton.textContent=liveDelivery?'Send my project request':'Open email draft instead';
   if(fallback)fallback.hidden=liveDelivery;
- }).catch(()=>{liveDelivery=false;if(fallback)fallback.hidden=false;sendButton.textContent='Open email draft to Chris';});
+ }).catch(()=>{liveDelivery=false;if(fallback)fallback.hidden=false;sendButton.textContent='Open email draft instead';});
  let requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
  try{
   const saved=JSON.parse(sessionStorage.getItem('pbc_budget_draft')||'null');
@@ -132,10 +132,12 @@ if(lead){
   ev.preventDefault();
   const submit=lead.querySelector('button[type=submit]'),info=document.getElementById('lead-message');
   if(!lead.reportValidity())return;
+  // Prevent a fast tap from opening mailto while site-status is still loading.
+  await statusReady;
   if(!liveDelivery){
    const p=Object.fromEntries(new FormData(lead).entries());
    const subject='Prescott’s Best website request — '+(p.project||'remodeling');
-   info.textContent='Opening your email app. Please press Send there; this website has not yet submitted your request.';
+   info.textContent='Online delivery is unavailable. We are opening an email draft; please send it from your email app, or call (928) 350-0940.';
    window.location.href='mailto:chris@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(draft());
    return;
   }
@@ -157,8 +159,8 @@ if(lead){
    if(!result.ok){window.pbcAnalytics?.track('form_error');throw Error(json.error||'Request could not be sent.');}
    window.pbcAnalytics?.track('form_submit');
    info.textContent=json.notificationStatus==='sent'?
-    'Request received and notification accepted for Chris. Reference: '+json.reference+'. '+(json.photosReceived?'Photos attached: '+json.photosReceived+'. ':'')+'We will follow up; this is not a confirmed appointment.':
-    'Your request was saved as '+json.reference+', but an email notification has not been confirmed. To make sure Chris knows right away, please call (928) 350-0940. Your details are still saved for staff review.';
+    'Thank you — your project request is in! Reference: '+json.reference+'. '+(json.photosReceived?'Photos received: '+json.photosReceived+'. ':'')+'Our team will follow up about the next step.':
+    'Your project request was saved (reference '+json.reference+'). The notification email could not be confirmed, so please call (928) 350-0940 if it is time-sensitive.';
    lead.reset();window.pbcResetPhotoSelection?.();requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
   }catch(err){info.textContent=err.message+' Please email chris@prescottsbestconstruction.com or call (928) 350-0940.';}
   finally{submit.disabled=false;}

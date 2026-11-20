@@ -3,14 +3,14 @@ import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
 import {marketingPage} from '../marketing/site.mjs';
 
-test('homepage seasonal block uses requested tree, not old cropped house',async()=>{
+test('homepage keeps seasonal lighting accessible without placing concept art above remodeling proof',async()=>{
  const html=marketingPage('/remodeling-preview',{indexable:false,origin:'https://prescottsbestremodeling.com'});
- assert.match(html,/holiday-gnarled-tree-twilight-960\.webp/);
- assert.match(html,/holiday-gnarled-tree-twilight-1672\.webp/);
+ assert.match(html,/ALSO AVAILABLE · SEASONAL/);
+ assert.match(html,/Explore holiday lighting/);
  assert.doesNotMatch(html,/22-backyard-warm-roofline-long-view\.webp/);
- assert.match(html,/width="1672" height="941"/);
- assert.match(html,/loading="lazy" decoding="async"/);
- assert.match(html,/Holiday lighting concept illustration/);
+ assert.doesNotMatch(html,/class="holiday-home-feature"/);
+ assert.ok(html.indexOf("id=\"services\"")<html.indexOf("ALSO AVAILABLE · SEASONAL"));
+ assert.match(html,/holiday-lighting\/design/);
  assert.match(html,/marketing\.css\?v=real-project-media-20261118/);
  const css=await readFile(new URL('../public/marketing.css',import.meta.url),'utf8');
  assert.match(css,/\.holiday-home-feature-photo img\{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:auto;object-fit:contain;/);

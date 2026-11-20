@@ -56,7 +56,7 @@ test('inspiration tagging, review panel and explicit contact submission appear o
  const contact=page('/schedule');
  assert.match(contact,/My saved inspiration ideas/);
  assert.match(contact,/data-inspiration-items/);
- assert.match(contact,/Open email draft to Chris/);
+ assert.match(contact,/Send my project request/);
 });
 test('server accepts only curated, available image IDs and sanitizes homeowner notes',()=>{
  const kitchen=visualExplorersForService('/kitchen-remodeling');
