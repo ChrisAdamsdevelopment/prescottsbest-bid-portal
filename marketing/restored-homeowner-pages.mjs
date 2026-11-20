@@ -93,13 +93,13 @@ export function crystalCreekCaseStudyPage(link){
  '<h2>What made the result matter.</h2>'+
  '<p>Clean tile work, accessible fixtures, and custom finish details completed the bathroom and closet. The real outcome, though, was much more personal: the homeowners could stay in the home and neighborhood they loved, with everyday spaces built around how they actually live.</p>'+
  '<p>Every accessibility remodel starts with different framing, drainage, and floor elevations. This project is a good example of why careful on-site measurements, subfloor inspection, and an honest conversation about your daily routine belong at the very beginning of the plan.</p>'+
- '<div class="project-media-note"><h3>See the project photos</h3>'+
- '<p>You can view the original walkthrough and project photos directly on our Instagram page. Every home’s framing and subfloor conditions are different, so we always check what is underneath your existing floor before confirming which shower-entry options will work in your space.</p>'+
- '<a class="site-button outline" href="https://www.instagram.com/p/DV162KsgUxP/" target="_blank" rel="noopener noreferrer">Open the original project post on Instagram</a></div>'+
+ '<div class="project-media-note"><h3>Watch the real work here</h3>'+
+ '<p>The real construction video and jobsite photographs appear below on this page, so you can see the work without leaving our website. Every home’s framing and subfloor conditions are different, so we check what is beneath the existing floor before confirming a shower-entry plan.</p>'+
+ '<a class="site-button outline" href="#pbc-project-reel-crystalProgress">Watch the project media and browse photos</a></div>'+
  '<section class="real-project-teaser" aria-labelledby="crystal-creek-proof-title"><span class="kicker">FROM OUR OWN JOBSITE · ORIGINAL INSTAGRAM POSTS</span>'+
  '<h2 id="crystal-creek-proof-title">See the build, not just the finished tile.</h2>'+
- '<p>The company’s Crystal Creek posts document shower construction stages, large-format wall tile, a built-in bench and recessed niches. One update described the tile phase as finished while glass and some fixtures were still being scheduled. The original media gives an honest look at the work in progress; it does not itself document the crawlspace structural work described above.</p>'+
- '<div class="real-proof-grid">'+instagramProjectMedia('crystalProgress','Behind the walls and tile','Follow original construction footage from the preparation stages through the shower build.')+instagramProjectMedia('crystalPhotos','Large-format tile and shower details','See original photographs of the tiled walls, bench and shower detailing before final glass was completed.')+'</div></section>'+
+ '<p>The original construction reel shows stages of the shower build, while the companion photo collection shows the tiled shower, installed fixtures, recessed niches, seating and custom closet storage. Earlier construction updates described fixtures and glass still being scheduled at that stage. These photographs show the visible workmanship; they do not document the crawlspace structural work described above.</p>'+
+ '<div class="real-proof-grid">'+instagramProjectMedia('crystalProgress','Behind the walls and tile','Follow original construction footage from the preparation stages through the shower build.')+instagramProjectMedia('crystalPhotos','Shower and custom closet photo gallery','Browse twenty original photographs of the shower tile, fixtures, recessed niches and custom closet storage.')+'</div></section>'+
  '</article>'+
  '<section class="site-section homeowner-project-story"><div><span class="kicker">EXPLORE A SIMILAR IDEA</span><h2>Could your bathroom work better for you?</h2>'+
  '<p>See how low-entry showers, solid grab-bar backing, reachable storage, and comfortable doorway clearances can be planned around your own home.</p>'+
@@ -113,7 +113,7 @@ export function projectsIndexPage(link){
  '<h2>Helping homeowners stay in the place they love.</h2>'+
  '<p>A wheelchair-accessible closet and level-entry shower called for careful work under the floor, including hand-excavated concrete support posts in a tight crawlspace. The challenge was worth solving because it helped the homeowners remain in their familiar home.</p>'+
  '<div class="site-actions"><a class="site-button primary" href="'+link('/projects/crystal-creek-accessible-remodel')+'">Read the project story</a>'+
- '<a class="site-button outline" href="https://www.instagram.com/p/DV162KsgUxP/" rel="noopener noreferrer" target="_blank">Original project media</a></div></div></section>'+
+ '<a class="site-button outline" href="'+link('/projects/crystal-creek-accessible-remodel')+'#pbc-project-reel-crystalProgress">Watch project video and see photos</a></div></div></section>'+
  '<section class="site-section real-project-teaser" aria-labelledby="real-casing-title"><div><span class="kicker">ORIGINAL WORKSHOP FOOTAGE · FINISH CARPENTRY</span>'+
  '<h2 id="real-casing-title">Precision window and door casings start at the workbench.</h2>'+
  '<p>Watch the original shop reel showing measured pieces and preassembled trim corners before installation. This is real process footage—not a concept rendering.</p>'+

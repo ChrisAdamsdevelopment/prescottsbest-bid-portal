@@ -22,7 +22,7 @@ test('homeowner routes have complete pages, real owner scope and safe drafts',()
  assert.match(marketingPage('/remodeling-preview/privacy'),/applicable business recordkeeping/i);
  assert.match(marketingPage('/remodeling-preview/projects'),/Read the project story/i);
  assert.match(marketingPage('/remodeling-preview/projects'),/FEATURED PROJECT · CRYSTAL CREEK/);
- assert.match(marketingPage('/remodeling-preview/projects'),/instagram.com\/p\/DV162KsgUxP/);
+ assert.match(marketingPage('/remodeling-preview/projects'),/Watch project video and see photos/);
  assert.match(marketingPage('/remodeling-preview/start-here'),/planning-form/);
  assert.match(marketingPage('/remodeling-preview/contact'),/lead-unavailable/);
  assert.match(marketingPage('/remodeling-preview/contact'),/<form id="inquiry-form" class="inquiry-form">/);

@@ -15,7 +15,7 @@ test('real Crystal Creek story speaks directly for the local builder', () => {
 
 test('keeps actual photo provenance, working original media and accessible page link', () => {
  assert.match(page.body, /https:\/\/www\.instagram\.com\/p\/DV162KsgUxP\//);
- assert.match(page.body, /original walkthrough and project photos directly on our Instagram page/);
+ assert.match(page.body, /real construction video and jobsite photographs appear below on this page/);
  assert.match(page.body, /href="\/accessible-aging-in-place-remodeling"/);
  assert.doesNotMatch(page.body, /href="\/accessible-remodeling"/);
  assert.match(page.body, /Every accessibility remodel starts with different framing/);
