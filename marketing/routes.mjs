@@ -10,7 +10,14 @@ import {approvedConceptAssetPaths} from './remodeling-concept-media.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Reuse byte-range streaming for the three explicitly allowlisted M4A guides.
  const conceptFilm=path==='/site-assets/remodeling-concepts/accessibility-design-reel.mp4'?{path,type:'video/mp4'}:null;
- const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm;
+ // Only these verified PBC project reels are available with byte-range streaming.
+ const projectReel=(
+   ['window-casing-workbench','crystal-creek-shower-construction']
+     .flatMap(stem=>['480','720'].map(width=>({
+       path:'/site-assets/real-projects/'+stem+'-'+width+'.mp4',type:'video/mp4'
+     })))
+ ).find(x=>x.path===path);
+ const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm||projectReel;
  if(req.method!=='GET'&&req.method!=='HEAD')return false;
  if(filmAsset){
   // Strict asset allowlist, streaming and single byte-range support for desktop/mobile playback.
@@ -92,6 +99,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/marketing.css':['public/marketing.css','text/css; charset=utf-8'],
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
  '/instagram-projects.js':['public/instagram-projects.js','text/javascript; charset=utf-8'],
+ '/project-gallery.js':['public/project-gallery.js','text/javascript; charset=utf-8'],
  '/photo-upload.js':['public/photo-upload.js','text/javascript; charset=utf-8'],
  '/analytics-client.js':['public/analytics-client.js','text/javascript; charset=utf-8'],
  '/guide.js':['public/guide.js','text/javascript; charset=utf-8'],
@@ -114,6 +122,16 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/site-assets/icon-512.png':['public/site-assets/icon-512.png','image/png'],
  '/site-assets/site.webmanifest':['public/site-assets/site.webmanifest','application/manifest+json; charset=utf-8']
  };
+ // Public project proof: reviewed, optimized PBC-owned materials only.
+ for(const stem of ['window-casing-workbench','crystal-creek-shower-construction']){
+   const poster='/site-assets/real-projects/'+stem+'-poster.webp';
+   staticPaths[poster]=['public'+poster,'image/webp'];
+ }
+ for(let i=1;i<=20;i++){
+   const file='crystal-creek-project-'+String(i).padStart(2,'0')+'.webp';
+   const asset='/site-assets/real-projects/'+file;
+   staticPaths[asset]=['public'+asset,'image/webp'];
+ }
  // Static concept assets use a strict known-name allowlist. No arbitrary path reads.
  for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry','consultation','local-home','custom-cabinetry','deck-outdoor']){
   for(const variant of ['card','detail']){

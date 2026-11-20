@@ -1643,22 +1643,46 @@
 }
 @media(max-width:720px){.brand-film[data-brand-film="home"] .brand-film-video::cue{font-size:14px}}
 
-/* Real-project evidence: original contractor Instagram posts, never AI project renders. */
-.real-proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:24px;margin:26px 0}
-.real-media-card{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:var(--paper);box-shadow:0 10px 30px #2038280d}
-.real-media-card-copy{padding:24px}
+/* Original contractor footage hosted locally: real HTML5 video and accessible photo carousel. */
+.real-proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:24px;margin:26px 0}
+.real-media-card{min-width:0;max-width:100%;border:1px solid var(--line);border-radius:17px;overflow:hidden;background:var(--paper);box-shadow:0 10px 30px #2038280d}
+.real-media-card-copy{min-width:0;padding:24px}
 .real-media-card h3{font-size:23px;line-height:1.25;margin:11px 0 12px;color:var(--forest)}
 .real-media-card p{font-size:16px;line-height:1.65}
-.real-media-card .instagram-embed-load{margin-top:10px;width:100%;max-width:420px}
-.real-media-card .instagram-embed-load[disabled]{cursor:default;opacity:.75}
-.instagram-embed-target:not(:empty){margin:18px 0 12px;max-width:480px;width:100%;min-height:360px;background:#f3f1e9;border-radius:12px;overflow:hidden}
-.instagram-embed-target iframe{display:block;width:100%;height:clamp(460px,85vh,620px);border:0;background:#fff}
-.real-media-original{display:inline-block;font-size:16px;font-weight:750;margin-top:12px}
+.real-project-figure{max-width:410px;margin:22px auto 14px}
+.real-project-figure[id]{scroll-margin-top:110px}
+.real-project-video{display:block;width:100%;height:auto;aspect-ratio:9/16;max-width:100%;border-radius:13px;background:#15251b;object-fit:contain}
+.real-project-figure figcaption{font-size:14px;color:#3a5346;line-height:1.55;margin-top:10px}
+.real-photo-collection{min-width:0}
+.real-gallery{min-width:0;width:100%}
+.real-gallery-controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:9px;margin:14px 0 8px}
+.real-gallery-controls button{min-height:44px;font-size:14px;padding:8px 15px;white-space:nowrap}
+.real-gallery-controls button:disabled{opacity:.5;cursor:not-allowed}
+.real-gallery:not(.is-ready) .real-gallery-controls{display:none}
+.real-gallery-controls output{font-size:14px;font-weight:750;color:var(--forest);white-space:nowrap}
+.real-gallery-hint{color:#395747}
+.real-gallery-track{display:flex;gap:14px;min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scroll-padding-inline:0;padding:0 0 14px;touch-action:pan-x pan-y;scrollbar-width:thin}
+.real-gallery-track:focus-visible{outline:3px solid #b37d2f;outline-offset:2px}
+.real-gallery-slide{box-sizing:border-box;flex:0 0 89%;scroll-snap-align:start;min-width:0;max-width:100%;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.real-gallery-slide img{display:block;max-width:100%;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:#15251b}
+.real-gallery-slide figcaption{padding:12px 13px 15px;font-size:14px;line-height:1.45;min-height:62px;color:#2a4234}
+.gallery-caption-index{display:block;font-weight:800;color:var(--forest);margin-bottom:4px}
+.real-media-source{font-size:15px;border-top:1px solid var(--line);padding-top:12px;margin-top:20px}
+.real-media-source summary{font-weight:700;cursor:pointer;color:var(--forest);text-decoration:underline;text-underline-offset:3px}
+.real-media-original{display:inline-block;font-size:15px;font-weight:700;margin-top:10px}
 .real-project-links{display:flex;flex-direction:column;gap:12px;align-items:flex-start;text-align:left}
 .real-project-links a{font-size:17px;font-weight:750}
 .real-project-teaser{background:#f1f2e9;border-radius:15px;padding:30px;margin-top:20px}
 .real-project-teaser h2{margin-top:8px}
-@media(max-width:620px){.real-media-card-copy{padding:18px}.instagram-embed-target iframe{height:530px}.real-project-teaser{padding:21px}}
+@media(max-width:620px){
+ .real-proof-grid{grid-template-columns:minmax(0,1fr);gap:18px}
+ .real-media-card-copy{padding:16px}
+ .real-media-card h3{font-size:21px}
+ .real-media-card p{font-size:15px}
+ .real-gallery-controls output{order:3;flex-basis:100%;text-align:center}
+ .real-gallery-slide{flex-basis:94%}
+ .real-project-teaser{padding:21px}
+}
 
 /* Homeowner-first conversion and trust refinement — Nov 2026 */
 .trust-line a{color:inherit;font-weight:750;text-underline-offset:3px}
