@@ -16,7 +16,7 @@ test('homeowner routes have complete pages, real owner scope and safe drafts',()
   assert.doesNotMatch(html,/\b(?:sign guaranteed|auto.booked)\b/i,p);
  }
  const home=marketingPage('/remodeling-preview');
- assert.match(home,/Help me plan my project/);
+ assert.match(home,/Tell us about your project/);
  assert.match(home,/mobile-actions/);
  assert.match(marketingPage('/remodeling-preview/concierge'),/minimum job size/i);
  assert.match(marketingPage('/remodeling-preview/privacy'),/applicable business recordkeeping/i);
@@ -26,7 +26,7 @@ test('homeowner routes have complete pages, real owner scope and safe drafts',()
  assert.match(marketingPage('/remodeling-preview/start-here'),/planning-form/);
  assert.match(marketingPage('/remodeling-preview/contact'),/lead-unavailable/);
  assert.match(marketingPage('/remodeling-preview/contact'),/<form id="inquiry-form" class="inquiry-form">/);
- assert.match(marketingPage('/remodeling-preview/contact'),/Open email draft to Chris/);
+ assert.match(marketingPage('/remodeling-preview/contact'),/Send my project request/);
  assert.match(marketingPage('/remodeling-preview/estimate'),/Useful starting numbers/i);
 });
 

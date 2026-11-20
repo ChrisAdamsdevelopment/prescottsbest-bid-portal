@@ -39,7 +39,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(home.body,/Prescott.*Best/);
   assert.match(home.body,/Bathroom remodeling/i);
   assert.match(home.body,/site-assets\/pbc-logo.webp/);
-  assert.match(home.body,/<h3>Reach us<\/h3>[\s\S]*?<a href="mailto:andrew@prescottsbestconstruction\.com">andrew@prescottsbestconstruction\.com<\/a>/);
+  assert.match(home.body,/<h3>Reach us<\/h3>[\s\S]*?<a href="mailto:chris@prescottsbestconstruction\.com">chris@prescottsbestconstruction\.com<\/a>/);
   assert.match(home.headers.get('x-robots-tag'),/noindex/);
   const guide=await hostCall('/project-guide','prescottsbestconstruction.com');
   assert.equal(guide.status,200);
@@ -101,8 +101,8 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(about.body,/Regional home design inspiration/);
   const contactPage=await call('/remodeling-preview/schedule');
   assert.equal(contactPage.status,200);
-  assert.match(contactPage.body,/consultation-detail.webp/);
-  assert.match(contactPage.body,/Design illustration.*Planning the details together/);
+  assert.doesNotMatch(contactPage.body,/consultation-detail.webp/);
+  assert.match(contactPage.body,/Speak with our team/);
   const process=await call('/remodeling-preview/process');
   assert.equal(process.status,200);
   assert.match(process.body,/STEP 01/);
@@ -150,11 +150,11 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   const custom=await hostCall('/','prescottsbestconstruction.com');
   const customHtml=custom.body;
   assert.equal(custom.status,200);
-  assert.match(customHtml,/Good remodeling starts with listening/);
+  assert.match(customHtml,/Bathroom and kitchen remodeling, built around your home/);
   for(const host of ['prescottsbestconstruction.com','www.prescottsbestconstruction.com']){
    const newDomainHome=await hostCall('/',host);
    assert.equal(newDomainHome.status,200,host);
-   assert.match(newDomainHome.body,/Good remodeling starts with listening/,host);
+   assert.match(newDomainHome.body,/Bathroom and kitchen remodeling, built around your home/,host);
    assert.match(newDomainHome.body,/href=\"\/estimate\"/,host);
    assert.doesNotMatch(newDomainHome.body,/Private Proposal/,host);
   }

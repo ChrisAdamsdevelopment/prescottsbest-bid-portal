@@ -34,7 +34,7 @@ test('homepage, blog and contact path link to storm assistance without automatic
  const home=marketingPage('/remodeling-preview/',options);
  const blog=marketingPage('/remodeling-preview/blog',options);
  const contact=marketingPage('/remodeling-preview/schedule',options);
- assert.match(home,/storm-home-banner/);
+ assert.doesNotMatch(home,/class="storm-home-banner"/);
  assert.match(home,/storm-flood-damage-prescott/);
  assert.match(blog,/storm-blog-feature/);
  assert.match(contact,/Storm or flood damage reconstruction/);

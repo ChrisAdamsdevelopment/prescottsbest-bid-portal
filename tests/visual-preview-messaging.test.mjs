@@ -49,13 +49,13 @@ test('estimate, process, holiday and consultation link to real tools instead of 
  assert.match(holiday,/Preview the display on your own home/);
  assert.match(holiday,/holiday-lighting\/design/);
  const studio=page('/holiday-lighting/design');
- assert.match(studio,/Previews are illustrative planning concepts/);
+ assert.match(studio,/Design inspiration is illustrative/);
  assert.match(studio,/holiday-ai-consent/);
  const contact=page('/schedule');
  assert.match(contact,/id="lead-visual-preview" name="visualPreview" value="requested"/);
  assert.match(contact,/Custom cabinetry and built-ins/);
  assert.match(contact,/Deck or outdoor carpentry/);
- assert.match(contact,/No preview or appointment is automatically promised/);
+ assert.doesNotMatch(contact,/No preview or appointment is automatically promised/);
 });
 test('inquiry request remains a choice not automatic; email notification flags interested homeowner',async()=>{
  const js=await readFile(new URL('../public/marketing.js',import.meta.url),'utf8');

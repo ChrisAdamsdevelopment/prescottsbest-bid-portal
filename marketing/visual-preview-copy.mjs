@@ -37,10 +37,10 @@ export const previewCopy={
  estimateHeading:'Understand the numbers—and picture the possibilities.',
  estimateBody:'An online budget range is only a starting point. During a project review, ask whether a tailored visual design preview could help you compare options before the written scope and price are finalized.',
  contactHeading:'Want help picturing the finished project?',
- contactBody:'Tell us what you are considering and check “Ask about a visual design preview.” For qualifying projects, we can discuss creating a concept using your photos, measurements and design preferences. No preview or appointment is automatically promised by sending this request.',
+ contactBody:'If it would help to compare finishes or layouts, mention your interest in a visual design preview. We can discuss whether one fits your project during the initial conversation.',
  holidayHeading:'Preview the display on your own home.',
  holidayBody:'Rather than guessing where holiday lights will go, try a house-photo lighting preview and choose roofline colors, entry accents and other looks. The team then checks the actual fixtures, mounting access and power details for your quote.',
- disclaimer:'Previews are illustrative planning concepts, not final construction drawings or a guarantee of exact appearance. Product samples, measurements, installation feasibility and written scope determine the finished result.'
+ disclaimer:'Design inspiration is illustrative; your measurements, material selections and approved scope guide the finished project.'
 };
 export function previewPromo(link,options={}){
  const compact=options.compact===true;
