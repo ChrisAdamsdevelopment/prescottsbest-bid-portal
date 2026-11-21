@@ -7,6 +7,7 @@ import {articles} from './articles.mjs';
 import {holidayImages,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {allVisualImages,visualImageObjectsForPage} from './visual-catalog.mjs';
 import {approvedConceptAssetPaths} from './remodeling-concept-media.mjs';
+import {realGalleryAssetNames} from './real-project-gallery.mjs';
 export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Reuse byte-range streaming for the three explicitly allowlisted M4A guides.
  const conceptFilm=path==='/site-assets/remodeling-concepts/accessibility-design-reel.mp4'?{path,type:'video/mp4'}:null;
@@ -17,7 +18,8 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
        path:'/site-assets/real-projects/'+stem+'-'+width+'.mp4',type:'video/mp4'
      })))
  ).find(x=>x.path===path);
- const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm||projectReel;
+ const ownerReel=path==='/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4'?{path,type:'video/mp4'}:null;
+ const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm||projectReel||ownerReel;
  if(req.method!=='GET'&&req.method!=='HEAD')return false;
  if(filmAsset){
   // Strict asset allowlist, streaming and single byte-range support for desktop/mobile playback.
@@ -100,6 +102,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
  '/instagram-projects.js':['public/instagram-projects.js','text/javascript; charset=utf-8'],
  '/project-gallery.js':['public/project-gallery.js','text/javascript; charset=utf-8'],
+ '/real-gallery.js':['public/real-gallery.js','text/javascript; charset=utf-8'],
  '/photo-upload.js':['public/photo-upload.js','text/javascript; charset=utf-8'],
  '/analytics-client.js':['public/analytics-client.js','text/javascript; charset=utf-8'],
  '/guide.js':['public/guide.js','text/javascript; charset=utf-8'],
@@ -131,6 +134,11 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    const file='crystal-creek-project-'+String(i).padStart(2,'0')+'.webp';
    const asset='/site-assets/real-projects/'+file;
    staticPaths[asset]=['public'+asset,'image/webp'];
+ }
+ // Only the owner-reviewed real project images/poster are served; original inbox is never public.
+ for(const file of realGalleryAssetNames){
+  const asset='/site-assets/real-gallery/'+file;
+  staticPaths[asset]=['public'+asset,'image/webp'];
  }
  // Static concept assets use a strict known-name allowlist. No arbitrary path reads.
  for(const slug of ['kitchen-hero','bathroom-remodel','kitchen-remodel','shower-conversion','room-conversion','finish-carpentry','consultation','local-home','custom-cabinetry','deck-outdoor']){

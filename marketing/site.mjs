@@ -4,6 +4,7 @@ import {serviceDepth} from './service-depth.mjs';
 import {conceptMediaFigure,conceptSectionForService,conceptImageObjectsForPage} from './remodeling-concept-media.mjs';
 import {accessibleRemodelingPage,prescottPermitGuidePage,crystalCreekCaseStudyPage,projectsIndexPage} from './restored-homeowner-pages.mjs';
 import {windowCasingCaseStudyPage} from './instagram-project-proof.mjs';
+import {realProjectGalleryPage,realProjectVideoPage,realProjectsHomeSection,realProjectsDirectorySection,realProjectServiceSection,realGalleryAssetNames} from './real-project-gallery.mjs';
 import {guidePage} from './guide-page.mjs';
 import {articlePages,articles} from './articles.mjs';
 import {holidayPages} from './holiday-pages.mjs';
@@ -70,6 +71,7 @@ function home(){
  '<p class="cinema-secondary">Prefer to plan first? <a href="'+link('/estimate')+'">Explore budget ranges</a>. You can also '+call+'.</p></div></div></section>'+
  trust+
  '<section class="site-section home-trust-proof" aria-label="Real remodeling work and independent customer reviews"><div class="home-trust-proof-copy"><span class="kicker">LOCAL WORK · REAL CUSTOMER FEEDBACK</span><h2>See the work. Know who you’re hiring.</h2><p>Explore the Crystal Creek accessible-remodeling project and discover how Andrew approaches the details behind a beautiful, usable space. Then read independent feedback from local customers on Google.</p><div class="site-actions"><a class="site-button primary" href="'+link('/projects/crystal-creek-accessible-remodel')+'">See a real remodeling project</a><a class="site-button outline" href="'+link('/projects/precision-window-casings#pbc-project-reel-casings')+'">Watch Andrew at the workbench</a><a class="site-button outline" href="'+link('/projects')+'">Browse project stories</a><a class="site-button outline" href="'+maps+'" target="_blank" rel="noopener noreferrer">Read Google reviews</a></div></div><div class="home-trust-proof-note"><strong>Built around trust</strong><p>AZ ROC #343141 · owner-led, hands-on remodeling · written scope and project-specific planning.</p><p><a href="https://roc.az.gov/contractor-search" target="_blank" rel="noopener noreferrer">Verify our Arizona contractor license</a></p><p><a href="'+link('/process')+'">See how estimates, project options and written proposals work</a></p></div></section>'+
+  realProjectsHomeSection(link)+
   '<section id="services" class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
  '<section class="site-section accessible-home-feature"><div><span class="kicker">REMODEL FOR COMFORT AND EASE</span><h2>A bathroom that feels easier to use.</h2><p>From a lower shower entry to practical support, comfortable lighting and storage you can reach, thoughtful changes can help a home work better for the people living in it.</p><a class="site-button primary" href="'+link('/accessible-aging-in-place-remodeling')+'">Explore accessible remodeling</a></div>'+conceptMediaFigure('access-shower-wide')+'</section>'+
  '<section class="site-section process-home-teaser"><div><span class="kicker">WHAT HAPPENS AT AN ESTIMATE?</span><h2>We measure, listen, design and explain the numbers.</h2><p>We start by hearing what you want to change, then look at the measurements, materials and details that matter. You should understand the choices and the written scope before work begins.</p><a class="site-button outline" href="'+link('/process')+'">See our full remodeling process</a></div><figure class="process-home-preview"><img src="/site-assets/process/consultation-measurements.webp" width="1672" height="941" loading="lazy" alt="Design illustration of a contractor measuring a custom sewing room while homeowners discuss the design"><figcaption>Design illustration • A closer look at the consultation process.</figcaption></figure></section>'+
@@ -101,6 +103,7 @@ function service(s){
  '<div class="site-pagehead service-pagehead"><div class="service-pagehead-copy"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p></div>'+heroImage+'</div>'+
  '<section class="site-section site-detail"><div><h2>What could change in your home?</h2><p>'+esc(serviceEditorial(s.path).approach)+'</p><p>'+esc(s.detail)+'</p></div><aside class="site-callout"><h3>Useful first steps</h3><ol><li>Describe what needs to change.</li><li>List what needs to stay.</li><li>Choose a finish and budget preference.</li><li>Request a site conversation.</li></ol>'+(s.path==='/custom-cabinetry'||s.path==='/deck-building-outdoor-carpentry'?button('Discuss this project scope','/schedule','outline'):priceLink)+'</aside></section>'+
  serviceDepth(s.path)+
+ realProjectServiceSection(s.path,link)+
  (['/bathroom-remodeling','/shower-conversions'].includes(s.path)?'<section class="site-section real-project-teaser"><span class="kicker">REAL LOCAL SHOWER CONSTRUCTION · CRYSTAL CREEK</span><h2>See what goes into the shower before the glass goes on.</h2><p>Original project footage shows preparation, waterproofing and tile details. Read the real homeowner story and watch the source videos, not design renders.</p><a class="site-button outline" href="'+link('/projects/crystal-creek-accessible-remodel')+'">Explore the Crystal Creek project</a></section>':'')+
  (s.path==='/finish-carpentry'?'<section class="site-section real-project-teaser"><span class="kicker">REAL COMPANY WORKSHOP FOOTAGE</span><h2>See how our window casings come together.</h2><p>Andrew measures, lays out and joins the trim before installation. Explore the original footage and the craftsmanship behind a finished opening.</p><a class="site-button outline" href="'+link('/projects/precision-window-casings')+'">View the precision-casing project</a></section>':'')+
  conceptSectionForService(s.path)+
@@ -180,7 +183,9 @@ for(const s of services)routes[s.path]=()=>service(s);
 for(const g of guides)routes[g.path]=()=>guide(g);
 // Restored and new homeowner pages. Original private proposal routes remain separate.
 routes['/accessible-aging-in-place-remodeling']=()=>accessibleRemodelingPage(link);
-routes['/projects']=()=>projectsIndexPage(link);
+routes['/projects']=()=>{const page=projectsIndexPage(link);return {...page,body:page.body.replace('<section class="site-section new-project-card">',realProjectsDirectorySection(link)+'<section class="site-section new-project-card">')}};
+routes['/projects/gallery']=()=>realProjectGalleryPage(link);
+routes['/projects/andrew-at-work']=()=>realProjectVideoPage(link);
 routes['/projects/crystal-creek-accessible-remodel']=()=>crystalCreekCaseStudyPage(link);
 routes['/projects/precision-window-casings']=()=>windowCasingCaseStudyPage(link);
 routes['/guides/prescott-remodeling-permits']=()=>prescottPermitGuidePage(link);
@@ -236,7 +241,34 @@ export function marketingPage(path,options={}){
   }))
  }:null;
   const featuredFilm=brandFilmForPath(suffix);
+  const hasRealPhotoShare=suffix==='/projects/gallery'||suffix==='/projects/andrew-at-work';
+  const socialPoster=suffix==='/projects/gallery'?'/site-assets/real-gallery/deck-stone-fireplace.webp':
+    suffix==='/projects/andrew-at-work'?'/site-assets/real-gallery/andrew-craftsmanship-poster.webp':
+    (featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg');
+  const socialWidth=hasRealPhotoShare?(suffix==='/projects/gallery'?'1333':'638'):(featuredFilm?'1280':'1200');
+  const socialHeight=hasRealPhotoShare?(suffix==='/projects/gallery'?'890':'360'):(featuredFilm?'720':'630');
+  const socialType=hasRealPhotoShare||featuredFilm?'image/webp':'image/jpeg';
+  const socialAlt=suffix==='/projects/gallery'?'Real finished deck with wood ceiling, fireplace and patio seating':
+    suffix==='/projects/andrew-at-work'?'Andrew working beside a miter saw in original construction video':
+    (featuredFilm?featuredFilm.posterAlt:'Prescott’s Best Construction official gold badge and remodeling message');
   const videoSchema=brandFilmJsonLd(suffix,shareOrigin);
+ const originalCraftsmanshipVideoSchema=suffix==='/projects/andrew-at-work'?{
+  '@context':'https://schema.org','@type':'VideoObject',
+  name:'Andrew at Work — Real Construction Footage | Prescott’s Best Construction',
+  description:'Original 33-second reel showing Andrew preparing and fitting carpentry materials. Watch here on the company website, with original sound.',
+  thumbnailUrl:shareOrigin+'/site-assets/real-gallery/andrew-craftsmanship-poster.webp',
+  contentUrl:shareOrigin+'/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4',
+  embedUrl:shareUrl,uploadDate:'2025-07-30T00:00:00-07:00',duration:'PT33S'
+ }:null;
+ const realGallerySchema=suffix==='/projects/gallery'?{
+  '@context':'https://schema.org','@type':'ImageGallery','@id':shareUrl+'#real-work',
+  name:'Real Prescott’s Best Construction Project Photographs and Before/After',
+  description:'Actual project photographs from Prescott’s Best Construction showing kitchen, bathroom, room conversion and deck work; before and after where shown.',
+  url:shareUrl,
+  image:realGalleryAssetNames.filter(name=>!name.includes('-before.webp')&&!name.includes('-after.webp')&&!name.includes('poster')).map(name=>({
+   '@type':'ImageObject',contentUrl:shareOrigin+'/site-assets/real-gallery/'+name,url:shareOrigin+'/site-assets/real-gallery/'+name
+  }))
+ }:null;
  const accessibleReelSchema=suffix==='/accessible-aging-in-place-remodeling'?{'@context':'https://schema.org','@type':'VideoObject',name:'Accessible Remodeling Design Concepts | Prescott’s Best',description:'Silent 20-second concept walkthrough showing shower access, home entries, kitchens, and construction detail illustrations. Not footage of completed construction.',thumbnailUrl:shareOrigin+'/site-assets/remodeling-concepts/accessibility-design-reel-poster.webp',contentUrl:shareOrigin+'/site-assets/remodeling-concepts/accessibility-design-reel.mp4',embedUrl:shareUrl,uploadDate:'2026-11-14T00:00:00-07:00',duration:'PT20S',inLanguage:'en'}:null;
  const visualImages=visualImageObjectsForPage(suffix,shareOrigin);
  const newConceptImages=conceptImageObjectsForPage(suffix,shareOrigin);
@@ -257,17 +289,20 @@ export function marketingPage(path,options={}){
  '<link rel="manifest" href="/site-assets/site.webmanifest"><link rel="alternate" type="application/rss+xml" title="Prescott’s Best homeowner guides" href="/feed.xml">'+
  '<meta property="og:type" content="website"><meta property="og:site_name" content="Prescott’s Best Construction">'+
  '<meta property="og:title" content="'+esc(title)+'"><meta property="og:description" content="'+esc(description)+'">'+
- '<meta property="og:url" content="'+esc(shareUrl)+'"><meta property="og:image" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'">'+
- '<meta property="og:image:width" content="'+(featuredFilm?'1280':'1200')+'"><meta property="og:image:height" content="'+(featuredFilm?'720':'630')+'"><meta property="og:image:secure_url" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'"><meta property="og:image:type" content="'+(featuredFilm?'image/webp':'image/jpeg')+'">'+
- '<meta property="og:image:alt" content="'+esc(featuredFilm?featuredFilm.posterAlt:'Prescott’s Best Construction official gold badge and remodeling message')+'">'+
+ '<meta property="og:url" content="'+esc(shareUrl)+'"><meta property="og:image" content="'+shareOrigin+socialPoster+'">'+
+ '<meta property="og:image:width" content="'+socialWidth+'"><meta property="og:image:height" content="'+socialHeight+'"><meta property="og:image:secure_url" content="'+shareOrigin+socialPoster+'"><meta property="og:image:type" content="'+socialType+'">'+
+ '<meta property="og:image:alt" content="'+esc(socialAlt)+'">'+
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
- '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+(featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg')+'">'+
- '<link rel="stylesheet" href="/marketing.css?v=real-project-media-20261118-inline-20261120"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script><script defer src="/brand-films.js?v=home-captions-20261115"></script><script defer src="/voice-guides.js?v=recorded-guides-20261109"></script>'+
+ '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+socialPoster+'">'+
+ '<link rel="stylesheet" href="/marketing.css?v=real-project-media-20261118-inline-20261120-gallery-20261121"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script><script defer src="/brand-films.js?v=home-captions-20261115"></script><script defer src="/voice-guides.js?v=recorded-guides-20261109"></script>'+
  (body.includes('data-project-gallery=')?'<script defer src="/project-gallery.js"></script>':'')+
+ (body.includes('data-pbc-compare')||body.includes('data-pbc-photo')?'<script defer src="/real-gallery.js"></script>':'')+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
  (articleSchema?'<script type="application/ld+json">'+JSON.stringify(articleSchema).replace(/</g,'\\u003c')+'</script>':'')+
  (gallerySchema?'<script type="application/ld+json">'+JSON.stringify(gallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
- (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(newConceptGallerySchema?'<script type="application/ld+json">'+JSON.stringify(newConceptGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(accessibleReelSchema?'<script type="application/ld+json">'+JSON.stringify(accessibleReelSchema).replace(/</g,'\\u003c')+'</script>':'')+(videoSchema?'<script type="application/ld+json">'+JSON.stringify(videoSchema).replace(/</g,'\\u003c')+'</script>':'')+'</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
+ (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(newConceptGallerySchema?'<script type="application/ld+json">'+JSON.stringify(newConceptGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(accessibleReelSchema?'<script type="application/ld+json">'+JSON.stringify(accessibleReelSchema).replace(/</g,'\\u003c')+'</script>':'')+(videoSchema?'<script type="application/ld+json">'+JSON.stringify(videoSchema).replace(/</g,'\\u003c')+'</script>':'')+(realGallerySchema?'<script type="application/ld+json">'+JSON.stringify(realGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
+ (originalCraftsmanshipVideoSchema?'<script type="application/ld+json">'+JSON.stringify(originalCraftsmanshipVideoSchema).replace(/</g,'\\u003c')+'</script>':'')+
+ '</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
  '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
  '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+

@@ -1,0 +1,129 @@
+{
+  "source": "owner-supplied Google Business Profile gallery folder and Andrew's original Instagram reel",
+  "instagram": "https://www.instagram.com/reel/DMwWQTGxWqo/",
+  "license": "PBC owner-authorized site publication",
+  "images": [
+    {
+      "source": "bathroom_conversion_crystalcreek_real.png",
+      "slug": "crystal-creek-shower",
+      "w": 457,
+      "h": 569,
+      "file": "crystal-creek-shower.webp"
+    },
+    {
+      "source": "bathroom_real.jpg",
+      "slug": "bathroom-before-after",
+      "w": 1125,
+      "h": 2000,
+      "file": "bathroom-before-after.webp",
+      "comparison": true
+    },
+    {
+      "source": "bedroom_remodel_real.JPG",
+      "slug": "bedroom-before-after",
+      "w": 1125,
+      "h": 2000,
+      "file": "bedroom-before-after.webp",
+      "comparison": true
+    },
+    {
+      "source": "deckshowinghouse_real.jpg",
+      "slug": "deck-from-home",
+      "w": 1333,
+      "h": 890,
+      "file": "deck-from-home.webp"
+    },
+    {
+      "source": "deckwith_fireplace_goodshot_real.jpg",
+      "slug": "deck-stone-fireplace",
+      "w": 1333,
+      "h": 889,
+      "file": "deck-stone-fireplace.webp"
+    },
+    {
+      "source": "kitchen_real.jpg",
+      "slug": "kitchen-white-cabinets",
+      "w": 1280,
+      "h": 720,
+      "file": "kitchen-white-cabinets.webp"
+    },
+    {
+      "source": "kitchen_remodel_real.JPG",
+      "slug": "kitchen-two-angles",
+      "w": 1125,
+      "h": 2000,
+      "file": "kitchen-two-angles.webp"
+    },
+    {
+      "source": "laundry_eoom_remodel_real.JPG",
+      "slug": "laundry-storage",
+      "w": 1125,
+      "h": 2000,
+      "file": "laundry-storage.webp"
+    },
+    {
+      "source": "livingroom_remodel_real.JPG",
+      "slug": "living-room-before-after",
+      "w": 1125,
+      "h": 2000,
+      "file": "living-room-before-after.webp",
+      "comparison": true
+    },
+    {
+      "source": "lodge_deck_real.jpg",
+      "slug": "lodge-deck",
+      "w": 1333,
+      "h": 889,
+      "file": "lodge-deck.webp"
+    },
+    {
+      "source": "outsidedeck_real.jpg",
+      "slug": "outdoor-deck",
+      "w": 1333,
+      "h": 887,
+      "file": "outdoor-deck.webp"
+    },
+    {
+      "source": "room_conversion_real.JPG",
+      "slug": "flex-room-before-after",
+      "w": 1333,
+      "h": 1005,
+      "file": "flex-room-before-after.webp",
+      "comparison": true
+    },
+    {
+      "source": "room_convwesion_real.jpg",
+      "slug": "room-conversion-before-after",
+      "w": 1333,
+      "h": 1005,
+      "file": "room-conversion-before-after.webp",
+      "comparison": true
+    },
+    {
+      "source": "samedeckwithfireplace_real.jpg",
+      "slug": "deck-fireplace-detail",
+      "w": 1333,
+      "h": 889,
+      "file": "deck-fireplace-detail.webp"
+    },
+    {
+      "source": "samedeckwithpatiofurbiture_real.jpg",
+      "slug": "deck-outdoor-dining",
+      "w": 1333,
+      "h": 888,
+      "file": "deck-outdoor-dining.webp"
+    },
+    {
+      "source": "waterheater_convwesion.JPG",
+      "slug": "water-heater-before-after",
+      "w": 1333,
+      "h": 1005,
+      "file": "water-heater-before-after.webp",
+      "comparison": true
+    }
+  ],
+  "video": {
+    "file": "andrew-craftsmanship-with-sound.mp4",
+    "sound": true
+  }
+}
