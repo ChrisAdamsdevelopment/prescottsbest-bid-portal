@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
+import sharp from 'sharp';
+import {fileURLToPath} from 'node:url';
 import {marketingPage,sitemapPaths} from '../marketing/site.mjs';
 import {maybeServeMarketing} from '../marketing/routes.mjs';
 import {realGalleryAssetNames} from '../marketing/real-project-gallery.mjs';
@@ -65,6 +67,13 @@ test('real work gets accurate search and social media metadata',()=>{
  assert.equal(videoData?.duration,'PT33S');
  assert.ok((videoData?.contentUrl||'').endsWith('andrew-craftsmanship-with-sound.mp4'));
  assert.ok(video.includes('property="og:image" content="https://prescottsbestconstruction.com/site-assets/real-gallery/andrew-craftsmanship-poster.webp"'));
+});
+test('side-by-side water-heater before and after photos are independently tall portrait crops',async()=>{
+ const before=await sharp(fileURLToPath(new URL('water-heater-before-after-before.webp',root))).metadata();
+ const after=await sharp(fileURLToPath(new URL('water-heater-before-after-after.webp',root))).metadata();
+ assert.ok(before.height>before.width, 'Before photo must be portrait, not a horizontal strip');
+ assert.ok(after.height>after.width, 'After photo must be portrait, not a horizontal strip');
+ assert.ok(Math.abs(before.height-after.height)<10, 'Both states should cover the same vertical room');
 });
 test('owner reel permits real browser media byte ranges with strict pathname allowlist',async()=>{
  const path='/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4';
