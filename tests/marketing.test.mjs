@@ -93,12 +93,12 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
    const page=await call('/remodeling-preview'+servicePath);
    assert.equal(page.status,200,servicePath);
    assert.match(page.body,/class="service-concept"/,servicePath);
-   assert.match(page.body,/Design inspiration.*Remodeling visualization/,servicePath);
+   assert.doesNotMatch(page.body,/class="concept-badge"|<figcaption>Design inspiration/,servicePath);
   }
   const about=await call('/remodeling-preview/about');
   assert.equal(about.status,200);
   assert.match(about.body,/local-home-detail.webp/);
-  assert.match(about.body,/Regional home design inspiration/);
+  assert.doesNotMatch(about.body,/<figcaption>Regional home design inspiration/);
   const contactPage=await call('/remodeling-preview/schedule');
   assert.equal(contactPage.status,200);
   assert.doesNotMatch(contactPage.body,/consultation-detail.webp/);
@@ -109,7 +109,7 @@ test('senior-friendly preview, deterministic budget and company lead routing',as
   assert.match(process.body,/STEP 05/);
   assert.match(process.body,/cost-plus proposal/);
   assert.match(process.body,/consultation-measurements.webp/);
-  assert.match(process.body,/Design concept/);
+  assert.match(process.body,/We build to the product, not just the picture/);
   const pricePage=await call('/remodeling-preview/estimate');
   assert.equal(pricePage.status,200);
   assert.match(pricePage.body,/Useful starting numbers/i);

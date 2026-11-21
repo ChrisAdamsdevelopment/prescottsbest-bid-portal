@@ -88,7 +88,7 @@ test('Crystal Creek story is restored from the original published Wix record, no
  const gallery=render('/projects');
  assert.match(gallery,/FEATURED PROJECT · CRYSTAL CREEK/);
  assert.match(gallery,/Read the project story/);
- assert.match(gallery,/Design concept/);
+ assert.match(gallery,/NEW · REAL PROJECT GALLERY/);
  assert.doesNotMatch(gallery,/View original project videos/);
 });
 

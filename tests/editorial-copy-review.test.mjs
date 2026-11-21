@@ -57,7 +57,9 @@ test('Process explains work and proposal without exposing software roadmap or re
  assert.doesNotMatch(html,/developing organized Google Drive sharing/);
  assert.doesNotMatch(html,/general self-service account/);
  assert.doesNotMatch(html,/not a photograph of a completed customer project or a guaranteed final design/);
- assert.equal((html.match(/Design concept/g)||[]).length>=4,true);
+ assert.doesNotMatch(html,/<figcaption>[^<]*Design concept/);
+ assert.match(html,/Deck surfaces: conditions matter/);
+ assert.match(html,/Windows: the opening matters/);
  assert.match(html,/STEP 01/);
  assert.match(html,/STEP 05/);
 });

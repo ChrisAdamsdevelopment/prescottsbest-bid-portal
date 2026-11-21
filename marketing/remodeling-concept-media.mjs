@@ -105,12 +105,11 @@ const esc=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll
 export function conceptMediaFigure(slug,{hero=false,extraClass=''}={}){
  const m=conceptMedia[slug];if(!m)throw new Error('Unknown approved concept slug '+slug);
  const source=base+slug+'-1440.webp',small=base+slug+'-760.webp';
- const label=m.kind==='educational'?'Educational illustration':'Design concept';
  return '<figure class="new-concept '+esc(extraClass)+'">'+
   '<img src="'+source+'" srcset="'+small+' 760w, '+source+' 1440w" sizes="'+(hero?'(max-width:800px) 100vw, 56vw':'(max-width:800px) 100vw, 46vw')+'"'+
   ' width="'+m.width1440+'" height="'+m.height1440+'" loading="'+(hero?'eager':'lazy')+'" decoding="async"'+(hero?' fetchpriority="high"':'')+
   ' alt="'+esc(m.alt)+'">'+
-  '<figcaption><span class="concept-kind">'+label+'</span> '+esc(m.caption)+'</figcaption></figure>';
+  '</figure>';
 }
 const servicePlacement=Object.freeze({
  '/bathroom-remodeling':['access-shower-close','shower-cutaway'],
@@ -124,7 +123,7 @@ export function conceptSectionForService(path){
  const chosen=servicePlacement[path];
  if(!chosen)return '';
  return '<section class="site-section concept-feature-section"><div class="section-heading"><span class="kicker">SEE THE POSSIBILITIES</span>'+
-  '<h2>Picture what could work in your home</h2><p>These examples are design concepts to help compare layouts, finishes and details—not photos of completed jobs.</p></div>'+
+  '<h2>Picture what could work in your home</h2><p>Explore different layouts, finishes and details. We’ll help you find what fits your space and the way you use it.</p></div>'+
   '<div class="concept-feature-grid">'+chosen.map(s=>conceptMediaFigure(s)).join('')+'</div></section>';
 }
 export function conceptImageObjectsForPage(path,origin='https://prescottsbestconstruction.com'){

@@ -14,15 +14,15 @@ const esc=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;');
 export function conceptCardImage(path){
  const scene=scenes[path];if(!scene)return '';
  const src=base+scene.slug+'-card.webp';
- return '<div class="concept-card-media"><img loading="lazy" decoding="async" src="'+src+'" width="680" height="510" alt="'+esc(scene.alt)+'"><span class="concept-badge">Design inspiration</span></div>';
+ return '<div class="concept-card-media"><img loading="lazy" decoding="async" src="'+src+'" width="680" height="510" alt="'+esc(scene.alt)+'"></div>';
 }
 export function conceptServiceImage(path){
  const scene=scenes[path];if(!scene)return '';
  const detail=base+scene.slug+'-detail.webp',small=base+scene.slug+'-card.webp';
- return '<figure class="service-concept"><img loading="eager" decoding="async" src="'+detail+'" srcset="'+small+' 680w, '+detail+' 1440w" sizes="(max-width: 850px) 100vw, 48vw" width="1440" height="1080" alt="'+esc(scene.alt)+'"><figcaption>Design inspiration • Remodeling visualization</figcaption></figure>';
+ return '<figure class="service-concept"><img loading="eager" decoding="async" src="'+detail+'" srcset="'+small+' 680w, '+detail+' 1440w" sizes="(max-width: 850px) 100vw, 48vw" width="1440" height="1080" alt="'+esc(scene.alt)+'"></figure>';
 }
 export function conceptHero(){
- return '<figure class="hero-visual"><img src="'+base+'kitchen-hero-detail.webp" srcset="'+base+'kitchen-hero-card.webp 680w, '+base+'kitchen-hero-detail.webp 1440w" sizes="100vw" width="1440" height="810" fetchpriority="high" decoding="async" alt="Design inspiration: light remodeled kitchen with white cabinets, wood island, natural daylight and distant mountain views"><figcaption>Kitchen remodeling design inspiration</figcaption></figure>';
+ return '<figure class="hero-visual"><img src="'+base+'kitchen-hero-detail.webp" srcset="'+base+'kitchen-hero-card.webp 680w, '+base+'kitchen-hero-detail.webp 1440w" sizes="100vw" width="1440" height="810" fetchpriority="high" decoding="async" alt="Design inspiration: light remodeled kitchen with white cabinets, wood island, natural daylight and distant mountain views"></figure>';
 }
 export const conceptPaths=Object.freeze(Object.keys(scenes));
 
@@ -33,5 +33,5 @@ const editorial={
 export function conceptEditorialImage(slug){
  const scene=editorial[slug];if(!scene)return '';
  const prefix=base+slug;
- return '<figure class="editorial-concept"><img loading="lazy" decoding="async" src="'+prefix+'-detail.webp" srcset="'+prefix+'-card.webp 680w, '+prefix+'-detail.webp 1440w" sizes="(max-width: 850px) 100vw, 46vw" width="1440" height="'+(slug==='consultation'?'1080':'810')+'" alt="'+esc(scene.alt)+'"><figcaption>'+scene.caption+'</figcaption></figure>';
+ return '<figure class="editorial-concept"><img loading="lazy" decoding="async" src="'+prefix+'-detail.webp" srcset="'+prefix+'-card.webp 680w, '+prefix+'-detail.webp 1440w" sizes="(max-width: 850px) 100vw, 46vw" width="1440" height="'+(slug==='consultation'?'1080':'810')+'" alt="'+esc(scene.alt)+'"></figure>';
 }

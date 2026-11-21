@@ -13,7 +13,8 @@ test('five-step customer process and design concept disclosure',()=>{
  for(const f of ['consultation-measurements','design-review-materials','finished-sewing-hidden-office','protected-custom-installation'])assert.match(html,new RegExp('/site-assets/process/'+f+'[.]webp'));
  for(const phrase of ['cost-plus','physical wood and finish samples','We make it easier to review the options','protecting nearby floors'])assert.ok(html.includes(phrase),phrase);
  assert.doesNotMatch(html,/developing organized Google Drive sharing/);
- assert.match(html,/Design concept/);
+ assert.match(html,/id="installation-details"/);
+ assert.match(html,/Windows: the opening matters/);
 });
 test('wildfire readiness shows crew-background bio and qualified guidance',async()=>{
  const html=marketingPage('/remodeling-preview/wildfire-home-readiness',env);
