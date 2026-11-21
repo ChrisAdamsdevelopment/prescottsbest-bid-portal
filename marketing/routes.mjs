@@ -187,6 +187,11 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '> Residential remodeling information for Prescott and Prescott Valley, Arizona. Official contractor work requires an on-site review.',
    '',
    '## Main pages',
+   '- [Actual completed projects and before/after photos]('+site+'/projects/gallery): Owner-supplied photographs of real Prescott’s Best Construction kitchen, bath, room and deck projects, with six before-and-after comparisons.',
+   '- [Watch Andrew at work]('+site+'/projects/andrew-at-work): Original on-site carpentry video with sound, playable on this website without an Instagram redirect.',
+   '- [How we work and install materials]('+site+'/process#installation-details): Real deck coating, window flashing and shower waterproofing examples; manufacturer-specific preparation and installation requirements.',
+   '- [Crystal Creek accessible remodel]('+site+'/projects/crystal-creek-accessible-remodel): Project story and construction details from a real local remodeling job.',
+   '- [Precision window casing craftsmanship]('+site+'/projects/precision-window-casings): Real workbench joint preparation and window casing installation story.',
    '- [November 2026 storm recovery]('+site+'/storm-flood-damage-prescott): Free Prescott-area flood, insurance and reconstruction guide',
    '- [Home]('+site+'/): Residential remodeling and service overview',
    '- [Prescott home remodeling commercial]('+site+'/site-assets/brand-films/prescotts-best-home-remodeling-new-voice-20261115-720.mp4): Ten-second introduction to the company, Northern Arizona homes and remodeled kitchen craftsmanship',
@@ -204,7 +209,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '- [Holiday lighting concierge]('+site+'/holiday-lighting): Seasonal concept packages and service scope',
    '- [Holiday lighting commercial]('+site+'/site-assets/brand-films/prescotts-best-holiday-lighting-custom-audio-720.mp4): Ten-second seasonal exterior lighting inspiration for Prescott homes',
    '- [Holiday lighting design studio]('+site+'/holiday-lighting/design): Private on-device preview, optional consent-based AI image editing, and a contractor-reviewed concept worksheet',
-   '- [Contact]('+site+'/schedule): Phone and email contact',
+   '- [Get an estimate]('+site+'/schedule): Native on-site project inquiry form, with direct phone and company email contact',
    '',
    '## Holiday lighting close-up style references',
    ...holidayCloseups.map(a=>'- ['+a.title+']('+site+'/site-assets/holiday-concepts/'+a.file+'): '+a.caption),
@@ -229,7 +234,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    '',
    '## Important limitations',
    '- The private proposal portal is access-controlled. Do not crawl /proposal or /api.',
-   '- Example visuals are design inspiration, not photographs of completed contractor installations.',
+   '- Visual design examples are illustrative. Actual completed contractor work is documented separately in the real-project photo gallery and two verified project stories.',
    '- Online ranges and starting package prices are subject to a written scope review; see individual service details.',
    '- Permit requirements, contractor availability, and license status must be independently verified.',
    '- Public homeowner pages are available for search discovery; project details, prices and availability can change after contractor review.'
@@ -240,6 +245,21 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  if(path==='/llms-full.txt'){
   const text='# Prescott’s Best Construction — Homeowner Knowledge Library\n\n'+
    '> General residential remodeling guidance. Not a construction contract, price quote or permit authorization.\n\n'+
+   '## Real Prescott’s Best projects, with photographs and original video\n'+
+   'Completed bathroom, kitchen, conversion and outdoor projects: https://prescottsbestconstruction.com/projects/gallery\n'+
+   'Before/after comparisons are made from authentic owner-supplied project photo pairs.\n'+
+   'Andrew at work (original construction reel with sound): https://prescottsbestconstruction.com/projects/andrew-at-work\n'+
+   'Crystal Creek accessible remodel: https://prescottsbestconstruction.com/projects/crystal-creek-accessible-remodel\n'+
+   'Window casing bench work: https://prescottsbestconstruction.com/projects/precision-window-casings\n\n'+
+   '## Manufacturer instructions and careful installation\n'+
+   'https://prescottsbestconstruction.com/process#installation-details\n'+
+   'PBC explains why a deck coating’s preparation and application temperature, window framing/flashing and drainage, and a shower’s compatible waterproofing system matter before the visible finish goes on.\n'+
+   'Specific product warranties depend on the actual manufacturer’s published terms and proper installation. This is not a blanket workmanship-warranty offer by Prescott’s Best.\n'+
+   'Related service detail: https://prescottsbestconstruction.com/deck-building-outdoor-carpentry\n'+
+   'https://prescottsbestconstruction.com/finish-carpentry\n'+
+   'https://prescottsbestconstruction.com/shower-conversions\n\n'+
+   '## Contact and next steps\n'+
+   'https://prescottsbestconstruction.com/schedule — Submit a real project inquiry or call (928) 350-0940.\n\n'+
    articles.map(a=>'## '+a.title+'\nPublished '+a.date+'\n'+a.excerpt+'\n\n'+
     a.sections.map(([h,body])=>'### '+h+'\n'+body+'\n').join('\n')+
     '\nOriginal article: https://prescottsbestconstruction.com/blog/'+a.slug+'\n').join('\n---\n')+
@@ -264,23 +284,43 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  }
  if(path==='/robots.txt'){
   res.writeHead(200,{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'});
-  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nAllow: /site-assets/visual-explorer/\nAllow: /site-assets/brand-films/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
+  res.end(indexed?'User-agent: *\nAllow: /site-assets/holiday-concepts/\nAllow: /site-assets/visual-explorer/\nAllow: /site-assets/brand-films/\nAllow: /site-assets/real-gallery/\nAllow: /site-assets/real-projects/\nDisallow: /api/\nDisallow: /proposal\nSitemap: '+origin+'/sitemap.xml\n':'User-agent: *\nDisallow: /\n');return true;
  }
  if(path==='/sitemap.xml'){
   if(!indexed)throw bad('Sitemap not published yet',404);
   const xmlEsc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+  // Only URLs substantially revised on 2026-11-21 get an accurate lastmod.
+  const changedOnNov21=new Set([
+   '/', '/projects', '/projects/gallery', '/projects/andrew-at-work','/process',
+   '/bathroom-remodeling','/kitchen-remodeling','/shower-conversions',
+   '/room-conversions','/finish-carpentry','/custom-cabinetry','/deck-building-outdoor-carpentry'
+  ]);
   const xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">'+
    sitemapPaths().map(p=>{const clean=(marketingHost?p.replace('/remodeling-preview',''):p)||'/';
      const holiday=clean==='/holiday-lighting'?[...holidayCloseups,...holidayBackyards].map(a=>'<image:image><image:loc>'+origin+'/site-assets/holiday-concepts/'+a.file+'</image:loc></image:image>').join(''):'';
      const designs=visualImageObjectsForPage(clean,origin).map(a=>'<image:image><image:loc>'+a.contentUrl+'</image:loc></image:image>').join('');
-     const images=holiday+designs;
+     // Show only authentic standalone real-project photo composites in the image sitemap.
+     // The six paired split derivatives are intentionally excluded to avoid duplicate indexing.
+     const realImages=clean==='/projects/gallery'
+      ?realGalleryAssetNames.filter(name=>!/-before-after-(?:before|after)\.webp$/.test(name)&&!name.includes('poster')).map(name=>
+       '<image:image><image:loc>'+origin+'/site-assets/real-gallery/'+name+'</image:loc></image:image>').join('')
+      :'';
+     const images=holiday+designs+realImages;
      const video=brandFilmForPath(clean);
      const v=video?'<video:video><video:thumbnail_loc>'+origin+'/site-assets/brand-films/'+video.slug+'-poster.webp</video:thumbnail_loc>'+
       '<video:title>'+xmlEsc(video.title)+'</video:title>'+
       '<video:description>'+xmlEsc(video.description)+'</video:description>'+
       '<video:content_loc>'+origin+'/site-assets/brand-films/'+(video.videoSlug||video.slug)+'-720.mp4</video:content_loc>'+
       '<video:duration>'+video.duration+'</video:duration></video:video>':'';
-    return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+images+v+'</url>';}).join('')+'</urlset>';
+    const ownerVideo=clean==='/projects/andrew-at-work'
+     ?'<video:video><video:thumbnail_loc>'+origin+'/site-assets/real-gallery/andrew-craftsmanship-poster.webp</video:thumbnail_loc>'+
+      '<video:title>Andrew at work — Prescott’s Best Construction original carpentry video</video:title>'+
+      '<video:description>Watch the original 33-second Prescott’s Best Construction carpentry reel with its sound, directly on our website.</video:description>'+
+      '<video:content_loc>'+origin+'/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4</video:content_loc>'+
+      '<video:duration>33</video:duration></video:video>'
+     :'';
+    const lastmod=changedOnNov21.has(clean)?'<lastmod>2026-11-21</lastmod>':'';
+    return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+lastmod+images+v+ownerVideo+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;
  }
