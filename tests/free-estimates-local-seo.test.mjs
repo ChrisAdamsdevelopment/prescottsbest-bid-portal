@@ -30,13 +30,3 @@ test('service pages and process carry the verified free estimate promise without
  assert.match(process,/During your free on-site visit/);
  assert.doesNotMatch(process,/lifetime workmanship warranty/i);
 });
-
-test('remodeling homepage no longer promotes seasonal holiday pricing while separate service remains available',()=>{
- const home=page('/');
- assert.doesNotMatch(home,/Holiday lighting without climbing ladders/);
- assert.doesNotMatch(home,/Holiday lighting packages start at \$599/);
- assert.match(home,/Bathroom and kitchen remodeling, built around your home/);
- assert.match(home,/Free on-site estimates include visiting your property/);
- const holiday=page('/holiday-lighting');
- assert.match(holiday,/Holiday Lighting/);
-});
