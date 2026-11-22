@@ -14,9 +14,9 @@ test('home leads with a useful human introduction and clear contact choice',()=>
  assert.ok(html.indexOf('home-trust-proof')<html.indexOf('HOW CAN WE HELP?'),'real work and reviews precede service grid');
  const actions=html.indexOf('class="cinema-actions"');
  const section=html.slice(actions,actions+900);
- assert.ok(section.indexOf('Request an estimate')>=0);
+ assert.ok(section.indexOf('Get a free on-site estimate')>=0);
  assert.ok(section.indexOf('See real project stories')>=0);
- assert.ok(section.indexOf('Request an estimate')<section.indexOf('See real project stories'));
+ assert.ok(section.indexOf('Get a free on-site estimate')<section.indexOf('See real project stories'));
 });
 
 test('About replaces defensive compliance heading with a genuine local-contractor introduction',()=>{
