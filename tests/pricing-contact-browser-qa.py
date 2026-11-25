@@ -43,7 +43,7 @@ with TemporaryDirectory(prefix='pbc-prices-contact-') as temp:
     driver.execute_script('arguments[0].scrollIntoView({block:"center"});arguments[0].click()',next_link)
     WebDriverWait(driver,8).until(lambda b:b.find_element(By.ID,'inquiry-form').is_displayed())
     assert 'Open email draft to Chris' in driver.page_source
-    assert 'chris@prescottsbestconstruction.com' in driver.page_source
+    assert 'andrew@prescottsbestconstruction.com' in driver.page_source
     assert 'tel:+19283500940' in driver.page_source
     note=driver.find_element(By.ID,'lead-notes').get_attribute('value')
     assert 'Kitchen refresh' in note and 'budget' in note.lower(),note

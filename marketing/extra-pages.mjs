@@ -1,7 +1,7 @@
 // Public, server-rendered homeowner resources. No invented testimonials or project history.
 import {conceptEditorialImage} from './imagery.mjs';
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-const contact='chris@prescottsbestconstruction.com';
+const contact='andrew@prescottsbestconstruction.com';
 const phone='(928) 350-0940';
 const C=(h)=>'<a href="'+h+'">';
 const next=(link)=>'<section class="site-cta"><h2>Want to talk about your home?</h2><p>We can help you choose a sensible next step.</p><div class="site-actions"><a class="site-button primary" href="'+link('/schedule')+'">Request a conversation</a><a class="site-button outline" href="tel:+19283500940">Call '+phone+'</a></div></section>';
