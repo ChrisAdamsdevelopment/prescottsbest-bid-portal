@@ -395,7 +395,7 @@
    'This is a design concept, not a quote. Please contact me to arrange a site review.',
    'I can attach a saved preview image separately if I choose.'
   ].join('\n');
-  location.href='mailto:chris@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(summary);
+  location.href='mailto:andrew@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(summary);
  });
  const holidayIdeaFile={
   classic:'01_classic_roofline_warm_white.webp',

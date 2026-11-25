@@ -63,6 +63,6 @@ test('schedule keeps the real native intake form and common contact mailbox',()=
  const schedule=page('/schedule');
  assert.match(schedule,/id="inquiry-form"/);
  assert.match(schedule,/Send my project request/);
- assert.match(schedule,/chris@prescottsbestconstruction.com/);
+ assert.match(schedule,/andrew@prescottsbestconstruction.com/);
  assert.doesNotMatch(schedule,/Open email draft to Chris/);
 });

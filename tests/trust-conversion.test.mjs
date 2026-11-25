@@ -10,7 +10,7 @@ test('server HTML shows native submission first, not mail-client handoff',()=>{
  assert.match(contact,/<div id="lead-unavailable"[^>]*hidden>/);
  assert.doesNotMatch(contact,/Open email draft to Chris|No preview or appointment is automatically promised/);
  assert.match(contact,/No account or commitment needed/);
- assert.match(contact,/mailto:chris@prescottsbestconstruction\.com/);
+ assert.match(contact,/mailto:andrew@prescottsbestconstruction\.com/);
  assert.doesNotMatch(contact,/concepts\/consultation/);
 });
 test('high-trust homepage prioritizes direct inquiry and authentic evidence',()=>{

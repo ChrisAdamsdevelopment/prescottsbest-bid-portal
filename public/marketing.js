@@ -125,7 +125,7 @@ if(lead){
  };
  document.getElementById('lead-copy')?.addEventListener('click',async()=>{
   const info=document.getElementById('lead-message');
-  try{await navigator.clipboard.writeText(draft());info.textContent='Project details copied. Paste them into an email to chris@prescottsbestconstruction.com.';}
+  try{await navigator.clipboard.writeText(draft());info.textContent='Project details copied. Paste them into an email to andrew@prescottsbestconstruction.com.';}
   catch{info.textContent='Copy was not available. You can select your form details or call us.';}
  });
  lead.addEventListener('submit',async ev=>{
@@ -138,7 +138,7 @@ if(lead){
    const p=Object.fromEntries(new FormData(lead).entries());
    const subject='Prescott’s Best website request — '+(p.project||'remodeling');
    info.textContent='Online delivery is unavailable. We are opening an email draft; please send it from your email app, or call (928) 350-0940.';
-   window.location.href='mailto:chris@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(draft());
+   window.location.href='mailto:andrew@prescottsbestconstruction.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(draft());
    return;
   }
   submit.disabled=true;info.textContent='Submitting your request…';
@@ -162,7 +162,7 @@ if(lead){
     'Thank you — your project request is in! Reference: '+json.reference+'. '+(json.photosReceived?'Photos received: '+json.photosReceived+'. ':'')+'Our team will follow up about the next step.':
     'Your project request was saved (reference '+json.reference+'). The notification email could not be confirmed, so please call (928) 350-0940 if it is time-sensitive.';
    lead.reset();window.pbcResetPhotoSelection?.();requestId=crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString().slice(2);
-  }catch(err){info.textContent=err.message+' Please email chris@prescottsbestconstruction.com or call (928) 350-0940.';}
+  }catch(err){info.textContent=err.message+' Please email andrew@prescottsbestconstruction.com or call (928) 350-0940.';}
   finally{submit.disabled=false;}
  });
 }

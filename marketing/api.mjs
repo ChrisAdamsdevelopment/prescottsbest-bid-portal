@@ -4,7 +4,7 @@ import {recordAnalytics,analyticsSummary} from './analytics.mjs';
 import {prepareLeadPhotos,saveLeadPhotos,readLeadPhoto,photoUploadReady} from './lead-images.mjs';
 import {sendLeadEmail,emailConfigured,leadNotificationRecipients} from './email.mjs';
 import {validateInspirationSelections} from './inspiration-selections.mjs';
-const contact='chris@prescottsbestconstruction.com';
+const contact='andrew@prescottsbestconstruction.com';
 const validEmail=s=>typeof s==='string'&&s.length<=180&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim());
 const clean=(s,n)=>typeof s==='string'&&s.length<=n?s.trim():null;
 export async function publicApi(req,res,path,utils){
