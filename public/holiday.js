@@ -9,13 +9,13 @@
   worksheet=$('holiday-worksheet'),save=$('holiday-download'),json=$('holiday-json'),
   print=$('holiday-print'),email=$('holiday-email'),aiConsent=$('holiday-ai-consent'),aiAsk=$('holiday-ai-ask'),aiStatus=$('holiday-ai-status'),aiAnswer=$('holiday-ai-answer');
  const packages={
-  classic:{name:'Classic Roofline',tone:'warm',base:599,rate:7.5},
-  welcome:{name:'Warm Welcome',tone:'candy',base:899,rate:9.5},
-  showcase:{name:'Neighborhood Showcase',tone:'festive',base:1399,rate:11.5},
-  permanent:{name:'Year-Round Smart Lights',tone:'smart',base:0,rate:27}
+  classic:{name:'Classic Roofline',tone:'warm',base:899,rate:11.26},
+  welcome:{name:'Warm Welcome',tone:'candy',base:1349,rate:14.26},
+  showcase:{name:'Neighborhood Showcase',tone:'festive',base:2100,rate:17.26},
+  permanent:{name:'Year-Round Smart Lights',tone:'smart',base:0,rate:40.52}
  };
  const accentLabels={entry:'Doorway or porch accent',garage:'Garage outline',bush:'Shrub or small tree lights',path:'Walkway lighting',smart:'App scene / timer setup'};
- const accentExamples={entry:125,garage:150,bush:149,path:175,smart:150}; // Planning assumptions, not supplier quotes.
+ const accentExamples={entry:188,garage:225,bush:224,path:263,smart:225}; // Planning assumptions, not supplier quotes.
  const productFactors={c9:1,rope:1.1,icicle:1.2,rgbic:1.65,permanent:1};
  const colorSets={
   warm:['#ffe4a3'],cool:['#f4f9ff'],candy:['#f2f7ff','#ff354e'],
@@ -171,7 +171,7 @@
   const extras=[...document.querySelectorAll('.holiday-addons input:checked')].map(el=>el.value);
   add('Selected package: '+pkg.name);
   const isPermanent=packageSelect.value==='permanent'||productSelect.value==='permanent';
-  add(isPermanent?'Permanent lighting needs a custom quote.':'Package starts at '+USD(pkg.base)+' for a qualifying single-story front roofline up to 60 feet.');
+  add(isPermanent?'Permanent lighting needs a custom quote.':'Package starts at '+USD(pkg.base)+(packageSelect.value==='classic'?' for a qualifying single-story front roofline up to 60 feet.':'; final scope and pricing are confirmed in your written quote.'));
   add('New-run color choice: '+toneSelect.selectedOptions[0].textContent);
   add('Preferred light type: '+productSelect.selectedOptions[0].textContent);
   add('Individual lighting runs: '+strokes.filter(s=>s.points.length>=2).length);

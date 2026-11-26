@@ -1,4 +1,4 @@
-// Holiday Lighting Concierge — concept experience, not approved seasonal pricebook.
+// Holiday Lighting Concierge — owner-authorized starting prices, 2026-11-26.
 import {holidayImage,holidayCloseups,holidayBackyards} from './holiday-assets.mjs';
 import {previewCopy} from './visual-preview-copy.mjs';
 import {brandFilm} from './brand-films.mjs';
@@ -50,9 +50,9 @@ const backyardGallery=(link)=>'<section class="site-section holiday-backyard-gal
  '<a class="site-button outline" href="'+link('/schedule')+'">Discuss a backyard lighting design</a></div></section>';
 
 const packages=[
- {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color roofline with a clean finish.',features:['C9-style outdoor LED lighting','Front-facing roofline','Simple timer setup'],range:'From $599',tone:'warm'},
- {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'Roofline plus a welcoming porch, garage, or entry accent.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'From $899',tone:'candy'},
- {id:'showcase',name:'Neighborhood Showcase',style:'Classic multicolor',copy:'A richer design with roofline, landscape accents and more zones.',features:['Roofline plus two accents','Tree or shrub lighting options','Custom color choice'],range:'From $1,399',tone:'festive'},
+ {id:'classic',name:'Classic Roofline',style:'Warm white',copy:'A welcoming single-color front roofline, up to 60 accessible single-story feet.',features:['C9-style outdoor LED lighting','Front-facing roofline','Simple timer setup'],range:'From $899',tone:'warm'},
+ {id:'welcome',name:'Warm Welcome',style:'Red & warm white',copy:'A roofline and one welcoming porch, garage, or entry accent; dimensions and access confirmed in your quote.',features:['Roofline and one entry accent','Two-color style','Options for garland or doorway trim'],range:'From $1,349',tone:'candy'},
+ {id:'showcase',name:'Neighborhood Showcase',style:'Classic multicolor',copy:'A roofline and two accent areas for a fuller display; additional zones and length are quoted to your home.',features:['Roofline plus two accents','Tree or shrub lighting options','Custom color choice'],range:'From $2,100',tone:'festive'},
  {id:'permanent',name:'Year-Round Smart Lights',style:'Color-changing',copy:'Permanent outdoor-rated lighting with app scenes for more than just Christmas.',features:['Product-specific app setup','Schedule and scene presets','Smart-home compatibility review'],range:'Custom quote',tone:'smart'}
 ];
 const sections=[
@@ -65,26 +65,27 @@ const safeContact='<a href="tel:+19283500940">(928) 350-0940</a>';
 export function holidayPages(link){
  const card=(p)=>'<article class="site-card holiday-package">'+conceptPicture(p.id,'holiday-package-photo')+'<span class="holiday-package-tag">'+escapeHtml(p.style)+'</span>'+
   '<h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.copy)+'</p><ul>'+p.features.map(f=>'<li>'+escapeHtml(f)+'</li>').join('')+'</ul>'+
-  '<strong class="holiday-starting">'+escapeHtml(p.range)+'</strong><a class="site-button outline" href="'+link('/holiday-lighting/design')+'?package='+p.id+'">Preview this look</a></article>';
+  '<strong class="holiday-starting">'+escapeHtml(p.range)+'</strong><a class="site-button outline" href="'+link('/holiday-lighting/design')+'?package='+p.id+'">Preview this look</a>'+(p.id==='permanent'?'<a class="site-button outline" href="'+link('/schedule')+'">Request a custom quote</a>':'')+'</article>';
  const page={
-  title:'Holiday Lighting Concierge | Prescott & Prescott Valley | Prescott’s Best Construction',
-  description:'Explore holiday lighting designs and outdoor light installation options in Prescott and Prescott Valley. Try a private photo-based preview and request a contractor review.',
+  title:'Christmas Light Installation in Prescott & Prescott Valley | Prescott’s Best Construction',
+  description:'Professional Christmas and holiday light installation in Prescott and Prescott Valley from $899. Preview roofline, tree and entry lighting, then request a custom quote.',
   body:'<section class="site-pagehead holiday-head holiday-cinematic-head" aria-labelledby="holiday-hero-heading">'+
    '<div class="holiday-cinema-scene">'+brandFilm('holiday')+
    '<div class="holiday-cinema-vignette" aria-hidden="true"></div>'+
    '<div class="holiday-cinema-message" aria-hidden="true"><span>LET THE SEASON SHINE</span><strong>A little magic, right at home.</strong></div></div>'+
    '<div class="holiday-head-copy"><div class="holiday-copy-intro">'+
    '<span class="kicker">HOLIDAY LIGHTING · PRESCOTT &amp; PRESCOTT VALLEY</span>'+
-   '<h1 id="holiday-hero-heading">A brighter home for the holidays.</h1>'+
+   '<h1 id="holiday-hero-heading">Christmas light installation for a brighter holiday home.</h1>'+
    '<p class="lede">Beautiful rooflines, warm welcomes and memorable backyards. Explore your look, preview it on your home and plan the installation with us.</p></div>'+
    '<div class="holiday-head-actions"><div class="site-actions">'+
    '<a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Preview lights on my house</a>'+
    '<a class="site-button outline" href="'+link('/schedule')+'">Plan my holiday lighting</a></div>'+
-   '<p class="micro">Classic Roofline starts at $599 for qualifying single-story homes, up to 60 feet. Final details in your written quote.</p>'+
+   '<p class="micro">Classic Roofline starts at $899 for qualifying single-story homes, up to 60 feet. Final details in your written quote.</p>'+
    '</div></div></section>'+
    '<section class="site-section"><div class="section-heading"><span class="kicker">START WITH A LOOK</span><h2>Choose a style, then make it yours.</h2><p>Four starting points. Everything is adjustable after a site review.</p></div>'+
    '<div class="holiday-packages">'+packages.map(card).join('')+'</div></section>'+
-   '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Small ornamental tree lighting starts at $149.</strong> Larger trees, specialty lighting and additional access or equipment are quoted according to your property and the design.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
+   '<section class="site-section" aria-label="Christmas light installation cost and service area"><div class="section-heading"><span class="kicker">KNOW WHAT YOU’RE GETTING</span><h2>How much does Christmas light installation cost in Prescott?</h2><p>Our Classic Roofline starts at $899 for up to 60 feet of accessible, single-story front roofline. Longer runs, roof height, steep slopes, difficult access, additional peaks, trees and entry accents affect the quote.</p></div><div class="holiday-why-grid"><article><h3>Choose a display that fits your home</h3><p>Compare warm white or multicolor C9-style outdoor LED lights, porch and garage accents, icicle styles and backyard lighting. We confirm product suitability, mounting and power access before installation.</p></article><article><h3>Know the seasonal service scope</h3><p>Ask whether lights and materials are supplied or retained, and whether takedown, in-season maintenance or storage are included. We specify the agreed services and ownership in your written quote.</p></article><article><h3>Plan installation timing</h3><p>Share photos and your preferred timing. Roof access, weather and current availability help determine the schedule. We confirm a date with you before work begins.</p></article></div><p>Serving <a href="'+link('/service-areas/prescott')+'">Prescott</a>, <a href="'+link('/service-areas/prescott-valley')+'">Prescott Valley</a>, <a href="'+link('/service-areas/chino-valley')+'">Chino Valley</a> and <a href="'+link('/service-areas/dewey-humboldt')+'">Dewey-Humboldt</a>. Have a question about a business or HOA display? Contact us to discuss feasibility and scope.</p><div class="site-actions"><a class="site-button primary" href="'+link('/schedule')+'">Request a holiday lighting quote</a><a class="site-button outline" href="'+link('/holiday-lighting/design')+'">Preview lights on your home</a></div><p class="micro">Arizona ROC #343141 · Call '+safeContact+'</p></section>'+
+   '<section class="site-section holiday-tree-price"><div><span class="kicker">TREE & LANDSCAPE LIGHTING</span><h2>Light up a small tree, shrub or pathway.</h2><p><strong>Small ornamental tree lighting starts at $224.</strong> This starting price is for an accessible small ornamental tree. Larger trees, specialty lighting and additional access or equipment are quoted according to your property and design.</p><p>'+safeContact+' · <a href="'+link('/holiday-lighting/design')+'">Customize a home lighting concept</a></p></div>'+conceptPicture('addons','holiday-tree-image')+'</section>'+
    '<section class="site-section holiday-why"><h2>A simpler way to plan seasonal decorating</h2>'+
    '<div class="holiday-why-grid">'+sections.map(([h,t])=>'<article><h3>'+escapeHtml(h)+'</h3><p>'+escapeHtml(t)+'</p></article>').join('')+ '</div></section>'+gallery+closeupGallery+backyardGallery(link)+
  '<section class="site-section visual-preview-promo"><div><span class="kicker">SEE THE LIGHTS ON YOUR HOME</span><h2>'+previewCopy.holidayHeading+'</h2><p>'+previewCopy.holidayBody+'</p><div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Preview lighting on a house photo</a><a class="site-button outline" href="'+link('/visual-design-preview')+'">Our visual planning approach</a></div><p class="micro">'+previewCopy.disclaimer+'</p></div></section>'+
@@ -94,7 +95,10 @@ export function holidayPages(link){
     ['Do you design lighting for the backyard too?','Yes. The examples on this page include covered patios, rear rooflines and the whole backyard as seen from a distance. Share a photo of the area you want to light, and we can discuss suitable outdoor products, power and installation access for that space.'],
     ['Can the lights work with Alexa, Google or Apple Home?','Some lights and controllers work with compatible assistants and Matter hubs. This depends on the exact manufacturer and model. Product setup, permissions and networking are verified before quoting.'],
     ['What about takedown after Christmas?','We can discuss takedown, maintenance and storage when planning your display. Your quote will clearly list which seasonal services are included.'],
-    ['Can you provide a firm price on the website?','Our Classic Roofline package starts at $599 for up to 60 feet of accessible, single-story front roofline. We confirm final pricing after reviewing the length, lighting selection, mounting access and any optional services.']
+    ['What is the price per foot for Christmas light installation?','The Classic Roofline starting package covers up to 60 feet of accessible single-story front roofline. Extra length, access and accents are priced for your property; there is no universal per-foot quote.'],
+    ['Can I use lights I already own?','Tell us which lights you have. We can review their outdoor rating, condition, compatibility and installation access before deciding whether they fit the project.'],
+    ['When should I schedule my holiday lights?','Reach out with your preferred date as early as possible. We confirm availability, weather and access for your property rather than promise a universal installation date.'],
+    ['Can you provide a firm price on the website?','Our Classic Roofline package starts at $899 for up to 60 feet of accessible, single-story front roofline. We confirm final pricing after reviewing the length, lighting selection, mounting access and any optional services.']
    ].map(([q,a])=>'<details><summary>'+escapeHtml(q)+'</summary><p>'+escapeHtml(a)+'</p></details>').join('')+'</div></section>'+
    '<section class="site-cta"><h2>Want a holiday display that fits your home?</h2><p>See a concept first, then discuss what is feasible. Call '+safeContact+'.</p>'+
    '<div class="site-actions"><a class="site-button primary" href="'+link('/holiday-lighting/design')+'">Create my preview</a>'+
@@ -110,7 +114,7 @@ export function holidayPages(link){
    '<section class="site-section holiday-workspace"><div class="holiday-controls">'+
    '<div class="holiday-simple-steps" aria-label="Three simple steps"><span><b>1</b> Pick your lights</span><span><b>2</b> Choose a house</span><span><b>3</b> Design & save</span></div>'+
    '<h2>Step 1 · Pick the look you like</h2><p class="micro">You can change colors anytime. Start with one of our popular styles—there is no commitment.</p>'+
-   '<div class="holiday-style-picks" role="group" aria-label="Popular light looks"><button type="button" class="holiday-style-pick" data-package="classic">Warm & classic <small>From $599</small></button><button type="button" class="holiday-style-pick" data-package="welcome">Red & white <small>From $899</small></button><button type="button" class="holiday-style-pick" data-package="showcase">Multicolor <small>From $1,399</small></button><button type="button" class="holiday-style-pick" data-package="permanent">Year-round smart <small>Custom quote</small></button></div>'+
+   '<div class="holiday-style-picks" role="group" aria-label="Popular light looks"><button type="button" class="holiday-style-pick" data-package="classic">Warm & classic <small>From $899</small></button><button type="button" class="holiday-style-pick" data-package="welcome">Red & white <small>From $1,349</small></button><button type="button" class="holiday-style-pick" data-package="showcase">Multicolor <small>From $2,100</small></button><button type="button" class="holiday-style-pick" data-package="permanent">Year-round smart <small>Custom quote</small></button></div>'+
    '<label for="holiday-package">Lighting package</label><select id="holiday-package">'+
    packages.map(p=>'<option value="'+p.id+'">'+escapeHtml(p.name)+'</option>').join('')+'</select>'+
    '<h2>Step 2 · Preview on a home</h2><p class="micro">The sample home is ready below. Or choose your own front-of-house, backyard or patio photo for a personal preview.</p>'+

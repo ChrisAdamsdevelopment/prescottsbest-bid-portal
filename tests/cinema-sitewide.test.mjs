@@ -35,7 +35,7 @@ test('Design Center begins with cinematic film before contextual category naviga
 });
 test('Holiday spacing and shared cinematic behavior preserve the approved film',async()=>{
  const html=page('/holiday-lighting');
- assert.match(html,/A brighter home for the holidays/);
+ assert.match(html,/Christmas light installation for a brighter holiday home/);
  assert.ok(html.indexOf('class="holiday-cinema-scene"')<html.indexOf('class="design-center-nav"'));
  const css=await readFile(new URL('../public/marketing.css',import.meta.url),'utf8');
  const js=await readFile(new URL('../public/brand-films.js',import.meta.url),'utf8');

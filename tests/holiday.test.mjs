@@ -36,7 +36,7 @@ test('holiday lighting and design studio render in protected preview without pro
 test('all 23 holiday design images have descriptive alt text and appear in the concept gallery',()=>{
  const page=marketingPage('/remodeling-preview/holiday-lighting');
  assert.equal(holidayImages.length,23);
- assert.match(page,/small ornamental tree lighting starts at \$149/i);
+ assert.match(page,/small ornamental tree lighting starts at \$224/i);
  assert.equal(new Set(holidayImages.map(x=>x.file)).size,23);
  for(const img of holidayImages){
   assert.ok(img.file.endsWith('.webp'));
@@ -46,7 +46,7 @@ test('all 23 holiday design images have descriptive alt text and appear in the c
   assert.ok(page.includes(img.alt),img.alt);
  }
  assert.match(page,/design concept|illustrative/i);
- assert.match(page,/from \$599/i);
+ assert.match(page,/from \$899/i);
  const studio=marketingPage('/remodeling-preview/holiday-lighting/design');
  assert.ok(studio.includes('holiday-canvas'));
 });
