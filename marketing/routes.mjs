@@ -324,7 +324,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
       '<video:content_loc>'+origin+'/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4</video:content_loc>'+
       '<video:duration>33</video:duration></video:video>'
      :'';
-    const lastmod=['/','/projects','/projects/prescott-luxury-custom-home'].includes(clean)?'<lastmod>2026-11-26</lastmod>':changedOnNov21.has(clean)?'<lastmod>2026-11-21</lastmod>':'';
+    const lastmod=['/','/projects','/projects/prescott-luxury-custom-home','/bathroom-remodeling','/kitchen-remodeling','/shower-conversions', '/service-areas','/service-areas/prescott','/service-areas/prescott-valley','/service-areas/chino-valley','/service-areas/dewey-humboldt'].includes(clean)?'<lastmod>2026-11-26</lastmod>':changedOnNov21.has(clean)?'<lastmod>2026-11-21</lastmod>':'';
     return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+lastmod+images+v+ownerVideo+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;

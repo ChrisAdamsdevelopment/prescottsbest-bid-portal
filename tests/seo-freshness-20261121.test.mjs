@@ -71,7 +71,7 @@ test('real photos and Andrew native video are discoverable in XML sitemap',async
  assert.match(video,/<video:duration>33<\/video:duration>/);
  assert.equal((video.match(/<video:video>/g)||[]).length,1);
  assert.match(inSitemap(xml,'/process'),/<lastmod>2026-11-21<\/lastmod>/);
- assert.match(inSitemap(xml,'/bathroom-remodeling'),/<lastmod>2026-11-21<\/lastmod>/);
+ for(const path of ['/bathroom-remodeling','/kitchen-remodeling','/shower-conversions','/service-areas','/service-areas/prescott','/service-areas/prescott-valley','/service-areas/chino-valley','/service-areas/dewey-humboldt']) assert.match(inSitemap(xml,path),/<lastmod>2026-11-26<\/lastmod>/);
  assert.doesNotMatch(inSitemap(xml,'/blog/compare-fixed-price-and-cost-plus'),/<lastmod>2026-11-21<\/lastmod>/);
  assert.doesNotMatch(xml,/prescottsbestremodeling\.com/);
 });
