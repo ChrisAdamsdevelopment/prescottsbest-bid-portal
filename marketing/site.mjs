@@ -1,6 +1,7 @@
 import {extraPages} from './extra-pages.mjs';
 import {serviceEditorial} from './editorial-voice.mjs';
 import {serviceDepth} from './service-depth.mjs';
+import {serviceBudgetContent} from './service-budget-content.mjs';
 import {conceptMediaFigure,conceptSectionForService,conceptImageObjectsForPage} from './remodeling-concept-media.mjs';
 import {cityPaths,cityLinks,cityPage,cityDirectory} from './city-pages.mjs';
 import {jandjPath,jandjProjectPage,jandjTeaser} from './jandj-project.mjs';
@@ -106,6 +107,7 @@ function service(s){
  return {title:s.title+' | Prescott’s Best Construction',description:s.desc+' Serving Prescott Valley and the greater Prescott area.',body:
  '<div class="site-pagehead service-pagehead"><div class="service-pagehead-copy"><span class="kicker">LOCAL RESIDENTIAL REMODELING</span><h1>'+esc(s.title)+'</h1><p class="lede">'+esc(s.desc)+'</p></div>'+heroImage+'</div>'+
  '<section class="site-section site-detail"><div><h2>What could change in your home?</h2><p>'+esc(serviceEditorial(s.path).approach)+'</p><p>'+esc(s.detail)+'</p></div><aside class="site-callout"><h3>Useful first steps</h3><ol><li>Describe what needs to change.</li><li>List what needs to stay.</li><li>Choose a finish and budget preference.</li><li>Request a site conversation.</li></ol>'+(s.path==='/custom-cabinetry'||s.path==='/deck-building-outdoor-carpentry'?button('Discuss this project scope','/schedule','outline'):priceLink)+'</aside></section>'+
+ serviceBudgetContent(s.path,link)+
  serviceDepth(s.path)+
  realProjectServiceSection(s.path,link)+
  installationServiceSection(s.path,link)+
