@@ -2,6 +2,7 @@ import {extraPages} from './extra-pages.mjs';
 import {serviceEditorial} from './editorial-voice.mjs';
 import {serviceDepth} from './service-depth.mjs';
 import {conceptMediaFigure,conceptSectionForService,conceptImageObjectsForPage} from './remodeling-concept-media.mjs';
+import {jandjPath,jandjProjectPage,jandjTeaser} from './jandj-project.mjs';
 import {accessibleRemodelingPage,prescottPermitGuidePage,crystalCreekCaseStudyPage,projectsIndexPage} from './restored-homeowner-pages.mjs';
 import {windowCasingCaseStudyPage} from './instagram-project-proof.mjs';
 import {realProjectGalleryPage,realProjectVideoPage,realProjectsHomeSection,realProjectsDirectorySection,realProjectServiceSection,realGalleryAssetNames} from './real-project-gallery.mjs';
@@ -72,7 +73,7 @@ function home(){
  '<p class="cinema-secondary">Prefer to plan first? <a href="'+link('/estimate')+'">Explore budget ranges</a>. You can also '+call+'.</p></div></div></section>'+
  trust+
  '<section class="site-section home-trust-proof" aria-label="Real remodeling work and independent customer reviews"><div class="home-trust-proof-copy"><span class="kicker">LOCAL WORK · REAL CUSTOMER FEEDBACK</span><h2>See the work. Know who you’re hiring.</h2><p>Explore the Crystal Creek accessible-remodeling project and discover how Andrew approaches the details behind a beautiful, usable space. Then read independent feedback from local customers on Google.</p><div class="site-actions"><a class="site-button primary" href="'+link('/projects/crystal-creek-accessible-remodel')+'">See a real remodeling project</a><a class="site-button outline" href="'+link('/projects/precision-window-casings#pbc-project-reel-casings')+'">Watch Andrew at the workbench</a><a class="site-button outline" href="'+link('/projects')+'">Browse project stories</a><a class="site-button outline" href="'+maps+'" target="_blank" rel="noopener noreferrer">Read Google reviews</a></div></div><div class="home-trust-proof-note"><strong>Built around trust</strong><p>AZ ROC #343141 · owner-led, hands-on remodeling · written scope and project-specific planning.</p><p><a href="https://roc.az.gov/contractor-search" target="_blank" rel="noopener noreferrer">Verify our Arizona contractor license</a></p><p><a href="'+link('/process')+'">See how estimates, project options and written proposals work</a></p></div></section>'+
-  realProjectsHomeSection(link)+
+  jandjTeaser(link)+realProjectsHomeSection(link)+
   installationHomeSection(link)+
   '<section id="services" class="site-section"><div class="section-heading"><span class="kicker">HOW CAN WE HELP?</span><h2>Remodeling services tailored to your home</h2><p>Choose a starting point. We help clarify scope, timing and what may affect the cost.</p></div>'+cards(services)+'</section>'+
  '<section class="site-section accessible-home-feature"><div><span class="kicker">REMODEL FOR COMFORT AND EASE</span><h2>A bathroom that feels easier to use.</h2><p>From a lower shower entry to practical support, comfortable lighting and storage you can reach, thoughtful changes can help a home work better for the people living in it.</p><a class="site-button primary" href="'+link('/accessible-aging-in-place-remodeling')+'">Explore accessible remodeling</a></div>'+conceptMediaFigure('access-shower-wide')+'</section>'+
@@ -187,7 +188,8 @@ for(const s of services)routes[s.path]=()=>service(s);
 for(const g of guides)routes[g.path]=()=>guide(g);
 // Restored and new homeowner pages. Original private proposal routes remain separate.
 routes['/accessible-aging-in-place-remodeling']=()=>accessibleRemodelingPage(link);
-routes['/projects']=()=>{const page=projectsIndexPage(link);return {...page,body:page.body.replace('<section class="site-section new-project-card">',realProjectsDirectorySection(link)+'<section class="site-section new-project-card">')}};
+routes['/projects']=()=>{const page=projectsIndexPage(link);return {...page,body:page.body.replace('<section class="site-section new-project-card">',jandjTeaser(link)+realProjectsDirectorySection(link)+'<section class="site-section new-project-card">')}};
+routes[jandjPath]=()=>jandjProjectPage(link);
 routes['/projects/gallery']=()=>realProjectGalleryPage(link);
 routes['/projects/andrew-at-work']=()=>realProjectVideoPage(link);
 routes['/projects/crystal-creek-accessible-remodel']=()=>crystalCreekCaseStudyPage(link);
@@ -246,13 +248,13 @@ export function marketingPage(path,options={}){
  }:null;
   const featuredFilm=brandFilmForPath(suffix);
   const hasRealPhotoShare=suffix==='/projects/gallery'||suffix==='/projects/andrew-at-work';
-  const socialPoster=suffix==='/projects/gallery'?'/site-assets/real-gallery/deck-stone-fireplace.webp':
+  const socialPoster=suffix===jandjPath?'/site-assets/jandj/back.webp':suffix==='/projects/gallery'?'/site-assets/real-gallery/deck-stone-fireplace.webp':
     suffix==='/projects/andrew-at-work'?'/site-assets/real-gallery/andrew-craftsmanship-poster.webp':
     (featuredFilm?'/site-assets/brand-films/'+featuredFilm.slug+'-poster.webp':'/site-assets/pbc-social-card.jpg');
-  const socialWidth=hasRealPhotoShare?(suffix==='/projects/gallery'?'1333':'638'):(featuredFilm?'1280':'1200');
-  const socialHeight=hasRealPhotoShare?(suffix==='/projects/gallery'?'890':'360'):(featuredFilm?'720':'630');
-  const socialType=hasRealPhotoShare||featuredFilm?'image/webp':'image/jpeg';
-  const socialAlt=suffix==='/projects/gallery'?'Real finished deck with wood ceiling, fireplace and patio seating':
+  const socialWidth=suffix===jandjPath?'1672':hasRealPhotoShare?(suffix==='/projects/gallery'?'1333':'638'):(featuredFilm?'1280':'1200');
+  const socialHeight=suffix===jandjPath?'941':hasRealPhotoShare?(suffix==='/projects/gallery'?'890':'360'):(featuredFilm?'720':'630');
+  const socialType=suffix===jandjPath?'image/webp':hasRealPhotoShare||featuredFilm?'image/webp':'image/jpeg';
+  const socialAlt=suffix===jandjPath?'AI-assisted architectural reconstruction of a Prescott luxury residence':suffix==='/projects/gallery'?'Real finished deck with wood ceiling, fireplace and patio seating':
     suffix==='/projects/andrew-at-work'?'Andrew working beside a miter saw in original construction video':
     (featuredFilm?featuredFilm.posterAlt:'Prescott’s Best Construction official gold badge and remodeling message');
   const videoSchema=brandFilmJsonLd(suffix,shareOrigin);
@@ -298,7 +300,7 @@ export function marketingPage(path,options={}){
  '<meta property="og:image:alt" content="'+esc(socialAlt)+'">'+
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(title)+'">'+
  '<meta name="twitter:description" content="'+esc(description)+'"><meta name="twitter:image" content="'+shareOrigin+socialPoster+'">'+
- '<link rel="stylesheet" href="/marketing.css?v=real-project-media-20261118-inline-20261120-gallery-20261121-installation"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script><script defer src="/brand-films.js?v=home-captions-20261115"></script><script defer src="/voice-guides.js?v=recorded-guides-20261109"></script>'+
+ '<link rel="stylesheet" href="/jandj-project.css?v=20261126"><link rel="stylesheet" href="/marketing.css?v=real-project-media-20261118-inline-20261120-gallery-20261121-installation"><script defer src="/analytics-client.js"></script><script defer src="/photo-upload.js"></script><script defer src="/marketing.js"></script><script defer src="/guide.js"></script><script defer src="/scotty.js"></script><script defer src="/holiday.js"></script><script defer src="/storm.js"></script><script defer src="/inspiration-list.js"></script><script defer src="/visual-explorer.js"></script><script defer src="/brand-films.js?v=home-captions-20261115"></script><script defer src="/voice-guides.js?v=recorded-guides-20261109"></script>'+
  (body.includes('data-project-gallery=')?'<script defer src="/project-gallery.js"></script>':'')+
  (body.includes('data-pbc-compare')||body.includes('data-pbc-photo')?'<script defer src="/real-gallery.js"></script>':'')+
  '<script type="application/ld+json">'+JSON.stringify(schema).replace(/</g,'\\u003c')+'</script>'+
