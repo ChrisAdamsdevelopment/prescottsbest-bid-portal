@@ -18,8 +18,9 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
        path:'/site-assets/real-projects/'+stem+'-'+width+'.mp4',type:'video/mp4'
      })))
  ).find(x=>x.path===path);
+ const jandjVideo=['02','03','04','05'].map(n=>({path:'/site-assets/real-projects/jandj-film-'+n+'-720.mp4',type:'video/mp4'})).find(x=>x.path===path);
  const ownerReel=path==='/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4'?{path,type:'video/mp4'}:null;
- const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm||projectReel||ownerReel;
+ const filmAsset=brandFilmAssets.find(x=>x.path===path)||voiceGuideAudioAssets.find(x=>x.path===path)||conceptFilm||projectReel||ownerReel||jandjVideo;
  if(req.method!=='GET'&&req.method!=='HEAD')return false;
  if(filmAsset){
   // Strict asset allowlist, streaming and single byte-range support for desktop/mobile playback.
@@ -98,6 +99,9 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
  // Keep this exact file available at the host root as long as the property is in use.
  '/google7fb70dbbf6b9c725.html':['public/google7fb70dbbf6b9c725.html','text/html; charset=utf-8'],
  '/google8f94b7995e1d2447.html':['public/google8f94b7995e1d2447.html','text/html; charset=utf-8'],
+ '/jandj-project.css':['public/jandj-project.css','text/css; charset=utf-8'],
+ '/site-assets/jandj/front.webp':['public/site-assets/jandj/front.webp','image/webp'],
+ '/site-assets/jandj/back.webp':['public/site-assets/jandj/back.webp','image/webp'],
  '/marketing.css':['public/marketing.css','text/css; charset=utf-8'],
  '/marketing.js':['public/marketing.js','text/javascript; charset=utf-8'],
  '/instagram-projects.js':['public/instagram-projects.js','text/javascript; charset=utf-8'],
@@ -130,6 +134,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
    const poster='/site-assets/real-projects/'+stem+'-poster.webp';
    staticPaths[poster]=['public'+poster,'image/webp'];
  }
+ for(const n of ['02','03','04','05']){const asset='/site-assets/real-projects/jandj-film-'+n+'-poster.webp';staticPaths[asset]=['public'+asset,'image/webp'];}
  for(let i=1;i<=20;i++){
    const file='crystal-creek-project-'+String(i).padStart(2,'0')+'.webp';
    const asset='/site-assets/real-projects/'+file;
@@ -319,7 +324,7 @@ export async function maybeServeMarketing(req,res,path,{root,readFile,bad}){
       '<video:content_loc>'+origin+'/site-assets/real-gallery/andrew-craftsmanship-with-sound.mp4</video:content_loc>'+
       '<video:duration>33</video:duration></video:video>'
      :'';
-    const lastmod=changedOnNov21.has(clean)?'<lastmod>2026-11-21</lastmod>':'';
+    const lastmod=['/','/projects','/projects/prescott-luxury-custom-home'].includes(clean)?'<lastmod>2026-11-26</lastmod>':changedOnNov21.has(clean)?'<lastmod>2026-11-21</lastmod>':'';
     return '<url><loc>'+origin.replace(/\/$/,'')+clean+'</loc>'+lastmod+images+v+ownerVideo+'</url>';}).join('')+'</urlset>';
   res.writeHead(200,{'Content-Type':'application/xml; charset=utf-8'});
   res.end(xml);return true;
