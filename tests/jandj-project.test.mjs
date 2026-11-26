@@ -3,10 +3,13 @@ import assert from 'node:assert/strict';
 import {marketingPage,sitemapPaths} from '../marketing/site.mjs';
 import {existsSync} from 'node:fs';
 import {jandjReels,jandjPath} from '../marketing/jandj-project.mjs';
-test('signature page renders five real native clips, explicit illustration disclosure, credits and canonical',()=>{
+test('signature page renders five real native clips, accurate image alt text, no visible image captions, credits and canonical',()=>{
  const html=marketingPage('/remodeling-preview'+jandjPath,{indexable:true,origin:'https://prescottsbestconstruction.com',cleanPaths:true});
  assert.equal((html.match(/<video controls playsinline/g)||[]).length,5);
- assert.ok(html.includes('AI-assisted architectural reconstructions'));
+ assert.ok(html.includes('alt="AI-assisted reconstruction'));
+ assert.ok(!html.includes('class="signature-disclosure"'));
+ assert.ok(!html.includes('Illustrative front elevation reconstruction.'));
+ assert.ok(!html.includes('Exterior reconstruction, not project photography.'));
  assert.ok(html.includes('James &amp; James Construction'));
  assert.ok(html.includes('Niche Design Co.'));
  assert.ok(html.includes('https://prescottsbestconstruction.com'+jandjPath));
