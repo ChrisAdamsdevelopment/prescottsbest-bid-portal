@@ -54,7 +54,7 @@ test('each commercial is on its correct page with poster, controls, a text descr
   assert.ok(page.includes((id==='home'?'prescotts-best-home-remodeling':id==='holiday'?'prescotts-best-holiday-lighting':slug)+'-poster.webp'));
  }
  assert.ok(render('/').includes('commercial-hero'));
- assert.ok(render('/holiday-lighting').includes('A brighter home for the holidays.'));
+ assert.ok(render('/holiday-lighting').includes('Christmas light installation for a brighter holiday home.'));
  assert.ok(render('/visual-design-preview').includes('visual-preview-hero-copy'));
  assert.ok(!render('/bathroom-remodeling').includes('data-brand-film='));
  assert.equal(brandFilmJsonLd('/bathroom-remodeling'),null);
