@@ -314,7 +314,7 @@ export function marketingPage(path,options={}){
  (visualGallerySchema?'<script type="application/ld+json">'+JSON.stringify(visualGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(newConceptGallerySchema?'<script type="application/ld+json">'+JSON.stringify(newConceptGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+(accessibleReelSchema?'<script type="application/ld+json">'+JSON.stringify(accessibleReelSchema).replace(/</g,'\\u003c')+'</script>':'')+(videoSchema?'<script type="application/ld+json">'+JSON.stringify(videoSchema).replace(/</g,'\\u003c')+'</script>':'')+(realGallerySchema?'<script type="application/ld+json">'+JSON.stringify(realGallerySchema).replace(/</g,'\\u003c')+'</script>':'')+
  (originalCraftsmanshipVideoSchema?'<script type="application/ld+json">'+JSON.stringify(originalCraftsmanshipVideoSchema).replace(/</g,'\\u003c')+'</script>':'')+
  '</head><body><a href="#site-main" class="skip-link">Skip to main content</a>'+
- '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescott’s Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
+ '<header class="site-header"><a class="site-brand" href="'+link('/')+'">'+logo+'<span>Prescotts Best<small>CONSTRUCTION · REMODELING</small></span></a>'+
  '<nav class="desktop-nav" aria-label="Main navigation">'+navEntries+'</nav>'+
  '<details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><nav aria-label="Mobile navigation">'+navEntries+
  '<a href="'+link('/concierge')+'">Project concierge</a></nav></details>'+
