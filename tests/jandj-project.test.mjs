@@ -11,7 +11,10 @@ test('signature page renders five real native clips, accurate image alt text, no
  assert.ok(!html.includes('Illustrative front elevation reconstruction.'));
  assert.ok(!html.includes('Exterior reconstruction, not project photography.'));
  assert.ok(html.includes('James &amp; James Construction'));
- assert.ok(html.includes('Niche Design Co.'));
+ assert.ok(!html.includes('Niche Design Co.'));
+ assert.ok(!html.includes('Christine Hardin'));
+ assert.ok(!html.includes('nichedesignco.com'));
+ assert.ok(html.includes('Andrew · All finish carpentry'));
  assert.ok(html.includes('https://prescottsbestconstruction.com'+jandjPath));
  assert.ok(sitemapPaths().some(p=>p.endsWith(jandjPath)));
  for(const [id,title,stem] of jandjReels){
